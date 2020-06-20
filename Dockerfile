@@ -36,7 +36,8 @@ RUN npm install \
 
 COPY . /app
 
-RUN node_modules/.bin/gulp build
+RUN node_modules/.bin/gulp build \
+    && chmod 777 /app/entrypoint/run.sh
 
 RUN groupadd -g "$(stat -c '%g' /app)" -o spongeauth && \
     useradd -u "$(stat -c '%u' /app)" -g spongeauth -o -m spongeauth
