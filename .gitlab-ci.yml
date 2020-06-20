@@ -1,0 +1,23 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+deploy:
+  stage: deploy
+  before_script:
+    - mkdir -pv /home/docker
+    - echo $DOCKER_CA_PEM >> /home/docker/ca.pem.base64
+    - echo $DOCKER_CERT >> /home/docker/cert.pem.base64
+    - echo $DOCKER_KEY >> /home/docker/key.pem.base64
+    - base64 -d /home/docker/ca.pem.base64 >> /home/docker/ca.pem
+    - base64 -d /home/docker/cert.pem.base64 >> /home/docker/cert.pem
+    - base64 -d /home/docker/key.pem.base64 >> /home/docker/key.pem
+    - alias secure-docker="docker -H tcp://glados.minidigger.me:4243 --tlsverify --tlscacert=/home/docker/ca.pem --tlscert=/home/docker/cert.pem --tlskey=/home/docker/key.pem"
+  script:
+    - secure-docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - secure-docker pull $CI_REGISTRY_IMAGE:latest || true
+    - secure-docker build --cache-from $CONTAINER_IMAGE:latest --pull -t "$CI_REGISTRY_IMAGE" .
+    - secure-docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - master
