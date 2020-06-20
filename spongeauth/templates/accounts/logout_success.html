@@ -13,7 +13,7 @@
 
 				<div class="panel-body">
                     {% trans "You have been logged out successfully." %}
-					
+
                     <a href="{% url 'accounts:login' %}" class="btn btn-primary pull-right">{% trans "Log in" %}</a>
 				</div><!-- .panel-body -->
 			</div><!-- .panel -->
@@ -25,7 +25,7 @@
 <script>
 (function() {
   "use strict";
-  const origins = ["https://ore.spongepowered.org", "https://forums.spongepowered.org"];
+  const origins = ["https://hangar.minidigger.me", "https://papermc.io"];
   origins.forEach(function(origin) {
     console.log("Logging out of " + origin);
     fetch(origin + "/_logout", {

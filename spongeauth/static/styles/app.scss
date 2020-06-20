@@ -188,7 +188,7 @@ form {
 }
 
 .category-table {
-  tr.selected:hover { background: #f6d830; }
+  tr.selected:hover { background: #0288d1; }
   tr.selected > td { padding-top: 8px; }
   tr > td:first-child {
     text-align: center;
@@ -201,8 +201,8 @@ form {
   }
 
   tr.selected {
-    @include box-shadow5(inset, 0, 0, 5px, #e6b800);
-    background: #f6d830;
+    @include box-shadow5(inset, 0, 0, 5px, #016194);
+    background: #0288d1;
     border: none;
   }
 }
