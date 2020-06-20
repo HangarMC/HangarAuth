@@ -154,4 +154,4 @@ ACCOUNTS_AVATAR_CHANGE_GROUPS = ["dummy"]
 # Redis queue settings.
 RQ_QUEUES = {"default": {"HOST": "localhost", "PORT": 6379, "DB": 0, "DEFAULT_TIMEOUT": 300}}
 
-LETTER_AVATAR_BASE = "https://forums-cdn.spongepowered.org/" "letter_avatar_proxy/v2/letter/{}/{}/240.png"
+LETTER_AVATAR_BASE = "https://papermc.io/forums/" "letter_avatar_proxy/v2/letter/{}/{}/240.png"

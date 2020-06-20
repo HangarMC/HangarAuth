@@ -52,7 +52,7 @@
 
 .spongie {
   @include transition3(filter, 0.15s, ease-in-out);
-  filter: grayscale(100%) contrast(30%);
+  filter: brightness(0.5);
   &:hover {
     filter: none;
   }
