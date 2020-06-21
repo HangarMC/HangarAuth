@@ -1,4 +1,5 @@
 from .base import *
+import ast
 
 GIT_REPO_ROOT = os.path.dirname(BASE_DIR)
 PARENT_ROOT = os.path.dirname(GIT_REPO_ROOT)
@@ -49,9 +50,7 @@ for k, v in os.environ.items():
     if not k.startswith("SSO_ENDPOINT_"):
         continue
     k = k[len("SSO_ENDPOINT_") :]
-    name, _, key = k.partition("_")
-    d = SSO_ENDPOINTS.setdefault(name, {})
-    d[key.lower()] = v
+    SSO_ENDPOINTS[k.lower()] = ast.literal_eval(v)
 
 
 DATABASES = {
