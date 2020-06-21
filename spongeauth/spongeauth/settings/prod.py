@@ -1,7 +1,3 @@
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
-from .utils import fetch_git_sha
 from .base import *
 
 GIT_REPO_ROOT = os.path.dirname(BASE_DIR)
@@ -48,21 +44,15 @@ TEMPLATES = [
     }
 ]
 
-SSO_ENDPOINTS = {}
-for k, v in os.environ.items():
-    if not k.startswith("SSO_ENDPOINT_"):
-        continue
-    k = k[len("SSO_ENDPOINT_") :]
-    name, _, key = k.partition("_")
-    d = SSO_ENDPOINTS.setdefault(name, {})
-    d[key.lower()] = v
+# SSO_ENDPOINTS = {}
+# for k, v in os.environ.items():
+#     if not k.startswith("SSO_ENDPOINT_"):
+#         continue
+#     k = k[len("SSO_ENDPOINT_") :]
+#     name, _, key = k.partition("_")
+#     d = SSO_ENDPOINTS.setdefault(name, {})
+#     d[key.lower()] = v
 
-sentry_sdk.init(
-    dsn=os.environ.get("RAVEN_DSN"),
-    integrations=[DjangoIntegration()],
-    release=fetch_git_sha(GIT_REPO_ROOT),
-    send_default_pii=True,
-)
 
 DATABASES = {
     "default": {
@@ -81,8 +71,9 @@ MEDIA_ROOT = os.path.join(PARENT_ROOT, "public_html", "media")
 
 ACCOUNTS_AVATAR_CHANGE_GROUPS = ["dummy", "Ore_Organization"]
 
-if not os.environ.get("DJANGO_SETTINGS_SKIP_LOCAL", False):
-    try:
-        from .local_settings import *
-    except ImportError:
-        pass
+for queue in RQ_QUEUES.values():
+    queue["ASYNC"] = False
+from fakeredis import FakeRedis, FakeStrictRedis
+import django_rq.queues
+
+django_rq.queues.get_redis_connection = lambda _, strict: FakeStrictRedis() if strict else FakeRedis()
