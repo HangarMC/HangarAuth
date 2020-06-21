@@ -65,7 +65,14 @@ sentry_sdk.init(
 )
 
 DATABASES = {
-    "default": {"ENGINE": "django.db.backends.postgresql", "NAME": "spongeauth", "HOST": "", "ATOMIC_REQUESTS": True}
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "spongeauth",
+        "USER": "spongeauth",
+        "PASSWORD": "spongeauth",
+        "HOST": "hangar_db",
+        "ATOMIC_REQUESTS": True,
+    }
 }
 
 STATICFILES_STORAGE = "core.staticfiles.SourcemapManifestStaticFilesStorage"

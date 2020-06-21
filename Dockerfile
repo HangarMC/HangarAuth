@@ -42,6 +42,6 @@ RUN node_modules/.bin/gulp build \
 RUN groupadd -g "$(stat -c '%g' /app)" -o spongeauth && \
     useradd -u "$(stat -c '%u' /app)" -g spongeauth -o -m spongeauth
 
-ENV DJANGO_SETTINGS_MODULE=spongeauth.settings.docker
+ENV DJANGO_SETTINGS_MODULE=spongeauth.settings.prod
 
 CMD ["/app/entrypoint/run.sh"]
