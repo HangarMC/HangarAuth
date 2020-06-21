@@ -44,14 +44,14 @@ TEMPLATES = [
     }
 ]
 
-# SSO_ENDPOINTS = {}
-# for k, v in os.environ.items():
-#     if not k.startswith("SSO_ENDPOINT_"):
-#         continue
-#     k = k[len("SSO_ENDPOINT_") :]
-#     name, _, key = k.partition("_")
-#     d = SSO_ENDPOINTS.setdefault(name, {})
-#     d[key.lower()] = v
+SSO_ENDPOINTS = {}
+for k, v in os.environ.items():
+    if not k.startswith("SSO_ENDPOINT_"):
+        continue
+    k = k[len("SSO_ENDPOINT_") :]
+    name, _, key = k.partition("_")
+    d = SSO_ENDPOINTS.setdefault(name, {})
+    d[key.lower()] = v
 
 
 DATABASES = {
