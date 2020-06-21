@@ -57,10 +57,10 @@ TEMPLATES = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "spongeauth",
-        "USER": "spongeauth",
-        "PASSWORD": "spongeauth",
-        "HOST": "hangar_db",
+        "NAME": os.environ["DB_NAME"],
+        "USER": os.environ["DB_USER"],
+        "PASSWORD": os.environ["DB_PASSWORD"],
+        "HOST": os.environ["DB_HOST"],
         "ATOMIC_REQUESTS": True,
     }
 }
