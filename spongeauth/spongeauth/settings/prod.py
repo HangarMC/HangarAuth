@@ -3,7 +3,7 @@ from .base import *
 GIT_REPO_ROOT = os.path.dirname(BASE_DIR)
 PARENT_ROOT = os.path.dirname(GIT_REPO_ROOT)
 
-DEBUG = os.environ["DEBUG"]
+DEBUG = os.environ["DEBUG"] == 'true'
 
 SECRET_KEY = os.environ["SECRET_KEY"]
 
