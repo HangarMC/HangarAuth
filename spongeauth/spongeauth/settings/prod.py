@@ -45,12 +45,14 @@ TEMPLATES = [
     }
 ]
 
-SSO_ENDPOINTS = {}
-for k, v in os.environ.items():
-    if not k.startswith("SSO_ENDPOINT_"):
-        continue
-    k = k[len("SSO_ENDPOINT_") :]
-    SSO_ENDPOINTS[k.lower()] = ast.literal_eval(v)
+SSO_ENDPOINTS = {
+    'hangar': { 'sync_sso_endpoint': ('http://host.docker.internal:8081/api/v2/sync_sso'), 'sso_secret': 'changeme', 'api_key': 'changeme' }
+}
+# for k, v in os.environ.items():
+#     if not k.startswith("SSO_ENDPOINT_"):
+#         continue
+#     k = k[len("SSO_ENDPOINT_") :]
+#     SSO_ENDPOINTS[k.lower()] = ast.literal_eval(v)
 
 
 DATABASES = {
@@ -70,9 +72,11 @@ MEDIA_ROOT = os.path.join(PARENT_ROOT, "public_html", "media")
 
 ACCOUNTS_AVATAR_CHANGE_GROUPS = ["dummy", "Ore_Organization"]
 
-for queue in RQ_QUEUES.values():
-    queue["ASYNC"] = False
-from fakeredis import FakeRedis, FakeStrictRedis
-import django_rq.queues
+RQ_QUEUES = {"default": {"HOST": "redis", "PORT": 6379, "DB": 0, "DEFAULT_TIMEOUT": 300}}
 
-django_rq.queues.get_redis_connection = lambda _, strict: FakeStrictRedis() if strict else FakeRedis()
+# for queue in RQ_QUEUES.values():
+#     queue["ASYNC"] = False
+# from fakeredis import FakeRedis, FakeStrictRedis
+# import django_rq.queues
+
+# django_rq.queues.get_redis_connection = lambda _, strict: FakeStrictRedis() if strict else FakeRedis()
