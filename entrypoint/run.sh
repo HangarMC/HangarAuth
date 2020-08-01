@@ -19,6 +19,9 @@ su -c "/env/bin/python spongeauth/manage.py migrate" spongeauth
 
 set +euxo pipefail
 
+# run worker - necessary for background sso syncs
+./entrypoint/run_worker.sh &
+
 # run
 while true; do
 	su -c "/env/bin/python spongeauth/manage.py runserver 0.0.0.0:8000" spongeauth
