@@ -45,14 +45,11 @@ TEMPLATES = [
     }
 ]
 
-SSO_ENDPOINTS = {
-    'hangar': { 'sync_sso_endpoint': ('http://host.docker.internal:8081/api/v2/sync_sso'), 'sso_secret': 'changeme', 'api_key': 'changeme' }
-}
-# for k, v in os.environ.items():
-#     if not k.startswith("SSO_ENDPOINT_"):
-#         continue
-#     k = k[len("SSO_ENDPOINT_") :]
-#     SSO_ENDPOINTS[k.lower()] = ast.literal_eval(v)
+for k, v in os.environ.items():
+    if not k.startswith("SSO_ENDPOINT_"):
+        continue
+    k = k[len("SSO_ENDPOINT_"):]
+    SSO_ENDPOINTS[k.lower()] = ast.literal_eval(v)
 
 
 DATABASES = {
