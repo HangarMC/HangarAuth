@@ -66,3 +66,12 @@ def send_update_ping(user, exclude_groups=None):
         if "sync_sso_endpoint" not in endpoint_settings:
             continue
         send_update_ping_to_endpoint.delay(user.pk, endpoint_name, exclude_groups)
+
+
+def send_sync_update_ping(user, exclude_groups=None):
+    exclude_groups = exclude_groups or []
+
+    for endpoint_name, endpoint_settings in settings.SSO_ENDPOINTS.items():
+        if "sync_sso_endpoint" not in endpoint_settings:
+            continue
+        send_update_ping_to_endpoint(user.pk, endpoint_name, exclude_groups)

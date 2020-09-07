@@ -13,6 +13,8 @@ from accounts.views import change_other_avatar_key as base_change_other_avatar_k
 import accounts.models
 import api.models
 
+from sso.utils import send_sync_update_ping
+
 
 def _require_api_key(fn):
     @functools.wraps(fn)
@@ -84,6 +86,9 @@ def _create_user(request):
             user.groups.set([accounts.models.Group.objects.get(name="Dummy")])
     except django.db.IntegrityError as exc:
         return django.http.JsonResponse({"error": [str(exc)]}, status=http.HTTPStatus.UNPROCESSABLE_ENTITY)
+
+    send_sync_update_ping(user)
+
     resp = django.http.JsonResponse(_encode_user(request, user), status=http.HTTPStatus.CREATED)
     resp["Location"] = reverse("api:users-detail", kwargs={"username": user.username})
     return resp
