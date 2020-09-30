@@ -8,7 +8,7 @@ cd /app
 touch ~/.pgpass
 chmod 0600 ~/.pgpass
 # todo use creds from env...
-echo "hangar_db:5432:hangar_auth:hangar:hangar" > ~/.pgpass
+export PGPASSWORD=hangar
 until psql -w -h 'hangar_db' -U hangar hangar -c '\l'; do
   echo "Postgres isn't ready yet..." >&2
   sleep 1
