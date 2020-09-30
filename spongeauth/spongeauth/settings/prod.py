@@ -69,12 +69,11 @@ MEDIA_ROOT = os.path.join(PARENT_ROOT, "public_html", "media")
 
 ACCOUNTS_AVATAR_CHANGE_GROUPS = ["dummy", "Ore_Organization"]
 
-# TODO figure out wtf to do with redis
-# RQ_QUEUES = {"default": {"HOST": "redis", "PORT": 6379, "DB": 0, "DEFAULT_TIMEOUT": 300}}
+RQ_QUEUES = {"default": {"HOST": "redis", "PORT": 6379, "DB": 0, "DEFAULT_TIMEOUT": 300}}
 
-for queue in RQ_QUEUES.values():
-    queue["ASYNC"] = False
-from fakeredis import FakeRedis, FakeStrictRedis
-import django_rq.queues
+# for queue in RQ_QUEUES.values():
+#     queue["ASYNC"] = False
+# from fakeredis import FakeRedis, FakeStrictRedis
+# import django_rq.queues
 
-django_rq.queues.get_redis_connection = lambda _, strict: FakeStrictRedis() if strict else FakeRedis()
+# django_rq.queues.get_redis_connection = lambda _, strict: FakeStrictRedis() if strict else FakeRedis()
