@@ -69,7 +69,7 @@ MEDIA_ROOT = os.path.join(PARENT_ROOT, "public_html", "media")
 
 ACCOUNTS_AVATAR_CHANGE_GROUPS = ["dummy", "Ore_Organization"]
 
-RQ_QUEUES = {"default": {"HOST": "redis", "PORT": 6379, "DB": 0, "DEFAULT_TIMEOUT": 300}}
+RQ_QUEUES = {"default": {"HOST": "hangar_redis", "PORT": 6379, "DB": 0, "DEFAULT_TIMEOUT": 300}}
 
 # for queue in RQ_QUEUES.values():
 #     queue["ASYNC"] = False
