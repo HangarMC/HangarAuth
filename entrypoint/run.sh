@@ -7,9 +7,8 @@ cd /app
 # wait for database to be ready
 touch ~/.pgpass
 chmod 0600 ~/.pgpass
-# todo use creds from env...
-export PGPASSWORD=hangar
-until psql -w -h 'hangar_db' -U hangar hangar -c '\l'; do
+
+until PGPASSWORD=$DB_PASSWORD psql -w -h "$DB_HOST" -U "$DB_USER" "$DB_NAME" -c '\l'; do
   echo "Postgres isn't ready yet..." >&2
   sleep 1
 done
