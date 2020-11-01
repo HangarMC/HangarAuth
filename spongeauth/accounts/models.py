@@ -21,9 +21,9 @@ def validate_username(username):
     errs = []
     if len(username) < 3:
         errs.append(ValidationError(_("Username must be at least 3 characters long."), code="username_min_length"))
-    if re.search(r"[^\w.-]", username):
+    if re.search(r"[^\w-]", username):
         errs.append(
-            ValidationError(_("Username must only include numbers, letters, and underscores."), code="username_charset")
+            ValidationError(_("Username must only include numbers, letters, hyphens, and underscores."), code="username_charset")
         )
     if re.search(r"\W", username[0]):
         errs.append(
