@@ -62,7 +62,7 @@ class ProfileFieldsMixin(forms.Form):
         label=_("Discord ID"),
         max_length=255,
         required=False,
-        help_text=_("You're using Discord?" "Enter your Discord ID here"),
+        help_text=_("You're using Discord? " "Enter your Discord ID here"),
         validators=[models.validate_discord_id],
     )
 
