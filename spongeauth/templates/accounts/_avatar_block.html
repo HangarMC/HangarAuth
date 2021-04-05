@@ -11,6 +11,12 @@
                 <div class="panel-body">
                     <img src="{{ avatar_user.avatar.get_absolute_url }}" class="pull-right avatar-view" alt="{% blocktrans %}{{ avatar_user.username }}'s avatar{% endblocktrans %}">
                     {% crispy avatar_form %}
+                    {% if did_set %}
+                    <a class="btn btn-primary" href="{{ hangar_host }}/{{ avatar_user.username }}">
+                        <i class="fa fa-arrow-left" style="color: #0009"></i>
+                        Back to Organization Page
+                    </a>
+                    {% endif %}
                 </div>
             </div>
         </div>

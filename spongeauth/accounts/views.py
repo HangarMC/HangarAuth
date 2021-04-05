@@ -615,6 +615,12 @@ def change_other_avatar(request, for_username):
         did_set_avatar, avatar_form = _set_avatar(request, for_user)
         if did_set_avatar:
             messages.success(request, _("The avatar has been changed."))
+            return render(request, "accounts/change_other_avatar.html", {
+                "avatar_form": avatar_form,
+                "for_user": for_user,
+                "did_set_avatar": did_set_avatar,
+                "hangar_host": django_settings.HANGAR_HOST
+            })
 
     return render(request, "accounts/change_other_avatar.html", {"avatar_form": avatar_form, "for_user": for_user})
 
