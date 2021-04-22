@@ -1,0 +1,80 @@
+import { LocaleMessageObject } from 'vue-i18n';
+
+const msgs: LocaleMessageObject = {
+    general: {
+        home: 'Home',
+        login: 'Login',
+        signUp: 'Sign Up',
+        logout: 'Log out',
+    },
+    nav: {
+        hangar: {
+            home: 'Homepage',
+            forums: 'Forums',
+            code: 'Code',
+            docs: 'Docs',
+            javadocs: 'JavaDocs',
+            hangar: 'Hangar (Plugins)',
+            downloads: 'Downloads',
+            community: 'Community',
+        },
+    },
+    index: {
+        title: 'Paper Authentication Portal',
+        text: 'You are currently logged in as {0}',
+        download: 'Download Paper',
+        forums: 'Visit the forums',
+        plugins: 'Browse plugins',
+        upload: 'Upload plugin',
+        manage: 'Manage account',
+    },
+    signup: {
+        title: 'Sign Up',
+        username: 'Username',
+        usernameHint: 'Unique, no spaces, max 20 characters',
+        password: 'Password',
+        passwordHint: 'At least 8 characters',
+        email: 'Email',
+        emailHint: 'Never displayed publicly',
+        fullName: 'Full Name',
+        fullNameHint: 'Enter your full name here',
+        minecraft: 'Minecraft Username',
+        minecraftHint: 'Enter the username you use for Minecraft here',
+        irc: 'IRC Nick',
+        ircHint: 'Join us on IRC often? Enter your IRC nick here',
+        github: 'Github Username',
+        githubHint: 'Publish your software on Github? Enter your Github Username here',
+        discord: 'Discord ID',
+        discordHint: "You're using discord? Enter your Discord ID here",
+        tos: 'I agree to the {0}',
+    },
+    login: {
+        title: 'Login',
+        username: 'Username',
+        password: 'Password',
+        reset: 'Forgot your password?',
+    },
+    reset: {
+        title: 'Reset your password',
+        text1: 'Forgot your password? No problem.',
+        text2: 'Just enter the email address you signed up with to receive an email with a link to reset your password.',
+        email: 'Email',
+        send: 'Send me that link!',
+    },
+    settings: {
+        title: 'Account Settings',
+        userinfo: 'User Information',
+        avatar: 'Avatar',
+        profile: 'Profile',
+        password: 'Change Password',
+    },
+    error: {
+        userLocked: 'Your account is locked.',
+        401: 'You must be logged in for this',
+        403: 'You do not have permission to do that',
+        404: '404 Not found',
+        unknown: 'An error occurred',
+    },
+};
+
+export default msgs;

@@ -1,0 +1,110 @@
+import { NuxtConfig } from '@nuxt/types';
+import colors from 'vuetify/lib/util/colors';
+
+import en from './locales/en';
+import fr from './locales/fr';
+
+require('events').EventEmitter.defaultMaxListeners = 20;
+require('dotenv').config();
+
+export default {
+  telemetry: false,
+  head: {
+    htmlAttrs: {
+      dir: 'ltr',
+    },
+    titleTemplate: (titleChunk: string) => {
+      return titleChunk ? `${titleChunk} | HangarAuth` : 'HangarAuth';
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
+    ],
+  },
+
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  css: ['~/assets/main.scss'],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: [],
+
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: false,
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    // https://go.nuxtjs.dev/typescript
+    '@nuxt/typescript-build',
+    // https://go.nuxtjs.dev/vuetify
+    '@nuxtjs/vuetify',
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/dotenv',
+  ],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/axios',
+    'cookie-universal-nuxt',
+    '@nuxtjs/proxy',
+    'nuxt-i18n',
+  ],
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: {},
+
+  // PWA module configuration: https://go.nuxtjs.dev/pwa
+  pwa: {
+    manifest: {
+      name: 'HangarAuth | PaperMC',
+      short_name: 'HangarAuth',
+      description: 'PaperMC Authentication Gateway!',
+      lang: 'en',
+    },
+  },
+
+  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
+  vuetify: {
+    customVariables: ['~/assets/variables.scss'],
+    optionsPath: '~/plugins/vuetify.ts',
+    treeShake: true,
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {
+    transpile: ['lodash-es'],
+  },
+
+  router: {
+    middleware: [],
+  },
+
+  i18n: {
+    vueI18nLoader: true,
+    strategy: 'no_prefix',
+    defaultLocale: 'en',
+    locales: [
+      { code: 'fr', iso: 'fr-FR', name: 'Français' },
+      { code: 'en', iso: 'en-US', name: 'English' },
+    ],
+    vueI18n: {
+      locale: 'en',
+      fallbackLocale: 'en',
+      messages: {
+        en,
+        fr,
+      },
+    },
+  },
+
+  server: {
+    port: 3000,
+  },
+
+  loading: {
+    color: colors.blue.lighten2,
+    continuous: true,
+  },
+} as NuxtConfig;
