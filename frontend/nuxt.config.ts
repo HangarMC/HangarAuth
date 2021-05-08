@@ -7,104 +7,127 @@ import fr from './locales/fr';
 require('events').EventEmitter.defaultMaxListeners = 20;
 require('dotenv').config();
 
+const proxyHost = process.env.proxyHost || 'http://localhost:8081';
+const publicHost = process.env.PUBLIC_HOST || 'http://localhost:3001';
+const host = process.env.host || 'localhost';
+
 export default {
-  telemetry: false,
-  head: {
-    htmlAttrs: {
-      dir: 'ltr',
+    telemetry: false,
+    target: 'static',
+    head: {
+        htmlAttrs: {
+            dir: 'ltr',
+        },
+        titleTemplate: (titleChunk: string) => {
+            return titleChunk ? `${titleChunk} | HangarAuth` : 'HangarAuth';
+        },
+        meta: [
+            { charset: 'utf-8' },
+            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+            { hid: 'description', name: 'description', content: '' },
+        ],
     },
-    titleTemplate: (titleChunk: string) => {
-      return titleChunk ? `${titleChunk} | HangarAuth` : 'HangarAuth';
-    },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+
+    // Global CSS: https://go.nuxtjs.dev/config-css
+    css: ['~/assets/main.scss'],
+
+    // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+    plugins: [],
+
+    // Auto import components: https://go.nuxtjs.dev/config-components
+    components: false,
+
+    // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+    buildModules: [
+        // https://go.nuxtjs.dev/typescript
+        '@nuxt/typescript-build',
+        // https://go.nuxtjs.dev/vuetify
+        '@nuxtjs/vuetify',
+        // https://go.nuxtjs.dev/eslint
+        '@nuxtjs/eslint-module',
+        '@nuxtjs/dotenv',
     ],
-  },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['~/assets/main.scss'],
-
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
-  components: false,
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
-    // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
-    // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/dotenv',
-  ],
-
-  // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
-    'cookie-universal-nuxt',
-    '@nuxtjs/proxy',
-    'nuxt-i18n',
-  ],
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
-
-  // PWA module configuration: https://go.nuxtjs.dev/pwa
-  pwa: {
-    manifest: {
-      name: 'HangarAuth | PaperMC',
-      short_name: 'HangarAuth',
-      description: 'PaperMC Authentication Gateway!',
-      lang: 'en',
-    },
-  },
-
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    optionsPath: '~/plugins/vuetify.ts',
-    treeShake: true,
-  },
-
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-    transpile: ['lodash-es'],
-  },
-
-  router: {
-    middleware: [],
-  },
-
-  i18n: {
-    vueI18nLoader: true,
-    strategy: 'no_prefix',
-    defaultLocale: 'en',
-    locales: [
-      { code: 'fr', iso: 'fr-FR', name: 'Français' },
-      { code: 'en', iso: 'en-US', name: 'English' },
+    // Modules: https://go.nuxtjs.dev/config-modules
+    modules: [
+        // https://go.nuxtjs.dev/axios
+        '@nuxtjs/axios',
+        'cookie-universal-nuxt',
+        '@nuxtjs/proxy',
+        'nuxt-i18n',
     ],
-    vueI18n: {
-      locale: 'en',
-      fallbackLocale: 'en',
-      messages: {
-        en,
-        fr,
-      },
+
+    // Axios module configuration: https://go.nuxtjs.dev/config-axios
+    axios: {},
+
+    // PWA module configuration: https://go.nuxtjs.dev/pwa
+    pwa: {
+        manifest: {
+            name: 'HangarAuth | PaperMC',
+            short_name: 'HangarAuth',
+            description: 'PaperMC Authentication Gateway!',
+            lang: 'en',
+        },
     },
-  },
 
-  server: {
-    port: 3000,
-  },
+    // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
+    vuetify: {
+        customVariables: ['~/assets/variables.scss'],
+        optionsPath: '~/plugins/vuetify.ts',
+        treeShake: true,
+    },
 
-  loading: {
-    color: colors.blue.lighten2,
-    continuous: true,
-  },
+    // Build Configuration: https://go.nuxtjs.dev/config-build
+    build: {
+        transpile: ['lodash-es'],
+    },
+
+    router: {
+        middleware: [],
+    },
+
+    i18n: {
+        vueI18nLoader: true,
+        strategy: 'no_prefix',
+        defaultLocale: 'en',
+        locales: [
+            { code: 'fr', iso: 'fr-FR', name: 'Français' },
+            { code: 'en', iso: 'en-US', name: 'English' },
+        ],
+        vueI18n: {
+            locale: 'en',
+            fallbackLocale: 'en',
+            messages: {
+                en,
+                fr,
+            },
+        },
+    },
+
+    server: {
+        port: 3001,
+        host,
+    },
+
+    proxy: {
+        // backend
+        '/api/': proxyHost,
+    },
+
+    loading: {
+        color: colors.blue.lighten2,
+        continuous: true,
+    },
+
+    publicRuntimeConfig: {
+        axios: {
+            browserBaseURL: publicHost,
+        },
+    },
+
+    privateRuntimeConfig: {
+        axios: {
+            baseURL: proxyHost,
+        },
+    },
 } as NuxtConfig;

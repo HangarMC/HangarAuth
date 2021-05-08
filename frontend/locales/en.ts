@@ -82,6 +82,10 @@ const msgs: LocaleMessageObject = {
         oldPassword: 'Old password',
         changePassword: 'Change password',
     },
+    logout: {
+        title: 'Logged out',
+        text: 'You have been logged out successfully.',
+    },
     error: {
         userLocked: 'Your account is locked.',
         401: 'You must be logged in for this',

@@ -35,7 +35,14 @@ export default class LoginPage extends Vue {
     password = '';
 
     login() {
-        // TODO implement
+        this.$axios
+            .post('/api/login/', { username: this.username, password: this.password })
+            .then(() => {
+                this.$router.push('/');
+            })
+            .catch((e) => {
+                console.log('error', e);
+            });
     }
 }
 </script>

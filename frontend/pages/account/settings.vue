@@ -13,7 +13,7 @@
                             <td>{{ $t('settings.email') }}</td>
                             <td>
                                 {{ user.email }}
-                                <v-icon @click="$router.push('/accounts/change-email')">mdi-pen</v-icon>
+                                <v-icon @click="$router.push('/account/change-email')">mdi-pen</v-icon>
                             </td>
                         </tr>
                         <tr>
