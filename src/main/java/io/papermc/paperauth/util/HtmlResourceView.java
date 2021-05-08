@@ -1,4 +1,4 @@
-package io.papermc.hangarauth.util;
+package io.papermc.paperauth.util;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;

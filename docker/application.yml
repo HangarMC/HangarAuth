@@ -1,0 +1,37 @@
+###########
+# General #
+###########
+server:
+  port: 8080
+
+spring:
+  ############
+  # DataBase #
+  ############
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/paperauth
+    username: hangar
+    password: hangar
+  security:
+    filter:
+      order: 1000
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
+  devtools:
+    restart:
+      additional-exclude: work/**
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+    date-format: com.fasterxml.jackson.databind.util.StdDateFormat
+
+#################
+# Debug Logging #
+#################
+logging:
+  level:
+    root: INFO
+    org.springframework: DEBUG

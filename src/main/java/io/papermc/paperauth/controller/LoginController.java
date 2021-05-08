@@ -1,4 +1,4 @@
-package io.papermc.hangarauth.controller;
+package io.papermc.paperauth.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import io.papermc.hangarauth.model.request.LoginRequest;
+import io.papermc.paperauth.model.request.LoginRequest;
 
 @Controller
 @RequestMapping("/api/login")

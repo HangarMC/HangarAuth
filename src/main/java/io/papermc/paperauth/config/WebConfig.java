@@ -1,4 +1,4 @@
-package io.papermc.hangarauth.config;
+package io.papermc.paperauth.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,7 +21,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import java.util.List;
 import javax.servlet.Filter;
 
-import io.papermc.hangarauth.util.HtmlResourceView;
+import io.papermc.paperauth.util.HtmlResourceView;
 
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {

@@ -1,4 +1,4 @@
-package io.papermc.hangarauth.config;
+package io.papermc.paperauth.config;
 
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.ColumnMapper;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 
-import io.papermc.hangarauth.db.HangarAuthDao;
+import io.papermc.paperauth.db.HangarAuthDao;
 
 @Configuration
 public class JDBIConfig {

@@ -68,5 +68,6 @@ jobs:
         run: |
           cd docker
           echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ secrets.CR_USER }} --password-stdin
-          docker-compose build
-          docker-compose push
+          docker pull ghcr.io/papermc/paperauth:latest
+          docker build . --tag ghcr.io/papermc/paperauth:$GITHUB_SHA --cache-from ghcr.io/papermc/paperauth:latest
+          docker push ghcr.io/papermc/paperauth:$GITHUB_SHA

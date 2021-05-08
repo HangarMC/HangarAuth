@@ -1,4 +1,4 @@
-package io.papermc.hangarauth.service;
+package io.papermc.paperauth.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

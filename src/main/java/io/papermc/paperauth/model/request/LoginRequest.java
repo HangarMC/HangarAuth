@@ -1,4 +1,4 @@
-package io.papermc.hangarauth.model.request;
+package io.papermc.paperauth.model.request;
 
 public final class LoginRequest {
 

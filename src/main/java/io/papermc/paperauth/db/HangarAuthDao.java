@@ -1,4 +1,4 @@
-package io.papermc.hangarauth.db;
+package io.papermc.paperauth.db;
 
 public class HangarAuthDao<T> {
 

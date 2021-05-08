@@ -1,4 +1,4 @@
-package io.papermc.hangarauth.config;
+package io.papermc.paperauth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
-import io.papermc.hangarauth.service.UserService;
+import io.papermc.paperauth.service.UserService;
 
 @Configuration
 @EnableWebSecurity
