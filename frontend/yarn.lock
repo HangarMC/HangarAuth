@@ -1491,6 +1491,13 @@
     mustache "^2.3.0"
     stack-trace "0.0.10"
 
+"@ory/kratos-client@0.7.1-alpha.1":
+  version "0.7.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@ory/kratos-client/-/kratos-client-0.7.1-alpha.1.tgz#86dd4ebf2ac2fbe12fa53129c18f40ce17ec0dc8"
+  integrity sha512-E2krpzf87fsVIThUsQqeUVSFvBPEKE/KCDkbE1i+V2z6sevvvNw3ICLkmrY0Ujh8rnsMO5xZytnLRgPNvAjeag==
+  dependencies:
+    axios "^0.21.1"
+
 "@polka/url@^1.0.0-next.9":
   version "1.0.0-next.11"
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.11.tgz#aeb16f50649a91af79dbe36574b66d0f9e4d9f71"
@@ -1578,11 +1585,6 @@
   integrity sha512-ePPA/JuI+X0vb+gSWlPKOY0NdNAie/rPUqX2GUPpbZwiKTkSPhjXWuee47E4MtE54QVzGCQMQkAL6JhV2E1+cQ==
   dependencies:
     "@types/node" "*"
-
-"@types/cookie@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.3.3.tgz#85bc74ba782fb7aa3a514d11767832b0e3bc6803"
-  integrity sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow==
 
 "@types/eslint@^7.2.6":
   version "7.2.7"
@@ -3202,22 +3204,6 @@ convert-source-map@^1.7.0:
   integrity sha512-4FJkXzKXEDB1snCFZlLP4gpC3JILicCpGbzG9f9G7tGqGCzETQ2hWPrcinA9oU4wtf2biUaEH5065UnMeR33oA==
   dependencies:
     safe-buffer "~5.1.1"
-
-cookie-universal-nuxt@2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/cookie-universal-nuxt/-/cookie-universal-nuxt-2.1.4.tgz#323f8645501f88cb2422127ad8ba2ee40187b716"
-  integrity sha512-xbn4Ozs9S0u2+0mQTZRwGlBL9MGNq8N4H6iGfprR5ufZFCS2hGef++3DBHSmHXZi30Wu3Q7RI/GkNMhz3cecmg==
-  dependencies:
-    "@types/cookie" "^0.3.3"
-    cookie-universal "^2.1.4"
-
-cookie-universal@^2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/cookie-universal/-/cookie-universal-2.1.4.tgz#826a273da7eb9b08bfb0139bae12ea70770d564b"
-  integrity sha512-dwWXs7NGBzaBYDypu3jWH5M3NJW+zu5QdyJkFMHJvhLuyL4/eXG4105fwtTDwfIqyTunwVvQX4PHdtfPDS7URQ==
-  dependencies:
-    "@types/cookie" "^0.3.3"
-    cookie "^0.4.0"
 
 cookie@^0.3.1:
   version "0.3.1"

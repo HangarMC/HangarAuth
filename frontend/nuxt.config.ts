@@ -13,7 +13,8 @@ const host = process.env.host || 'localhost';
 
 export default {
     telemetry: false,
-    target: 'static',
+    modern: 'server',
+    target: 'server',
     head: {
         htmlAttrs: {
             dir: 'ltr',
@@ -32,7 +33,7 @@ export default {
     css: ['~/assets/main.scss'],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: [],
+    plugins: ['~/plugins/vuetify.ts', '~/plugins/kratos.ts'],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: false,
@@ -52,7 +53,6 @@ export default {
     modules: [
         // https://go.nuxtjs.dev/axios
         '@nuxtjs/axios',
-        'cookie-universal-nuxt',
         '@nuxtjs/proxy',
         'nuxt-i18n',
     ],
@@ -83,7 +83,7 @@ export default {
     },
 
     router: {
-        middleware: [],
+        middleware: ['auth'],
     },
 
     i18n: {
@@ -107,6 +107,10 @@ export default {
     server: {
         port: 3001,
         host,
+    },
+
+    env: {
+        kratos: 'http://localhost:4433',
     },
 
     proxy: {

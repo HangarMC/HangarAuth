@@ -26,6 +26,10 @@ import { Component, Vue } from 'nuxt-property-decorator';
 
 @Component({})
 export default class IndexPage extends Vue {
+    meta = {
+        authRequired: true,
+    };
+
     title = this.$t('index.title');
 
     get actions() {

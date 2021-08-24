@@ -16,7 +16,7 @@
   "dependencies": {
     "@nuxtjs/axios": "5.13.1",
     "@nuxtjs/proxy": "2.1.0",
-    "cookie-universal-nuxt": "2.1.4",
+    "@ory/kratos-client": "0.7.1-alpha.1",
     "core-js": "3.10.1",
     "nuxt": "2.15.4",
     "nuxt-i18n": "Machine-Maker/i18n-module#fix/mixing-mem-leak",
