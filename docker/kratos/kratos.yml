@@ -1,0 +1,84 @@
+version: v0.7.1-alpha.1
+
+dsn: postgres://hangar:hangar@host.docker.internal:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
+
+serve:
+  public:
+    base_url: http://localhost:4433/
+    cors:
+      enabled: true
+      allowed_origins:
+        - http://localhost:3001
+        - http://localhost:4433
+  admin:
+    base_url: http://kratos:4434/
+
+selfservice:
+  default_browser_return_url: http://localhost:3001/
+  whitelisted_return_urls:
+    - http://localhost:3001/
+
+  methods:
+    password:
+      enabled: true
+    oidc:
+      enabled: true
+
+  flows:
+    error:
+      ui_url: http://localhost:4455/error
+
+    settings:
+      ui_url: http://localhost:3001/account/settings
+      privileged_session_max_age: 15m
+
+    recovery:
+      enabled: true
+      ui_url: http://localhost:4455/recovery
+
+    verification:
+      enabled: true
+      ui_url: http://localhost:4455/verify
+      after:
+        default_browser_return_url: http://localhost:3001/
+
+    logout:
+      after:
+        default_browser_return_url: http://localhost:3001/account/login
+
+    login:
+      ui_url: http://localhost:3001/account/login
+      lifespan: 10m
+
+    registration:
+      lifespan: 10m
+      ui_url: http://localhost:3001/account/signup
+      after:
+        password:
+          hooks:
+            -
+              hook: session
+
+log:
+  level: debug
+  format: text
+  leak_sensitive_values: true
+
+secrets:
+  cookie:
+    - this-is-super-secret
+
+hashers:
+  argon2:
+    parallelism: 1
+    memory: 128MB
+    iterations: 2
+    salt_length: 16
+    key_length: 16
+
+identity:
+  default_schema_url: file:///etc/config/kratos/identity.schema.json
+
+courier:
+  smtp:
+    connection_uri: smtp://dum:dum@host.docker.internal:1025

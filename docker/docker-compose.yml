@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  frontend:
+    build:
+      context: frontend
+  kratos-migrate:
+    build:
+      context: kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    restart: on-failure
+  kratos:
+    depends_on:
+      - kratos-migrate
+    restart: unless-stopped
+    build:
+      context: kratos
+    ports:
+      - '4433:4433' # public
+      - '4434:4434' # admin
