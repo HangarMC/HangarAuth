@@ -1,6 +1,11 @@
 <template>
     <v-col md="6" offset-md="3" cols="12" offset="0">
-        <Form v-if="ui" :ui="ui" :title="$t('login.title')" />
+        <Form v-if="ui" :ui="ui" :title="$t('login.title')">
+            <template #additional-buttons>
+                <v-btn @click.prevent="$kratos.register()">Register</v-btn>
+                <v-btn @click.prevent="$kratos.reset()">Forgot</v-btn>
+            </template>
+        </Form>
     </v-col>
 </template>
 
@@ -19,7 +24,7 @@ export default class LoginPage extends Vue {
 
     async mounted() {
         if (!this.$route.query.flow) {
-            console.log('no flow?!');
+            this.$kratos.login();
             return;
         }
 

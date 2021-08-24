@@ -15,7 +15,7 @@
                 </v-list>
             </v-card-text>
             <v-card-actions>
-                <v-btn color="primary" @click="logout">{{ $t('general.logout') }}</v-btn>
+                <v-btn color="primary" @click="$kratos.logout()">{{ $t('general.logout') }}</v-btn>
             </v-card-actions>
         </v-card>
     </v-col>
@@ -23,13 +23,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
+import { AuthRequired } from '~/middleware/auth';
 
 @Component({})
+@AuthRequired()
 export default class IndexPage extends Vue {
-    meta = {
-        authRequired: true,
-    };
-
     title = this.$t('index.title');
 
     get actions() {
@@ -48,10 +46,6 @@ export default class IndexPage extends Vue {
     // TODO implement
     get currentUserName() {
         return 'Paper';
-    }
-
-    logout() {
-        // TODO implement
     }
 }
 </script>

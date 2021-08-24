@@ -5,9 +5,11 @@
             <v-card-text>
                 <v-alert v-for="message in ui.messages" :key="message.id" :type="message.type" v-text="message.text" />
                 <component :is="'form-' + node.attributes.type" v-for="(node, idx) in elements" :key="idx" :node="node" />
+                <slot name="additional-fields"></slot>
             </v-card-text>
             <v-card-actions>
                 <component :is="'form-' + node.attributes.type" v-for="(node, idx) in buttons" :key="idx" :node="node" />
+                <slot name="additional-buttons"></slot>
             </v-card-actions>
         </v-card>
     </v-form>

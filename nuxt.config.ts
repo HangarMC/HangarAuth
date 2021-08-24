@@ -83,7 +83,7 @@ export default {
     },
 
     router: {
-        middleware: ['auth'],
+        middleware: [],
     },
 
     i18n: {

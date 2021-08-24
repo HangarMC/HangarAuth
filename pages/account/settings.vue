@@ -73,8 +73,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
+import { AuthRequired } from '~/middleware/auth';
 
 @Component({})
+@AuthRequired()
 export default class SettingsPage extends Vue {
     title = this.$t('settings.title');
 

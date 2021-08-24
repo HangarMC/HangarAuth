@@ -1,20 +1,35 @@
 import { V0alpha1ApiFactory } from '@ory/kratos-client';
 import { Context } from '@nuxt/types';
 import { Inject } from '@nuxt/types/app';
+import { V0alpha1Api } from '@ory/kratos-client/api';
 
 const createKratos = ({ $axios, redirect }: Context) => {
     class Kratos {
-        get client() {
+        get client(): V0alpha1Api {
             // @ts-ignore
             return V0alpha1ApiFactory({ basePath: process.env.kratos }, process.env.kratos, $axios);
         }
 
         login() {
-            redirect(process.env.kratos + '/self-service/registration/browser');
+            try {
+                redirect(process.env.kratos + '/self-service/login/browser');
+            } catch (e) {}
         }
 
         register() {
-            redirect(process.env.kratos + '/self-service/login/browser');
+            try {
+                redirect(process.env.kratos + '/self-service/registration/browser');
+            } catch (e) {}
+        }
+
+        reset() {
+            try {
+                redirect(process.env.kratos + '/self-service/recovery/browser');
+            } catch (e) {}
+        }
+
+        logout() {
+            this.client.createSelfServiceLogoutFlowUrlForBrowsers(undefined, { withCredentials: true }).then((url) => redirect(url.data.logout_url as string));
         }
     }
 

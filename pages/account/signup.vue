@@ -19,7 +19,7 @@ export default class SignUpPage extends Vue {
 
     async mounted() {
         if (!this.$route.query.flow) {
-            console.log('no flow?!');
+            this.$kratos.register();
             return;
         }
 

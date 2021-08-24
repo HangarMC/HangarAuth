@@ -34,7 +34,7 @@ selfservice:
 
     recovery:
       enabled: true
-      ui_url: http://localhost:4455/recovery
+      ui_url: http://localhost:3001/account/reset
 
     verification:
       enabled: true
@@ -44,7 +44,7 @@ selfservice:
 
     logout:
       after:
-        default_browser_return_url: http://localhost:3001/account/login
+        default_browser_return_url: http://localhost:3001/
 
     login:
       ui_url: http://localhost:3001/account/login
