@@ -23,6 +23,10 @@ selfservice:
       enabled: true
     oidc:
       enabled: true
+    link:
+      enabled: true
+      config:
+        lifespan: 1h
 
   flows:
     error:
@@ -38,7 +42,7 @@ selfservice:
 
     verification:
       enabled: true
-      ui_url: http://localhost:4455/verify
+      ui_url: http://localhost:3001/account/verify
       after:
         default_browser_return_url: http://localhost:3001/
 

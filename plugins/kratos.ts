@@ -28,6 +28,12 @@ const createKratos = ({ $axios, redirect }: Context) => {
             } catch (e) {}
         }
 
+        verify() {
+            try {
+                redirect(process.env.kratos + '/self-service/verification/browser');
+            } catch (e) {}
+        }
+
         logout() {
             this.client.createSelfServiceLogoutFlowUrlForBrowsers(undefined, { withCredentials: true }).then((url) => redirect(url.data.logout_url as string));
         }
