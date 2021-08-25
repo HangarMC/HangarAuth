@@ -1,11 +1,15 @@
 import { Context, Middleware } from '@nuxt/types';
 
 export function AuthRequired() {
-    const middleware = ({ $kratos }: Context) => {
+    const middleware = ({ $kratos, store }: Context) => {
         return $kratos.client
             .toSession(undefined, undefined, { withCredentials: true })
             .then((session) => {
-                console.log('whoami', session.data);
+                if (session.data && session.data.active) {
+                    store.commit('SET_USER', session.data.identity);
+                    return;
+                }
+                return $kratos.login();
             })
             .catch((e) => {
                 if (e.response.status === 401) {

@@ -5,6 +5,10 @@
             <v-card-text>
                 <p v-text="$t('index.text', [currentUserName])" />
 
+                <v-alert v-if="!verified" type="warning">
+                    Your account is not verified yet, <a @click="$kratos.verify()">click here</a> to change that!
+                </v-alert>
+
                 <v-list>
                     <v-list-item v-for="(item, idx) in actions" :key="idx" :href="item.href" :to="item.to">
                         <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -24,11 +28,25 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
 import { AuthRequired } from '~/middleware/auth';
+import { RootState } from '~/store';
 
 @Component({})
 @AuthRequired()
 export default class IndexPage extends Vue {
     title = this.$t('index.title');
+
+    get verified() {
+        const user = (this.$store.state as RootState).user;
+        if (!user || !user.verifiable_addresses) {
+            return false;
+        }
+        for (const verifiableAddress of user.verifiable_addresses) {
+            if (verifiableAddress.verified) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     get actions() {
         const actions = [];
