@@ -1,7 +1,8 @@
 import { Context, Middleware } from '@nuxt/types';
+import { addMiddleware } from '~/utils/middleware';
 
 export function AuthRequired() {
-    const middleware = ({ $kratos, store }: Context) => {
+    const middleware: Middleware = ({ $kratos, store }: Context) => {
         return $kratos.client
             .toSession(undefined, undefined, { withCredentials: true })
             .then((session) => {
@@ -22,15 +23,4 @@ export function AuthRequired() {
     return function (constructor: Function) {
         addMiddleware(constructor, middleware);
     };
-}
-function addMiddleware(constructor: Function, ...middleware: Middleware[]): void {
-    if (!constructor.prototype.middleware) {
-        constructor.prototype.middleware = [...middleware];
-    } else if (typeof constructor.prototype.middleware === 'string') {
-        constructor.prototype.middleware = [constructor.prototype.middleware, ...middleware];
-    } else if (Array.isArray(constructor.prototype.middleware)) {
-        constructor.prototype.middleware = [...constructor.prototype.middleware, ...middleware];
-    } else {
-        throw new TypeError('Unable to add permissions middleware');
-    }
 }

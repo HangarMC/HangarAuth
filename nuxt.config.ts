@@ -12,6 +12,7 @@ const publicHost = process.env.PUBLIC_HOST || 'http://localhost:3001';
 const host = process.env.host || 'localhost';
 
 export default {
+    debug: true,
     telemetry: false,
     modern: 'server',
     target: 'server',
@@ -85,6 +86,7 @@ export default {
     router: {
         middleware: [],
     },
+    serverMiddleware: [{ path: '/oauth', handler: '~/server-middleware/hydra.ts' }],
 
     i18n: {
         vueI18nLoader: true,

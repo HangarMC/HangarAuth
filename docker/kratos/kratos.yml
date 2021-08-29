@@ -13,6 +13,9 @@ serve:
   admin:
     base_url: http://kratos:4434/
 
+session:
+  lifespan: 720h # 30 days
+
 selfservice:
   default_browser_return_url: http://localhost:3001/
   whitelisted_return_urls:

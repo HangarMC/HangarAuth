@@ -18,6 +18,21 @@ services:
     ports:
       - '4433:4433' # public
       - '4434:4434' # admin
+  hydra-migrate:
+    build:
+      context: hydra
+    command: -c /etc/config/hydra/kratos.yml migrate sql -e --yes
+    restart: on-failure
+  hydra:
+    depends_on:
+      - hydra-migrate
+    build:
+      context: hydra
+    restart: unless-stopped
+    ports:
+      - "4444:4444" # Public port
+      - "4445:4445" # Admin port
+      - "5555:5555" # Port for hydra token user
   mailslurper:
     image: oryd/mailslurper:latest-smtps
     ports:
