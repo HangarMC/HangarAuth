@@ -1,6 +1,6 @@
 <template>
     <v-col md="6" offset-md="3" cols="12" offset="0">
-        <Form v-if="ui" :ui="ui" :title="$t('login.title')">
+        <Form v-if="ui" :ui="ui" :title="$t('login.title')" @result="result">
             <template #additional-buttons>
                 <v-btn @click.prevent="$kratos.register()">Register</v-btn>
                 <v-btn @click.prevent="$kratos.reset()">Forgot</v-btn>
@@ -34,9 +34,18 @@ export default class LoginPage extends Vue {
             this.ui = flowInfo.data.ui;
         } catch (e) {
             if (e.response.status === 410) {
-                console.log('gone!');
+                this.$kratos.login();
+                return;
             }
             console.log(e);
+        }
+    }
+
+    result(response: any) {
+        if (response.ui) {
+            this.ui = response.ui;
+        } else {
+            this.$router.push('/');
         }
     }
 }

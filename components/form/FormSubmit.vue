@@ -2,14 +2,13 @@
     <v-btn
         :disabled="node.attributes.disabled"
         :name="node.attributes.name"
-        :label="node.meta.label ? node.meta.label.text : null"
         type="text"
         :messages="messages"
         :error-messages="errorMessages"
         :value="node.attributes.value"
         persistent-hint
     >
-        submit
+        {{ text }}
     </v-btn>
 </template>
 
@@ -18,7 +17,11 @@ import { Component } from 'nuxt-property-decorator';
 import { FormElement } from '~/components/mixins/FormElement';
 
 @Component
-export default class FormSubmit extends FormElement {}
+export default class FormSubmit extends FormElement {
+    get text() {
+        return this.node.meta.label ? this.node.meta.label.text : 'submit';
+    }
+}
 </script>
 
 <style scoped></style>

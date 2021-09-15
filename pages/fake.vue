@@ -14,7 +14,7 @@ import { Component, Vue } from 'nuxt-property-decorator';
 export default class Fake extends Vue {
     buildUrl(prompt: string) {
         const url = new URL('/oauth2/auth', 'http://localhost:4444');
-        url.searchParams.set('client_id', '40c2daf9-34d2-4b47-88ee-7fb9fba2d408');
+        url.searchParams.set('client_id', 'my-client');
         url.searchParams.set('scope', 'openid');
         url.searchParams.set('response_type', 'code');
         url.searchParams.set('redirect_url', 'http://localhost:3001/redirect');

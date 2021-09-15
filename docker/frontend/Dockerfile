@@ -1,12 +1,31 @@
-FROM openjdk:16-jdk-alpine
+FROM node:lts as builder
 
-WORKDIR paperauth
+WORKDIR /app
 
-ENV TERM xterm-256color
+COPY . .
 
-EXPOSE 8080
-# "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005" is for debug only
-ENTRYPOINT ["java", "-XX:+ShowCodeDetailsInExceptionMessages", "-jar", "app.jar"]
+RUN yarn install \
+  --prefer-offline \
+  --frozen-lockfile \
+  --non-interactive \
+  --production=false
 
-ADD docker/application.yml /paperauth/application.yml
-ADD target/paperauth-*.jar /paperauth/app.jar
+RUN yarn build
+
+RUN rm -rf node_modules && \
+  NODE_ENV=production yarn install \
+  --prefer-offline \
+  --pure-lockfile \
+  --non-interactive \
+  --production=true
+
+FROM node:lts
+
+WORKDIR /app
+
+COPY --from=builder /app  .
+
+ENV HOST 0.0.0.0
+EXPOSE 80
+
+CMD [ "yarn", "start" ]

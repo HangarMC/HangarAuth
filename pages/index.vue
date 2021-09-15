@@ -61,9 +61,8 @@ export default class IndexPage extends Vue {
         return actions;
     }
 
-    // TODO implement
     get currentUserName() {
-        return 'Paper';
+        return (this.$store.state as RootState).user.traits.username;
     }
 }
 </script>

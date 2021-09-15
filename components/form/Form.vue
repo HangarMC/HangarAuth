@@ -1,5 +1,5 @@
 <template>
-    <v-form :action="ui.action" :method="ui.method">
+    <v-form @submit.prevent="submit">
         <v-card>
             <v-card-title>{{ title }}</v-card-title>
             <v-card-text>
@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator';
-import { UiContainer } from '@ory/kratos-client';
+import { UiContainer, UiNode } from '@ory/kratos-client';
 import { PropType } from 'vue';
 import { UiNodeInputAttributes } from '@ory/kratos-client/api';
 import FormPassword from '~/components/form/FormPassword.vue';
@@ -36,12 +36,47 @@ export default class Form extends Vue {
     @Prop({ type: String, required: true })
     title!: String;
 
-    get buttons() {
+    get buttons(): Array<UiNode> {
         return this.ui.nodes.filter((n) => (n.attributes as UiNodeInputAttributes).type === 'submit');
     }
 
-    get elements() {
+    get elements(): Array<UiNode> {
         return this.ui.nodes.filter((n) => (n.attributes as UiNodeInputAttributes).type !== 'submit');
+    }
+
+    get method(): Array<UiNode> {
+        return this.ui.nodes.filter((n) => (n.attributes as UiNodeInputAttributes).name === 'method');
+    }
+
+    async submit() {
+        try {
+            const body = this.buildFormData(this.$el);
+            if (this.method) {
+                body.method = (this.method[0].attributes as UiNodeInputAttributes).value;
+            }
+
+            console.log('post body', body);
+            const responseRaw = await fetch(this.ui.action, {
+                method: this.ui.method,
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            const response = await responseRaw.json();
+            this.$emit('result', response);
+        } catch (e) {
+            console.log('error', e);
+        }
+    }
+
+    buildFormData(form: any) {
+        const json: any = {};
+        new FormData(form).forEach((value, key) => {
+            json[key] = value;
+        });
+        return json;
     }
 }
 </script>

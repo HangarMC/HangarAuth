@@ -1,22 +1,35 @@
-# PaperAuth - Paper's Authentication Portal
+# HangarAuth - Hangar's Authentication Portal
 
-This repository contains the source code to Paper's Authentication Portal, PaperAuth.  
-It's used to provide one central login to access all PaperMC services, like the forums or Hangar.
+This repository contains the source code to Hangar's Authentication Portal, HangarAuth.  
+It's used to provide one central login to access multiple different services, like the forums or Hangar.
 
 ## Architecture
 
-PaperAuth is a Spring Boot Application, with a Nuxt/Vue Frontend.
+HangarAuth makes use of [Ory Kratos](https://www.ory.sh/kratos/) for user management and [Ory Hydra](https://www.ory.sh/hydra/) to integrate other applications.
 
-The backend utilizes JDBI for database connections and flyaway for database migrations.
-
-The frontend utilizes nuxt static side generation (SSG), in order to produce serveable static html files. It uses vuetify for UI components.
+HangarAuth is a nuxt application, that provides a renderer to render the forms kratos generates. It also implements the consent flow for hydra.
+It uses vuetify for the components.
 
 ## Development Setup
 
-You wanna run `yarn run dev` in frontend, so start the frontend server (uses ports 3001) and you wanna start the spring application via intellij (port is 8081).
-You can then access the application under the frontend port 3001 and everything gets proxied to the backend properly.
+HangarAuth is a yarn project, so you wanna run `yarn` and then `yarn dev` to start the dev server.
 
-If you wanna test the SSG, run `mvn install` and access the application from the backend port 8081.
+Additionally, you will want to run kratos, hydra, a database and a test mail server. Those have been provided via docker compose. Checkout the docker folder.
+
+## Creating a client
+
+
+```
+hydra clients create \
+    --id my-client
+    --name MyClient
+    --endpoint http://localhost:4445 \
+    --token-endpoint-auth-method none \
+    --grant-types authorization_code,refresh_token \
+    --response-types code \
+    --scope openid,offline \
+    --callbacks http://localhost:3001/redirect
+```
 
 ## Contributing
 

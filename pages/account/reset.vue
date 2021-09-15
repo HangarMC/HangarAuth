@@ -1,6 +1,6 @@
 <template>
     <v-col md="6" offset-md="3" cols="12" offset="0">
-        <Form v-if="ui" :ui="ui" :title="$t('reset.title')" />
+        <Form v-if="ui" :ui="ui" :title="$t('reset.title')" @result="result" />
     </v-col>
 </template>
 
@@ -29,9 +29,18 @@ export default class ResetPage extends Vue {
             this.ui = flowInfo.data.ui;
         } catch (e) {
             if (e.response.status === 410) {
-                console.log('gone!');
+                this.$kratos.reset();
+                return;
             }
             console.log(e);
+        }
+    }
+
+    result(response: any) {
+        if (response.ui) {
+            this.ui = response.ui;
+        } else {
+            console.log('wtf', response);
         }
     }
 }

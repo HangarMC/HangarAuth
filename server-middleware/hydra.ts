@@ -148,6 +148,8 @@ app.post('/consent', async (req, res, next) => {
             remember_for: 3600,
             session: createHydraSession(consentRequest.context as Session, consentRequest.requested_scope),
         });
+        console.log('consentRequest', consentRequest);
+        console.log('redirect', redirect);
         return res.redirect(String(redirect.redirect_to));
     } catch (e) {
         console.debug('error in post consent', e);
