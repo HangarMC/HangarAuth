@@ -33,7 +33,7 @@ selfservice:
 
   flows:
     error:
-      ui_url: http://localhost:4455/error
+      ui_url: http://localhost:3001/error
 
     settings:
       ui_url: http://localhost:3001/account/settings

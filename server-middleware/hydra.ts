@@ -190,9 +190,15 @@ const createHydraSession = (context: Session, requestedScope: string[] = []) => 
         return {};
     }
 
+    let traits = null;
+    if (requestedScope.includes('profile')) {
+        traits = context.identity.traits;
+    }
+
     return {
         id_token: {
             email: verifiableAddresses[0].value as Object,
+            traits,
         },
     };
 };
