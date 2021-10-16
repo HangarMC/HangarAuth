@@ -11,8 +11,8 @@ services:
       PUBLIC_HOST: "https://hangar-auth.benndorf.dev"
       SECRETS_COOKIE: "supersecuresupersecure"
       cookieHttps: "true"
-      kratos: "http://kratos:4433"
-      hydraAdmin: "http://hydra:4445"
+      kratos: "https://kratos:4433"
+      hydraAdmin: "https://hydra:4445"
       DEBUG: "nuxt:*"
     labels:
       - "traefik.enable=true"
