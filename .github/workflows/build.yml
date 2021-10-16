@@ -25,7 +25,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ secrets.CR_USER }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.CR_PAT }}
 
       - name: Docker
         env:
