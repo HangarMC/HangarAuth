@@ -4,6 +4,11 @@ serve:
       debug: true
   cookies:
     same_site_mode: Lax
+  public:
+    tls:
+      allow_termination_from:
+        - 10.0.0.0/16
+        - 127.0.0.0/16
 
 urls:
   self:
