@@ -25,8 +25,8 @@ services:
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
     environment:
-      - "DSN=postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
-      - "SECRETS_COOKIE=supersecuresupersecure"
+      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
+      SECRETS_COOKIE: "supersecuresupersecure"
     networks:
       - web
   kratos:
@@ -37,8 +37,8 @@ services:
       context: kratos
     restart: unless-stopped
     environment:
-      - "DSN=postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
-      - "SECRETS_COOKIE=supersecuresupersecure"
+      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
+      SECRETS_COOKIE: "supersecuresupersecure"
     networks:
       - web
   hydra-migrate:
@@ -48,9 +48,9 @@ services:
     command: -c /etc/config/hydra/kratos.yml migrate sql -e --yes
     restart: on-failure
     environment:
-      - "DSN=postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
-      - "SECRETS_SYSTEM=supersecuresupersecure"
-      - "OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=supersecuresupersecure"
+      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
+      SECRETS_SYSTEM: "supersecuresupersecure"
+      OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT: "supersecuresupersecure"
     networks:
       - web
   hydra:
@@ -61,9 +61,9 @@ services:
       context: hydra
     restart: unless-stopped
     environment:
-      - "DSN=postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
-      - "SECRETS_SYSTEM=supersecuresupersecure"
-      - "OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=supersecuresupersecure"
+      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
+      SECRETS_SYSTEM: "supersecuresupersecure"
+      OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT: "supersecuresupersecure"
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-oauth.loadbalancer.server.port=4444"
