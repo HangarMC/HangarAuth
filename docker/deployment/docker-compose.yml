@@ -24,15 +24,21 @@ services:
       context: kratos
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
+    environment:
+      - "DSN=postgres://hangar:hangar@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
+      - "SECRETS_COOKIE=supersecure"
     networks:
       - web
   kratos:
-    image: "ghcr.io/papermc/hangarauth_kratos"
     depends_on:
       - kratos-migrate
-    restart: unless-stopped
+    image: "ghcr.io/papermc/hangarauth_kratos"
     build:
       context: kratos
+    restart: unless-stopped
+    environment:
+      - "DSN=postgres://hangar:hangar@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
+      - "SECRETS_COOKIE=supersecure"
     networks:
       - web
   hydra-migrate:
@@ -41,15 +47,23 @@ services:
       context: hydra
     command: -c /etc/config/hydra/kratos.yml migrate sql -e --yes
     restart: on-failure
+    environment:
+      - "DSN=postgres://hangar:hangar@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
+      - "SECRETS_SYSTEM=supersecure"
+      - "OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=supersecure"
     networks:
       - web
   hydra:
-    image: "ghcr.io/papermc/hangarauth_hydra"
     depends_on:
       - hydra-migrate
+    image: "ghcr.io/papermc/hangarauth_hydra"
     build:
       context: hydra
     restart: unless-stopped
+    environment:
+      - "DSN=postgres://hangar:hangar@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
+      - "SECRETS_SYSTEM=supersecure"
+      - "OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=supersecure"
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-oauth.loadbalancer.server.port=4444"

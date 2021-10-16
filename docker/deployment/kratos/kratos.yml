@@ -1,6 +1,6 @@
 version: v0.7.1-alpha.1
 
-dsn: postgres://hangar:hangar@host.docker.internal:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
+dsn: "see env"
 
 serve:
   public:
@@ -11,7 +11,7 @@ serve:
         - https://hangar-auth.benndorf.dev/
         - http://localhost:4433
   admin:
-    base_url: http://kratos:4434/
+    base_url: http://hangarauth_kratos:4434/
 
 session:
   lifespan: 720h # 30 days
@@ -73,7 +73,7 @@ log:
 
 secrets:
   cookie:
-    - this-is-super-secret
+    - "see env"
 
 hashers:
   argon2:
@@ -89,5 +89,5 @@ identity:
 courier:
   template_override_path: /etc/config/kratos/templates
   smtp:
-    connection_uri: smtps://dum:dum@host.docker.internal:1025/?skip_ssl_verify=true&legacy_ssl=true
+    connection_uri: smtps://dum:dum@hangarauth_mail:1025/?skip_ssl_verify=true&legacy_ssl=true
     from_address: no-reply@papermc.io
