@@ -7,12 +7,11 @@ import session from 'express-session';
 import cookies from 'cookie-parser';
 import bodyParser from 'body-parser';
 
-// TODO fix all of these
-const cookieSecret = 'dum';
-const httpsEnabled = false;
-const kratosPublic = 'http://localhost:4433';
-const hydraAdmin = 'http://localhost:4445';
-const baseUrl = 'http://localhost:3001';
+const cookieSecret = process.env.cookieSecret || 'dum';
+const httpsEnabled = process.env.cookieHttps || 'false';
+const kratosPublic = process.env.kratos || 'http://localhost:4433';
+const hydraAdmin = process.env.hydraAdmin || 'http://localhost:4445';
+const baseUrl = process.env.publicHost || 'http://localhost:3001';
 
 const app = express();
 
@@ -30,7 +29,7 @@ app.use(
         secret: cookieSecret,
         resave: false,
         saveUninitialized: true,
-        cookie: { secure: httpsEnabled },
+        cookie: { secure: httpsEnabled === 'true' },
     })
 );
 app.use(cookies());

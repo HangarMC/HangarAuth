@@ -9,6 +9,10 @@ services:
     environment:
       host: "0.0.0.0"
       PUBLIC_HOST: "https://hangar-auth.benndorf.dev"
+      SECRETS_COOKIE: "supersecuresupersecure"
+      cookieHttps: "true"
+      kratos: "http://kratos:4433"
+      hydraAdmin: "http://hydra:4445"
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-auth.loadbalancer.server.port=3001"

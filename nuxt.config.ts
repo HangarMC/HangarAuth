@@ -7,9 +7,12 @@ import fr from './locales/fr';
 require('events').EventEmitter.defaultMaxListeners = 20;
 require('dotenv').config();
 
-const proxyHost = process.env.proxyHost || 'http://localhost:8081';
 const publicHost = process.env.PUBLIC_HOST || 'http://localhost:3001';
+const kratos = process.env.kratos || 'http://localhost:3001';
+const hydraAdmin = process.env.hydraAdmin || 'http://localhost:3001';
 const host = process.env.host || 'localhost';
+const cookieSecret = process.env.SECRET_COOKIE || 'dum';
+const cookieHttps = process.env.cookieHttps || 'false';
 
 export default {
     debug: true,
@@ -112,12 +115,11 @@ export default {
     },
 
     env: {
-        kratos: 'http://localhost:4433',
-    },
-
-    proxy: {
-        // backend
-        '/api/': proxyHost,
+        kratos,
+        hydraAdmin,
+        publicHost,
+        cookieSecret,
+        cookieHttps,
     },
 
     loading: {
@@ -128,12 +130,6 @@ export default {
     publicRuntimeConfig: {
         axios: {
             browserBaseURL: publicHost,
-        },
-    },
-
-    privateRuntimeConfig: {
-        axios: {
-            baseURL: proxyHost,
         },
     },
 } as NuxtConfig;
