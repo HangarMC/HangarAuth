@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   frontend:
+    image: "ghcr.io/papermc/hangarauth_frontend"
     build:
       context: ../..
       dockerfile: docker/deployment/frontend/Dockerfile
@@ -21,6 +22,7 @@ services:
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
   kratos:
+    image: "ghcr.io/papermc/hangarauth_kratos"
     depends_on:
       - kratos-migrate
     restart: unless-stopped
@@ -32,6 +34,7 @@ services:
     command: -c /etc/config/hydra/kratos.yml migrate sql -e --yes
     restart: on-failure
   hydra:
+    image: "ghcr.io/papermc/hangarauth_hydra"
     depends_on:
       - hydra-migrate
     build:

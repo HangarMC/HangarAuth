@@ -7,7 +7,7 @@ serve:
 
 urls:
   self:
-    issuer: http://localhost:4444
+    issuer: https://hangar-auth.benndorf.dev
   consent: https://hangar-auth.benndorf.dev/oauth/consent
   login: https://hangar-auth.benndorf.dev/oauth/login
   logout: https://hangar-auth.benndorf.dev/account/logout/
