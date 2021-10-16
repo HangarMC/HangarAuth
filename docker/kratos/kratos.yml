@@ -1,6 +1,6 @@
 version: v0.7.1-alpha.1
 
-dsn: postgres://hangar:hangar@host.docker.internal:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
+dsn: postgres://hangar:hangar@db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
 
 serve:
   public:
@@ -89,5 +89,5 @@ identity:
 courier:
   template_override_path: /etc/config/kratos/templates
   smtp:
-    connection_uri: smtps://dum:dum@host.docker.internal:1025/?skip_ssl_verify=true&legacy_ssl=true
+    connection_uri: smtps://dum:dum@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true
     from_address: no-reply@papermc.io

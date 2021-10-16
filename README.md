@@ -18,6 +18,7 @@ Additionally, you will want to run kratos, hydra, a database and a test mail ser
 
 ## Creating a client
 
+Run the following command inside the `hydra` container to create the hydra client.
 
 ```
 hydra clients create \
@@ -27,13 +28,13 @@ hydra clients create \
     --token-endpoint-auth-method none \
     --grant-types authorization_code,refresh_token \
     --response-types code \
-    --scope openid,offline \
-    --callbacks http://localhost:3001/redirect
+    --scope offline_access,openid,offline,email.profile \
+    --callbacks http://localhost:3000/login
 ```
 
 ## Contributing
 
-All contributions are welcome, however we recommend joining #hangar-dev on the [Paper Discord](https://discord.gg/papermc) and discussing changes with us before,
+All contributions are welcome, however we recommend joining #development on the [Hangar Discord](https://discord.gg/zvrAEbvJ4a) and discussing changes with us before,
 in order to make sure your changes align with our vision and no redundant work is done.
 
 ## Licence

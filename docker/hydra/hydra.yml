@@ -13,7 +13,7 @@ urls:
   logout: http://localhost:3001/account/logout/
   error: http://localhost:3001/error
 
-dsn: postgres://hangar:hangar@host.docker.internal:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
+dsn: postgres://hangar:hangar@db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
 
 secrets:
   system:
