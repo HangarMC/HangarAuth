@@ -1,0 +1,62 @@
+version: '3.7'
+
+services:
+  frontend:
+    build:
+      context: ../..
+      dockerfile: docker/deployment/frontend/Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.hangar-auth.loadbalancer.server.port=3001"
+      - "traefik.http.routers.hangar-auth.rule=Host(`hangar-auth.benndorf.dev`)"
+      - "traefik.http.routers.hangar-auth.entrypoints=web-secure"
+      - "traefik.http.routers.hangar-auth.tls=true"
+      - "traefik.http.routers.hangar-auth.tls.options=default"
+      - "traefik.http.routers.hangar-auth.tls.certresolver=default"
+      - "traefik.http.routers.hangar-auth.tls.domains[0].main=benndorf.dev"
+      - "traefik.http.routers.hangar-auth.tls.domains[0].sans=*.benndorf.dev"
+  kratos-migrate:
+    build:
+      context: kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    restart: on-failure
+  kratos:
+    depends_on:
+      - kratos-migrate
+    restart: unless-stopped
+    build:
+      context: kratos
+  hydra-migrate:
+    build:
+      context: hydra
+    command: -c /etc/config/hydra/kratos.yml migrate sql -e --yes
+    restart: on-failure
+  hydra:
+    depends_on:
+      - hydra-migrate
+    build:
+      context: hydra
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.hangar-oauth.loadbalancer.server.port=4444"
+      - "traefik.http.routers.hangar-oauth.rule=Host(`hangar-oauth.benndorf.dev`)"
+      - "traefik.http.routers.hangar-oauth.entrypoints=web-secure"
+      - "traefik.http.routers.hangar-oauth.tls=true"
+      - "traefik.http.routers.hangar-oauth.tls.options=default"
+      - "traefik.http.routers.hangar-oauth.tls.certresolver=default"
+      - "traefik.http.routers.hangar-oauth.tls.domains[0].main=benndorf.dev"
+      - "traefik.http.routers.hangar-oauth.tls.domains[0].sans=*.benndorf.dev"
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.hangar-auth-mail.loadbalancer.server.port=4436"
+      - "traefik.http.routers.hangar-auth-mail.middlewares=basicauth@file"
+      - "traefik.http.routers.hangar-auth-mail.rule=Host(`hangar-auth-mail.benndorf.dev`)"
+      - "traefik.http.routers.hangar-auth-mail.entrypoints=web-secure"
+      - "traefik.http.routers.hangar-auth-mail.tls=true"
+      - "traefik.http.routers.hangar-auth-mail.tls.options=default"
+      - "traefik.http.routers.hangar-auth-mail.tls.certresolver=default"
+      - "traefik.http.routers.hangar-auth-mail.tls.domains[0].main=benndorf.dev"
+      - "traefik.http.routers.hangar-auth-mail.tls.domains[0].sans=*.benndorf.dev"

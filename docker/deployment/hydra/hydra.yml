@@ -1,0 +1,28 @@
+serve:
+  admin:
+    cors:
+      debug: true
+  cookies:
+    same_site_mode: Lax
+
+urls:
+  self:
+    issuer: http://localhost:4444
+  consent: https://hangar-auth.benndorf.dev/oauth/consent
+  login: https://hangar-auth.benndorf.dev/oauth/login
+  logout: https://hangar-auth.benndorf.dev/account/logout/
+  error: https://hangar-auth.benndorf.dev/error
+
+dsn: postgres://hangar:hangar@host.docker.internal:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
+
+secrets:
+  system:
+    - youReallyNeedToChangeThis
+
+oidc:
+  subject_identifiers:
+    supported_types:
+      - pairwise
+      - public
+    pairwise:
+      salt: youReallyNeedToChangeThis

@@ -1,0 +1,93 @@
+version: v0.7.1-alpha.1
+
+dsn: postgres://hangar:hangar@host.docker.internal:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
+
+serve:
+  public:
+    base_url: http://localhost:4433/
+    cors:
+      enabled: true
+      allowed_origins:
+        - https://hangar-auth.benndorf.dev/
+        - http://localhost:4433
+  admin:
+    base_url: http://kratos:4434/
+
+session:
+  lifespan: 720h # 30 days
+
+selfservice:
+  default_browser_return_url: https://hangar-auth.benndorf.dev/
+  whitelisted_return_urls:
+    - https://hangar-auth.benndorf.dev/
+
+  methods:
+    password:
+      enabled: true
+    oidc:
+      enabled: true
+    link:
+      enabled: true
+      config:
+        lifespan: 1h
+
+  flows:
+    error:
+      ui_url: https://hangar-auth.benndorf.dev/error
+
+    settings:
+      ui_url: https://hangar-auth.benndorf.dev/account/settings
+      privileged_session_max_age: 15m
+
+    recovery:
+      enabled: true
+      ui_url: hhttps://hangar-auth.benndorf.dev/account/reset
+
+    verification:
+      enabled: true
+      ui_url: https://hangar-auth.benndorf.dev/account/verify
+      after:
+        default_browser_return_url: https://hangar-auth.benndorf.dev/
+
+    logout:
+      after:
+        default_browser_return_url: https://hangar-auth.benndorf.dev/
+
+    login:
+      ui_url: https://hangar-auth.benndorf.dev/account/login
+      lifespan: 10m
+
+    registration:
+      lifespan: 10m
+      ui_url: https://hangar-auth.benndorf.dev/account/signup
+      after:
+        password:
+          hooks:
+            -
+              hook: session
+
+log:
+  level: debug
+  format: text
+  leak_sensitive_values: true
+
+secrets:
+  cookie:
+    - this-is-super-secret
+
+hashers:
+  argon2:
+    parallelism: 1
+    memory: 128MB
+    iterations: 2
+    salt_length: 16
+    key_length: 16
+
+identity:
+  default_schema_url: file:///etc/config/kratos/identity.schema.json
+
+courier:
+  template_override_path: /etc/config/kratos/templates
+  smtp:
+    connection_uri: smtps://dum:dum@host.docker.internal:1025/?skip_ssl_verify=true&legacy_ssl=true
+    from_address: no-reply@papermc.io
