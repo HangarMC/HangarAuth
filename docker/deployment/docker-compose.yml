@@ -19,6 +19,7 @@ services:
     networks:
       - web
   kratos-migrate:
+    image: "ghcr.io/papermc/hangarauth_kratos-migrate"
     build:
       context: kratos
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
@@ -35,6 +36,7 @@ services:
     networks:
       - web
   hydra-migrate:
+    image: "ghcr.io/papermc/hangarauth_hydra-migrate"
     build:
       context: hydra
     command: -c /etc/config/hydra/kratos.yml migrate sql -e --yes
