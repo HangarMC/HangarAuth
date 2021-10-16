@@ -39,6 +39,7 @@ services:
     environment:
       DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_COOKIE: "supersecuresupersecure"
+      LOG_LEAK_SENSITIVE_VALUES: true
     networks:
       - web
   hydra-migrate:
@@ -64,6 +65,7 @@ services:
       DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_SYSTEM: "supersecuresupersecure"
       OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT: "supersecuresupersecure"
+      LOG_LEAK_SENSITIVE_VALUES: true
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-oauth.loadbalancer.server.port=4444"
