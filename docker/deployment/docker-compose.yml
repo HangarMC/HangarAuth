@@ -26,7 +26,7 @@ services:
     restart: on-failure
     environment:
       - "DSN=postgres://hangar:hangar@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
-      - "SECRETS_COOKIE=supersecure"
+      - "SECRETS_COOKIE=supersecuresupersecure"
     networks:
       - web
   kratos:
@@ -38,7 +38,7 @@ services:
     restart: unless-stopped
     environment:
       - "DSN=postgres://hangar:hangar@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
-      - "SECRETS_COOKIE=supersecure"
+      - "SECRETS_COOKIE=supersecuresupersecure"
     networks:
       - web
   hydra-migrate:
@@ -49,8 +49,8 @@ services:
     restart: on-failure
     environment:
       - "DSN=postgres://hangar:hangar@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
-      - "SECRETS_SYSTEM=supersecure"
-      - "OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=supersecure"
+      - "SECRETS_SYSTEM=supersecuresupersecure"
+      - "OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=supersecuresupersecure"
     networks:
       - web
   hydra:
@@ -62,8 +62,8 @@ services:
     restart: unless-stopped
     environment:
       - "DSN=postgres://hangar:hangar@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
-      - "SECRETS_SYSTEM=supersecure"
-      - "OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=supersecure"
+      - "SECRETS_SYSTEM=supersecuresupersecure"
+      - "OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=supersecuresupersecure"
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-oauth.loadbalancer.server.port=4444"
