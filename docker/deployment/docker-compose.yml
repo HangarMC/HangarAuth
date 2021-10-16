@@ -25,7 +25,7 @@ services:
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
     environment:
-      - "DSN=postgres://hangar:hangar@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
+      - "DSN=postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
       - "SECRETS_COOKIE=supersecuresupersecure"
     networks:
       - web
@@ -37,7 +37,7 @@ services:
       context: kratos
     restart: unless-stopped
     environment:
-      - "DSN=postgres://hangar:hangar@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
+      - "DSN=postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
       - "SECRETS_COOKIE=supersecuresupersecure"
     networks:
       - web
@@ -48,7 +48,7 @@ services:
     command: -c /etc/config/hydra/kratos.yml migrate sql -e --yes
     restart: on-failure
     environment:
-      - "DSN=postgres://hangar:hangar@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
+      - "DSN=postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
       - "SECRETS_SYSTEM=supersecuresupersecure"
       - "OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=supersecuresupersecure"
     networks:
@@ -61,7 +61,7 @@ services:
       context: hydra
     restart: unless-stopped
     environment:
-      - "DSN=postgres://hangar:hangar@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
+      - "DSN=postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
       - "SECRETS_SYSTEM=supersecuresupersecure"
       - "OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=supersecuresupersecure"
     labels:
