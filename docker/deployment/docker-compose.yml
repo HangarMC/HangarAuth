@@ -16,11 +16,15 @@ services:
       - "traefik.http.routers.hangar-auth.tls.certresolver=default"
       - "traefik.http.routers.hangar-auth.tls.domains[0].main=benndorf.dev"
       - "traefik.http.routers.hangar-auth.tls.domains[0].sans=*.benndorf.dev"
+    networks:
+      - web
   kratos-migrate:
     build:
       context: kratos
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
+    networks:
+      - web
   kratos:
     image: "ghcr.io/papermc/hangarauth_kratos"
     depends_on:
@@ -28,11 +32,15 @@ services:
     restart: unless-stopped
     build:
       context: kratos
+    networks:
+      - web
   hydra-migrate:
     build:
       context: hydra
     command: -c /etc/config/hydra/kratos.yml migrate sql -e --yes
     restart: on-failure
+    networks:
+      - web
   hydra:
     image: "ghcr.io/papermc/hangarauth_hydra"
     depends_on:
@@ -50,6 +58,8 @@ services:
       - "traefik.http.routers.hangar-oauth.tls.certresolver=default"
       - "traefik.http.routers.hangar-oauth.tls.domains[0].main=benndorf.dev"
       - "traefik.http.routers.hangar-oauth.tls.domains[0].sans=*.benndorf.dev"
+    networks:
+      - web
   mailslurper:
     image: oryd/mailslurper:latest-smtps
     labels:
@@ -63,3 +73,10 @@ services:
       - "traefik.http.routers.hangar-auth-mail.tls.certresolver=default"
       - "traefik.http.routers.hangar-auth-mail.tls.domains[0].main=benndorf.dev"
       - "traefik.http.routers.hangar-auth-mail.tls.domains[0].sans=*.benndorf.dev"
+    networks:
+      - web
+
+networks:
+  web:
+    name: traefik-overlay
+    external: true
