@@ -13,8 +13,6 @@ const kratosPublic = process.env.kratos || 'http://localhost:4433';
 const hydraAdmin = process.env.hydraAdmin || 'http://localhost:4445';
 const baseUrl = process.env.publicHost || 'http://localhost:3001';
 
-console.log('starting server middleware..., public host', process.env.publicHost, baseUrl);
-
 const app = express();
 
 const hydraClient = new HydraAdminApi(new HydraConfiguration({ basePath: hydraAdmin }));

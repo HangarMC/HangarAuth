@@ -8,7 +8,7 @@ services:
       dockerfile: docker/deployment/frontend/Dockerfile
     environment:
       host: "0.0.0.0"
-      PUBLIC_HOST: "https://hangar-auth.benndorf.dev"
+      publicHost: "https://hangar-auth.benndorf.dev"
       SECRETS_COOKIE: "supersecuresupersecure"
       cookieHttps: "true"
       kratos: "http://kratos:4433"

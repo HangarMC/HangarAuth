@@ -7,14 +7,12 @@ import fr from './locales/fr';
 require('events').EventEmitter.defaultMaxListeners = 20;
 require('dotenv').config();
 
-const publicHost = process.env.PUBLIC_HOST || 'http://localhost:3001';
+const publicHost = process.env.publicHost || 'http://localhost:3001';
 const kratos = process.env.kratos || 'http://localhost:4433';
 const hydraAdmin = process.env.hydraAdmin || 'http://localhost:4445';
 const host = process.env.host || 'localhost';
 const cookieSecret = process.env.SECRET_COOKIE || 'dum';
 const cookieHttps = process.env.cookieHttps || 'false';
-
-console.log('starting nuxt with public host', process.env.PUBLIC_HOST, publicHost);
 
 export default {
     debug: true,
