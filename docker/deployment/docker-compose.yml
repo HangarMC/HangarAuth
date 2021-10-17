@@ -7,6 +7,7 @@ services:
       context: ../..
       dockerfile: docker/deployment/frontend/Dockerfile
     environment:
+      # keep these in sync with build.yml action!
       host: "0.0.0.0"
       publicHost: "https://hangar-auth.benndorf.dev"
       SECRETS_COOKIE: "supersecuresupersecure"
@@ -14,6 +15,7 @@ services:
       kratosPublic: "https://hangar-kauth.benndorf.dev"
       kratos: "http://kratos:4433"
       hydraAdmin: "http://hydra:4445"
+      hydraPublic: "https://hangar-oauth.benndorf.dev"
       DEBUG: "nuxt:*"
     labels:
       - "traefik.enable=true"
