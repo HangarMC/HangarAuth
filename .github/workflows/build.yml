@@ -54,6 +54,7 @@ jobs:
           hydraPublic: "https://hangar-oauth.benndorf.dev"
           kratos: "http://kratos:4433"
           hydraAdmin: "http://hydra:4445"
+          hangarHost: "https://hangar.benndorf.dev"
           DEBUG: "nuxt:*"
         run: yarn build
 

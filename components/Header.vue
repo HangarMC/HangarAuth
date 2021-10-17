@@ -3,7 +3,7 @@
         <v-menu bottom offset-y open-on-hover transition="slide-y-transition" close-delay="100">
             <template #activator="{ on, attrs }">
                 <v-btn text x-large class="align-self-center px-1" v-bind="attrs" :ripple="false" v-on="on">
-                    <NuxtLink class="float-left" to="/" exact>
+                    <NuxtLink class="float-left" :to="currentUser ? '/' : '/account/login'" exact>
                         <v-img height="55" width="220" src="https://papermc.io/images/logo-marker.svg" alt="Paper logo" />
                     </NuxtLink>
 
@@ -53,7 +53,7 @@ export default class Header extends Vue {
             title: this.$t('nav.hangar.javadocs'),
         });
         controls.push({
-            link: '/',
+            link: process.env.hangarHost,
             icon: 'mdi-home',
             title: this.$t('nav.hangar.hangar'),
         });
@@ -68,6 +68,10 @@ export default class Header extends Vue {
             title: this.$t('nav.hangar.community'),
         });
         return controls;
+    }
+
+    get currentUser() {
+        return this.$store.state.user;
     }
 }
 </script>

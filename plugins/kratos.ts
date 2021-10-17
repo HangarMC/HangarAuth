@@ -1,9 +1,20 @@
-import { V0alpha1ApiFactory } from '@ory/kratos-client';
+import { UiContainer, V0alpha1ApiFactory } from '@ory/kratos-client';
 import { Context } from '@nuxt/types';
 import { Inject } from '@nuxt/types/app';
 import { V0alpha1Api } from '@ory/kratos-client/api';
+import { AxiosError, AxiosResponse } from 'axios';
+import { requireFlow } from '~/utils/flows';
 
-const createKratos = ({ $axios, redirect }: Context) => {
+function _redirect(url: string, redirect: Context['redirect']) {
+    console.log('redirect to: ' + url);
+    if (process.server) {
+        redirect(url);
+    } else {
+        window.location.href = url;
+    }
+}
+
+const createKratos = ({ $axios, redirect, route }: Context) => {
     class Kratos {
         get client(): V0alpha1Api {
             const url = process.server ? process.env.kratos : process.env.kratosPublic;
@@ -13,45 +24,63 @@ const createKratos = ({ $axios, redirect }: Context) => {
 
         login() {
             try {
-                this._redirect(process.env.kratosPublic + '/self-service/login/browser');
+                _redirect(process.env.kratosPublic + '/self-service/login/browser', redirect);
             } catch (e) {}
         }
 
         register() {
             try {
-                this._redirect(process.env.kratosPublic + '/self-service/registration/browser');
+                _redirect(process.env.kratosPublic + '/self-service/registration/browser', redirect);
             } catch (e) {}
         }
 
         reset() {
             try {
-                this._redirect(process.env.kratosPublic + '/self-service/recovery/browser');
+                _redirect(process.env.kratosPublic + '/self-service/recovery/browser', redirect);
             } catch (e) {}
         }
 
         verify() {
             try {
-                this._redirect(process.env.kratosPublic + '/self-service/verification/browser');
+                _redirect(process.env.kratosPublic + '/self-service/verification/browser', redirect);
             } catch (e) {}
         }
 
         settings() {
             try {
-                this._redirect(process.env.kratosPublic + '/self-service/settings/browser');
+                _redirect(process.env.kratosPublic + '/self-service/settings/browser', redirect);
             } catch (e) {}
         }
 
         logout() {
             this.client.createSelfServiceLogoutFlowUrlForBrowsers(undefined, { withCredentials: true }).then((url) => {
-                this._redirect(url.data.logout_url as string);
+                _redirect(url.data.logout_url as string, redirect);
             });
         }
 
-        _redirect(url: string) {
-            if (process.server) {
-                redirect(url);
-            } else {
-                window.location.href = url;
+        redirectOnError(redirect: () => void): (err: AxiosError) => void {
+            return (err) => {
+                if (err.response) {
+                    if (err.response.status === 404 || err.response.status === 410 || err.response.status === 403) {
+                        return redirect();
+                    }
+                }
+                console.log(err);
+            };
+        }
+
+        requestUiContainer(
+            fetchFlow: (flow: string) => Promise<AxiosResponse<{ ui: UiContainer }>>,
+            onNoFlow: () => void = this.login,
+            onErrRedirect: () => void = this.login
+        ): Promise<void | { ui: UiContainer }> | void {
+            const flow = requireFlow(route, onNoFlow);
+            if (flow) {
+                return fetchFlow(flow)
+                    .then((flowInfo) => {
+                        return { ui: flowInfo.data.ui };
+                    })
+                    .catch(this.redirectOnError(onErrRedirect));
             }
         }
     }

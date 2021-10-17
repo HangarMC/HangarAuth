@@ -49,51 +49,6 @@ export default class Form extends FormPart {
         }
         return this.ui.nodes.filter((n) => this.includeGroups.includes(n.group));
     }
-
-    // get csrfToken(): UiNode {
-    //     return (this.ui.nodes.find((n) => this.isInputAttribute(n.attributes) && n.attributes.name === 'csrf_token').attributes as UiNodeInputAttributes).value;
-    // }
-
-    // async submit(form: HTMLFormElement) {
-    //     try {
-    //         const body = this.buildFormData(form);
-    //         if (this.method) {
-    //             body.method = (this.method[0].attributes as UiNodeInputAttributes).value;
-    //         }
-    //
-    //         console.log('post body', body);
-    //         const responseRaw = await fetch(this.ui.action, {
-    //             method: this.ui.method,
-    //             body: JSON.stringify(body),
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             credentials: 'include',
-    //         });
-    //         const response = await responseRaw.json();
-    //         this.$emit('result', response);
-    //     } catch (e) {
-    //         console.log('error', e);
-    //     }
-    // }
-    //
-    // buildFormData(form: any) {
-    //     const json: { [key: string]: any } = {
-    //         csrf_token: this.csrfToken,
-    //     };
-    //     new FormData(form).forEach((value, key) => {
-    //         json[key] = value;
-    //     });
-    //     return json;
-    // }
-
-    // isInputAttribute(object: any): object is UiNodeInputAttributes {
-    //     return 'type' in object;
-    // }
-    //
-    // isImageAttribute(object: any): object is UiNodeImageAttributes {
-    //     return 'src' in object;
-    // }
 }
 </script>
 

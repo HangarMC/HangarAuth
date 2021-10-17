@@ -14,6 +14,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
 import { UiContainer } from '@ory/kratos-client/api';
+import { Context } from '@nuxt/types';
 import Form from '~/components/form/Form.vue';
 
 @Component({
@@ -24,23 +25,8 @@ export default class LoginPage extends Vue {
 
     ui: UiContainer | null = null;
 
-    async mounted() {
-        if (!this.$route.query.flow) {
-            this.$kratos.login();
-            return;
-        }
-
-        try {
-            const flowInfo = await this.$kratos.client.getSelfServiceLoginFlow(this.$route.query.flow as string, undefined, { withCredentials: true });
-            console.log(flowInfo.data.ui);
-            this.ui = flowInfo.data.ui;
-        } catch (e) {
-            if (e.response.status === 410) {
-                this.$kratos.login();
-                return;
-            }
-            console.log(e);
-        }
+    asyncData({ $kratos }: Context) {
+        return $kratos.requestUiContainer((flow) => $kratos.client.getSelfServiceLoginFlow(flow, undefined, { withCredentials: true }));
     }
 }
 </script>

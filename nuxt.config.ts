@@ -7,6 +7,7 @@ import fr from './locales/fr';
 require('events').EventEmitter.defaultMaxListeners = 20;
 require('dotenv').config();
 
+const hangarHost = process.env.hangarHost || 'http://localhost:3000';
 const publicHost = process.env.publicHost || 'http://localhost:3001';
 const kratos = process.env.kratos || 'http://localhost:4433';
 const kratosPublic = process.env.kratosPublic || 'http://localhost:4433';
@@ -124,6 +125,7 @@ export default {
         hydraPublic,
         hydraAdmin,
         publicHost,
+        hangarHost,
         cookieSecret,
         cookieHttps,
     },

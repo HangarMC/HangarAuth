@@ -16,6 +16,7 @@ services:
       kratos: "http://kratos:4433"
       hydraAdmin: "http://hydra:4445"
       hydraPublic: "https://hangar-oauth.benndorf.dev"
+      hangarHost: "https://hangar.benndorf.dev"
       DEBUG: "nuxt:*"
     labels:
       - "traefik.enable=true"

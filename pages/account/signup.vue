@@ -1,12 +1,13 @@
 <template>
     <v-col md="6" offset-md="3" cols="12" offset="0">
-        <Form v-if="ui" :ui="ui" :title="$t('signup.title')" />
+        <Form v-if="ui" :ui="ui" :title="$t('signup.title')" disable-autocomplete />
     </v-col>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
 import { UiContainer } from '@ory/kratos-client/api';
+import { Context } from '@nuxt/types';
 import Form from '~/components/form/Form.vue';
 
 @Component({
@@ -17,23 +18,12 @@ export default class SignUpPage extends Vue {
 
     ui: UiContainer | null = null;
 
-    async mounted() {
-        if (!this.$route.query.flow) {
-            this.$kratos.register();
-            return;
-        }
-
-        try {
-            const flowInfo = await this.$kratos.client.getSelfServiceRegistrationFlow(this.$route.query.flow as string, undefined, { withCredentials: true });
-            console.log(flowInfo.data.ui.nodes);
-            this.ui = flowInfo.data.ui;
-        } catch (e) {
-            if (e.response.status === 410) {
-                this.$kratos.register();
-                return;
-            }
-            console.log(e);
-        }
+    asyncData({ $kratos }: Context) {
+        return $kratos.requestUiContainer(
+            (flow) => $kratos.client.getSelfServiceRegistrationFlow(flow, undefined, { withCredentials: true }),
+            $kratos.register,
+            $kratos.register
+        );
     }
 }
 </script>

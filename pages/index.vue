@@ -1,6 +1,6 @@
 <template>
     <v-col md="6" offset-md="3" cols="12" offset="0">
-        <v-card>
+        <v-card v-if="currentUser">
             <v-card-title>{{ $t('index.title') }}</v-card-title>
             <v-card-text>
                 <p v-text="$t('index.text', [currentUserName])" />
@@ -61,8 +61,12 @@ export default class IndexPage extends Vue {
         return actions;
     }
 
+    get currentUser() {
+        return this.$store.state.user;
+    }
+
     get currentUserName() {
-        return (this.$store.state as RootState).user.traits.username;
+        return this.$store.state.user.traits.username;
     }
 }
 </script>

@@ -10,6 +10,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
 import { UiContainer } from '@ory/kratos-client/api';
+import { Context } from '@nuxt/types';
 import { AuthRequired } from '~/middleware/auth';
 import Form from '~/components/form/Form.vue';
 
@@ -24,25 +25,32 @@ export default class SettingsPage extends Vue {
 
     ui: UiContainer | null = null;
 
-    async mounted() {
-        const flow = this.$route.query.flow;
-        if (!flow || Array.isArray(flow)) {
-            this.$kratos.settings();
-            return;
-        }
-
-        try {
-            const flowInfo = await this.$kratos.client.getSelfServiceSettingsFlow(flow, undefined, undefined, { withCredentials: true });
-            console.log(flowInfo.data.ui);
-            this.ui = flowInfo.data.ui;
-        } catch (e) {
-            if (e.response.status === 410) {
-                this.$kratos.login();
-                return;
-            }
-            console.log(e);
-        }
+    asyncData({ $kratos }: Context) {
+        return $kratos.requestUiContainer(
+            (flow) => $kratos.client.getSelfServiceSettingsFlow(flow, undefined, undefined, { withCredentials: true }),
+            $kratos.settings
+        );
     }
+
+    // async mounted() {
+    //     const flow = this.$route.query.flow;
+    //     if (!flow || Array.isArray(flow)) {
+    //         this.$kratos.settings();
+    //         return;
+    //     }
+    //
+    //     try {
+    //         const flowInfo = await this.$kratos.client.getSelfServiceSettingsFlow(flow, undefined, undefined, { withCredentials: true });
+    //         console.log(flowInfo.data.ui);
+    //         this.ui = flowInfo.data.ui;
+    //     } catch (e) {
+    //         if (e.response.status === 410) {
+    //             this.$kratos.login();
+    //             return;
+    //         }
+    //         console.log(e);
+    //     }
+    // }
 }
 </script>
 
