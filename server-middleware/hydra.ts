@@ -9,14 +9,15 @@ import bodyParser from 'body-parser';
 
 const cookieSecret = process.env.cookieSecret || 'dum';
 const httpsEnabled = process.env.cookieHttps || 'false';
-const kratosPublic = process.env.kratos || 'http://localhost:4433';
+const kratos = process.env.kratos || 'http://localhost:4433';
+const kratosPublic = process.env.kratosPublic || 'http://localhost:4433';
 const hydraAdmin = process.env.hydraAdmin || 'http://localhost:4445';
 const baseUrl = process.env.publicHost || 'http://localhost:3001';
 
 const app = express();
 
 const hydraClient = new HydraAdminApi(new HydraConfiguration({ basePath: hydraAdmin }));
-const kratosClient = new V0alpha1Api(new Configuration({ basePath: kratosPublic }));
+const kratosClient = new V0alpha1Api(new Configuration({ basePath: kratos }));
 
 declare module 'express-session' {
     interface SessionData {
