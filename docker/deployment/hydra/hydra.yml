@@ -3,9 +3,7 @@ serve:
     cors:
       debug: true
     tls:
-      allow_termination_from:
-        - 10.0.0.0/16
-        - 127.0.0.0/16
+      enabled: false
   cookies:
     same_site_mode: Lax
   public:
