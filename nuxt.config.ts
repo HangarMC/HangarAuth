@@ -14,6 +14,8 @@ const host = process.env.host || 'localhost';
 const cookieSecret = process.env.SECRET_COOKIE || 'dum';
 const cookieHttps = process.env.cookieHttps || 'false';
 
+console.log('starting nuxt with public host', process.env.PUBLIC_HOST, publicHost);
+
 export default {
     debug: true,
     telemetry: false,
