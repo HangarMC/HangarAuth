@@ -16,7 +16,7 @@ serve:
 session:
   lifespan: 720h # 30 days
   cookie:
-    domain: "bennndorf.dev"
+    domain: "benndorf.dev"
 
 selfservice:
   default_browser_return_url: https://hangar-auth.benndorf.dev/
