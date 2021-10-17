@@ -1,31 +1,19 @@
-FROM node:lts as builder
+FROM node:12-alpine
 
-WORKDIR /app
+WORKDIR hangar-frontend
+ENV TERM xterm-256color
 
-COPY . .
+EXPOSE 3000
+ENTRYPOINT ["./entrypoint.sh"]
 
-RUN yarn install \
-  --prefer-offline \
-  --frozen-lockfile \
-  --non-interactive \
-  --production=false
+COPY /docker/deployment/frontend/entrypoint.sh /frontend/entrypoint.sh
+RUN chmod +x /frontend/entrypoint.sh
 
-RUN yarn build
-
-RUN rm -rf node_modules && \
-  NODE_ENV=production yarn install \
-  --prefer-offline \
-  --pure-lockfile \
-  --non-interactive \
-  --production=true
-
-FROM node:lts
-
-WORKDIR /app
-
-COPY --from=builder /app  .
-
-ENV HOST 0.0.0.0
-EXPOSE 80
-
-CMD [ "yarn", "start" ]
+COPY /tsconfig.json /frontend/tsconfig.json
+COPY /static/ /frontend/static/
+COPY /nuxt.config.ts /frontend/nuxt.config.ts
+COPY /locales/ /frontend/locales/
+COPY /package.json /frontend/package.json
+COPY /node_modules/ /frontend/node_modules/
+COPY /.nuxt/ /frontend/.nuxt/
+COPY /server-middleware/ /frontend/server-middleware/

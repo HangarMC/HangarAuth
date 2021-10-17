@@ -7,6 +7,10 @@ on:
     branches:
       - v3
 
+concurrency:
+  group: ${{ github.ref }}-deploy
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,6 +18,43 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - name: Cache Yarn
+        uses: actions/cache@v2
+        with:
+          path: "~/.cache/yarn"
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install frontend deps
+        env:
+          CI: true
+        run: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+
+      - name: Lint frontend
+        env:
+          CI: true
+        run: yarn lint
+
+      - name: Build frontend
+        env:
+          CI: true
+          # keep these in sync with compose!
+          host: "0.0.0.0"
+          publicHost: "https://hangar-auth.benndorf.dev"
+          SECRETS_COOKIE: "supersecuresupersecure"
+          cookieHttps: "true"
+          kratosPublic: "https://hangar-kauth.benndorf.dev"
+          kratos: "http://kratos:4433"
+          hydraAdmin: "http://hydra:4445"
+      DEBUG: "nuxt:*"
+        run: yarn build
 
       - name: SSH
         uses: webfactory/ssh-agent@v0.5.2
