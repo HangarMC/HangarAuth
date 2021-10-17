@@ -1,6 +1,6 @@
 FROM node:12-alpine
 
-WORKDIR hangar-frontend
+WORKDIR frontend
 ENV TERM xterm-256color
 
 EXPOSE 3000
