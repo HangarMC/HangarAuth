@@ -1,6 +1,6 @@
 <template>
     <v-col md="6" offset-md="3" cols="12" offset="0">
-        <Form v-if="ui" :ui="ui" :title="$t('signup.title')" @result="result" />
+        <Form v-if="ui" :ui="ui" :title="$t('signup.title')" />
     </v-col>
 </template>
 
@@ -33,14 +33,6 @@ export default class SignUpPage extends Vue {
                 return;
             }
             console.log(e);
-        }
-    }
-
-    result(response: any) {
-        if (response.ui) {
-            this.ui = response.ui;
-        } else {
-            this.$router.push('/');
         }
     }
 }

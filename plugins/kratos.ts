@@ -34,6 +34,12 @@ const createKratos = ({ $axios, redirect }: Context) => {
             } catch (e) {}
         }
 
+        settings() {
+            try {
+                redirect(process.env.kratos + '/self-service/settings/browser');
+            } catch (e) {}
+        }
+
         logout() {
             this.client.createSelfServiceLogoutFlowUrlForBrowsers(undefined, { withCredentials: true }).then((url) => redirect(url.data.logout_url as string));
         }

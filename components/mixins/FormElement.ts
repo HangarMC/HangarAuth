@@ -3,7 +3,13 @@ import { UiNode } from '@ory/kratos-client';
 import { PropType } from 'vue';
 
 @Component
-export class FormElement extends Vue {
+export class FormPart extends Vue {
+    @Prop({ type: Boolean, default: false })
+    disableAutocomplete!: boolean;
+}
+
+@Component
+export class FormElement extends FormPart {
     @Prop({ type: Object as PropType<UiNode>, required: true })
     node!: UiNode;
 

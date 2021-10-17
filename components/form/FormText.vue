@@ -8,7 +8,9 @@
         :error-messages="errorMessages"
         type="text"
         persistent-hint
-    ></v-text-field>
+        :autocomplete="disableAutocomplete ? 'off' : undefined"
+        :value="node.attributes.value"
+    />
 </template>
 
 <script lang="ts">

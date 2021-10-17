@@ -1,107 +1,48 @@
 <template>
-    <v-col md="6" offset-md="3" cols="12" offset="0">
-        TODO Implement me
-        <!--        <v-card>-->
-        <!--            <v-card-title>{{ $t('settings.userinfo') }}</v-card-title>-->
-        <!--            <v-card-text>-->
-        <!--                <v-simple-table>-->
-        <!--                    <tbody>-->
-        <!--                        <tr>-->
-        <!--                            <td>{{ $t('settings.username') }}</td>-->
-        <!--                            <td>{{ user.name }}</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <td>{{ $t('settings.email') }}</td>-->
-        <!--                            <td>-->
-        <!--                                {{ user.email }}-->
-        <!--                                <v-icon @click="$router.push('/account/change-email')">mdi-pen</v-icon>-->
-        <!--                            </td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <td>{{ $t('settings.created') }}</td>-->
-        <!--                            <td>{{ user.createdAt }}</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <td>{{ $t('settings.2fa') }}</td>-->
-        <!--                            <td>-->
-        <!--                                Disabled-->
-        <!--                                <v-btn color="primary" to="/2fa">{{ $t('settings.manage2fa') }}</v-btn>-->
-        <!--                            </td>-->
-        <!--                        </tr>-->
-        <!--                    </tbody>-->
-        <!--                </v-simple-table>-->
-        <!--            </v-card-text>-->
-        <!--        </v-card>-->
-
-        <!--        <v-card>-->
-        <!--            <v-card-title>{{ $t('settings.avatar') }}</v-card-title>-->
-        <!--            <v-card-text> </v-card-text>-->
-        <!--        </v-card>-->
-
-        <!--        <v-card>-->
-        <!--            <v-card-title>{{ $t('settings.profile') }}</v-card-title>-->
-        <!--            <v-card-text>-->
-        <!--                <v-text-field v-model="profile.fullName" :label="$t('settings.fullName')" name="fullName"></v-text-field>-->
-        <!--                <v-text-field v-model="profile.minecraft" :label="$t('settings.minecraft')" name="minecraft"></v-text-field>-->
-        <!--                <v-text-field v-model="profile.irc" :label="$t('settings.irc')" name="irc"></v-text-field>-->
-        <!--                <v-text-field v-model="profile.github" :label="$t('settings.github')" name="github"></v-text-field>-->
-        <!--                <v-text-field v-model="profile.discord" :label="$t('settings.discord')" name="discord"></v-text-field>-->
-        <!--            </v-card-text>-->
-        <!--            <v-card-actions>-->
-        <!--                <v-btn color="primary" @click="changePassword">{{ $t('settings.saveProfile') }}</v-btn>-->
-        <!--            </v-card-actions>-->
-        <!--        </v-card>-->
-
-        <!--        <v-card>-->
-        <!--            <v-card-title>{{ $t('settings.password') }}</v-card-title>-->
-        <!--            <v-card-text>-->
-        <!--                <v-text-field-->
-        <!--                    v-model="newPassword"-->
-        <!--                    :label="$t('settings.newPassword')"-->
-        <!--                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"-->
-        <!--                    :type="show ? 'text' : 'password'"-->
-        <!--                    name="newPassword"-->
-        <!--                    @click:append="show = !show"-->
-        <!--                ></v-text-field>-->
-        <!--                <v-text-field v-model="oldPassword" :label="$t('settings.oldPassword')" type="password" name="oldPassword"></v-text-field>-->
-        <!--            </v-card-text>-->
-        <!--            <v-card-actions>-->
-        <!--                <v-btn color="primary" @click="changePassword">{{ $t('settings.changePassword') }}</v-btn>-->
-        <!--            </v-card-actions>-->
-        <!--        </v-card>-->
+    <v-col v-if="ui" md="6" offset-md="3" cols="12" offset="0">
+        <v-alert v-for="message in ui.messages" :key="message.id" :type="message.type" v-text="message.text" />
+        <v-sheet class="py-2 text-h4 text-center rounded" v-text="$t('settings.title')" />
+        <Form :title="$t('settings.userinfo')" disable-autocomplete :ui="ui" :include-groups="['default', 'profile']" />
+        <Form :title="$t('settings.password')" disable-autocomplete :ui="ui" :include-groups="['default', 'password']" />
     </v-col>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
+import { UiContainer } from '@ory/kratos-client/api';
 import { AuthRequired } from '~/middleware/auth';
+import Form from '~/components/form/Form.vue';
 
-@Component({})
+@Component({
+    components: {
+        Form,
+    },
+})
 @AuthRequired()
 export default class SettingsPage extends Vue {
     title = this.$t('settings.title');
 
-    user = {
-        name: 'Test',
-        email: 'admin@minidigger.me',
-        createdAt: '',
-    };
+    ui: UiContainer | null = null;
 
-    profile = {
-        fullName: '',
-        minecraft: '',
-        irc: '',
-        github: '',
-        discord: '',
-    };
+    async mounted() {
+        const flow = this.$route.query.flow;
+        if (!flow || Array.isArray(flow)) {
+            this.$kratos.settings();
+            return;
+        }
 
-    show = false;
-    newPassword = '';
-    oldPassword = '';
-
-    changePassword() {}
-
-    saveProfile() {}
+        try {
+            const flowInfo = await this.$kratos.client.getSelfServiceSettingsFlow(flow, undefined, undefined, { withCredentials: true });
+            console.log(flowInfo.data.ui);
+            this.ui = flowInfo.data.ui;
+        } catch (e) {
+            if (e.response.status === 410) {
+                this.$kratos.login();
+                return;
+            }
+            console.log(e);
+        }
+    }
 }
 </script>
 

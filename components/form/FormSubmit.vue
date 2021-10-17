@@ -7,6 +7,8 @@
         :error-messages="errorMessages"
         :value="node.attributes.value"
         persistent-hint
+        block
+        color="primary"
     >
         {{ text }}
     </v-btn>

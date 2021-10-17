@@ -8,6 +8,7 @@
         :error-messages="errorMessages"
         type="email"
         persistent-hint
+        :value="node.attributes.value"
     ></v-text-field>
 </template>
 

@@ -1,9 +1,11 @@
 <template>
     <v-col md="6" offset-md="3" cols="12" offset="0">
-        <Form v-if="ui" :ui="ui" :title="$t('login.title')" @result="result">
+        <Form v-if="ui" :title="$t('login.title')" :ui="ui">
             <template #additional-buttons>
-                <v-btn @click.prevent="$kratos.register()">Register</v-btn>
-                <v-btn @click.prevent="$kratos.reset()">Forgot</v-btn>
+                <v-card-actions>
+                    <v-btn color="secondary" @click.prevent="$kratos.register()">Register</v-btn>
+                    <v-btn color="secondary" @click.prevent="$kratos.reset()">Forgot</v-btn>
+                </v-card-actions>
             </template>
         </Form>
     </v-col>
@@ -30,7 +32,7 @@ export default class LoginPage extends Vue {
 
         try {
             const flowInfo = await this.$kratos.client.getSelfServiceLoginFlow(this.$route.query.flow as string, undefined, { withCredentials: true });
-            console.log(flowInfo.data.ui.nodes);
+            console.log(flowInfo.data.ui);
             this.ui = flowInfo.data.ui;
         } catch (e) {
             if (e.response.status === 410) {
@@ -38,14 +40,6 @@ export default class LoginPage extends Vue {
                 return;
             }
             console.log(e);
-        }
-    }
-
-    result(response: any) {
-        if (response.ui) {
-            this.ui = response.ui;
-        } else {
-            this.$router.push('/');
         }
     }
 }

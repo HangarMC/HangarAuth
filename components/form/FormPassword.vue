@@ -9,6 +9,7 @@
         :messages="messages"
         :error-messages="errorMessages"
         persistent-hint
+        :autocomplete="disableAutocomplete ? 'new-password' : undefined"
         @click:append="show = !show"
     ></v-text-field>
 </template>
