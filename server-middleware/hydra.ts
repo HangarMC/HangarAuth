@@ -11,7 +11,6 @@ const cookieSecret = process.env.cookieSecret || 'dum';
 const httpsEnabled = process.env.cookieHttps || 'false';
 const kratos = process.env.kratos || 'http://localhost:4433';
 const kratosPublic = process.env.kratosPublic || 'http://localhost:4433';
-const hydraPublic = process.env.hydraPublic || 'http://localhost:4445';
 const hydraAdmin = process.env.hydraAdmin || 'http://localhost:4445';
 const baseUrl = process.env.publicHost || 'http://localhost:3001';
 
