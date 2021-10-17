@@ -41,7 +41,9 @@ const createKratos = ({ $axios, redirect }: Context) => {
         }
 
         logout() {
-            this.client.createSelfServiceLogoutFlowUrlForBrowsers(undefined, { withCredentials: true }).then((url) => redirect(url.data.logout_url as string));
+            this.client.createSelfServiceLogoutFlowUrlForBrowsers(undefined, { withCredentials: true }).then((url) => {
+                window.location.href = url.data.logout_url as string;
+            });
         }
     }
 
