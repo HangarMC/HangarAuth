@@ -15,6 +15,8 @@ const host = process.env.host || 'localhost';
 const cookieSecret = process.env.SECRET_COOKIE || 'dum';
 const cookieHttps = process.env.cookieHttps || 'false';
 
+console.log('kratosPublic', process.env.kratosPublic, kratosPublic);
+
 export default {
     debug: true,
     telemetry: false,
