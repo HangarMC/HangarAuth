@@ -174,6 +174,7 @@ const redirectToLogin = (req: Request, res: Response, next: NextFunction) => {
         // @ts-ignore
         const configBaseUrl = baseUrl && baseUrl !== '/' ? baseUrl : '';
         const ourBaseUrl = configBaseUrl || `${req.protocol}://${req.headers.host}`;
+        console.log('create return url: ', baseUrl, configBaseUrl, ourBaseUrl);
         const returnTo = new URL('/oauth' + req.url, ourBaseUrl);
         returnTo.searchParams.set('hydra_login_state', state);
 

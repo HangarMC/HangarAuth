@@ -35,6 +35,8 @@ services:
     environment:
       DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_COOKIE: "supersecuresupersecure"
+    labels:
+      - "traefik.enable=true"
     networks:
       - web
   kratos:
@@ -48,6 +50,16 @@ services:
       DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_COOKIE: "supersecuresupersecure"
       LOG_LEAK_SENSITIVE_VALUES: "true"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.hangar-kauth.loadbalancer.server.port=4433"
+      - "traefik.http.routers.hangar-kauth.rule=Host(`hangar-kauth.benndorf.dev`)"
+      - "traefik.http.routers.hangar-kauth.entrypoints=web-secure"
+      - "traefik.http.routers.hangar-kauth.tls=true"
+      - "traefik.http.routers.hangar-kauth.tls.options=default"
+      - "traefik.http.routers.hangar-kauth.tls.certresolver=default"
+      - "traefik.http.routers.hangar-kauth.tls.domains[0].main=benndorf.dev"
+      - "traefik.http.routers.hangar-kauth.tls.domains[0].sans=*.benndorf.dev"
     networks:
       - web
   hydra-migrate:
@@ -60,6 +72,8 @@ services:
       DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_SYSTEM: "supersecuresupersecure"
       OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT: "supersecuresupersecure"
+    labels:
+      - "traefik.enable=true"
     networks:
       - web
   hydra:

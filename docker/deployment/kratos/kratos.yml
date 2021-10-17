@@ -4,7 +4,7 @@ dsn: "see env"
 
 serve:
   public:
-    base_url: http://localhost:4433/
+    base_url: https://hangar-kauth.benndorf.dev
     cors:
       enabled: true
       allowed_origins:
