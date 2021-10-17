@@ -6,44 +6,53 @@ import { V0alpha1Api } from '@ory/kratos-client/api';
 const createKratos = ({ $axios, redirect }: Context) => {
     class Kratos {
         get client(): V0alpha1Api {
+            const url = process.server ? process.env.kratos : process.env.kratosPublic;
             // @ts-ignore
-            return V0alpha1ApiFactory({ basePath: process.env.kratos }, process.env.kratos, $axios);
+            return V0alpha1ApiFactory({ basePath: url }, url, $axios);
         }
 
         login() {
             try {
-                redirect(process.env.kratos + '/self-service/login/browser');
+                this._redirect(process.env.kratosPublic + '/self-service/login/browser');
             } catch (e) {}
         }
 
         register() {
             try {
-                redirect(process.env.kratos + '/self-service/registration/browser');
+                this._redirect(process.env.kratosPublic + '/self-service/registration/browser');
             } catch (e) {}
         }
 
         reset() {
             try {
-                redirect(process.env.kratos + '/self-service/recovery/browser');
+                this._redirect(process.env.kratosPublic + '/self-service/recovery/browser');
             } catch (e) {}
         }
 
         verify() {
             try {
-                redirect(process.env.kratos + '/self-service/verification/browser');
+                this._redirect(process.env.kratosPublic + '/self-service/verification/browser');
             } catch (e) {}
         }
 
         settings() {
             try {
-                redirect(process.env.kratos + '/self-service/settings/browser');
+                this._redirect(process.env.kratosPublic + '/self-service/settings/browser');
             } catch (e) {}
         }
 
         logout() {
             this.client.createSelfServiceLogoutFlowUrlForBrowsers(undefined, { withCredentials: true }).then((url) => {
-                window.location.href = url.data.logout_url as string;
+                this._redirect(url.data.logout_url as string);
             });
+        }
+
+        _redirect(url: string) {
+            if (process.server) {
+                redirect(url);
+            } else {
+                window.location.href = url;
+            }
         }
     }
 
