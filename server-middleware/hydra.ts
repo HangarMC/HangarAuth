@@ -82,8 +82,8 @@ app.get('/login', async (req, res, next) => {
         const subject = kratosSession.identity.id;
         console.debug('telling hydra we fine');
         const { data: loginResponse } = await hydraClient.acceptLoginRequest(challenge, { subject, context: kratosSession });
-        console.debug('got url from hydra', loginResponse.redirect_to, 'adding host', hydraPublic + loginResponse.redirect_to);
-        return res.redirect(String(hydraPublic + loginResponse.redirect_to));
+        console.debug('got url from hydra', loginResponse.redirect_to);
+        return res.redirect(String(loginResponse.redirect_to));
     } catch (e) {
         console.debug('error in get login', e);
         next();

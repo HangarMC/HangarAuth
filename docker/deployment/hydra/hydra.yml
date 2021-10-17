@@ -14,7 +14,8 @@ serve:
 
 urls:
   self:
-    issuer: https://hangar-auth.benndorf.dev
+    public: https://hangar-oauth.benndorf.dev
+    issuer: https://hangar-oauth.benndorf.dev
   consent: https://hangar-auth.benndorf.dev/oauth/consent
   login: https://hangar-auth.benndorf.dev/oauth/login
   logout: https://hangar-auth.benndorf.dev/account/logout/
