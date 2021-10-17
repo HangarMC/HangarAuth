@@ -8,7 +8,7 @@ serve:
     cors:
       enabled: true
       allowed_origins:
-        - https://hangar-auth.benndorf.dev/
+        - https://hangar-auth.benndorf.dev
         - http://localhost:4433
   admin:
     base_url: http://hangarauth_kratos:4434/
