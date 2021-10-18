@@ -54,7 +54,7 @@ export default class IndexPage extends Vue {
         actions.push({ title: this.$t('index.download'), icon: 'mdi-download', href: 'https://papermc.io/downloads' });
         actions.push({ title: this.$t('index.forums'), icon: 'mdi-message-reply', href: 'https://papermc.io/forums/' });
         // TODO hangar url
-        actions.push({ title: this.$t('index.plugins'), icon: 'mdi-power-plug', href: 'https://hangar.benndorf.dev/' });
+        actions.push({ title: this.$t('index.plugins'), icon: 'mdi-power-plug', href: process.env.hangarHost });
         actions.push({ title: this.$t('index.upload'), icon: 'mdi-upload', href: 'https://hangar.benndorf.dev/new' });
         actions.push({ title: this.$t('index.manage'), icon: 'mdi-cog', to: '/account/settings' });
 

@@ -8,11 +8,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator';
-import { UiContainer } from '@ory/kratos-client/api';
+import { Component } from 'nuxt-property-decorator';
 import { Context } from '@nuxt/types';
 import { AuthRequired } from '~/middleware/auth';
 import Form from '~/components/form/Form.vue';
+import { KratosPage } from '~/components/mixins/Kratos';
 
 @Component({
     components: {
@@ -20,10 +20,12 @@ import Form from '~/components/form/Form.vue';
     },
 })
 @AuthRequired()
-export default class SettingsPage extends Vue {
-    title = this.$t('settings.title');
-
-    ui: UiContainer | null = null;
+export default class SettingsPage extends KratosPage {
+    head() {
+        return {
+            title: this.$t('settings.title'),
+        };
+    }
 
     asyncData({ $kratos }: Context) {
         return $kratos.requestUiContainer(
@@ -31,26 +33,6 @@ export default class SettingsPage extends Vue {
             $kratos.settings
         );
     }
-
-    // async mounted() {
-    //     const flow = this.$route.query.flow;
-    //     if (!flow || Array.isArray(flow)) {
-    //         this.$kratos.settings();
-    //         return;
-    //     }
-    //
-    //     try {
-    //         const flowInfo = await this.$kratos.client.getSelfServiceSettingsFlow(flow, undefined, undefined, { withCredentials: true });
-    //         console.log(flowInfo.data.ui);
-    //         this.ui = flowInfo.data.ui;
-    //     } catch (e) {
-    //         if (e.response.status === 410) {
-    //             this.$kratos.login();
-    //             return;
-    //         }
-    //         console.log(e);
-    //     }
-    // }
 }
 </script>
 

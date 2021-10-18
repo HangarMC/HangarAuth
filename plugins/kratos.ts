@@ -78,6 +78,7 @@ const createKratos = ({ $axios, redirect, route }: Context) => {
             if (flow) {
                 return fetchFlow(flow)
                     .then((flowInfo) => {
+                        console.debug(flowInfo.data.ui.nodes);
                         return { ui: flowInfo.data.ui };
                     })
                     .catch(this.redirectOnError(onErrRedirect));

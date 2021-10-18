@@ -12,18 +12,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator';
-import { UiContainer } from '@ory/kratos-client/api';
+import { Component } from 'nuxt-property-decorator';
 import { Context } from '@nuxt/types';
 import Form from '~/components/form/Form.vue';
+import { KratosPage } from '~/components/mixins/Kratos';
 
 @Component({
     components: { Form },
 })
-export default class LoginPage extends Vue {
-    title = this.$t('login.title');
-
-    ui: UiContainer | null = null;
+export default class LoginPage extends KratosPage {
+    head() {
+        return {
+            title: this.$t('login.title'),
+        };
+    }
 
     asyncData({ $kratos }: Context) {
         return $kratos.requestUiContainer((flow) => $kratos.client.getSelfServiceLoginFlow(flow, undefined, { withCredentials: true }));

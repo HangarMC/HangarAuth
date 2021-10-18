@@ -5,19 +5,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator';
-import { UiContainer } from '@ory/kratos-client/api';
+import { Component } from 'nuxt-property-decorator';
 import { Context } from '@nuxt/types';
 import Form from '~/components/form/Form.vue';
+import { KratosPage } from '~/components/mixins/Kratos';
 
 @Component({
     components: { Form },
 })
-export default class SignUpPage extends Vue {
-    title = this.$t('signup.title');
-
-    ui: UiContainer | null = null;
-
+export default class SignUpPage extends KratosPage {
     asyncData({ $kratos }: Context) {
         return $kratos.requestUiContainer(
             (flow) => $kratos.client.getSelfServiceRegistrationFlow(flow, undefined, { withCredentials: true }),

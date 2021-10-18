@@ -1,47 +1,44 @@
 <template>
     <v-col md="6" offset-md="3" cols="12" offset="0">
-        <Form v-if="ui" :ui="ui" :title="$t('reset.title')" @result="result" />
+        <Form v-if="ui" :ui="modifiedUi" :title="$t('reset.title')" />
     </v-col>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator';
-import { UiContainer } from '@ory/kratos-client/api';
+import { Component } from 'nuxt-property-decorator';
+import { Context } from '@nuxt/types';
+import { UiContainer, UiText } from '@ory/kratos-client/api';
 import Form from '~/components/form/Form.vue';
+import { KratosPage } from '~/components/mixins/Kratos';
 
 @Component({
     components: { Form },
 })
-export default class ResetPage extends Vue {
-    title = this.$t('reset.title');
+export default class ResetPage extends KratosPage {
+    head() {
+        return {
+            title: this.$t('reset.title'),
+        };
+    }
 
-    ui: UiContainer | null = null;
-
-    async mounted() {
-        if (!this.$route.query.flow) {
-            this.$kratos.reset();
-            return;
-        }
-
-        try {
-            const flowInfo = await this.$kratos.client.getSelfServiceRecoveryFlow(this.$route.query.flow as string, undefined, { withCredentials: true });
-            console.log(flowInfo.data.ui.nodes);
-            this.ui = flowInfo.data.ui;
-        } catch (e) {
-            if (e.response.status === 410) {
-                this.$kratos.reset();
-                return;
+    get modifiedUi(): UiContainer | undefined {
+        if (this.ui) {
+            const node = this.ui?.nodes.find((n) => n.group === 'link');
+            if (node) {
+                node.meta.label = {
+                    text: 'E-Mail',
+                } as UiText;
             }
-            console.log(e);
+            return this.ui;
         }
     }
 
-    result(response: any) {
-        if (response.ui) {
-            this.ui = response.ui;
-        } else {
-            console.log('wtf', response);
-        }
+    asyncData({ $kratos }: Context) {
+        return $kratos.requestUiContainer(
+            (flow) => $kratos.client.getSelfServiceRecoveryFlow(flow, undefined, { withCredentials: true }),
+            $kratos.reset,
+            $kratos.reset
+        );
     }
 }
 </script>
