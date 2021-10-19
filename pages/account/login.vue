@@ -27,8 +27,10 @@ export default class LoginPage extends KratosPage {
         };
     }
 
-    asyncData({ $kratos }: Context) {
-        return $kratos.requestUiContainer((flow) => $kratos.client.getSelfServiceLoginFlow(flow, undefined, { withCredentials: true }));
+    asyncData({ $kratos, req }: Context) {
+        return $kratos.requestUiContainer((flow) =>
+            $kratos.client.getSelfServiceLoginFlow(flow, req ? req.headers.cookie : undefined, { withCredentials: true })
+        );
     }
 }
 </script>
