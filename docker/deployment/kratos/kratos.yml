@@ -13,10 +13,11 @@ serve:
   admin:
     base_url: http://hangarauth_kratos:4434/
 
+cookies:
+  domain: benndorf.dev
+
 session:
   lifespan: 720h # 30 days
-  cookie:
-    domain: "benndorf.dev"
 
 selfservice:
   default_browser_return_url: https://hangar-auth.benndorf.dev/
