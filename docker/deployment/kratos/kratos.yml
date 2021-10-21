@@ -44,7 +44,7 @@ selfservice:
 
     recovery:
       enabled: true
-      ui_url: hhttps://hangar-auth.benndorf.dev/account/reset
+      ui_url: https://hangar-auth.benndorf.dev/account/reset
 
     verification:
       enabled: true
