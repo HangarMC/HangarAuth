@@ -19,26 +19,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop } from 'nuxt-property-decorator';
+import { Component, mixins, Prop } from 'nuxt-property-decorator';
 import { UiNode } from '@ory/kratos-client';
 import { PropType } from 'vue';
-import { UiContainer } from '@ory/kratos-client/api';
 import FormPassword from '~/components/form/FormPassword.vue';
 import FormText from '~/components/form/FormText.vue';
 import FormHidden from '~/components/form/FormHidden.vue';
 import FormEmail from '~/components/form/FormEmail.vue';
 import FormSubmit from '~/components/form/FormSubmit.vue';
 import { FormPart } from '~/components/mixins/FormElement';
+import { KratosUiProp } from '~/components/mixins/Kratos';
 
 @Component({
     components: { FormPassword, FormText, FormHidden, FormEmail, FormSubmit },
 })
-export default class Form extends FormPart {
+export default class Form extends mixins(FormPart, KratosUiProp) {
     @Prop({ type: String, required: true })
     title!: String;
-
-    @Prop({ required: true, type: Object as PropType<UiContainer> })
-    ui!: UiContainer;
 
     @Prop({ type: Array as PropType<string[]>, default: () => [] })
     includeGroups!: string[];

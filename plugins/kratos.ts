@@ -60,7 +60,8 @@ const createKratos = ({ $axios, redirect, route }: Context) => {
 
         redirectOnError(redirect: () => void): (err: AxiosError) => void {
             return (err) => {
-                console.log(err);
+                console.error(err.message);
+                console.error(err.response?.data);
                 if (err.response) {
                     if (err.response.status === 404 || err.response.status === 410 || err.response.status === 403) {
                         return redirect();

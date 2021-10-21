@@ -48,6 +48,9 @@ const msgs: LocaleMessageObject = {
         discordHint: "You're using discord? Enter your Discord ID here",
         tos: 'I agree to the {0}',
     },
+    verify: {
+        title: 'Verify Email Address',
+    },
     login: {
         title: 'Login',
         username: 'Username',

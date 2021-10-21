@@ -1,6 +1,6 @@
 <template>
     <v-col v-if="ui" md="6" offset-md="3" cols="12" offset="0">
-        <v-alert v-for="message in ui.messages" :key="message.id" :type="message.type" v-text="message.text" />
+        <UserMessages :ui="ui" />
         <v-sheet class="py-2 text-h4 text-center rounded" v-text="$t('settings.title')" />
         <Form :title="$t('settings.userinfo')" disable-autocomplete :ui="ui" :include-groups="['default', 'profile']" />
         <Form :title="$t('settings.password')" disable-autocomplete :ui="ui" :include-groups="['default', 'password']" />
@@ -13,9 +13,11 @@ import { Context } from '@nuxt/types';
 import { AuthRequired } from '~/middleware/auth';
 import Form from '~/components/form/Form.vue';
 import { KratosPage } from '~/components/mixins/Kratos';
+import UserMessages from '~/components/UserMessages.vue';
 
 @Component({
     components: {
+        UserMessages,
         Form,
     },
 })

@@ -1,6 +1,7 @@
 <template>
-    <v-col md="6" offset-md="3" cols="12" offset="0">
-        <Form v-if="ui" :ui="ui" :title="$t('signup.title')" disable-autocomplete />
+    <v-col v-if="ui" md="6" offset-md="3" cols="12" offset="0">
+        <UserMessages :ui="ui" />
+        <Form :ui="ui" :title="$t('signup.title')" disable-autocomplete />
     </v-col>
 </template>
 
@@ -9,9 +10,10 @@ import { Component } from 'nuxt-property-decorator';
 import { Context } from '@nuxt/types';
 import Form from '~/components/form/Form.vue';
 import { KratosPage } from '~/components/mixins/Kratos';
+import UserMessages from '~/components/UserMessages.vue';
 
 @Component({
-    components: { Form },
+    components: { UserMessages, Form },
 })
 export default class SignUpPage extends KratosPage {
     asyncData({ $kratos }: Context) {

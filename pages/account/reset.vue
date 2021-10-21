@@ -1,5 +1,6 @@
 <template>
     <v-col md="6" offset-md="3" cols="12" offset="0">
+        <UserMessages :ui="ui" />
         <Form v-if="ui" :ui="modifiedUi" :title="$t('reset.title')" />
     </v-col>
 </template>
@@ -10,9 +11,10 @@ import { Context } from '@nuxt/types';
 import { UiContainer, UiText } from '@ory/kratos-client/api';
 import Form from '~/components/form/Form.vue';
 import { KratosPage } from '~/components/mixins/Kratos';
+import UserMessages from '~/components/UserMessages.vue';
 
 @Component({
-    components: { Form },
+    components: { UserMessages, Form },
 })
 export default class ResetPage extends KratosPage {
     head() {
