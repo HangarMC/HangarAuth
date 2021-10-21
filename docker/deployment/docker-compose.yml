@@ -23,7 +23,7 @@ services:
       - "traefik.http.services.hangar-auth.loadbalancer.server.port=3001"
       - "traefik.http.routers.hangar-auth-kratos.rule=Host(`hangar-auth.benndorf.dev`) && PathPrefix(`/kratos`)"
       - "traefik.http.routers.hangar-auth-kratos.entrypoints=web-secure"
-      - "traefik.http.routers.hangar-auth.kratos.service=hangar-kauth"
+      - "traefik.http.routers.hangar-auth-kratos.service=hangar-kauth"
       - "traefik.http.routers.hangar-auth.rule=Host(`hangar-auth.benndorf.dev`)"
       - "traefik.http.routers.hangar-auth.entrypoints=web-secure"
       - "traefik.http.routers.hangar-auth.tls=true"
