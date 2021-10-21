@@ -50,7 +50,7 @@ jobs:
           publicHost: "https://hangar-auth.benndorf.dev"
           SECRETS_COOKIE: "supersecuresupersecure"
           cookieHttps: "true"
-          kratosPublic: "https://hangar-kauth.benndorf.dev"
+          kratosPublic: "https://hangar-auth.benndorf.dev/kratos"
           hydraPublic: "https://hangar-oauth.benndorf.dev"
           kratos: "http://kratos:4433"
           hydraAdmin: "http://hydra:4445"
