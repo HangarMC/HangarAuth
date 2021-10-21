@@ -4,7 +4,7 @@ dsn: "see env"
 
 serve:
   public:
-    base_url: https://hangar-kauth.benndorf.dev
+    base_url: https://hangar-auth.benndorf.dev/kratos
     cors:
       enabled: true
       allowed_origins:

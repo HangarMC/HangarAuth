@@ -12,7 +12,7 @@ services:
       publicHost: "https://hangar-auth.benndorf.dev"
       SECRETS_COOKIE: "supersecuresupersecure"
       cookieHttps: "true"
-      kratosPublic: "https://hangar-kauth.benndorf.dev"
+      kratosPublic: "https://hangar-auth.benndorf.dev/kratos"
       kratos: "http://kratos:4433"
       hydraAdmin: "http://hydra:4445"
       hydraPublic: "https://hangar-oauth.benndorf.dev"
@@ -57,7 +57,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-kauth.loadbalancer.server.port=4433"
-      - "traefik.http.routers.hangar-kauth.rule=Host(`hangar-kauth.benndorf.dev`)"
+      - "traefik.http.routers.hangar-kauth.rule=Host(`hangar-auth.benndorf.dev`) && PathPrefix(`/kratos`)"
       - "traefik.http.routers.hangar-kauth.entrypoints=web-secure"
       - "traefik.http.routers.hangar-kauth.tls=true"
       - "traefik.http.routers.hangar-kauth.tls.options=default"
