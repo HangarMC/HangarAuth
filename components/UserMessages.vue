@@ -1,6 +1,8 @@
 <template>
     <div>
-        <v-alert v-for="message in ui.messages" :key="message.id" :type="message.type" v-text="message.text" />
+        <v-alert v-for="message in ui.messages" :key="message.id" :type="message.type">
+            {{ message.text }}
+        </v-alert>
     </div>
 </template>
 
