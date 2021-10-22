@@ -24,8 +24,6 @@ jobs:
         with:
           node-version: '12'
 
-      - run: cd frontend/
-
       - name: Cache Yarn
         uses: actions/cache@v2
         with:
@@ -37,12 +35,12 @@ jobs:
       - name: Install frontend deps
         env:
           CI: true
-        run: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+        run: (cd frontend/ && yarn install --frozen-lockfile --cache-folder ~/.cache/yarn)
 
       - name: Lint frontend
         env:
           CI: true
-        run: yarn lint
+        run: (cd frontend/ && yarn lint)
 
       - name: Build frontend
         env:
@@ -58,9 +56,7 @@ jobs:
           hydraAdmin: "http://hydra:4445"
           hangarHost: "https://hangar.benndorf.dev"
           DEBUG: "nuxt:*"
-        run: yarn build
-
-      - run: cd ..
+        run: (cd frontend/ && yarn build)
 
       - name: SSH
         uses: webfactory/ssh-agent@v0.5.2
