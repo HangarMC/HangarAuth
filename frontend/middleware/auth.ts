@@ -16,11 +16,13 @@ export function AuthRequired() {
                 return $kratos.login();
             })
             .catch((e) => {
-                if (e.response.status === 401) {
-                    console.debug('401 -> login');
-                    return $kratos.login();
+                if (e.response) {
+                    if (e.response.status === 401) {
+                        console.debug('401 -> login');
+                        return $kratos.login();
+                    }
                 }
-                console.log(e);
+                console.error(e);
             });
     };
 

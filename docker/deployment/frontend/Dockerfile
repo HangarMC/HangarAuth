@@ -9,11 +9,11 @@ ENTRYPOINT ["./entrypoint.sh"]
 COPY /docker/deployment/frontend/entrypoint.sh /frontend/entrypoint.sh
 RUN chmod +x /frontend/entrypoint.sh
 
-COPY /tsconfig.json /frontend/tsconfig.json
-COPY /static/ /frontend/static/
-COPY /nuxt.config.ts /frontend/nuxt.config.ts
-COPY /locales/ /frontend/locales/
-COPY /package.json /frontend/package.json
-COPY /node_modules/ /frontend/node_modules/
-COPY /.nuxt/ /frontend/.nuxt/
-COPY /server-middleware/ /frontend/server-middleware/
+COPY /frontend/tsconfig.json /frontend/tsconfig.json
+COPY /frontend/static/ /frontend/static/
+COPY /frontend/nuxt.config.ts /frontend/nuxt.config.ts
+COPY /frontend/locales/ /frontend/locales/
+COPY /frontend/package.json /frontend/package.json
+COPY /frontend/node_modules/ /frontend/node_modules/
+COPY /frontend/.nuxt/ /frontend/.nuxt/
+COPY /frontend/server-middleware/ /frontend/server-middleware/

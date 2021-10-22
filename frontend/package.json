@@ -19,8 +19,8 @@
     "@ory/hydra-client": "1.10.5",
     "@ory/kratos-client": "0.7.1-alpha.1",
     "body-parser": "1.19.0",
-    "core-js": "3.10.1",
     "cookie-parser": "1.4.5",
+    "core-js": "3.10.1",
     "express": "4.17.1",
     "express-session": "1.17.2",
     "lodash-es": "4.17.21",
@@ -28,8 +28,8 @@
     "nuxt-i18n": "Machine-Maker/i18n-module#fix/mixing-mem-leak",
     "nuxt-property-decorator": "2.9.1",
     "vue": "2.6.12",
-    "vuex": "3.6.2",
-    "vuetify": "2.4.9"
+    "vuetify": "2.4.9",
+    "vuex": "3.6.2"
   },
   "devDependencies": {
     "@nuxt/types": "2.15.4",
