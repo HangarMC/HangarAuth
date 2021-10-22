@@ -12,7 +12,7 @@ It uses vuetify for the components.
 
 ## Development Setup
 
-HangarAuth is a yarn project, so you wanna run `yarn` and then `yarn dev` to start the dev server.
+HangarAuth is a yarn project, so you wanna run `yarn` and then `yarn dev` inside the `frontend` folder to start the dev server.
 
 Additionally, you will want to run kratos, hydra, a database and a test mail server. Those have been provided via docker compose. Checkout the docker folder.
 

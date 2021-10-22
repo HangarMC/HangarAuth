@@ -24,6 +24,8 @@ jobs:
         with:
           node-version: '12'
 
+      - run: cd frontend/
+
       - name: Cache Yarn
         uses: actions/cache@v2
         with:
@@ -57,6 +59,8 @@ jobs:
           hangarHost: "https://hangar.benndorf.dev"
           DEBUG: "nuxt:*"
         run: yarn build
+
+      - run: cd ..
 
       - name: SSH
         uses: webfactory/ssh-agent@v0.5.2
