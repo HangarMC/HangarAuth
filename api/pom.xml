@@ -16,6 +16,7 @@
     <properties>
         <java.version>11</java.version>
         <jdbi3-bom.version>3.20.1</jdbi3-bom.version>
+        <kratos-client.version>0.7.6-alpha.7</kratos-client.version>
     </properties>
 
     <dependencyManagement>
@@ -68,6 +69,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- kratos -->
+        <dependency>
+            <groupId>sh.ory.kratos</groupId>
+            <artifactId>kratos-client</artifactId>
+            <version>${kratos-client.version}</version>
         </dependency>
 
         <!-- jdbi -->

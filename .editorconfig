@@ -15,6 +15,8 @@ ij_javascript_line_comment_at_first_column = false
 ij_typescript_line_comment_at_first_column = false
 ij_html_line_comment_at_first_column = false
 ij_html_block_comment_at_first_column = false
+ij_any_block_comment_at_first_column = false
+ij_any_line_comment_at_first_column = false
 
 [*.yml]
 indent_size = 2

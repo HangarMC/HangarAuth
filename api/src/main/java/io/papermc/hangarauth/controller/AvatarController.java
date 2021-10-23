@@ -1,20 +1,28 @@
 package io.papermc.hangarauth.controller;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import io.papermc.hangarauth.config.KratosConfig;
+import io.papermc.hangarauth.controller.model.Traits;
 import io.papermc.hangarauth.db.dao.AvatarDAO;
 import io.papermc.hangarauth.db.model.UserAvatarTable;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.Name;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.view.RedirectView;
+import sh.ory.kratos.model.Identity;
+import sh.ory.kratos.model.JsonError;
 
-import java.awt.Color;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
@@ -28,31 +36,45 @@ public class AvatarController {
     private final KratosConfig kratosConfig;
     private final AvatarDAO avatarDAO;
     private final RestTemplate restTemplate;
+    private final ObjectMapper mapper;
+    private final Gson gson;
 
     @Autowired
-    public AvatarController(KratosConfig kratosConfig, AvatarDAO avatarDAO, RestTemplate restTemplate) {
+    public AvatarController(KratosConfig kratosConfig, AvatarDAO avatarDAO, RestTemplate restTemplate, ObjectMapper mapper, @Name("kratos") Gson gson) {
         this.kratosConfig = kratosConfig;
         this.avatarDAO = avatarDAO;
         this.restTemplate = restTemplate;
+        this.mapper = mapper;
+        this.gson = gson;
     }
 
     @GetMapping("/{userId}")
-    public Object getUsersAvatar(@NonNull @PathVariable UUID userId) {
+    public Object getUsersAvatar(@NonNull @PathVariable UUID userId) throws IOException {
         UserAvatarTable userAvatarTable = this.avatarDAO.getUserAvatar(userId);
         if (userAvatarTable == null) {
-            ObjectNode node = restTemplate.getForObject(this.kratosConfig.getAdminUrl() + "/identities/{user_id}", ObjectNode.class, Map.of("user_id", userId));
-            if (node != null) {
-                String userName = node.findValue("username").asText();
-                String userNameMd5 = DigestUtils.md5DigestAsHex(userName.getBytes(StandardCharsets.UTF_8));
-                long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);
-                int[] colorArray = COLORS.get((int) (userNameHash % COLORS.size()));
-                Color color = new Color(colorArray[0], colorArray[1], colorArray[2]);
-                String colorHex = Integer.toHexString(color.getRGB()).substring(2);
-                return new RedirectView(String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", userName.charAt(0), colorHex));
+            try {
+                Identity identity = this.gson.fromJson(restTemplate.getForObject(this.kratosConfig.getAdminUrl() + "/identities/{user_id}", String.class, Map.of("user_id", userId)), Identity.class);
+                if (identity == null) {
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "how is this null?");
+                }
+                Traits traits = this.mapper.convertValue(identity.getTraits(), Traits.class);
+                return this.getUserAvatarRedirect(traits.getUsername());
+            } catch (HttpClientErrorException clientErrorException) {
+                JsonError error = this.mapper.readValue(clientErrorException.getResponseBodyAsByteArray(), JsonError.class);
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, error.getError().getMessage(), clientErrorException);
             }
         }
-        // TODO
+
         return null;
+    }
+
+    private RedirectView getUserAvatarRedirect(@NonNull String userName) {
+        String userNameMd5 = DigestUtils.md5DigestAsHex(userName.getBytes(StandardCharsets.UTF_8));
+        long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);
+        int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
+        //noinspection PointlessBitwiseExpression
+        int colorRgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8) | ((num[2] & 0xFF) << 0);
+        return new RedirectView(String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", userName.charAt(0), Integer.toHexString(colorRgb)));
     }
 
     static final List<int[]> COLORS = List.of(
