@@ -15,6 +15,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      CI: true
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -50,30 +53,28 @@ jobs:
         run: mvn --batch-mode --errors --fail-at-end --show-version --no-transfer-progress -Dmaven.repo.local=$GITHUB_WORKSPACE/.m2/repository install
 
       - name: Install frontend deps
-        env:
-          CI: true
-        run: (cd frontend/ && yarn install --frozen-lockfile --cache-folder ~/.cache/yarn)
+        working-directory: frontend
+        run: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
 
       - name: Lint frontend
-        env:
-          CI: true
-        run: (cd frontend/ && yarn lint)
+        working-directory: frontend
+        run: yarn lint
 
       - name: Build frontend
+        working-directory: frontend
         env:
-          CI: true
           # keep these in sync with compose!
           host: "0.0.0.0"
           publicHost: "https://hangar-auth.benndorf.dev"
           SECRETS_COOKIE: "supersecuresupersecure"
           cookieHttps: "true"
           kratosPublic: "https://hangar-auth.benndorf.dev/kratos"
-          hydraPublic: "https://hangar-oauth.benndorf.dev"
+          hydraPublic: "https://hangar-auth.benndorf.dev/hydra"
           kratos: "http://kratos:4433"
           hydraAdmin: "http://hydra:4445"
           hangarHost: "https://hangar.benndorf.dev"
           DEBUG: "nuxt:*"
-        run: (cd frontend/ && yarn build)
+        run: yarn build
 
       - name: SSH
         uses: webfactory/ssh-agent@v0.5.2
@@ -88,13 +89,13 @@ jobs:
           password: ${{ secrets.CR_PAT }}
 
       - name: Docker
+        working-directory: docker/deployment
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PW: ${{ secrets.POSTGRES_PW }}
         run: |
           echo ${{ secrets.DOCKER_HOST_SSH_SIG }} > ~/.ssh/known_hosts
-          cd docker/deployment
           docker-compose build
           docker-compose push
           DOCKER_HOST="${{ secrets.DOCKER_HOST }}" docker stack deploy --with-registry-auth --compose-file=docker-compose.yml hangar_auth

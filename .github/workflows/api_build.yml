@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   # run on PRs
   pull_request:
-    paths-ignore:
+    paths:
       - 'api/**'
       - '.github/workflows/api_build.yml'
 

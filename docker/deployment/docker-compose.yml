@@ -15,7 +15,7 @@ services:
       kratosPublic: "https://hangar-auth.benndorf.dev/kratos"
       kratos: "http://kratos:4433"
       hydraAdmin: "http://hydra:4445"
-      hydraPublic: "https://hangar-oauth.benndorf.dev"
+      hydraPublic: "https://hangar-auth.benndorf.dev/hydra"
       hangarHost: "https://hangar.benndorf.dev"
       DEBUG: "nuxt:*"
     labels:
@@ -42,7 +42,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-auth-api.loadbalancer.server.port=8080"
-      - "traefik.http.routers.hangar-auth-api=Host(`hangar-auth.benndorf.dev`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.hangar-auth-api.rule=Host(`hangar-auth.benndorf.dev`) && PathPrefix(`/api`)"
       - "traefik.http.routers.hangar-auth-api.middlewares=stripapi@docker"
       - "traefik.http.middlewares.stripapi.stripprefix.prefixes=/api"
       - "traefik.http.routers.hangar-auth-api.entrypoints=web-secure"
@@ -120,7 +120,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-oauth.loadbalancer.server.port=4444"
-      - "traefik.http.routers.hangar-oauth.rule=Host(`hangar-oauth.benndorf.dev`)"
+      - "traefik.http.routers.hangar-oauth.rule=Host(`hangar-auth.benndorf.dev`) && PathPrefix(`/hydra`)"
+      - "traefik.http.routers.hangar-oauth.middlewares=striphydra@docker"
+      - "traefik.http.middlewares.striphydra.stripprefix.prefixes=/hydra"
       - "traefik.http.routers.hangar-oauth.entrypoints=web-secure"
       - "traefik.http.routers.hangar-oauth.tls=true"
       - "traefik.http.routers.hangar-oauth.tls.options=default"
