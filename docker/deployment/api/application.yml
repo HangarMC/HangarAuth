@@ -1,11 +1,2 @@
 server:
   port: 8080
-spring:
-  datasource:
-    url: "${POSTGRES_URL}"
-    username: "${POSTGRES_USER}"
-    password: "${POSTGRES_PASSWORD}"
-
-auth:
-  kratos:
-    admin-url: "https://hangarauth_kratos:4434"
