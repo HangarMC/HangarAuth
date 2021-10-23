@@ -1,0 +1,61 @@
+name: Build Frontend
+
+on:
+  # allow manual dispatch
+  workflow_dispatch:
+  # run on PRs
+  pull_request:
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend_build.yml'
+
+concurrency:
+  group: ${{ github.ref }}-frontend-build
+  cancel-in-progress: true
+
+jobs:
+  builds:
+    runs-on: ubuntu-latest
+
+    env:
+      CI: true
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - name: Cache Yarn
+        uses: actions/cache@v2
+        with:
+          path: "~/.cache/yarn"
+          key: ${{ runner.os }}-yarn-${{ github.ref }}-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install frontend deps
+        run: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+
+      - name: Lint frontend
+        run: yarn lint
+
+      - name: Build frontend
+        env:
+          # keep these in sync with compose! (not sure if we need these since its just checking that build doesn't fail)
+          host: "0.0.0.0"
+          publicHost: "https://hangar-auth.benndorf.dev"
+          SECRETS_COOKIE: "supersecuresupersecure"
+          cookieHttps: "true"
+          kratosPublic: "https://hangar-auth.benndorf.dev/kratos"
+          hydraPublic: "https://hangar-oauth.benndorf.dev"
+          kratos: "http://kratos:4433"
+          hydraAdmin: "http://hydra:4445"
+          hangarHost: "https://hangar.benndorf.dev"
+          DEBUG: "nuxt:*"
+        run: yarn build

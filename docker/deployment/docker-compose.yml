@@ -7,7 +7,7 @@ services:
       context: ../..
       dockerfile: docker/deployment/frontend/Dockerfile
     environment:
-      # keep these in sync with build.yml action!
+      # keep these in sync with deploy.yml action!
       host: "0.0.0.0"
       publicHost: "https://hangar-auth.benndorf.dev"
       SECRETS_COOKIE: "supersecuresupersecure"
@@ -28,6 +28,29 @@ services:
       - "traefik.http.routers.hangar-auth.tls.certresolver=default"
       - "traefik.http.routers.hangar-auth.tls.domains[0].main=benndorf.dev"
       - "traefik.http.routers.hangar-auth.tls.domains[0].sans=*.benndorf.dev"
+    networks:
+      - web
+  api:
+    image: "ghcr.io/papermc/hangarauth_api"
+    build:
+      context: ../..
+      dockerfile: docker/deployment/api/Dockerfile
+    environment:
+      POSTGRES_URL: "jdbc:postgres://hangar_new_db:5432/hangar"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PW}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.hangar-auth-api.loadbalancer.server.port=8080"
+      - "traefik.http.routers.hangar-auth-api=Host(`hangar-auth.benndorf.dev`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.hangar-auth-api.middlewares=stripapi@docker"
+      - "traefik.http.middlewares.stripapi.stripprefix.prefixes=/api"
+      - "traefik.http.routers.hangar-auth-api.entrypoints=web-secure"
+      - "traefik.http.routers.hangar-auth-api.tls=true"
+      - "traefik.http.routers.hangar-auth-api.tls.options"
+      - "traefik.http.routers.hangar-auth-api.tls.certresolver=default"
+      - "traefik.http.routers.hangar-auth-api.tls.domains[0].main=benndorf.dev"
+      - "traefik.http.routers.hangar-auth-api.tls.domains[0].sans=*.benndorf.dev"
     networks:
       - web
   kratos-migrate:
