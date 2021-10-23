@@ -5,7 +5,6 @@ spring:
   sql:
     init:
       platform: postgres
-      schema-locations:
   datasource:
     url: jdbc:postgresql://localhost:5432/kratos?currentSchema=auth
     username: hangar
