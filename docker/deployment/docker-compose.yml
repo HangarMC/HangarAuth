@@ -47,7 +47,7 @@ services:
       - "traefik.http.middlewares.stripapi.stripprefix.prefixes=/api"
       - "traefik.http.routers.hangar-auth-api.entrypoints=web-secure"
       - "traefik.http.routers.hangar-auth-api.tls=true"
-      - "traefik.http.routers.hangar-auth-api.tls.options"
+      - "traefik.http.routers.hangar-auth-api.tls.options=default"
       - "traefik.http.routers.hangar-auth-api.tls.certresolver=default"
       - "traefik.http.routers.hangar-auth-api.tls.domains[0].main=benndorf.dev"
       - "traefik.http.routers.hangar-auth-api.tls.domains[0].sans=*.benndorf.dev"
