@@ -2,7 +2,7 @@ package io.papermc.hangarauth.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -17,7 +17,7 @@ public final class Traits {
     private final String minecraft;
 
     @JsonCreator
-    public Traits(Name name, @NonNull String email, String github, String discord, String language, @NonNull String username, String minecraft) {
+    public Traits(Name name, @NotNull String email, String github, String discord, String language, @NotNull String username, String minecraft) {
         this.name = name;
         this.email = email;
         this.github = StringUtils.trimToNull(github);
@@ -31,7 +31,7 @@ public final class Traits {
         return name;
     }
 
-    public @NonNull String getEmail() {
+    public @NotNull String getEmail() {
         return email;
     }
 
@@ -47,7 +47,7 @@ public final class Traits {
         return language;
     }
 
-    public @NonNull String getUsername() {
+    public @NotNull String getUsername() {
         return username;
     }
 

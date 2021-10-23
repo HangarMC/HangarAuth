@@ -6,7 +6,7 @@ import io.papermc.hangarauth.config.KratosConfig;
 import io.papermc.hangarauth.controller.model.Traits;
 import io.papermc.hangarauth.db.dao.AvatarDAO;
 import io.papermc.hangarauth.db.model.UserAvatarTable;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.Name;
 import org.springframework.http.HttpStatus;
@@ -49,7 +49,7 @@ public class AvatarController {
     }
 
     @GetMapping("/{userId}")
-    public Object getUsersAvatar(@NonNull @PathVariable UUID userId) throws IOException {
+    public Object getUsersAvatar(@NotNull @PathVariable UUID userId) throws IOException {
         UserAvatarTable userAvatarTable = this.avatarDAO.getUserAvatar(userId);
         if (userAvatarTable == null) {
             try {
@@ -68,7 +68,7 @@ public class AvatarController {
         return null;
     }
 
-    private RedirectView getUserAvatarRedirect(@NonNull String userName) {
+    private RedirectView getUserAvatarRedirect(@NotNull String userName) {
         String userNameMd5 = DigestUtils.md5DigestAsHex(userName.getBytes(StandardCharsets.UTF_8));
         long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);
         int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
