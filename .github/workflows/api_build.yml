@@ -37,9 +37,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: $GITHUB_WORKSPACE/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-build-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-maven-build-
 
       - name: Build API
         run: mvn --batch-mode --errors --fail-at-end --show-version --no-transfer-progress -Dmaven.repo.local=$GITHUB_WORKSPACE/.m2/repository install

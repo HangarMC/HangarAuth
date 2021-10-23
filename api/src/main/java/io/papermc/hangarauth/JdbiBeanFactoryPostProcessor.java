@@ -1,6 +1,6 @@
 package io.papermc.hangarauth;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -38,12 +38,12 @@ public class JdbiBeanFactoryPostProcessor implements BeanFactoryPostProcessor, R
     private ClassLoader classLoader;
 
     @Override
-    public void setBeanClassLoader(@NonNull ClassLoader classLoader) {
+    public void setBeanClassLoader(@NotNull ClassLoader classLoader) {
         this.classLoader = classLoader;
     }
 
     @Override
-    public void setBeanFactory(@NonNull BeanFactory beanFactory) throws BeansException {
+    public void setBeanFactory(@NotNull BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
     }
 
@@ -64,7 +64,7 @@ public class JdbiBeanFactoryPostProcessor implements BeanFactoryPostProcessor, R
     }
 
     @Override
-    public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
+    public void postProcessBeanFactory(@NotNull ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
         // not needed
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false) {
             @Override
@@ -84,12 +84,12 @@ public class JdbiBeanFactoryPostProcessor implements BeanFactoryPostProcessor, R
     }
 
     @Override
-    public void setEnvironment(@NonNull Environment environment) {
+    public void setEnvironment(@NotNull Environment environment) {
         this.environment = environment;
     }
 
     @Override
-    public void setResourceLoader(@NonNull ResourceLoader resourceLoader) {
+    public void setResourceLoader(@NotNull ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
 }

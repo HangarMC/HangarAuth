@@ -3,8 +3,8 @@ package io.papermc.hangarauth.exceptions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +34,7 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
     }
 
     @Override
-    protected @NonNull ResponseEntity<Object> handleExceptionInternal(@NonNull Exception ex, @Nullable Object body, @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+    protected @NotNull ResponseEntity<Object> handleExceptionInternal(@NotNull Exception ex, @Nullable Object body, @NotNull HttpHeaders headers, @NotNull HttpStatus status, @NotNull WebRequest request) {
         if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, RequestAttributes.SCOPE_REQUEST);
         }
@@ -43,12 +43,12 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public @NonNull ResponseEntity<Object> responseStatusExceptionHandler(@NonNull ResponseStatusException ex) {
+    public @NotNull ResponseEntity<Object> responseStatusExceptionHandler(@NotNull ResponseStatusException ex) {
         return this.createExceptionResponse(ex, null, e -> Objects.requireNonNullElse(e.getCause(), e).getMessage(), null, ex.getStatus());
     }
 
     @ExceptionHandler(Exception.class)
-    public @NonNull ResponseEntity<Object> defaultErrorHandler(@NonNull HttpServletRequest req, @NonNull Exception ex) throws Exception {
+    public @NotNull ResponseEntity<Object> defaultErrorHandler(@NotNull HttpServletRequest req, @NotNull Exception ex) throws Exception {
         if (AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class) != null) {
             throw ex;
         }
@@ -61,11 +61,11 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
         return this.createExceptionResponse(ex, extra, null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(@NonNull E ex, @Nullable ObjectNode extra, @Nullable HttpHeaders headers, @NonNull HttpStatus status) {
+    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(@NotNull E ex, @Nullable ObjectNode extra, @Nullable HttpHeaders headers, @NotNull HttpStatus status) {
         return this.createExceptionResponse(ex, extra, Exception::getMessage, headers, status);
     }
 
-    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(@NonNull E ex, @Nullable ObjectNode extra, @NonNull Function<E, @Nullable String> messageFunction, @Nullable HttpHeaders headers, @NonNull HttpStatus status) {
+    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(@NotNull E ex, @Nullable ObjectNode extra, @NotNull Function<E, @Nullable String> messageFunction, @Nullable HttpHeaders headers, @NotNull HttpStatus status) {
         final ObjectNode response = this.mapper.createObjectNode();
         response.putObject("status")
             .put("code", status.value())
