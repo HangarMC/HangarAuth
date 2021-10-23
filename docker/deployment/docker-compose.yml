@@ -36,7 +36,7 @@ services:
       context: ../..
       dockerfile: docker/deployment/api/Dockerfile
     environment:
-      POSTGRES_URL: "jdbc:postgresql://hangar_new_db:5432/hangar"
+      POSTGRES_URL: "jdbc:postgresql://hangar_new_db:5432/kratos"
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PW}"
     labels:
