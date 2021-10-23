@@ -46,6 +46,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Build api
+        working-directory: api
         run: mvn --batch-mode --errors --fail-at-end --show-version --no-transfer-progress -Dmaven.repo.local=$GITHUB_WORKSPACE/.m2/repository install
 
       - name: Install frontend deps
