@@ -1,0 +1,45 @@
+name: Build API
+
+on:
+  # allow manual dispatch
+  workflow_dispatch:
+  # run on PRs
+  pull_request:
+    paths-ignore:
+      - 'api/**'
+      - '.github/workflows/api_build.yml'
+
+concurrency:
+  group: ${{ github.ref }}-api-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      CI: true
+
+    defaults:
+      run:
+        working-directory: api
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Cache Maven Deps
+        uses: actions/cache@v2
+        with:
+          path: $GITHUB_WORKSPACE/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build API
+        run: mvn --batch-mode --errors --fail-at-end --show-version --no-transfer-progress -Dmaven.repo.local=$GITHUB_WORKSPACE/.m2/repository install
