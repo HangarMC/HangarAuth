@@ -91,6 +91,14 @@
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi3-stringtemplate4</artifactId>
         </dependency>
+
+        <!-- tests -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
