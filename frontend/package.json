@@ -11,7 +11,7 @@
     "prepare": "cd .. && husky install frontend/.husky"
   },
   "lint-staged": {
-    "*.{ts,js,vue}": "eslint"
+    "*.{ts,js,vue,scss}": "eslint"
   },
   "dependencies": {
     "@nuxtjs/axios": "5.13.1",
