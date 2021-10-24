@@ -4,7 +4,10 @@ import io.papermc.hangarauth.DummyData;
 import io.papermc.hangarauth.controller.model.Traits;
 import io.papermc.hangarauth.service.AvatarService;
 import io.papermc.hangarauth.service.KratosService;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,9 +36,6 @@ class AvatarControllerTest {
     @Autowired
     private AvatarService avatarService;
 
-    @MockBean
-    private KratosService kratosService;
-
     private static final UUID REDIRECTED_UUID = UUID.randomUUID();
 
     @Test
@@ -50,14 +49,6 @@ class AvatarControllerTest {
     }
 
     @Test
-    void ok200WithRedirectedAvatar() throws Exception {
-        final Traits mockedTraits = mock(Traits.class);
-        when(mockedTraits.getUsername()).thenReturn("Machine_Maker");
-        when(this.kratosService.getTraits(REDIRECTED_UUID)).thenReturn(mockedTraits);
-        this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is3xxRedirection(), header().exists(HttpHeaders.LOCATION));
-    }
-
-    @Test
     void ok200WithConfiguredAvatar() throws Exception {
         checkDummyAvatarExists();
         this.mockMvc.perform(get("/avatar/" + DummyData.DUMMY_UUID)).andExpectAll(status().isOk(), header().doesNotExist(HttpHeaders.LOCATION), header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE));
@@ -67,6 +58,26 @@ class AvatarControllerTest {
         Path dummyAvatar = this.avatarService.getAvatarFor(DummyData.DUMMY_UUID, "avatar.png");
         if (Files.notExists(dummyAvatar)) {
             throw new IllegalStateException("Dummy avatar doesn't exist at " + dummyAvatar.toAbsolutePath());
+        }
+    }
+
+    @Nested
+    @SpringBootTest
+    @AutoConfigureMockMvc
+    class WithMockedService {
+
+        @Autowired
+        private MockMvc mockMvc;
+
+        @MockBean
+        private KratosService kratosService;
+
+        @Test
+        void ok200WithRedirectedAvatar() throws Exception {
+            final Traits mockedTraits = mock(Traits.class);
+            when(mockedTraits.getUsername()).thenReturn("Machine_Maker");
+            when(this.kratosService.getTraits(REDIRECTED_UUID)).thenReturn(mockedTraits);
+            this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is3xxRedirection(), header().exists(HttpHeaders.LOCATION));
         }
     }
 }
