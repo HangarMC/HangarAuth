@@ -4,22 +4,26 @@ import io.papermc.hangarauth.DummyData;
 import io.papermc.hangarauth.controller.model.Traits;
 import io.papermc.hangarauth.service.AvatarService;
 import io.papermc.hangarauth.service.KratosService;
-import org.junit.experimental.runners.Enclosed;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,6 +40,9 @@ class AvatarControllerTest {
     @Autowired
     private AvatarService avatarService;
 
+    @MockBean
+    private KratosService kratosService;
+
     private static final UUID REDIRECTED_UUID = UUID.randomUUID();
 
     @Test
@@ -45,7 +52,16 @@ class AvatarControllerTest {
 
     @Test
     void notFound404() throws Exception {
+        when(this.kratosService.getTraits(any(UUID.class))).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
         this.mockMvc.perform(get("/avatar/" + UUID.randomUUID())).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void ok200WithRedirectedAvatar() throws Exception {
+        final Traits mockedTraits = mock(Traits.class);
+        when(mockedTraits.getUsername()).thenReturn("Machine_Maker");
+        when(this.kratosService.getTraits(REDIRECTED_UUID)).thenReturn(mockedTraits);
+        this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is3xxRedirection(), header().exists(HttpHeaders.LOCATION));
     }
 
     @Test
@@ -72,12 +88,10 @@ class AvatarControllerTest {
         @MockBean
         private KratosService kratosService;
 
-        @Test
-        void ok200WithRedirectedAvatar() throws Exception {
-            final Traits mockedTraits = mock(Traits.class);
-            when(mockedTraits.getUsername()).thenReturn("Machine_Maker");
-            when(this.kratosService.getTraits(REDIRECTED_UUID)).thenReturn(mockedTraits);
-            this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is3xxRedirection(), header().exists(HttpHeaders.LOCATION));
-        }
+        // @Test
+        // void ok200WithRedirectedAvatar() throws Exception {
+        //
+        //     this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is3xxRedirection(), header().exists(HttpHeaders.LOCATION));
+        // }
     }
 }
