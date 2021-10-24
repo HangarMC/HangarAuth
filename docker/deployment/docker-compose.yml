@@ -54,6 +54,8 @@ services:
       - "traefik.http.routers.hangar-auth-api.tls.domains[0].sans=*.benndorf.dev"
     networks:
       - web
+    volumes:
+      - auth_data:/auth/data
   kratos-migrate:
     image: "ghcr.io/papermc/hangarauth_kratos-migrate"
     build:
@@ -152,3 +154,6 @@ networks:
   web:
     name: traefik-overlay
     external: true
+
+volumes:
+  auth_data:

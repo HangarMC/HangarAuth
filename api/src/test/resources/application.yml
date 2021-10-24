@@ -6,6 +6,11 @@ spring:
     default-schema: public
     schemas: public
     locations:
-      - classpath:test_migrations/
+      - classpath:db/test_migrations
       - classpath:db/migration
+      - classpath:db/dummy_data
     baseline-version: 0.0
+
+auth:
+  files:
+    data-dir: target/test-classes/work

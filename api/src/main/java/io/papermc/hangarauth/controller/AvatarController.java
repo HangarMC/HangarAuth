@@ -2,10 +2,12 @@ package io.papermc.hangarauth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import io.papermc.hangarauth.config.KratosConfig;
+import io.papermc.hangarauth.AuthApiApplication;
+import io.papermc.hangarauth.config.custom.KratosConfig;
 import io.papermc.hangarauth.controller.model.Traits;
 import io.papermc.hangarauth.db.dao.AvatarDAO;
 import io.papermc.hangarauth.db.model.UserAvatarTable;
+import io.papermc.hangarauth.service.AvatarService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.Name;
@@ -24,9 +26,12 @@ import sh.ory.kratos.model.JsonError;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -38,37 +43,45 @@ public class AvatarController {
     private final RestTemplate restTemplate;
     private final ObjectMapper mapper;
     private final Gson gson;
+    private final AvatarService avatarService;
 
     @Autowired
-    public AvatarController(KratosConfig kratosConfig, AvatarDAO avatarDAO, RestTemplate restTemplate, ObjectMapper mapper, @Name("kratos") Gson gson) {
+    public AvatarController(KratosConfig kratosConfig, AvatarDAO avatarDAO, RestTemplate restTemplate, ObjectMapper mapper, @Name("kratos") Gson gson, AvatarService avatarService) {
         this.kratosConfig = kratosConfig;
         this.avatarDAO = avatarDAO;
         this.restTemplate = restTemplate;
         this.mapper = mapper;
         this.gson = gson;
+        this.avatarService = avatarService;
     }
 
     @GetMapping("/{userId}")
     public Object getUsersAvatar(@NotNull @PathVariable UUID userId) throws IOException {
-        UserAvatarTable userAvatarTable = this.avatarDAO.getUserAvatar(userId);
+        final UserAvatarTable userAvatarTable = this.avatarDAO.getUserAvatar(userId);
         if (userAvatarTable == null) {
-            try {
-                Identity identity = this.gson.fromJson(restTemplate.getForObject(this.kratosConfig.getAdminUrl() + "/identities/{user_id}", String.class, Map.of("user_id", userId)), Identity.class);
-                if (identity == null) {
-                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "how is this null?");
-                }
-                Traits traits = this.mapper.convertValue(identity.getTraits(), Traits.class);
-                return this.getUserAvatarRedirect(traits.getUsername());
-            } catch (HttpClientErrorException clientErrorException) {
-                JsonError error = this.mapper.readValue(clientErrorException.getResponseBodyAsByteArray(), JsonError.class);
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, error.getError().getMessage(), clientErrorException);
-            }
+            return getUserAvatarRedirect(userId);
         }
-
-        return null;
+        Path userAvatarPath = this.avatarService.getAvatarFor(userId, userAvatarTable.getFileName());
+        if (Files.notExists(userAvatarPath)) {
+            // TODO delete avatar table entry cause its missing for some reason
+            return getUserAvatarRedirect(userId);
+        }
+        return Files.readAllBytes(userAvatarPath);
     }
 
-    private RedirectView getUserAvatarRedirect(@NotNull String userName) {
+    private RedirectView getUserAvatarRedirect(@NotNull UUID userId) throws IOException {
+        String userName;
+        try {
+            Identity identity = this.gson.fromJson(restTemplate.getForObject(this.kratosConfig.getAdminUrl() + "/identities/{user_id}", String.class, Map.of("user_id", userId)), Identity.class);
+            if (identity == null) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "how is this null?");
+            }
+            Traits traits = this.mapper.convertValue(identity.getTraits(), Traits.class);
+            userName = traits.getUsername();
+        } catch (HttpClientErrorException clientErrorException) {
+            JsonError error = this.mapper.readValue(clientErrorException.getResponseBodyAsByteArray(), JsonError.class);
+            throw new ResponseStatusException(HttpStatus.valueOf(Objects.requireNonNullElse(error.getError().getCode(), 400L).intValue()), error.getError().getMessage(), clientErrorException);
+        }
         String userNameMd5 = DigestUtils.md5DigestAsHex(userName.getBytes(StandardCharsets.UTF_8));
         long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);
         int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
