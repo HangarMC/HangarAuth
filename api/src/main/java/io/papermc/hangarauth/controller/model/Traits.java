@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public final class Traits {
+public class Traits {
 
     private final Name name;
     private final String email;
