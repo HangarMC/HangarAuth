@@ -4,7 +4,6 @@ import io.papermc.hangarauth.DummyData;
 import io.papermc.hangarauth.controller.model.Traits;
 import io.papermc.hangarauth.service.AvatarService;
 import io.papermc.hangarauth.service.KratosService;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -72,23 +71,5 @@ class AvatarControllerTest {
         if (Files.notExists(dummyAvatar)) {
             throw new IllegalStateException("Dummy avatar doesn't exist at " + dummyAvatar.toAbsolutePath());
         }
-    }
-
-    @Nested
-    @SpringBootTest
-    @AutoConfigureMockMvc
-    class WithMockedService {
-
-        @Autowired
-        private MockMvc mockMvc;
-
-        @MockBean
-        private KratosService kratosService;
-
-        // @Test
-        // void ok200WithRedirectedAvatar() throws Exception {
-        //
-        //     this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is3xxRedirection(), header().exists(HttpHeaders.LOCATION));
-        // }
     }
 }
