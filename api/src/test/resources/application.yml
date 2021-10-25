@@ -14,4 +14,4 @@ spring:
 auth:
   kratos:
     admin-url: "empty" # so tests that try to use it will fail
-  data-dir: /target/test-classes/work
+  data-dir: target/test-classes/work
