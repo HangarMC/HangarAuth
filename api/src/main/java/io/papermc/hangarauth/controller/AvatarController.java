@@ -4,6 +4,7 @@ import io.papermc.hangarauth.config.custom.GeneralConfig;
 import io.papermc.hangarauth.db.model.UserAvatarTable;
 import io.papermc.hangarauth.service.AvatarService;
 import io.papermc.hangarauth.service.KratosService;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -69,7 +70,7 @@ public class AvatarController {
         int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
         //noinspection PointlessBitwiseExpression
         int colorRgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8) | ((num[2] & 0xFF) << 0);
-        return new RedirectView(String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", userName.charAt(0), Integer.toHexString(colorRgb)));
+        return new RedirectView(String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", userName.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0')));
     }
 
     static final List<int[]> COLORS = List.of(
