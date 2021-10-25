@@ -17,7 +17,6 @@ import java.util.List;
 
 @EnableWebMvc
 @Configuration
-@EnableConfigurationProperties(KratosConfig.class)
 public class WebConfig implements WebMvcConfigurer {
 
     private static final JSON KRATOS_JSON = new JSON();

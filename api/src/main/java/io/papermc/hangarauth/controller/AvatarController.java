@@ -1,16 +1,21 @@
 package io.papermc.hangarauth.controller;
 
-import io.papermc.hangarauth.db.dao.AvatarDAO;
+import io.papermc.hangarauth.config.custom.GeneralConfig;
 import io.papermc.hangarauth.db.model.UserAvatarTable;
 import io.papermc.hangarauth.service.AvatarService;
 import io.papermc.hangarauth.service.KratosService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.util.DigestUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
@@ -26,19 +31,19 @@ import java.util.UUID;
 public class AvatarController {
 
     private final KratosService kratosService;
-    private final AvatarDAO avatarDAO;
     private final AvatarService avatarService;
+    private final GeneralConfig generalConfig;
 
     @Autowired
-    public AvatarController(KratosService kratosService, AvatarDAO avatarDAO, AvatarService avatarService) {
+    public AvatarController(KratosService kratosService, AvatarService avatarService, GeneralConfig generalConfig) {
         this.kratosService = kratosService;
-        this.avatarDAO = avatarDAO;
         this.avatarService = avatarService;
+        this.generalConfig = generalConfig;
     }
 
     @GetMapping("/{userId}")
     public Object getUsersAvatar(@NotNull @PathVariable UUID userId) throws IOException {
-        final UserAvatarTable userAvatarTable = this.avatarDAO.getUserAvatar(userId);
+        final UserAvatarTable userAvatarTable = this.avatarService.getUsersAvatarTable(userId);
         if (userAvatarTable == null) {
             return getUserAvatarRedirect(userId);
         }
@@ -48,6 +53,13 @@ public class AvatarController {
             return getUserAvatarRedirect(userId);
         }
         return Files.readAllBytes(userAvatarPath);
+    }
+
+    @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public RedirectView setUsersAvatar(@NotNull @PathVariable UUID userId, @RequestParam String flowId, @CookieValue("ory_kratos_session") String session, @RequestParam("csrf_token") String csrfToken, @RequestParam MultipartFile avatar) throws IOException {
+        this.kratosService.checkCsrfToken(flowId, session, csrfToken);
+        this.avatarService.saveAvatar(userId, avatar);
+        return new RedirectView(this.generalConfig.getPublicHost() + "/account/settings");
     }
 
     private RedirectView getUserAvatarRedirect(@NotNull UUID userId) throws IOException {

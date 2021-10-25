@@ -12,5 +12,6 @@ spring:
     baseline-version: 0.0
 
 auth:
-  files:
-    data-dir: target/test-classes/work
+  kratos:
+    admin-url: "empty" # so tests that try to use it will fail
+  data-dir: /target/test-classes/work

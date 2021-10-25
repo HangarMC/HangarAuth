@@ -9,6 +9,7 @@ require('dotenv').config();
 
 const hangarHost = process.env.hangarHost || 'http://localhost:3000';
 const publicHost = process.env.publicHost || 'http://localhost:3001';
+const publicApi = process.env.publicApi || 'http://localhost:8081';
 const kratos = process.env.kratos || 'http://localhost:4433';
 const kratosPublic = process.env.kratosPublic || 'http://localhost:4433';
 const hydraAdmin = process.env.hydraAdmin || 'http://localhost:4445';
@@ -125,6 +126,7 @@ export default {
         hydraPublic,
         hydraAdmin,
         publicHost,
+        publicApi,
         hangarHost,
         cookieSecret,
         cookieHttps,

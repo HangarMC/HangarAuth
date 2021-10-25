@@ -71,7 +71,7 @@ const createKratos = ({ $axios, redirect, route }: Context) => {
         }
 
         requestUiContainer(
-            fetchFlow: (flow: string) => Promise<AxiosResponse<{ ui: UiContainer }>>,
+            fetchFlow: (flow: string) => Promise<AxiosResponse<{ ui: UiContainer; id: string }>>,
             onNoFlow: () => void = this.login,
             onErrRedirect: () => void = this.login
         ): Promise<void | { ui: UiContainer }> | void {
@@ -80,7 +80,7 @@ const createKratos = ({ $axios, redirect, route }: Context) => {
                 return fetchFlow(flow)
                     .then((flowInfo) => {
                         console.debug(flowInfo.data.ui.nodes);
-                        return { ui: flowInfo.data.ui };
+                        return { ui: flowInfo.data.ui, flowId: flowInfo.data.id };
                     })
                     .catch(this.redirectOnError(onErrRedirect));
             }

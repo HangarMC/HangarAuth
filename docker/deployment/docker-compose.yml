@@ -10,6 +10,7 @@ services:
       # keep these in sync with deploy.yml action!
       host: "0.0.0.0"
       publicHost: "https://hangar-auth.benndorf.dev"
+      publicApi: "https://hangar-auth.benndorf.dev/api"
       SECRETS_COOKIE: "supersecuresupersecure"
       cookieHttps: "true"
       kratosPublic: "https://hangar-auth.benndorf.dev/kratos"

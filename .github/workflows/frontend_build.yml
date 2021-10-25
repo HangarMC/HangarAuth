@@ -50,6 +50,7 @@ jobs:
           # keep these in sync with compose! (not sure if we need these since its just checking that build doesn't fail)
           host: "0.0.0.0"
           publicHost: "https://hangar-auth.benndorf.dev"
+          publicApi: "https://hangar-auth.benndorf.dev/api"
           SECRETS_COOKIE: "supersecuresupersecure"
           cookieHttps: "true"
           kratosPublic: "https://hangar-auth.benndorf.dev/kratos"

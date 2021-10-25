@@ -10,6 +10,10 @@ public abstract class Table {
         this.createdAt = createdAt;
     }
 
+    protected Table() {
+        this(null);
+    }
+
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }

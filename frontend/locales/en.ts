@@ -6,6 +6,8 @@ const msgs: LocaleMessageObject = {
         login: 'Login',
         signUp: 'Sign Up',
         logout: 'Log out',
+        submit: 'Submit',
+        save: 'Save',
     },
     nav: {
         hangar: {
@@ -72,7 +74,6 @@ const msgs: LocaleMessageObject = {
         created: 'Member since',
         '2fa': 'Two-factor-auth',
         manage2fa: 'Manage 2FA',
-        avatar: 'Avatar',
         profile: 'Profile',
         fullName: 'Full Name',
         minecraft: 'Minecraft Username',
@@ -84,6 +85,10 @@ const msgs: LocaleMessageObject = {
         newPassword: 'New password',
         oldPassword: 'Old password',
         changePassword: 'Change password',
+        avatar: {
+            title: 'User Avatar',
+            inputPlaceholder: 'Pick an avatar',
+        },
     },
     logout: {
         title: 'Logged out',

@@ -2,5 +2,4 @@ server:
   port: 8080
 
 auth:
-  files:
-    data-dir: /auth/data
+  data-dir: /auth/data

@@ -14,4 +14,9 @@ public class RootController {
     public List<Integer> get() {
         return List.of(1, 3, 5);
     }
+
+    @GetMapping("/favicon.ico")
+    public void getFavicon() {
+        //
+    }
 }

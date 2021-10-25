@@ -4,6 +4,41 @@
         <v-sheet class="py-2 text-h4 text-center rounded" v-text="$t('settings.title')" />
         <Form :title="$t('settings.userinfo')" disable-autocomplete :ui="ui" :include-groups="['default', 'profile']" />
         <Form :title="$t('settings.password')" disable-autocomplete :ui="ui" :include-groups="['default', 'password']" />
+        <v-card class="mt-2">
+            <v-card-title v-text="$t('settings.avatar.title')" />
+            <v-card-text>
+                <v-row>
+                    <v-col cols="12" sm="6">
+                        <div>current</div>
+                        <v-img :src="`${$nuxt.context.env.publicApi}/avatar/${$store.state.user.id}`" width="200" />
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-form
+                            method="POST"
+                            :action="`${$nuxt.context.env.publicApi}/avatar/${$store.state.user.id}?flowId=${flowId}`"
+                            enctype="multipart/form-data"
+                        >
+                            <div>new</div>
+                            <input type="hidden" name="csrf_token" :value="csrfToken" />
+                            <v-file-input
+                                v-model="file"
+                                name="avatar"
+                                prepend-icon="mdi-camera"
+                                :placeholder="$t('settings.avatar.inputPlaceholder')"
+                                dense
+                                single-line
+                                hide-details
+                                show-size
+                                filled
+                                :rules="[(v) => v !== null]"
+                                accept="image/png,image/jpeg"
+                            />
+                            <v-btn class="mt-2" block color="primary" type="submit" :disabled="!file" v-text="$t('general.save')" />
+                        </v-form>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+        </v-card>
     </v-col>
 </template>
 
@@ -23,6 +58,8 @@ import UserMessages from '~/components/UserMessages.vue';
 })
 @AuthRequired()
 export default class SettingsPage extends KratosPage {
+    file: File | null = null;
+
     head() {
         return {
             title: this.$t('settings.title'),
