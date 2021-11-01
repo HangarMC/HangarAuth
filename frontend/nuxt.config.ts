@@ -95,7 +95,7 @@ export default {
     router: {
         middleware: [],
     },
-    serverMiddleware: [{ path: '/oauth', handler: '~/server-middleware/hydra.ts' }],
+    serverMiddleware: [{ path: '/oauth', handler: '~/server-middleware/hydra.ts' }, { handler: '~/server-middleware/cors.ts' }],
 
     i18n: {
         vueI18nLoader: true,

@@ -18,7 +18,7 @@ urls:
     issuer: https://hangar-auth.benndorf.dev
   consent: https://hangar-auth.benndorf.dev/oauth/consent
   login: https://hangar-auth.benndorf.dev/oauth/login
-  logout: https://hangar-auth.benndorf.dev/account/logout/
+  logout: https://hangar-auth.benndorf.dev/oauth/logout
   error: https://hangar-auth.benndorf.dev/error
 
 dsn: "see env"

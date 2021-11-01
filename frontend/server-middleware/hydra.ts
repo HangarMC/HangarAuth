@@ -80,7 +80,7 @@ app.get('/login', async (req, res, next) => {
         const { data: kratosSession } = await kratosClient.toSession(undefined, undefined, req as { headers: { [name: string]: string } });
         const subject = kratosSession.identity.id;
         console.debug('telling hydra we fine');
-        const { data: loginResponse } = await hydraClient.acceptLoginRequest(challenge, { subject, context: kratosSession });
+        const { data: loginResponse } = await hydraClient.acceptLoginRequest(challenge, { subject, context: kratosSession, remember: true });
         console.debug('got url from hydra', loginResponse.redirect_to);
         return res.redirect(String(loginResponse.redirect_to));
     } catch (e) {
@@ -154,6 +154,38 @@ app.post('/consent', async (req, res, next) => {
         return res.redirect(String(redirect.redirect_to));
     } catch (e) {
         console.debug('error in post consent', e);
+        next();
+    }
+});
+
+app.get('/logout', async (req, res, next) => {
+    try {
+        const challenge = req.query.logout_challenge as string;
+        if (!challenge || !isString(challenge)) {
+            return next(new Error('Logout flow could not be completed because no Logout Challenge was found in the HTTP request.'));
+        }
+
+        // we don't actually need the details as we directly accept the request
+        // console.debug('asking hydra for details');
+        // const { data: logoutMetadata } = await hydraClient.getLogoutRequest(challenge);
+        // console.debug(logoutMetadata);
+
+        console.debug('accepting logout request');
+        const { data: redirect } = await hydraClient.acceptLogoutRequest(challenge);
+        return res.redirect(String(redirect.redirect_to));
+    } catch (e) {
+        console.debug('error in get logout', e);
+        next();
+    }
+});
+
+app.get('/frontchannel-logout', async (req, res, next) => {
+    try {
+        const { data: redirect } = await kratosClient.createSelfServiceLogoutFlowUrlForBrowsers(req.header('cookie'));
+        console.debug('front channel logout redirect', redirect.logout_url);
+        return res.redirect(String(redirect.logout_url));
+    } catch (e) {
+        console.debug('error in get frontchannel-logout', e);
         next();
     }
 });

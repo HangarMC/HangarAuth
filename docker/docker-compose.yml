@@ -32,6 +32,7 @@ services:
       - "5555:5555" # Port for hydra token user
     environment:
       - "OAUTH2_EXPOSE_INTERNAL_ERRORS=true"
+      - "LOG_LEVEL=debug"
   mailslurper:
     image: oryd/mailslurper:latest-smtps
     ports:
