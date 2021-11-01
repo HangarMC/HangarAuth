@@ -14,7 +14,7 @@ serve:
 
 urls:
   self:
-    public: https://hangar-auth.benndorf.dev/hydra
+    public: https://hangar-auth.benndorf.dev/hydra/
     issuer: https://hangar-auth.benndorf.dev
   consent: https://hangar-auth.benndorf.dev/oauth/consent
   login: https://hangar-auth.benndorf.dev/oauth/login
