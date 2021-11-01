@@ -15,7 +15,7 @@
     <description>api</description>
     <properties>
         <java.version>11</java.version>
-        <kratos-client.version>0.7.6-alpha.7</kratos-client.version>
+        <kratos-client.version>0.8.0-alpha.2</kratos-client.version>
         <jdbi3-bom.version>3.23.0</jdbi3-bom.version>
     </properties>
 
