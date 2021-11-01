@@ -78,6 +78,9 @@ export default {
             description: 'PaperMC Authentication Gateway!',
             lang: 'en',
         },
+        workbox: {
+            enabled: false,
+        },
     },
 
     // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
