@@ -22,6 +22,6 @@ public interface AvatarDAO {
     UserAvatarTable getUserAvatar(UUID userId);
 
     @Timestamped
-    @SqlUpdate("UPDATE identity_avatars SET hash = :hash, created_at = :now, file_name = :fileName")
+    @SqlUpdate("UPDATE identity_avatars SET hash = :hash, created_at = :now, file_name = :fileName WHERE identity_id = :identityId")
     void updateUserAvatar(@BindBean UserAvatarTable userAvatarTable);
 }
