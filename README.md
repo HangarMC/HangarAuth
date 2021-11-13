@@ -28,7 +28,7 @@ hydra clients create \
     --token-endpoint-auth-method none \
     --grant-types authorization_code,refresh_token \
     --response-types code \
-    --scope offline_access,openid,offline,email.profile \
+    --scope offline_access,openid,offline,email,profile \
     --callbacks http://localhost:3000/login
 ```
 
