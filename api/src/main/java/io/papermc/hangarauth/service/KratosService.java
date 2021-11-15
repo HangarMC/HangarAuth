@@ -71,7 +71,7 @@ public class KratosService {
         try {
             final HttpHeaders headers = new HttpHeaders();
             headers.set("X-Session-Cookie", sessionToken);
-            final ResponseEntity<String> stringResponseEntity = this.restTemplate.exchange(this.kratosConfig.getPublicUrl() + "/self-service/settings/flows/?id={flow_id}", HttpMethod.GET, new HttpEntity<>(headers), String.class, Map.of("flow_id", flowId));
+            final ResponseEntity<String> stringResponseEntity = this.restTemplate.exchange(this.kratosConfig.getPublicUrl() + "/self-service/settings/flows?id={flow_id}", HttpMethod.GET, new HttpEntity<>(headers), String.class, Map.of("flow_id", flowId));
             if (!stringResponseEntity.getStatusCode().is2xxSuccessful() || stringResponseEntity.getBody() == null) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, stringResponseEntity.toString());
             }
