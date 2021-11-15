@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class KratosConfig {
 
     private String adminUrl = "http://localhost:4434";
+    private String publicUrl = "http://localhost:4433";
 
     public String getAdminUrl() {
         return adminUrl;
@@ -15,5 +16,13 @@ public class KratosConfig {
 
     public void setAdminUrl(String adminUrl) {
         this.adminUrl = adminUrl;
+    }
+
+    public String getPublicUrl() {
+        return publicUrl;
+    }
+
+    public void setPublicUrl(String publicUrl) {
+        this.publicUrl = publicUrl;
     }
 }
