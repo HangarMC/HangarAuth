@@ -1,7 +1,7 @@
-import { UiContainer, V0alpha1ApiFactory } from '@ory/kratos-client';
+import { UiContainer, V0alpha2ApiFactory } from '@ory/kratos-client';
 import { Context } from '@nuxt/types';
 import { Inject } from '@nuxt/types/app';
-import { V0alpha1Api } from '@ory/kratos-client/api';
+import { AuthenticatorAssuranceLevel, SessionAuthenticationMethod, V0alpha2Api } from '@ory/kratos-client/api';
 import { AxiosError, AxiosResponse } from 'axios';
 import { requireFlow } from '~/utils/flows';
 
@@ -14,17 +14,28 @@ function _redirect(url: string, redirect: Context['redirect']) {
     }
 }
 
+export interface AALInfo {
+    aal: AuthenticatorAssuranceLevel;
+    methods: Array<SessionAuthenticationMethod>;
+}
+
 const createKratos = ({ $axios, redirect, route }: Context) => {
     class Kratos {
-        get client(): V0alpha1Api {
+        get client(): V0alpha2Api {
             const url = process.server ? process.env.kratos : process.env.kratosPublic;
             // @ts-ignore
-            return V0alpha1ApiFactory({ basePath: url }, url, $axios);
+            return V0alpha2ApiFactory({ basePath: url }, url, $axios);
         }
 
         login() {
             try {
                 _redirect(process.env.kratosPublic + '/self-service/login/browser', redirect);
+            } catch (e) {}
+        }
+
+        aal2() {
+            try {
+                _redirect(process.env.kratosPublic + '/self-service/login/browser?aal=aal2', redirect);
             } catch (e) {}
         }
 
@@ -56,6 +67,11 @@ const createKratos = ({ $axios, redirect, route }: Context) => {
             this.client.createSelfServiceLogoutFlowUrlForBrowsers(undefined, { withCredentials: true }).then((url) => {
                 _redirect(url.data.logout_url as string, redirect);
             });
+        }
+
+        async getErrorDetails(id: string) {
+            const response = await this.client.getSelfServiceError(id);
+            return response.data.error || { code: 500, message: 'Unknown error occurred' };
         }
 
         redirectOnError(redirect: () => void): (err: AxiosError) => void {

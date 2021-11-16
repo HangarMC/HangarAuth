@@ -9,6 +9,10 @@
                     Your account is not verified yet, <a @click="$kratos.verify()">click here</a> to change that!
                 </v-alert>
 
+                <v-alert v-if="verified && !aal2" type="warning">
+                    You haven't set up 2fa yet, go to <NuxtLink to="/account/settings">the settings</NuxtLink> to change that!
+                </v-alert>
+
                 <v-list>
                     <v-list-item v-for="(item, idx) in actions" :key="idx" :href="item.href" :to="item.to">
                         <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -44,6 +48,14 @@ export default class IndexPage extends Vue {
             if (verifiableAddress.verified) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    get aal2() {
+        if (this.verified) {
+            const aal = (this.$store.state as RootState).aal;
+            return aal.aal === 'aal2';
         }
         return false;
     }

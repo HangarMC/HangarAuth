@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { Configuration, Session, V0alpha1Api } from '@ory/kratos-client';
+import { Configuration, Session, V0alpha2Api } from '@ory/kratos-client';
 import { AdminApi as HydraAdminApi, Configuration as HydraConfiguration } from '@ory/hydra-client';
 import express, { NextFunction, Request, Response } from 'express';
 import { isString } from 'lodash-es';
@@ -17,7 +17,7 @@ const baseUrl = process.env.publicHost || 'http://localhost:3001';
 const app = express();
 
 const hydraClient = new HydraAdminApi(new HydraConfiguration({ basePath: hydraAdmin }));
-const kratosClient = new V0alpha1Api(new Configuration({ basePath: kratos }));
+const kratosClient = new V0alpha2Api(new Configuration({ basePath: kratos }));
 
 declare module 'express-session' {
     interface SessionData {

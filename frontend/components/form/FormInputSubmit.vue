@@ -1,16 +1,17 @@
 <template>
-    <v-text-field
+    <v-btn
         :disabled="node.attributes.disabled"
         :name="node.attributes.name"
-        :required="node.attributes.required"
-        :label="node.meta.label ? node.meta.label.text : null"
+        type="text"
         :messages="messages"
         :error-messages="errorMessages"
-        type="email"
-        persistent-hint
-        autocomplete="email"
         :value="node.attributes.value"
-    ></v-text-field>
+        persistent-hint
+        block
+        color="primary"
+    >
+        {{ text }}
+    </v-btn>
 </template>
 
 <script lang="ts">
@@ -18,7 +19,11 @@ import { Component } from 'nuxt-property-decorator';
 import { FormElement } from '~/components/mixins/FormElement';
 
 @Component
-export default class FormText extends FormElement {}
+export default class FormInputSubmit extends FormElement {
+    get text() {
+        return this.node.meta.label ? this.node.meta.label.text : 'submit';
+    }
+}
 </script>
 
 <style scoped></style>

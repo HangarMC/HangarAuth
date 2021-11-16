@@ -4,6 +4,7 @@
         <v-sheet class="py-2 text-h4 text-center rounded" v-text="$t('settings.title')" />
         <Form :title="$t('settings.userinfo')" disable-autocomplete :ui="ui" :include-groups="['default', 'profile']" />
         <Form :title="$t('settings.password')" disable-autocomplete :ui="ui" :include-groups="['default', 'password']" />
+        <Form :title="$t('settings.2fa')" disable-autocomplete :ui="ui" :include-groups="['default', 'totp']" />
         <v-card class="mt-2">
             <v-card-title v-text="$t('settings.avatar.title')" />
             <v-card-text>

@@ -4,7 +4,7 @@
             <v-card-title v-text="title" />
             <v-card-text>
                 <component
-                    :is="'form-' + node.attributes.type"
+                    :is="'form-' + node.type + (node.attributes.type ? '-' + node.attributes.type : '')"
                     v-for="(node, idx) in filteredNodes"
                     :key="idx"
                     :node="node"
@@ -22,20 +22,22 @@
 import { Component, mixins, Prop } from 'nuxt-property-decorator';
 import { UiNode } from '@ory/kratos-client';
 import { PropType } from 'vue';
-import FormPassword from '~/components/form/FormPassword.vue';
+import FormInputPassword from '~/components/form/FormInputPassword.vue';
+import FormInputText from '~/components/form/FormInputText.vue';
+import FormInputHidden from '~/components/form/FormInputHidden.vue';
+import FormInputEmail from '~/components/form/FormInputEmail.vue';
+import FormInputSubmit from '~/components/form/FormInputSubmit.vue';
+import FormImg from '~/components/form/FormImg.vue';
 import FormText from '~/components/form/FormText.vue';
-import FormHidden from '~/components/form/FormHidden.vue';
-import FormEmail from '~/components/form/FormEmail.vue';
-import FormSubmit from '~/components/form/FormSubmit.vue';
 import { FormPart } from '~/components/mixins/FormElement';
 import { KratosUiProp } from '~/components/mixins/Kratos';
 
 @Component({
-    components: { FormPassword, FormText, FormHidden, FormEmail, FormSubmit },
+    components: { FormInputPassword, FormInputText, FormInputHidden, FormInputEmail, FormInputSubmit, FormImg, FormText },
 })
 export default class Form extends mixins(FormPart, KratosUiProp) {
     @Prop({ type: String, required: true })
-    title!: String;
+    title!: string;
 
     @Prop({ type: Array as PropType<string[]>, default: () => [] })
     includeGroups!: string[];

@@ -26,6 +26,9 @@
             "credentials": {
               "password": {
                 "identifier": true
+              },
+              "totp": {
+                "account_name": true
               }
             },
             "verification": {
@@ -54,7 +57,7 @@
           "type": "string"
         },
         "github": {
-          "title": "Github Username",
+          "title": "GitHub Username",
           "type": "string"
         },
         "minecraft": {

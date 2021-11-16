@@ -19,7 +19,7 @@ import { Component } from 'nuxt-property-decorator';
 import { FormElement } from '~/components/mixins/FormElement';
 
 @Component
-export default class FormPassword extends FormElement {
+export default class FormInputPassword extends FormElement {
     show: boolean = false;
 }
 </script>

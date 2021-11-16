@@ -30,6 +30,10 @@ selfservice:
       enabled: true
       config:
         lifespan: 1h
+    totp:
+      enabled: true
+      config:
+        issuer: HangarAuth
 
   flows:
     error:
