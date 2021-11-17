@@ -33,6 +33,19 @@ selfservice:
       enabled: true
       config:
         lifespan: 1h
+    totp:
+      enabled: true
+      config:
+        issuer: HangarAuth
+    lookup_secret:
+      enabled: true
+    webauthn:
+      enabled: true
+      config:
+        rp:
+          id: benndorf.dev
+          origin: https://hangar-auth.benndorf.dev
+          display_name: HangarAuth
 
   flows:
     error:
