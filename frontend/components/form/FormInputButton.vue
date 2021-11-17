@@ -5,11 +5,13 @@
         type="text"
         :messages="messages"
         :error-messages="errorMessages"
-        :value="node.attributes.value"
+        :value="node.attributes.value || ''"
         persistent-hint
         block
-        color="primary"
+        color="secondary"
         class="mt-2"
+        :onclick="node.attributes.onclick"
+        @click.prevent
     >
         {{ text }}
     </v-btn>
@@ -20,7 +22,7 @@ import { Component } from 'nuxt-property-decorator';
 import { FormElement } from '~/components/mixins/FormElement';
 
 @Component
-export default class FormInputSubmit extends FormElement {
+export default class FormInputButton extends FormElement {
     get text() {
         return this.node.meta.label ? this.node.meta.label.text : 'submit';
     }

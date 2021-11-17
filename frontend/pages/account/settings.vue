@@ -5,6 +5,8 @@
         <Form :title="$t('settings.userinfo')" disable-autocomplete :ui="ui" :include-groups="['default', 'profile']" />
         <Form :title="$t('settings.password')" disable-autocomplete :ui="ui" :include-groups="['default', 'password']" />
         <Form :title="$t('settings.2fa')" disable-autocomplete :ui="ui" :include-groups="['default', 'totp']" />
+        <Form :title="$t('settings.2fa-backup')" disable-autocomplete :ui="ui" :include-groups="['default', 'lookup_secret']" />
+        <Form :title="$t('settings.webauthn')" disable-autocomplete :ui="ui" :include-groups="['default', 'webauthn']" />
         <v-card class="mt-2">
             <v-card-title v-text="$t('settings.avatar.title')" />
             <v-card-text>

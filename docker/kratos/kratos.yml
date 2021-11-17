@@ -1,4 +1,4 @@
-version: v0.7.1-alpha.1
+version: v0.8.0-alpha.3
 
 dsn: postgres://hangar:hangar@db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
 
@@ -34,6 +34,15 @@ selfservice:
       enabled: true
       config:
         issuer: HangarAuth
+    lookup_secret:
+      enabled: true
+    webauthn:
+      enabled: true
+      config:
+        rp:
+          id: localhost
+          origin: http://localhost:3001
+          display_name: HangarAuth
 
   flows:
     error:

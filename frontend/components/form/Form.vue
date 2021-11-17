@@ -4,7 +4,7 @@
             <v-card-title v-text="title" />
             <v-card-text>
                 <component
-                    :is="'form-' + node.type + (node.attributes.type ? '-' + node.attributes.type : '')"
+                    :is="'form-' + node.type + (node.attributes.type && !node.attributes.type.includes('/') ? '-' + node.attributes.type : '')"
                     v-for="(node, idx) in filteredNodes"
                     :key="idx"
                     :node="node"
@@ -27,13 +27,15 @@ import FormInputText from '~/components/form/FormInputText.vue';
 import FormInputHidden from '~/components/form/FormInputHidden.vue';
 import FormInputEmail from '~/components/form/FormInputEmail.vue';
 import FormInputSubmit from '~/components/form/FormInputSubmit.vue';
+import FormInputButton from '~/components/form/FormInputButton.vue';
 import FormImg from '~/components/form/FormImg.vue';
 import FormText from '~/components/form/FormText.vue';
+import FormScript from '~/components/form/FormScript.vue';
 import { FormPart } from '~/components/mixins/FormElement';
 import { KratosUiProp } from '~/components/mixins/Kratos';
 
 @Component({
-    components: { FormInputPassword, FormInputText, FormInputHidden, FormInputEmail, FormInputSubmit, FormImg, FormText },
+    components: { FormInputPassword, FormInputText, FormInputHidden, FormInputEmail, FormInputSubmit, FormImg, FormText, FormInputButton, FormScript },
 })
 export default class Form extends mixins(FormPart, KratosUiProp) {
     @Prop({ type: String, required: true })

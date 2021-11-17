@@ -73,6 +73,8 @@ const msgs: LocaleMessageObject = {
         email: 'Email',
         created: 'Member since',
         '2fa': 'Two-factor-auth',
+        '2fa-backup': 'Manage 2FA Backup Recovery Codes',
+        webauthn: 'Manage Security Keys',
         manage2fa: 'Manage 2FA',
         profile: 'Profile',
         fullName: 'Full Name',
