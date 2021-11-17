@@ -1491,14 +1491,14 @@
     mustache "^2.3.0"
     stack-trace "0.0.10"
 
-"@ory/hydra-client@1.10.7":
+"@ory/hydra-client@1.10.6":
   version "1.10.6"
   resolved "https://registry.yarnpkg.com/@ory/hydra-client/-/hydra-client-1.10.6.tgz#1b05e094f68e28de590e8dd1a95f75fd6c0a7cdd"
   integrity sha512-Y072QUujPHj0pSWaKPjax+zT9zTZFEMhLEd2QCHXzY61e8eWHh/iBq2sOzOmXfyyVIGN36DXdbmI3fL6LgRdnw==
   dependencies:
     axios "^0.21.1"
 
-"@ory/kratos-client@0.8.0-alpha.3":
+"@ory/kratos-client@0.8.0-alpha.2":
   version "0.8.0-alpha.2"
   resolved "https://registry.yarnpkg.com/@ory/kratos-client/-/kratos-client-0.8.0-alpha.2.tgz#ad99d2d2a1d99b231b174ad0858fd4dfada5f4d6"
   integrity sha512-75hnc2ALdc66GFdtBYb0U+kahZ96ns19TW7h6ViLhmTeapJBwnkhrbSE0Svp4IsPCk6CeatjwHdHpR5f8vCb/Q==
