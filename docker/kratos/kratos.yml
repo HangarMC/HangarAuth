@@ -1,6 +1,6 @@
 version: v0.8.0-alpha.3
 
-dsn: postgres://hangar:hangar@db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
+dsn: cockroach://root@cockroach:26257/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
 
 serve:
   public:

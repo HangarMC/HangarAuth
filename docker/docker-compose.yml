@@ -18,7 +18,7 @@ services:
   hydra-migrate:
     build:
       context: hydra
-    command: -c /etc/config/hydra/kratos.yml migrate sql -e --yes
+    command: -c /etc/config/hydra/hydra.yml migrate sql -e --yes
     restart: on-failure
   hydra:
     depends_on:
@@ -39,6 +39,19 @@ services:
       - '4436:4436'
       - '4437:4437'
       - '1025:1025'
+  cockroach:
+    image: cockroachdb/cockroach:latest-v21.2
+    ports:
+      - "26257:26257"
+      - "26000:8080"
+    volumes:
+      - cockroach_data:/cockroach/cockroach-data
+    command:
+      - "start-single-node"
+      - "--insecure"
+
+volumes:
+  cockroach_data:
 
 networks:
   default:
