@@ -6,6 +6,14 @@
                 {{ errorDetails.reason }}
             </v-card-text>
         </v-card>
+        <v-card v-else-if="errorName">
+            <v-card-title>Technical error: {{ errorName }}</v-card-title>
+            <v-card-text>
+                {{ errorDescription }}
+                <br />
+                Please report this to the administrators!
+            </v-card-text>
+        </v-card>
         <v-card v-else>
             <v-card-title>An error occurred</v-card-title>
             <v-card-text>Trying to fetch more info...</v-card-text>
@@ -18,12 +26,17 @@ import { Component, Vue } from 'nuxt-property-decorator';
 
 @Component({})
 export default class Error extends Vue {
-    errorDetails: object = {};
+    errorDetails!: object;
+    errorName!: string;
+    errorDescription!: string;
 
     async created() {
         const errorId = this.$route.query.id;
         if (errorId) {
             this.errorDetails = await this.$kratos.getErrorDetails(errorId as string);
+        } else if (this.$route.query.error) {
+            this.errorName = this.$route.query.error as string;
+            this.errorDescription = this.$route.query.error_description as string;
         }
     }
 }
