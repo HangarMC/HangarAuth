@@ -220,8 +220,9 @@ const redirectToLogin = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const createHydraSession = (context: Session, requestedScope: string[] = []) => {
-    const verifiableAddresses = context.identity.verifiable_addresses || [];
+    const verifiableAddresses = context.identity?.verifiable_addresses || [];
     if (!requestedScope.includes('email') || verifiableAddresses.length === 0) {
+        console.log('no email', requestedScope, context);
         return {};
     }
 
