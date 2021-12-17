@@ -17,7 +17,9 @@
                 </v-card-title>
                 <v-card-text>
                     <p style="margin-bottom: 15px">
-                        Hi {{ user }}, application <strong>{{ clientName }}</strong> wants access resources on your behalf and to:
+                        <template v-if="user">Hi {{ user }}, application </template>
+                        <template v-else>Application </template>
+                        <strong>{{ clientName }}</strong> wants access resources on your behalf and to:
                     </p>
 
                     <div style="margin-bottom: 15px; margin-top: 8px">Scopes:</div>
@@ -59,7 +61,7 @@ export default class ConsentPage extends Vue {
     }
 
     get error() {
-        return this.hydraData.length === 1 ? this.hydraData[0] : null;
+        return this.hydraData && this.hydraData.length === 1 ? this.hydraData[0] : null;
     }
 
     get challenge() {
