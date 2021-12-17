@@ -9,9 +9,9 @@ export interface RootState {
 }
 
 export const state: () => RootState = () => ({
-    user: (null as unknown) as RootState['user'],
-    aal: (null as unknown) as RootState['aal'],
-    hydraData: (null as unknown) as RootState['hydraData'],
+    user: null as unknown as RootState['user'],
+    aal: null as unknown as RootState['aal'],
+    hydraData: null as unknown as RootState['hydraData'],
 });
 
 export const mutations: MutationTree<RootState> = {
