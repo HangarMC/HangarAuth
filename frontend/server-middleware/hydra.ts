@@ -112,7 +112,7 @@ app.get('/consent', async (req, res, next) => {
         res.setHeader('hydra', [
             challenge,
             'csrf token', // TODO csrf
-            (consentRequest.context! as Session).identity.traits.username,
+            (consentRequest.context as Session)?.identity?.traits?.username || '',
             consentRequest.client!.client_name!,
             consentRequest.requested_scope!.join(','),
             consentRequest.client!.policy_uri ?? '',
@@ -121,6 +121,7 @@ app.get('/consent', async (req, res, next) => {
         next();
     } catch (e) {
         console.debug('error in get consent', e);
+        res.setHeader('hydra', [e.toString()]);
         next();
     }
 });

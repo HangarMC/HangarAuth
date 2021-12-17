@@ -1,6 +1,14 @@
 <template>
     <v-col md="6" offset-md="3" cols="12" offset="0">
-        <v-form action="/oauth/consent" method="POST">
+        <v-card v-if="error">
+            <v-card-title>
+                <h5 class="subheading">Error processing consent request</h5>
+            </v-card-title>
+            <v-card-text>
+                {{ error }}
+            </v-card-text>
+        </v-card>
+        <v-form v-else action="/oauth/consent" method="POST">
             <input name="challenge" type="hidden" :value="challenge" />
             <input name="_csrf" type="hidden" :value="csrfToken" />
             <v-card>
@@ -14,7 +22,7 @@
 
                     <div style="margin-bottom: 15px; margin-top: 8px">Scopes:</div>
                     <div v-for="scope in requestedScope" :key="scope" style="margin-bottom: 5px">
-                        <input :id="scope" style="display: inline-block; margin-right: 3px" type="checkbox" :value="scope" name="grant_scope" />
+                        <input :id="scope" style="display: inline-block; margin-right: 3px" type="checkbox" :value="scope" name="grant_scope" checked />
                         <div style="display: inline-block">{{ scope }}</div>
                     </div>
 
@@ -28,7 +36,7 @@
                     </ul>
 
                     <div>
-                        <input id="remember" type="checkbox" value="1" name="remember" />
+                        <input id="remember" type="checkbox" value="1" name="remember" checked />
                         <div style="display: inline-block; margin-right: 3px">Do not ask me again</div>
                     </div>
 
@@ -50,6 +58,10 @@ export default class ConsentPage extends Vue {
         return (this.$store.state as RootState).hydraData;
     }
 
+    get error() {
+        return this.hydraData.length === 1 ? this.hydraData[0] : null;
+    }
+
     get challenge() {
         return this.hydraData[0];
     }
@@ -67,7 +79,7 @@ export default class ConsentPage extends Vue {
     }
 
     get requestedScope() {
-        return this.hydraData[4].split(',');
+        return this.hydraData[4]?.split(',');
     }
 
     get policyUrl() {
