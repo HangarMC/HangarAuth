@@ -1,11 +1,10 @@
 package io.papermc.hangarauth.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import io.papermc.hangarauth.config.custom.KratosConfig;
-import io.papermc.hangarauth.controller.model.Traits;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.Name;
 import org.springframework.http.HttpEntity;
@@ -17,18 +16,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
-import sh.ory.kratos.ApiClient;
-import sh.ory.kratos.ApiException;
-import sh.ory.kratos.api.V0alpha1Api;
-import sh.ory.kratos.model.Identity;
-import sh.ory.kratos.model.JsonError;
-import sh.ory.kratos.model.SelfServiceSettingsFlow;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+
+import io.papermc.hangarauth.config.custom.KratosConfig;
+import io.papermc.hangarauth.controller.model.Traits;
+import sh.ory.kratos.model.Identity;
+import sh.ory.kratos.model.JsonError;
+import sh.ory.kratos.model.SelfServiceSettingsFlow;
 
 /**
  * For interacting with the kratos admin API
