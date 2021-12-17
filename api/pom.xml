@@ -19,7 +19,7 @@
         <kratos-client.version>0.8.0-alpha.2</kratos-client.version>
         <jdbi3-bom.version>3.25.0</jdbi3-bom.version>
         <annotations.version>23.0.0</annotations.version>
-        <h2.version>1.4.200</h2.version>
+        <h2.version>2.0.202</h2.version>
         <pg.version>1.16.2</pg.version>
     </properties>
 
