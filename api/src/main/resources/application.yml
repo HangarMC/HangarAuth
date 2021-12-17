@@ -6,9 +6,9 @@ spring:
     init:
       platform: postgres
   datasource:
-    url: jdbc:postgresql://localhost:5432/kratos?currentSchema=auth
-    username: hangar
-    password: hangar
+    url: jdbc:postgresql://localhost:26257/kratos?currentSchema=auth
+    username: root
+    password:
   flyway:
     default-schema: auth
     create-schemas: true
