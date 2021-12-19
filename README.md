@@ -16,7 +16,15 @@ HangarAuth is a yarn project, so you wanna run `yarn` and then `yarn dev` inside
 
 Additionally, you will want to run kratos, hydra, a database and a test mail server. Those have been provided via docker compose. Checkout the docker folder.
 
-## Creating a client
+Furthermore, you need to run the spring application in the `api` folder, it provides functionality for avatars. 
+
+## Initial setup
+
+You need to create a `hydra` and `kratos` databases in your cockroach db. IntelliJs DB integration can help you here.
+
+You also need to create a hydra client for communication with hangar:
+
+### Creating a client
 
 Run the following command inside the `hydra` container to create the hydra client.
 
