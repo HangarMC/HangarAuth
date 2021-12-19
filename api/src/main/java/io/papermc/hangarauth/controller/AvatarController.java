@@ -7,6 +7,7 @@ import io.papermc.hangarauth.service.KratosService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
@@ -44,6 +46,19 @@ public class AvatarController {
 
     @GetMapping("/{userId}")
     public Object getUsersAvatar(@NotNull @PathVariable UUID userId) throws IOException {
+        return this.getUsersAvatar0(userId);
+    }
+
+    @GetMapping("/user/{name}")
+    public Object getUsersAvatar(@NotNull @PathVariable String name) throws IOException {
+        UUID userId = this.kratosService.getUserId(name);
+        if (userId == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return this.getUsersAvatar0(userId);
+    }
+
+    private Object getUsersAvatar0(UUID userId) throws IOException {
         final UserAvatarTable userAvatarTable = this.avatarService.getUsersAvatarTable(userId);
         if (userAvatarTable == null) {
             return getUserAvatarRedirect(userId);

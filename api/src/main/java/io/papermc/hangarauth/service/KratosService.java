@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.papermc.hangarauth.db.dao.KratosIdentityDAO;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.Name;
 import org.springframework.http.HttpEntity;
@@ -35,17 +37,23 @@ import sh.ory.kratos.model.SelfServiceSettingsFlow;
 @Service
 public class KratosService {
 
+    private final KratosIdentityDAO kratosIdentityDAO;
     private final KratosConfig kratosConfig;
     private final RestTemplate restTemplate;
     private final Gson gson;
     private final ObjectMapper mapper;
 
     @Autowired
-    public KratosService(KratosConfig kratosConfig, RestTemplate restTemplate, @Name("kratos") Gson gson, ObjectMapper mapper) {
+    public KratosService(KratosIdentityDAO kratosIdentityDAO, KratosConfig kratosConfig, RestTemplate restTemplate, @Name("kratos") Gson gson, ObjectMapper mapper) {
+        this.kratosIdentityDAO = kratosIdentityDAO;
         this.kratosConfig = kratosConfig;
         this.restTemplate = restTemplate;
         this.gson = gson;
         this.mapper = mapper;
+    }
+
+    public @Nullable UUID getUserId(String identifier) {
+        return this.kratosIdentityDAO.getUserId(identifier);
     }
 
     public @NotNull Identity getUserIdentity(@NotNull UUID userId) throws IOException {
