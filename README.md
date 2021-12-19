@@ -32,6 +32,12 @@ hydra clients create \
     --callbacks http://localhost:3000/login
 ```
 
+## Client for deployment with logout
+| id | client\_name | redirect\_uris | grant\_types                            | response\_types | scope | frontchannel\_logout\_uri | frontchannel\_logout\_session\_required | post\_logout\_redirect\_uris |
+| :--- | :--- | :--- |:----------------------------------------|:----------------| :--- | :--- | :--- | :--- |
+| hangar | Hangar | https://hangar.benndorf.dev/login | authorization\_code%pipe%refresh\_token | code | offline\_access openid offline email profile | https://hangar-auth.benndorf.dev/oauth/frontchannel-logout | false | https://hangar.benndorf.dev/handle-logout |
+
+
 ## Contributing
 
 All contributions are welcome, however we recommend joining #development on the [Hangar Discord](https://discord.gg/zvrAEbvJ4a) and discussing changes with us before,
