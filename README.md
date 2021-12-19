@@ -24,7 +24,7 @@ or in their `.bashrc` or `.zshrc` files.
 
 ## Initial setup
 
-You need to create a `hydra` and `kratos` databases in your cockroach db. IntelliJs DB integration can help you here.
+You need to create a `hydra` and `kratos` databases in your cockroach db. IntelliJ's DB integration can help you here.
 
 You also need to create a hydra client for communication with hangar:
 
@@ -47,7 +47,7 @@ hydra clients create \
 ## Client for deployment with logout
 | id | client\_name | redirect\_uris | grant\_types                            | response\_types | scope | frontchannel\_logout\_uri | frontchannel\_logout\_session\_required | post\_logout\_redirect\_uris |
 | :--- | :--- | :--- |:----------------------------------------|:----------------| :--- | :--- | :--- | :--- |
-| hangar | Hangar | https://hangar.benndorf.dev/login | authorization\_code%pipe%refresh\_token | code | offline\_access openid offline email profile | https://hangar-auth.benndorf.dev/oauth/frontchannel-logout | false | https://hangar.benndorf.dev/handle-logout |
+| hangar | Hangar | https://hangar.benndorf.dev/login | authorization\_code&#124;refresh\_token | code | offline\_access openid offline email profile | https://hangar-auth.benndorf.dev/oauth/frontchannel-logout | false | https://hangar.benndorf.dev/handle-logout |
 
 
 ## Contributing
