@@ -18,6 +18,10 @@ Additionally, you will want to run kratos, hydra, a database and a test mail ser
 
 Furthermore, you need to run the spring application in the `api` folder, it provides functionality for avatars. 
 
+### Linux Note
+Linux users need to set the `DOCKER_GATEWAY_HOST` environment variable (`DOCKER_GATEWAY_HOST=172.17.0.1`) either in their Run Configuration for the docker-compose file
+or in their `.bashrc` or `.zshrc` files.
+
 ## Initial setup
 
 You need to create a `hydra` and `kratos` databases in your cockroach db. IntelliJs DB integration can help you here.
