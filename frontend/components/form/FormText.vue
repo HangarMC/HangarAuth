@@ -4,7 +4,7 @@
         <template v-if="secrets">
             <div>{{ node.meta.label.text }}</div>
             <v-row class="mt-2 mb-2">
-                <v-col v-for="secret in secrets" :key="secret" cols="3">
+                <v-col v-for="secret in secrets" :key="secret.id" cols="3">
                     <!-- 1050014 means used -->
                     <code>{{ secret.id === 1050014 ? 'Used' : secret.text }}</code>
                 </v-col>
