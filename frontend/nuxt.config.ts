@@ -160,6 +160,11 @@ export default {
         cookieHttps,
     },
 
+    proxy: [
+        // api
+        publicApi + '/avatar/',
+    ],
+
     loading: {
         color: colors.blue.lighten2,
         continuous: true,

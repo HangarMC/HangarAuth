@@ -30,14 +30,12 @@ public class AvatarService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AvatarService.class);
 
     private final AvatarDAO avatarDAO;
-    private final Path dataDir;
     private final Path avatarDir;
 
     @Autowired
     public AvatarService(AvatarDAO avatarDAO, GeneralConfig config) throws IOException {
         this.avatarDAO = avatarDAO;
-        this.dataDir = Path.of(config.getDataDir());
-        this.avatarDir = this.dataDir.resolve("avatars");
+        this.avatarDir = config.getDataDir().resolve("avatars");
         Files.createDirectories(this.avatarDir);
         LOGGER.info("Avatars directory: {}", avatarDir.toAbsolutePath());
     }

@@ -11,16 +11,13 @@
             <v-card-title v-text="$t('settings.avatar.title')" />
             <v-card-text>
                 <v-row>
+                    <!--TODO this is just base functionality: add image preview, prettify-->
                     <v-col cols="12" sm="6">
                         <div>current</div>
-                        <v-img :src="`${$nuxt.context.env.publicApi}/avatar/${$store.state.user.id}`" width="200" />
+                        <v-img :src="`/avatar/${$store.state.user.id}`" width="200" />
                     </v-col>
                     <v-col cols="12" sm="6">
-                        <v-form
-                            method="POST"
-                            :action="`${$nuxt.context.env.publicApi}/avatar/${$store.state.user.id}?flowId=${flowId}`"
-                            enctype="multipart/form-data"
-                        >
+                        <v-form method="POST" :action="`/avatar/${$store.state.user.id}?flowId=${flowId}`" enctype="multipart/form-data">
                             <div>new</div>
                             <input type="hidden" name="csrf_token" :value="csrfToken" />
                             <v-file-input

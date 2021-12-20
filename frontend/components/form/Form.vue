@@ -22,6 +22,7 @@
 import { Component, mixins, Prop } from 'nuxt-property-decorator';
 import { UiNode } from '@ory/kratos-client';
 import { PropType } from 'vue';
+import { TranslateResult } from 'vue-i18n';
 import FormInputPassword from '~/components/form/FormInputPassword.vue';
 import FormInputText from '~/components/form/FormInputText.vue';
 import FormInputHidden from '~/components/form/FormInputHidden.vue';
@@ -38,7 +39,7 @@ import { KratosUiProp } from '~/components/mixins/Kratos';
     components: { FormInputPassword, FormInputText, FormInputHidden, FormInputEmail, FormInputSubmit, FormImg, FormText, FormInputButton, FormScript },
 })
 export default class Form extends mixins(FormPart, KratosUiProp) {
-    @Prop({ type: String, required: true })
+    @Prop({ type: String as PropType<TranslateResult>, required: true })
     title!: string;
 
     @Prop({ type: Array as PropType<string[]>, default: () => [] })
