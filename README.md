@@ -42,6 +42,7 @@ hydra clients create \
     --response-types code \
     --scope offline_access,openid,offline,email,profile \
     --callbacks http://localhost:3000/login
+    --post-logout-callbacks http://localhost:3000/handle-logout
 ```
 
 ## Client for deployment with logout
