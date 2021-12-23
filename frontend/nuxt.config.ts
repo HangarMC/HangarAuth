@@ -17,6 +17,7 @@ const hydraPublic = process.env.hydraPublic || 'http://localhost:4445';
 const host = process.env.host || 'localhost';
 const cookieSecret = process.env.SECRET_COOKIE || 'dum';
 const cookieHttps = process.env.cookieHttps || 'false';
+const signupDisabled = process.env.signupDisabled;
 
 console.log('kratosPublic', process.env.kratosPublic, kratosPublic);
 
@@ -158,6 +159,7 @@ export default {
         hangarHost,
         cookieSecret,
         cookieHttps,
+        signupDisabled,
     },
 
     proxy: [
