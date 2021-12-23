@@ -105,5 +105,6 @@ identity:
 courier:
   template_override_path: /etc/config/kratos/templates
   smtp:
-    connection_uri: "see env"
+    # overriden in env
+    connection_uri: smtps://dum:dum@hangarauth_mail:1025/?skip_ssl_verify=true&legacy_ssl=true
     from_address: noreply@papermc.dev
