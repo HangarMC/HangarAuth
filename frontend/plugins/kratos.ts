@@ -5,15 +5,6 @@ import { AuthenticatorAssuranceLevel, SessionAuthenticationMethod, V0alpha2Api }
 import { AxiosError, AxiosResponse } from 'axios';
 import { requireFlow } from '~/utils/flows';
 
-function _redirect(url: string, redirect: Context['redirect']) {
-    console.log('redirect to: ' + url);
-    if (process.server) {
-        redirect(url);
-    } else {
-        window.location.href = url;
-    }
-}
-
 export interface AALInfo {
     aal: AuthenticatorAssuranceLevel;
     methods: Array<SessionAuthenticationMethod>;
@@ -27,45 +18,59 @@ const createKratos = ({ $axios, redirect, route }: Context) => {
             return V0alpha2ApiFactory({ basePath: url }, url, $axios);
         }
 
+        redirect(url: string) {
+            console.log('redirect to: ' + url);
+            if (process.server) {
+                redirect(url);
+            } else {
+                window.location.href = url;
+            }
+        }
+
         login() {
             try {
-                _redirect(process.env.kratosPublic + '/self-service/login/browser', redirect);
+                redirect(process.env.kratosPublic + '/self-service/login/browser');
             } catch (e) {}
         }
 
         aal2() {
             try {
-                _redirect(process.env.kratosPublic + '/self-service/login/browser?aal=aal2', redirect);
+                redirect(process.env.kratosPublic + '/self-service/login/browser?aal=aal2');
             } catch (e) {}
         }
 
         register() {
             try {
-                _redirect(process.env.kratosPublic + '/self-service/registration/browser', redirect);
+                redirect(process.env.kratosPublic + '/self-service/registration/browser');
             } catch (e) {}
         }
 
         reset() {
             try {
-                _redirect(process.env.kratosPublic + '/self-service/recovery/browser', redirect);
+                redirect(process.env.kratosPublic + '/self-service/recovery/browser');
             } catch (e) {}
         }
 
         verify() {
             try {
-                _redirect(process.env.kratosPublic + '/self-service/verification/browser', redirect);
+                redirect(process.env.kratosPublic + '/self-service/verification/browser');
             } catch (e) {}
         }
 
         settings() {
             try {
-                _redirect(process.env.kratosPublic + '/self-service/settings/browser', redirect);
+                redirect(process.env.kratosPublic + '/self-service/settings/browser');
             } catch (e) {}
         }
 
         logout() {
             this.client.createSelfServiceLogoutFlowUrlForBrowsers(undefined, { withCredentials: true }).then((url) => {
-                _redirect(url.data.logout_url as string, redirect);
+                const _url = url.data.logout_url as string;
+                if (process.server) {
+                    redirect(_url);
+                } else {
+                    window.location.href = _url;
+                }
             });
         }
 

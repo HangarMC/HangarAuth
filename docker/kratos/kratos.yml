@@ -117,4 +117,4 @@ courier:
   template_override_path: /etc/config/kratos/templates
   smtp:
     connection_uri: smtps://dum:dum@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true
-    from_address: no-reply@papermc.io
+    from_address: noreply@mail.papermc.dev

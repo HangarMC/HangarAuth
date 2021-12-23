@@ -18,12 +18,18 @@ export function AuthRequired() {
             })
             .catch((e: any) => {
                 if (e.response) {
-                    if (e.response.status === 401) {
-                        console.debug('401 -> login');
+                    if (e.response.data.redirect_browser_to) {
+                        console.debug('session catch: url', e.response.data.redirect_browser_to);
+                        return $kratos.redirect(e.response.data.redirect_browser_to);
+                    } else if (e.response.status === 401) {
+                        console.debug('session catch: 401 -> login');
                         return $kratos.login();
+                    } else if (e.response.status === 404) {
+                        console.debug('session catch: 403 -> aal');
+                        return $kratos.aal2();
                     }
                 }
-                console.error(e);
+                console.error('session catch:', e);
             });
     };
 

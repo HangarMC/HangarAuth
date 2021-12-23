@@ -81,6 +81,7 @@ services:
       DSN: "cockroach://${POSTGRES_USER}@hangar_new_db:26257/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_COOKIE: "supersecuresupersecure"
       LOG_LEAK_SENSITIVE_VALUES: "true"
+      COURIER_SMTP_CONNECTION_URI: "${EMAIL_SETTINGS}"
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-kauth.loadbalancer.server.port=4433"
@@ -133,21 +134,6 @@ services:
       - "traefik.http.routers.hangar-oauth.tls.certresolver=default"
       - "traefik.http.routers.hangar-oauth.tls.domains[0].main=benndorf.dev"
       - "traefik.http.routers.hangar-oauth.tls.domains[0].sans=*.benndorf.dev"
-    networks:
-      - web
-  mailslurper:
-    image: oryd/mailslurper:latest-smtps
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.hangar-auth-mail.loadbalancer.server.port=4436"
-      - "traefik.http.routers.hangar-auth-mail.middlewares=basicauth@file"
-      - "traefik.http.routers.hangar-auth-mail.rule=Host(`hangar-auth-mail.benndorf.dev`)"
-      - "traefik.http.routers.hangar-auth-mail.entrypoints=web-secure"
-      - "traefik.http.routers.hangar-auth-mail.tls=true"
-      - "traefik.http.routers.hangar-auth-mail.tls.options=default"
-      - "traefik.http.routers.hangar-auth-mail.tls.certresolver=default"
-      - "traefik.http.routers.hangar-auth-mail.tls.domains[0].main=benndorf.dev"
-      - "traefik.http.routers.hangar-auth-mail.tls.domains[0].sans=*.benndorf.dev"
     networks:
       - web
 

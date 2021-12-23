@@ -96,6 +96,7 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PW: ${{ secrets.POSTGRES_PW }}
+          EMAIL_SETTINGS: ${{ secrets.EMAIL_SETTINGS }}
         run: |
           echo ${{ secrets.DOCKER_HOST_SSH_SIG }} > ~/.ssh/known_hosts
           docker-compose build
