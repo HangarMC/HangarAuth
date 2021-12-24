@@ -61,6 +61,9 @@ services:
     image: "ghcr.io/papermc/hangarauth_kratos-migrate"
     build:
       context: kratos
+      args:
+        API_HOST: "http://api:8081"
+        BACKEND_HOST: "http://hangar_new_backend:8080"
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
     environment:
@@ -76,6 +79,9 @@ services:
     image: "ghcr.io/papermc/hangarauth_kratos"
     build:
       context: kratos
+      args:
+        API_HOST: "http://api:8081"
+        BACKEND_HOST: "http://hangar_new_backend:8080"
     restart: unless-stopped
     environment:
       DSN: "cockroach://${POSTGRES_USER}@hangar_new_db:26257/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
