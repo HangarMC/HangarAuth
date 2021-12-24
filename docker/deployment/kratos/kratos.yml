@@ -54,6 +54,20 @@ selfservice:
     settings:
       ui_url: https://hangar-auth.benndorf.dev/account/settings
       privileged_session_max_age: 15m
+      after:
+        profile:
+          hooks:
+            - hook: web_hook
+              config:
+                method: POST
+                url: "${BACKEND_HOST}/sync"
+                body: file:///etc/config/kratos/hooks/settings/after/profile.jsonnet
+                auth:
+                  type: api_key
+                  config:
+                    in: header
+                    name: X-Kratos-Hook-Api-Key
+                    value: hookapikey-changeme
 
     recovery:
       enabled: true

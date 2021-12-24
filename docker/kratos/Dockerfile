@@ -6,6 +6,7 @@ ADD templates /etc/config/kratos/templates
 COPY hooks /etc/config/kratos/hooks
 # replace api host env var in kratos.yml
 ARG API_HOST
+ARG BACKEND_HOST
 USER root
 RUN apk add -U --no-cache gettext
 RUN envsubst < /etc/config/kratos/kratos.yml.orig > /etc/config/kratos/kratos.yml
