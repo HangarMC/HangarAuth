@@ -13,6 +13,9 @@ export class FormElement extends FormPart {
     @Prop({ type: Object as PropType<UiNode>, required: true })
     node!: UiNode;
 
+    @Prop({ type: Boolean, default: false })
+    disabledField!: UiNode;
+
     get errorMessages(): string[] {
         return this.node.messages.filter((m) => m.type === 'error').map((m) => m.text);
     }

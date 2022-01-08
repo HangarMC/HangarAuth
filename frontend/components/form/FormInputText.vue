@@ -1,6 +1,6 @@
 <template>
     <v-text-field
-        :disabled="node.attributes.disabled"
+        :disabled="disabledField || node.attributes.disabled"
         :name="node.attributes.name"
         :required="node.attributes.required"
         :label="node.meta.label ? node.meta.label.text : null"

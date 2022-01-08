@@ -9,6 +9,7 @@
                     :key="idx"
                     :node="node"
                     :disable-autocomplete="disableAutocomplete"
+                    :disabled-field="disabledFields.includes(node.attributes.name)"
                 />
             </v-card-text>
             <v-card-actions>
@@ -44,6 +45,9 @@ export default class Form extends mixins(FormPart, KratosUiProp) {
 
     @Prop({ type: Array as PropType<string[]>, default: () => [] })
     includeGroups!: string[];
+
+    @Prop({ type: Array as PropType<string[]>, default: () => [] })
+    disabledFields!: string[];
 
     get filteredNodes(): UiNode[] {
         if (this.includeGroups.length === 0) {
