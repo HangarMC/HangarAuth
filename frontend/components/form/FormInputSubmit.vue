@@ -1,6 +1,6 @@
 <template>
     <v-btn
-        :disabled="node.attributes.disabled"
+        :disabled="disabledField || node.attributes.disabled"
         :name="node.attributes.name"
         type="text"
         :messages="messages"
