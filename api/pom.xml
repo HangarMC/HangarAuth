@@ -19,7 +19,7 @@
         <kratos-client.version>0.7.6-alpha.7</kratos-client.version><!-- updating here weirdly breaks the settings page/avatar stuff, so lets not for now -->
         <jdbi3-bom.version>3.27.0</jdbi3-bom.version>
         <annotations.version>23.0.0</annotations.version>
-        <h2.version>2.0.206</h2.version>
+        <h2.version>2.1.210</h2.version>
         <pg.version>1.16.3</pg.version>
     </properties>
 
