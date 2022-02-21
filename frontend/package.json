@@ -19,7 +19,7 @@
     "@nuxtjs/proxy": "2.1.0",
     "@ory/hydra-client": "1.10.6",
     "@ory/kratos-client": "0.8.0-alpha.2",
-    "body-parser": "1.19.1",
+    "body-parser": "1.19.2",
     "consola": "2.15.3",
     "cookie-parser": "1.4.6",
     "core-js": "3.21.0",
