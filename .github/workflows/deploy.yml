@@ -75,7 +75,7 @@ jobs:
           hydraAdmin: "http://hydra:4445"
           hangarHost: "https://hangar.benndorf.dev"
           DEBUG: "nuxt:*"
-          signupDisabled: "false"
+          # signupDisabled: "true"
         run: yarn build
 
       - name: SSH
