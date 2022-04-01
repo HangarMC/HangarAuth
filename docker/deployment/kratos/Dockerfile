@@ -1,4 +1,4 @@
-FROM oryd/kratos:latest
+FROM oryd/kratos:v0.8.2
 CMD ["serve", "--watch-courier", "--dev", "-c", "/etc/config/kratos/kratos.yml"]
 COPY kratos.yml /etc/config/kratos/kratos.yml.orig
 COPY identity.schema.json /etc/config/kratos/identity.schema.json
