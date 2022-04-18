@@ -20,7 +20,7 @@
         <jdbi3-bom.version>3.27.2</jdbi3-bom.version>
         <annotations.version>23.0.0</annotations.version>
         <h2.version>2.1.210</h2.version>
-        <pg.version>1.16.3</pg.version>
+        <pg.version>1.17.1</pg.version>
     </properties>
 
     <dependencyManagement>
