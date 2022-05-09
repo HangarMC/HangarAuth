@@ -1475,12 +1475,12 @@
     mustache "^2.3.0"
     stack-trace "0.0.10"
 
-"@ory/hydra-client@1.10.6":
-  version "1.10.6"
-  resolved "https://registry.yarnpkg.com/@ory/hydra-client/-/hydra-client-1.10.6.tgz#1b05e094f68e28de590e8dd1a95f75fd6c0a7cdd"
-  integrity sha512-Y072QUujPHj0pSWaKPjax+zT9zTZFEMhLEd2QCHXzY61e8eWHh/iBq2sOzOmXfyyVIGN36DXdbmI3fL6LgRdnw==
+"@ory/hydra-client@1.11.8":
+  version "1.11.8"
+  resolved "https://registry.yarnpkg.com/@ory/hydra-client/-/hydra-client-1.11.8.tgz#f163861e4c8b401e98b7b53092ea24eb80ab814c"
+  integrity sha512-fVTPjB/JWUrsI1uGnXf0eiYDClnH9fepGmJ+z1eg6b0EH5AQoaNc7nBU9QpEj/8pQjYy0p5hWEvOXGHWo9fJtw==
   dependencies:
-    axios "^0.21.1"
+    axios "^0.21.4"
 
 "@ory/kratos-client@0.8.0-alpha.2":
   version "0.8.0-alpha.2"
@@ -2473,7 +2473,7 @@ axios-retry@^3.1.9:
     "@babel/runtime" "^7.15.4"
     is-retry-allowed "^2.2.0"
 
-axios@^0.21.1:
+axios@^0.21.1, axios@^0.21.4:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
