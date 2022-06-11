@@ -18,6 +18,8 @@ Additionally, you will want to run kratos, hydra, a database and a test mail ser
 
 Furthermore, you need to run the spring application in the `api` folder, it provides functionality for avatars. 
 
+You can access all emails that are send via mailslurper @ http://localhost:4436/
+
 ### Linux Note
 Linux users need to set the `DOCKER_GATEWAY_HOST` environment variable (`DOCKER_GATEWAY_HOST=172.17.0.1`) either in their Run Configuration for the docker-compose file
 or in their `.bashrc` or `.zshrc` files.
@@ -41,8 +43,8 @@ hydra clients create \
     --grant-types authorization_code,refresh_token \
     --response-types code \
     --scope offline_access,openid,offline,email,profile \
-    --callbacks http://localhost:3000/login
-    --post-logout-callbacks http://localhost:3000/handle-logout
+    --callbacks http://localhost:3333/login
+    --post-logout-callbacks http://localhost:3333/handle-logout
 ```
 
 ## Client for deployment with logout

@@ -29,6 +29,9 @@
               },
               "totp": {
                   "account_name": true
+              },
+              "webauthn": {
+                  "identifier": true
               }
             },
             "verification": {

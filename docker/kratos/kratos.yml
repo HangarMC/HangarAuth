@@ -1,4 +1,4 @@
-version: v0.8.0-alpha.3
+version: v0.10.0
 
 dsn: cockroach://root@cockroach:26257/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
 
@@ -18,7 +18,7 @@ session:
 
 selfservice:
   default_browser_return_url: http://localhost:3001/
-  whitelisted_return_urls:
+  allowed_return_urls:
     - http://localhost:3001/
 
   methods:
@@ -39,6 +39,7 @@ selfservice:
     webauthn:
       enabled: true
       config:
+        passwordless: true
         rp:
           id: localhost
           origin: http://localhost:3001
@@ -111,7 +112,10 @@ hashers:
     key_length: 16
 
 identity:
-  default_schema_url: file:///etc/config/kratos/identity.schema.json
+  default_schema_id: identity_v1
+  schemas:
+    - id: identity_v1
+      url: file:///etc/config/kratos/identity.v1.schema.json
 
 courier:
   template_override_path: /etc/config/kratos/templates
