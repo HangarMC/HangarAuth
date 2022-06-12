@@ -44,7 +44,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-auth-api.loadbalancer.server.port=8080"
-      - "traefik.http.routers.hangar-auth-api.rule=Host(`hangar-auth.benndorf.dev`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.hangar-auth-api.rule=Host(`hangar-auth.benndorf.dev`) && (PathPrefix(`/api`) || PathPrefix(`/avatar`))"
       - "traefik.http.routers.hangar-auth-api.middlewares=stripapi@docker"
       - "traefik.http.middlewares.stripapi.stripprefix.prefixes=/api"
       - "traefik.http.routers.hangar-auth-api.entrypoints=web-secure"

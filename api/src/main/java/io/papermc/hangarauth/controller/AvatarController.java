@@ -44,21 +44,27 @@ public class AvatarController {
         this.generalConfig = generalConfig;
     }
 
-    @GetMapping("/{userId}")
-    public Object getUsersAvatar(@NotNull @PathVariable UUID userId) throws IOException {
-        return this.getUsersAvatar0(userId);
+    @GetMapping("/{user}")
+    public Object getUsersAvatar(@NotNull @PathVariable String user) throws IOException {
+        return this.getUsersAvatar0(user);
     }
 
-    @GetMapping("/user/{name}")
-    public Object getUsersAvatar(@NotNull @PathVariable String name) throws IOException {
-        UUID userId = this.kratosService.getUserId(name);
-        if (userId == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    @GetMapping("/user/{user}")
+    public Object getUsersAvatar2(@NotNull @PathVariable String user) throws IOException {
+        return this.getUsersAvatar0(user);
+    }
+
+    private Object getUsersAvatar0(String user) throws IOException {
+        UUID userId;
+        try {
+            userId = UUID.fromString(user);
+        } catch (IllegalArgumentException e) {
+            userId = this.kratosService.getUserId(user);
+            if (userId == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            }
         }
-        return this.getUsersAvatar0(userId);
-    }
 
-    private Object getUsersAvatar0(UUID userId) throws IOException {
         final UserAvatarTable userAvatarTable = this.avatarService.getUsersAvatarTable(userId);
         if (userAvatarTable == null) {
             return getUserAvatarRedirect(userId);
