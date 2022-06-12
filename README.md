@@ -48,9 +48,9 @@ hydra clients create \
 ```
 
 ## Client for deployment with logout
-| id | client\_name | redirect\_uris | grant\_types                            | response\_types | scope | frontchannel\_logout\_uri | frontchannel\_logout\_session\_required | post\_logout\_redirect\_uris |
-| :--- | :--- | :--- |:----------------------------------------|:----------------| :--- | :--- | :--- | :--- |
-| hangar | Hangar | https://hangar.benndorf.dev/login | authorization\_code&#124;refresh\_token | code | offline\_access openid offline email profile | https://hangar-auth.benndorf.dev/oauth/frontchannel-logout | false | https://hangar.benndorf.dev/handle-logout |
+| id     | client\_name | redirect\_uris                    | grant\_types                            | response\_types | scope                                        | frontchannel\_logout\_uri                                  | frontchannel\_logout\_session\_required | post\_logout\_redirect\_uris              |
+|:-------|:-------------|:----------------------------------|:----------------------------------------|:----------------|:---------------------------------------------|:-----------------------------------------------------------|:----------------------------------------|:------------------------------------------|
+| hangar | Hangar       | https://hangar.benndorf.dev/login | authorization\_code&#124;refresh\_token | code            | offline\_access openid offline email profile | https://hangar-auth.benndorf.dev/oauth/frontchannel-logout | false                                   | https://hangar.benndorf.dev/handle-logout |
 
 
 ## Contributing

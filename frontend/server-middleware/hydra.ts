@@ -85,7 +85,7 @@ app.get('/login', async (req, res, next) => {
         return res.redirect(String(loginResponse.redirect_to));
     } catch (e) {
         console.debug('error in get login', e);
-        next();
+        next(); // TODO redirect to error page
     }
 });
 
