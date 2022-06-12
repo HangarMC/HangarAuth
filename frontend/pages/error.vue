@@ -16,7 +16,10 @@
         </v-card>
         <v-card v-else>
             <v-card-title>An error occurred</v-card-title>
-            <v-card-text>Trying to fetch more info...</v-card-text>
+            <v-card-text>
+                Trying to fetch more info...<br />
+                <v-btn @click="created">Retry detail fetching</v-btn>
+            </v-card-text>
         </v-card>
     </v-col>
 </template>
