@@ -42,11 +42,6 @@ class AvatarControllerTest {
     private static final UUID REDIRECTED_UUID = UUID.randomUUID();
 
     @Test
-    void badRequest400() throws Exception {
-        this.mockMvc.perform(get("/avatar/not-a-uuid")).andExpect(status().isBadRequest());
-    }
-
-    @Test
     void notFound404() throws Exception {
         when(this.kratosService.getTraits(any(UUID.class))).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
         this.mockMvc.perform(get("/avatar/" + UUID.randomUUID())).andExpect(status().isNotFound());
