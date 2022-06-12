@@ -45,13 +45,14 @@ app.get('/login', async (req, res, next) => {
 
         console.debug('asking hydra for details');
         const { data: loginRequest } = await hydraClient.getLoginRequest(challenge);
-        if (loginRequest.skip) {
-            console.debug('hydra said we can skip');
-            const { data: loginResponse } = await hydraClient.acceptLoginRequest(challenge, {
-                subject: loginRequest.subject,
-            });
-            return res.redirect(String(loginResponse.redirect_to));
-        }
+        // never skip, cause we need to pass the kratos session to hydra so that we can include the traits in the access token later
+        // if (loginRequest.skip) {
+        //     console.debug('hydra said we can skip');
+        //     const { data: loginResponse } = await hydraClient.acceptLoginRequest(challenge, {
+        //         subject: loginRequest.subject,
+        //     });
+        //     return res.redirect(String(loginResponse.redirect_to));
+        // }
 
         const requestUrl = new URL(loginRequest.request_url);
 
@@ -77,7 +78,7 @@ app.get('/login', async (req, res, next) => {
 
         console.debug('asking kratos for details');
         req.headers.host = kratosPublic.split('/')[2];
-        const { data: kratosSession } = await kratosClient.toSession(undefined, req.headers.cookie);
+        const { data: kratosSession } = await kratosClient.toSession(undefined, undefined, req as { headers: { [name: string]: string } });
         const subject = kratosSession.identity.id;
         console.debug('telling hydra we fine');
         const { data: loginResponse } = await hydraClient.acceptLoginRequest(challenge, { subject, context: kratosSession, remember: true });
@@ -99,7 +100,7 @@ app.get('/consent', async (req, res, next) => {
         console.debug('asking hydra for details');
         const { data: consentRequest } = await hydraClient.getConsentRequest(challenge);
         if (consentRequest.skip) {
-            console.log('hydra said we can skip');
+            console.debug('hydra said we can skip');
             const { data: consentResponse } = await hydraClient.acceptConsentRequest(challenge, {
                 grant_scope: consentRequest.requested_scope,
                 grant_access_token_audience: consentRequest.requested_access_token_audience,
@@ -222,7 +223,7 @@ const redirectToLogin = (req: Request, res: Response, next: NextFunction) => {
 const createHydraSession = (context: Session, requestedScope: string[] = []) => {
     const verifiableAddresses = context.identity?.verifiable_addresses || [];
     if (!requestedScope.includes('email') || verifiableAddresses.length === 0) {
-        console.log('no email', requestedScope, context);
+        console.debug('no email', requestedScope, context);
         return {};
     }
 
