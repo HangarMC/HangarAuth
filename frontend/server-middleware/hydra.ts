@@ -77,7 +77,7 @@ app.get('/login', async (req, res, next) => {
 
         console.debug('asking kratos for details');
         req.headers.host = kratosPublic.split('/')[2];
-        const { data: kratosSession } = await kratosClient.toSession(undefined, undefined, req as { headers: { [name: string]: string } });
+        const { data: kratosSession } = await kratosClient.toSession(undefined, req.headers.cookie);
         const subject = kratosSession.identity.id;
         console.debug('telling hydra we fine');
         const { data: loginResponse } = await hydraClient.acceptLoginRequest(challenge, { subject, context: kratosSession, remember: true });
