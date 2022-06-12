@@ -118,7 +118,7 @@ identity:
   default_schema_id: identity_v1
   schemas:
     - id: identity_v1
-      url: file:///etc/config/kratos/identity.v1.schema.json
+      url: file:///etc/config/kratos/schemas/identity.v1.schema.json
 
 courier:
   template_override_path: /etc/config/kratos/templates

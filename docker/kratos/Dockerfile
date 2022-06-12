@@ -1,7 +1,7 @@
 FROM oryd/kratos:latest
 CMD ["serve", "--watch-courier", "--dev", "-c", "/etc/config/kratos/kratos.yml"]
 COPY kratos.yml /etc/config/kratos/kratos.yml.orig
-COPY identity.v1.schema.json /etc/config/kratos/identity.v1.schema.json
+ADD schemas /etc/config/kratos/schemas
 ADD templates /etc/config/kratos/templates
 COPY hooks /etc/config/kratos/hooks
 # replace api host env var in kratos.yml
