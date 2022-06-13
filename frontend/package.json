@@ -38,7 +38,7 @@
     "@nuxt/typescript-build": "2.1.0",
     "@nuxtjs/dotenv": "1.4.1",
     "@nuxtjs/eslint-config-typescript": "8.0.0",
-    "@nuxtjs/eslint-module": "3.0.2",
+    "@nuxtjs/eslint-module": "3.1.0",
     "@nuxtjs/vuetify": "1.12.3",
     "@types/cookie-parser": "1.4.3",
     "@types/express-session": "1.17.4",
