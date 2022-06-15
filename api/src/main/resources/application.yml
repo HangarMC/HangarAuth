@@ -1,6 +1,14 @@
 server:
   port: 8081
 
+auth:
+  data-dir: api/work
+  public-host: "http://localhost:3001"
+  api-key: "supersecret"
+  kratos:
+    public-url: "http://localhost:4433"
+    admin-url: "http://localhost:4434"
+
 spring:
   sql:
     init:

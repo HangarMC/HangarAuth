@@ -5,44 +5,23 @@ import org.jdbi.v3.core.mapper.reflect.JdbiConstructor;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class UserAvatarTable extends Table {
+public class UserAvatarTable extends AvatarTable {
 
     private final UUID identityId;
-    private String hash;
-    private String fileName;
 
     @JdbiConstructor
     public UserAvatarTable(OffsetDateTime createdAt, UUID identityId, String hash, String fileName) {
-        super(createdAt);
+        super(createdAt, hash, fileName);
         this.identityId = identityId;
-        this.hash = hash;
-        this.fileName = fileName;
     }
 
     public UserAvatarTable(UUID identityId, String hash, String fileName) {
+        super(hash, fileName);
         this.identityId = identityId;
-        this.hash = hash;
-        this.fileName = fileName;
     }
 
     public UUID getIdentityId() {
         return identityId;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
     }
 
     @Override

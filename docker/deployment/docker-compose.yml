@@ -40,6 +40,7 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://hangar_new_db:26257/kratos?currentSchema=auth"
       SPRING_DATASOURCE_USERNAME: "${POSTGRES_USER}"
       SPRING_DATASOURCE_PASSWORD: "${POSTGRES_PW}"
+      API_KEY: "changeme"
       AUTH_KRATOS_ADMIN_URL: "http://hangar_auth_kratos:4434"
     labels:
       - "traefik.enable=true"

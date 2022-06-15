@@ -2,9 +2,14 @@ package io.papermc.hangarauth.service;
 
 import io.papermc.hangarauth.config.custom.GeneralConfig;
 import io.papermc.hangarauth.db.dao.AvatarDAO;
+import io.papermc.hangarauth.db.dao.OrgAvatarDAO;
+import io.papermc.hangarauth.db.model.AvatarTable;
+import io.papermc.hangarauth.db.model.OrgAvatarTable;
 import io.papermc.hangarauth.db.model.UserAvatarTable;
 import io.papermc.hangarauth.utils.Crypto;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.function.TriFunction;
+import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +27,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Service
 public class AvatarService {
@@ -30,34 +37,53 @@ public class AvatarService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AvatarService.class);
 
     private final AvatarDAO avatarDAO;
+    private final OrgAvatarDAO orgAvatarDAO;
     private final Path avatarDir;
 
     @Autowired
-    public AvatarService(AvatarDAO avatarDAO, GeneralConfig config) throws IOException {
+    public AvatarService(AvatarDAO avatarDAO, OrgAvatarDAO orgAvatarDAO, GeneralConfig config) throws IOException {
         this.avatarDAO = avatarDAO;
+        this.orgAvatarDAO = orgAvatarDAO;
         this.avatarDir = config.getDataDir().resolve("avatars");
         Files.createDirectories(this.avatarDir);
         LOGGER.info("Avatars directory: {}", avatarDir.toAbsolutePath());
     }
 
-    public @NotNull Path getAvatarFor(@NotNull UUID userId, @NotNull String fileName) {
-        return this.avatarDir.resolve(userId.toString()).resolve(fileName);
+    public @NotNull Path getAvatarFor(@NotNull String folder, @NotNull String fileName) {
+        return this.avatarDir.resolve(folder).resolve(fileName);
     }
 
     public @Nullable UserAvatarTable getUsersAvatarTable(@NotNull UUID userId) {
         return this.avatarDAO.getUserAvatar(userId);
     }
 
+    public @Nullable OrgAvatarTable getOrgAvatarTable(@NotNull String orgName) {
+        return this.orgAvatarDAO.getOrgAvatar(orgName);
+    }
+
+    public void deleteAvatarTable(@NotNull UUID userId) {
+        this.avatarDAO.deleteUserAvatar(userId);
+    }
+
+    public void deleteAvatarTable(@NotNull String orgName) {
+        this.orgAvatarDAO.deleteOrgAvatar(orgName);
+    }
+
     @Transactional
     public void saveAvatar(@NotNull UUID userId, @NotNull MultipartFile avatar) throws IOException {
-        if (!StringUtils.equalsAny(avatar.getContentType(), MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid file type, only png or jpeg");
-        }
-        if (StringUtils.isBlank(avatar.getOriginalFilename()) || avatar.getOriginalFilename().length() > 255) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid filename");
-        }
-        UserAvatarTable table = this.avatarDAO.getUserAvatar(userId);
-        Consumer<UserAvatarTable> createOrUpdate;
+        checkAvatarFile(avatar);
+        updateAvatar(userId, avatar, this.avatarDAO::getUserAvatar, this.avatarDAO::updateUserAvatar, this.avatarDAO::createUserAvatar, UserAvatarTable::new);
+    }
+
+    @Transactional
+    public void saveOrgAvatar(@NotNull String orgName, @NotNull MultipartFile avatar) throws IOException {
+        checkAvatarFile(avatar);
+        updateAvatar(orgName, avatar, this.orgAvatarDAO::getOrgAvatar, this.orgAvatarDAO::updateOrgAvatar, this.orgAvatarDAO::createOrgAvatar, OrgAvatarTable::new);
+    }
+
+    private <T extends AvatarTable, S> void updateAvatar(S subject, MultipartFile avatar, Function<S, T> getter, Consumer<T> updater, Consumer<T> creator, TriFunction<S, String, String, T> ctor) throws IOException {
+        T table = getter.apply(subject);
+        Consumer<T> createOrUpdate;
         if (table != null) {
             final String newHash = Crypto.md5ToHex(avatar.getBytes());
             if (table.getHash().equals(newHash)) {
@@ -65,19 +91,28 @@ public class AvatarService {
             }
             table.setFileName(avatar.getOriginalFilename());
             table.setHash(newHash);
-            createOrUpdate = this.avatarDAO::updateUserAvatar;
+            createOrUpdate = updater;
         } else {
-            table = new UserAvatarTable(userId, Crypto.md5ToHex(avatar.getBytes()), avatar.getOriginalFilename());
-            createOrUpdate = this.avatarDAO::createUserAvatar;
+            table = ctor.apply(subject, Crypto.md5ToHex(avatar.getBytes()), avatar.getOriginalFilename());
+            createOrUpdate = creator;
         }
-        copyFileTo(userId, avatar);
+        copyFileTo(subject.toString(), avatar);
         createOrUpdate.accept(table);
     }
 
-    private void copyFileTo(@NotNull UUID userId, @NotNull MultipartFile avatar) throws IOException {
-        final Path userAvatarDir = this.avatarDir.resolve(userId.toString());
-        Files.createDirectories(userAvatarDir);
-        FileUtils.cleanDirectory(userAvatarDir.toFile());
-        Files.copy(avatar.getInputStream(), userAvatarDir.resolve(avatar.getOriginalFilename()));
+    private void checkAvatarFile(@NotNull MultipartFile avatar) {
+        if (!StringUtils.equalsAny(avatar.getContentType(), MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid file type, only png or jpeg");
+        }
+        if (StringUtils.isBlank(avatar.getOriginalFilename()) || avatar.getOriginalFilename().length() > 255) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid filename");
+        }
+    }
+
+    private void copyFileTo(@NotNull String subject, @NotNull MultipartFile avatar) throws IOException {
+        final Path subjectDir = this.avatarDir.resolve(subject);
+        Files.createDirectories(subjectDir);
+        FileUtils.cleanDirectory(subjectDir.toFile());
+        Files.copy(avatar.getInputStream(), subjectDir.resolve(avatar.getOriginalFilename()));
     }
 }

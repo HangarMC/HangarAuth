@@ -24,4 +24,7 @@ public interface AvatarDAO {
     @Timestamped
     @SqlUpdate("UPDATE identity_avatars SET hash = :hash, created_at = :now, file_name = :fileName WHERE identity_id = :identityId")
     void updateUserAvatar(@BindBean UserAvatarTable userAvatarTable);
+
+    @SqlUpdate("DELETE FROM identity_avatars WHERE identity_id = :userId")
+    void deleteUserAvatar(UUID userId);
 }

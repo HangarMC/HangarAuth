@@ -1,6 +1,7 @@
 package io.papermc.hangarauth.controller;
 
 import io.papermc.hangarauth.config.custom.GeneralConfig;
+import io.papermc.hangarauth.db.model.AvatarTable;
 import io.papermc.hangarauth.db.model.UserAvatarTable;
 import io.papermc.hangarauth.service.AvatarService;
 import io.papermc.hangarauth.service.KratosService;
@@ -44,35 +45,47 @@ public class AvatarController {
         this.generalConfig = generalConfig;
     }
 
-    @GetMapping("/{user}")
+    @GetMapping(value = "/{user}", produces = MediaType.IMAGE_PNG_VALUE)
     public Object getUsersAvatar(@NotNull @PathVariable String user) throws IOException {
         return this.getUsersAvatar0(user);
     }
 
-    @GetMapping("/user/{user}")
+    @GetMapping(value = "/user/{user}", produces = MediaType.IMAGE_PNG_VALUE)
     public Object getUsersAvatar2(@NotNull @PathVariable String user) throws IOException {
         return this.getUsersAvatar0(user);
     }
 
     private Object getUsersAvatar0(String user) throws IOException {
         UUID userId;
+        AvatarTable avatarTable = null;
         try {
             userId = UUID.fromString(user);
         } catch (IllegalArgumentException e) {
             userId = this.kratosService.getUserId(user);
             if (userId == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+                avatarTable = this.avatarService.getOrgAvatarTable(user);
+                if (avatarTable == null) {
+                    // could still be an org, lets just always use the letter
+                    return getUserAvatarRedirect(user);
+                }
             }
         }
 
-        final UserAvatarTable userAvatarTable = this.avatarService.getUsersAvatarTable(userId);
-        if (userAvatarTable == null) {
+        if (avatarTable == null) {
+            avatarTable = this.avatarService.getUsersAvatarTable(userId);
+        }
+        if (avatarTable == null) {
             return getUserAvatarRedirect(userId);
         }
-        Path userAvatarPath = this.avatarService.getAvatarFor(userId, userAvatarTable.getFileName());
+        Path userAvatarPath = this.avatarService.getAvatarFor(userId == null ? user : userId.toString(), avatarTable.getFileName());
         if (Files.notExists(userAvatarPath)) {
-            // TODO delete avatar table entry cause its missing for some reason
-            return getUserAvatarRedirect(userId);
+            if (userId == null) {
+                this.avatarService.deleteAvatarTable(user);
+                return getUserAvatarRedirect(user);
+            } else {
+                this.avatarService.deleteAvatarTable(userId);
+                return getUserAvatarRedirect(userId);
+            }
         }
         return Files.readAllBytes(userAvatarPath);
     }
@@ -84,14 +97,25 @@ public class AvatarController {
         return new RedirectView(this.generalConfig.getPublicHost() + "/account/settings");
     }
 
+    @PostMapping(value = "/org/{orgName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void setOrgAvatar(@NotNull @PathVariable String orgName, @RequestParam String apiKey, @RequestParam MultipartFile avatar) throws IOException {
+        if (!generalConfig.getApiKey().equals(apiKey)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        this.avatarService.saveOrgAvatar(orgName, avatar);
+    }
+
     private RedirectView getUserAvatarRedirect(@NotNull UUID userId) throws IOException {
-        String userName = this.kratosService.getTraits(userId).getUsername();
-        String userNameMd5 = DigestUtils.md5DigestAsHex(userName.getBytes(StandardCharsets.UTF_8));
+        return getUserAvatarRedirect(this.kratosService.getTraits(userId).getUsername());
+    }
+
+    private RedirectView getUserAvatarRedirect(@NotNull String name) {
+        String userNameMd5 = DigestUtils.md5DigestAsHex(name.getBytes(StandardCharsets.UTF_8));
         long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);
         int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
         //noinspection PointlessBitwiseExpression
         int colorRgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8) | ((num[2] & 0xFF) << 0);
-        return new RedirectView(String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", userName.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0')));
+        return new RedirectView(String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", name.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0')));
     }
 
     static final List<int[]> COLORS = List.of(

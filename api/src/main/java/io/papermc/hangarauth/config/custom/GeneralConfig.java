@@ -11,6 +11,7 @@ public class GeneralConfig {
 
     private Path dataDir = Path.of("api", "work");
     private String publicHost = "http://localhost:3001";
+    private String apiKey = "supersecret2";
 
     public Path getDataDir() {
         return dataDir;
@@ -26,5 +27,13 @@ public class GeneralConfig {
 
     public void setPublicHost(String publicHost) {
         this.publicHost = publicHost;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 }
