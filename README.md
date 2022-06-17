@@ -26,9 +26,11 @@ or in their `.bashrc` or `.zshrc` files.
 
 ## Initial setup
 
-You need to create a `hydra` and `kratos` databases in your cockroach db. IntelliJ's DB integration can help you here.
+When starting the docker-compose for the first time 3 databases should be created, `hydra`, `kratos`, and `hangar`. `hangar` is
+not used by this application, but is used for everything by Hangar. When you start the spring application for this project, a second
+schema `auth` will be created inside the `kratos` database. This holds HangarAuth-specific information about users.
 
-You also need to create a hydra client for communication with hangar:
+You also need to create a hydra client for communication with hangar once the databases have been created:
 
 ### Creating a client
 
@@ -36,14 +38,14 @@ Run the following command inside the `hydra` container to create the hydra clien
 
 ```
 hydra clients create \
-    --id my-client
-    --name MyClient
+    --id my-client \
+    --name MyClient \
     --endpoint http://localhost:4445 \
     --token-endpoint-auth-method none \
     --grant-types authorization_code,refresh_token \
     --response-types code \
     --scope offline_access,openid,offline,email,profile \
-    --callbacks http://localhost:3333/login
+    --callbacks http://localhost:3333/login \
     --post-logout-callbacks http://localhost:3333/handle-logout
 ```
 
