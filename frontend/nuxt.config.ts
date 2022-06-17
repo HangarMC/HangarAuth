@@ -7,7 +7,7 @@ import fr from './locales/fr';
 require('events').EventEmitter.defaultMaxListeners = 20;
 require('dotenv').config();
 
-const hangarHost = process.env.hangarHost || 'http://localhost:3000';
+const hangarHost = process.env.hangarHost || 'http://localhost:3333';
 const publicHost = process.env.publicHost || 'http://localhost:3001';
 const publicApi = process.env.publicApi || 'http://localhost:8081';
 const kratos = process.env.kratos || 'http://localhost:4433';
