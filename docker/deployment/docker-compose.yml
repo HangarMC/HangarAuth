@@ -37,7 +37,7 @@ services:
       context: ../..
       dockerfile: docker/deployment/api/Dockerfile
     environment:
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://hangar_new_db:5432/kratos?currentSchema=auth"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://hangar_new_postgres:5432/kratos?currentSchema=auth"
       SPRING_DATASOURCE_USERNAME: "${POSTGRES_USER}"
       SPRING_DATASOURCE_PASSWORD: "${POSTGRES_PW}"
       API_KEY: "changeme"
@@ -68,7 +68,7 @@ services:
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
     environment:
-      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
+      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_postgres:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_COOKIE: "supersecuresupersecure"
     labels:
       - "traefik.enable=true"
@@ -85,7 +85,7 @@ services:
         BACKEND_HOST: "http://hangar_new_backend:8080"
     restart: unless-stopped
     environment:
-      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
+      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_postgres:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_COOKIE: "supersecuresupersecure"
       LOG_LEAK_SENSITIVE_VALUES: "true"
       COURIER_SMTP_CONNECTION_URI: "${EMAIL_SETTINGS}"
@@ -110,7 +110,7 @@ services:
     command: -c /etc/config/hydra/kratos.yml migrate sql -e --yes
     restart: on-failure
     environment:
-      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
+      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_postgres:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_SYSTEM: "supersecuresupersecure"
       OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT: "supersecuresupersecure"
     labels:
@@ -125,7 +125,7 @@ services:
       context: hydra
     restart: unless-stopped
     environment:
-      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_db:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
+      DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_new_postgres:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_SYSTEM: "supersecuresupersecure"
       OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT: "supersecuresupersecure"
       LOG_LEAK_SENSITIVE_VALUES: "true"
