@@ -3,5 +3,6 @@ server:
 
 auth:
   data-dir: /auth/data
+  public-host: "https://hangar-auth.benndorf.dev"
   kratos:
     public-url: "https://hangar-auth.benndorf.dev/kratos"
