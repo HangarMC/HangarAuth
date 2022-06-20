@@ -1,10 +1,9 @@
 package io.papermc.hangarauth.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class Traits {
 
@@ -17,7 +16,7 @@ public class Traits {
     private final String minecraft;
 
     @JsonCreator
-    public Traits(Name name, @NotNull String email, String github, String discord, String language, @NotNull String username, String minecraft) {
+    public Traits(final Name name, @NotNull final String email, final String github, final String discord, final String language, @NotNull final String username, final String minecraft) {
         this.name = name;
         this.email = email;
         this.github = StringUtils.trimToNull(github);
@@ -28,56 +27,56 @@ public class Traits {
     }
 
     public Name getName() {
-        return name;
+        return this.name;
     }
 
     public @NotNull String getEmail() {
-        return email;
+        return this.email;
     }
 
     public String getGithub() {
-        return github;
+        return this.github;
     }
 
     public String getDiscord() {
-        return discord;
+        return this.discord;
     }
 
     public String getLanguage() {
-        return language;
+        return this.language;
     }
 
     public @NotNull String getUsername() {
-        return username;
+        return this.username;
     }
 
     public String getMinecraft() {
-        return minecraft;
+        return this.minecraft;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Traits traits = (Traits) o;
-        return Objects.equals(name, traits.name) && email.equals(traits.email) && Objects.equals(github, traits.github) && Objects.equals(discord, traits.discord) && Objects.equals(language, traits.language) && username.equals(traits.username) && Objects.equals(minecraft, traits.minecraft);
+        if (o == null || this.getClass() != o.getClass()) return false;
+        final Traits traits = (Traits) o;
+        return Objects.equals(this.name, traits.name) && this.email.equals(traits.email) && Objects.equals(this.github, traits.github) && Objects.equals(this.discord, traits.discord) && Objects.equals(this.language, traits.language) && this.username.equals(traits.username) && Objects.equals(this.minecraft, traits.minecraft);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, email, github, discord, language, username, minecraft);
+        return Objects.hash(this.name, this.email, this.github, this.discord, this.language, this.username, this.minecraft);
     }
 
     @Override
     public String toString() {
         return "Traits{" +
-            "name=" + name +
-            ", email='" + email + '\'' +
-            ", github='" + github + '\'' +
-            ", discord='" + discord + '\'' +
-            ", language='" + language + '\'' +
-            ", username='" + username + '\'' +
-            ", minecraft='" + minecraft + '\'' +
+            "name=" + this.name +
+            ", email='" + this.email + '\'' +
+            ", github='" + this.github + '\'' +
+            ", discord='" + this.discord + '\'' +
+            ", language='" + this.language + '\'' +
+            ", username='" + this.username + '\'' +
+            ", minecraft='" + this.minecraft + '\'' +
             '}';
     }
 
@@ -86,37 +85,37 @@ public class Traits {
         private final String last;
         private final String first;
 
-        public Name(String last, String first) {
+        public Name(final String last, final String first) {
             this.last = StringUtils.trimToNull(last);
             this.first = StringUtils.trimToNull(first);
         }
 
         public String getLast() {
-            return last;
+            return this.last;
         }
 
         public String getFirst() {
-            return first;
+            return this.first;
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Name name = (Name) o;
-            return Objects.equals(last, name.last) && Objects.equals(first, name.first);
+            if (o == null || this.getClass() != o.getClass()) return false;
+            final Name name = (Name) o;
+            return Objects.equals(this.last, name.last) && Objects.equals(this.first, name.first);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(last, first);
+            return Objects.hash(this.last, this.first);
         }
 
         @Override
         public String toString() {
             return "Name{" +
-                "last='" + last + '\'' +
-                ", first='" + first + '\'' +
+                "last='" + this.last + '\'' +
+                ", first='" + this.first + '\'' +
                 '}';
         }
     }

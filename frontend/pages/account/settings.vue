@@ -2,7 +2,7 @@
     <v-col v-if="ui" md="6" offset-md="3" cols="12" offset="0">
         <UserMessages :ui="ui" />
         <v-sheet class="py-2 text-h4 text-center rounded" v-text="$t('settings.title')" />
-        <Form :title="$t('settings.userinfo')" disable-autocomplete :ui="ui" :include-groups="['default', 'profile']" :disabled-fields="['traits.username']" />
+        <Form :title="$t('settings.userinfo')" disable-autocomplete :ui="ui" :include-groups="['default', 'profile']" />
         <Form :title="$t('settings.password')" disable-autocomplete :ui="ui" :include-groups="['default', 'password']" />
         <Form :title="$t('settings.2fa')" disable-autocomplete :ui="ui" :include-groups="['default', 'totp']" />
         <Form :title="$t('settings.2fa-backup')" disable-autocomplete :ui="ui" :include-groups="['default', 'lookup_secret']" />
