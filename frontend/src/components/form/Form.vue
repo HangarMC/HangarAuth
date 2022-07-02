@@ -1,16 +1,19 @@
 <template>
   <form v-if="filteredNodes.length > 0" :method="ui.method" :action="ui.action">
     <Card class="mt-2">
-      <h1>{{ title }}</h1>
-      <component
-        :is="'form-' + node.type + (node.attributes.type && !node.attributes.type.includes('/') ? '-' + node.attributes.type : '')"
-        v-for="(node, idx) in filteredNodes"
-        :key="idx"
-        :node="node"
-        :disable-autocomplete="disableAutocomplete"
-        :disabled-field="disabledFields.includes(node.attributes.name)"
-      />
-      <slot name="additional-buttons" />
+      <h1 class="text-xl mb-4">{{ title }}</h1>
+      <div class="flex flex-wrap gap-2">
+        <component
+          :is="'form-' + node.type + (node.attributes.type && !node.attributes.type.includes('/') ? '-' + node.attributes.type : '')"
+          v-for="(node, idx) in filteredNodes"
+          :key="idx"
+          :node="node"
+          :disable-autocomplete="disableAutocomplete"
+          :disabled-field="disabledFields.includes(node.attributes.name)"
+          class="basis-full"
+        />
+        <slot name="additional-buttons" />
+      </div>
     </Card>
   </form>
 </template>

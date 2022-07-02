@@ -3,8 +3,8 @@
     <UserMessages :ui="data.ui" />
     <Form :title="t('login.title')" :ui="data.ui">
       <template #additional-buttons>
-        <Button button-type="secondary" @click.prevent="$kratos.register()">Register</Button>
-        <Button button-type="secondary" @click.prevent="$kratos.reset()">Forgot</Button>
+        <Button button-type="secondary" size="medium" @click.prevent="$kratos.register()">Register</Button>
+        <Button button-type="secondary" size="medium" @click.prevent="$kratos.reset()">Forgot</Button>
       </template>
     </Form>
   </Card>

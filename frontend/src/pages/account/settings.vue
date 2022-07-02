@@ -1,14 +1,14 @@
 <template>
   <Card v-if="data && data.ui">
     <UserMessages :ui="data.ui" />
-    <p class="py-2 text-h4 text-center rounded bg-gray" v-text="t('settings.title')" />
+    <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('settings.title')" />
     <Form :title="t('settings.userinfo')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'profile']" />
     <Form :title="t('settings.password')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'password']" />
     <Form :title="t('settings.2fa')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'totp']" />
     <Form :title="t('settings.2fa-backup')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'lookup_secret']" />
     <Form :title="t('settings.webauthn')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'webauthn']" />
     <Card class="mt-2">
-      <h3 v-text="t('settings.avatar.title')" />
+      <h3 class="text-lg mb-2" v-text="t('settings.avatar.title')" />
       <div class="flex">
         <!--TODO this is just base functionality: add image preview, prettify-->
         <div class="basis-full md:basis-1/2">

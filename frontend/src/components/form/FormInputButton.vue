@@ -7,7 +7,7 @@
     :error-messages="errorMessages"
     :value="node.attributes.value || ''"
     button-type="secondary"
-    class="mt-2"
+    size="medium"
     :onclick="node.attributes.onclick"
     @click.prevent
   >

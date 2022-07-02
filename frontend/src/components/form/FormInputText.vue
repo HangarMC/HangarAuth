@@ -1,6 +1,7 @@
 <template>
   <!-- todo messages, error-messages -->
   <InputText
+    v-model="value"
     :disabled="disabledField || node.attributes.disabled"
     :name="node.attributes.name"
     :required="node.attributes.required"
@@ -9,7 +10,6 @@
     :error-messages="errorMessages"
     type="text"
     :autocomplete="autocomplete"
-    :value="node.attributes.value"
   />
 </template>
 
@@ -20,7 +20,7 @@ import InputText from "~/lib/components/ui/InputText.vue";
 import { formProps, Props, useFormElement } from "~/composables/useFormElement";
 
 const props = defineProps(formProps());
-const { node, messages, errorMessages, disabledField } = useFormElement(props as Props);
+const { node, messages, errorMessages, disabledField, value } = useFormElement(props as Props);
 
 const autocomplete = computed(() => {
   switch ((node.attributes as UiNodeInputAttributes).name) {

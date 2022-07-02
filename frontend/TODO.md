@@ -1,25 +1,26 @@
 ## general stuff
 
-- [ ] i18n
+- [x] i18n
 - [ ] eslint
 - [ ] prettier (seems to kinda work but I don't get ide hints? maybe that comes only with eslint?)
 - [ ] header
 - [ ] footer
 - [ ] layout
-- [ ] recheck env vars
+- [ ] recheck env vars (env vars are now handled via runtime config stuff)
 - [ ] server stuff for hydra (move to spring?)
-- [ ] figure out why it bork `Uncaught SyntaxError: The requested module '/_nuxt/types/helpers.ts' does not provide an export named 'Props' (at FormScript.vue:5:1)`
+- [ ] figure out why it bork `Uncaught SyntaxError: The requested module '/_nuxt/types/helpers.d.ts' does not provide an export named 'Props' (at FormScript.vue:5:1)`
+  - workaround seems to just not import it? lol
 
 ## Big lost of pages!
 
 - index
-  - [ ] functionality
+  - [x] functionality
   - [ ] design
 - fake
-  - [ ] functionality
+  - [x] functionality
   - [ ] design
 - error
-  - [ ] functionality
+  - [x] functionality
   - [ ] design
 - oauth
   - consent
@@ -30,17 +31,17 @@
     - [ ] design
 - account
   - login
-    - [ ] functionality
+    - [x] functionality
     - [ ] design
   - reset
-    - [ ] functionality
+    - [x] functionality
     - [ ] design
   - settings
-    - [ ] functionality
+    - [x] functionality
     - [ ] design
   - signup
-    - [ ] functionality
+    - [x] functionality
     - [ ] design
   - verify
-    - [ ] functionality
+    - [x] functionality
     - [ ] design

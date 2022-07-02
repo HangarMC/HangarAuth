@@ -1,6 +1,6 @@
 <template>
   <Card v-if="currentUser">
-    <h1>{{ t("index.title") }}</h1>
+    <h1 class="text-xl mb-4">{{ t("index.title") }}</h1>
 
     <p>{{ t("index.text", [currentUserName]) }}</p>
 
@@ -12,30 +12,32 @@
 
     <ul>
       <li v-for="(item, idx) in actions" :key="idx">
-        <NuxtLink :href="item.href" :to="item.to">
+        <Link :href="item.href" :to="item.to">
           {{ item.title }}
           <!-- todo icon item.icon -->
-        </NuxtLink>
+        </Link>
       </li>
     </ul>
 
-    <Button button-type="primary" @click="$kratos.logout()">{{ t("general.logout") }}</Button>
+    <Button button-type="primary" size="medium" class="mt-2" @click="$kratos.logout()">{{ t("general.logout") }}</Button>
   </Card>
 </template>
 
 <script lang="ts" setup>
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { useHead, useNuxtApp } from "nuxt/app";
+import { useHead, useNuxtApp, useRuntimeConfig } from "nuxt/app";
 import Card from "~/lib/components/design/Card.vue";
 import Alert from "~/lib/components/design/Alert.vue";
 import Button from "~/lib/components/design/Button.vue";
 import { useAuthStore } from "~/store/useAuthStore";
+import Link from "~/lib/components/design/Link.vue";
 
 // TODO auth required
 const authStore = useAuthStore();
 const { t } = useI18n();
 const { $kratos } = useNuxtApp();
+const config = useRuntimeConfig();
 
 useHead({
   title: t("index.title"),
@@ -66,7 +68,7 @@ const actions = computed(() => {
   a.push(
     { title: t("index.download"), icon: "mdi-download", href: "https://papermc.io/downloads" },
     { title: t("index.forums"), icon: "mdi-message-reply", href: "https://papermc.io/forums/" },
-    { title: t("index.plugins"), icon: "mdi-power-plug", href: process.env.hangarHost },
+    { title: t("index.plugins"), icon: "mdi-power-plug", href: config.public.hangarHost },
     { title: t("index.upload"), icon: "mdi-upload", href: "https://hangar.benndorf.dev/new" },
     { title: t("index.manage"), icon: "mdi-cog", to: "/account/settings" }
   );

@@ -20,8 +20,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { UiNodeTextAttributes } from "@ory/kratos-client/api";
-import { formProps, useFormElement } from "~/composables/useFormElement";
-import { Props } from "~/types/helpers";
+import { formProps, Props, useFormElement } from "~/composables/useFormElement";
 
 const props = defineProps(formProps());
 const { node } = useFormElement(props as Props);

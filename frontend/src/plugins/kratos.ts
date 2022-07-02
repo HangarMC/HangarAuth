@@ -13,10 +13,12 @@ export interface AALInfo {
 
 export class Kratos {
   kratosUrl: string;
+  kratosPublicUrl: string;
   event: CompatibilityEvent | null;
 
-  constructor(kratosUrl: string, event: CompatibilityEvent | null) {
+  constructor(kratosUrl: string, kratosPublicUrl: string, event: CompatibilityEvent | null) {
     this.kratosUrl = kratosUrl;
+    this.kratosPublicUrl = kratosPublicUrl;
     this.event = event;
   }
 
@@ -61,7 +63,7 @@ export class Kratos {
 
   async reset() {
     try {
-      await this.redirect(process.env.kratosPublic + "/self-service/recovery/browser");
+      await this.redirect(this.kratosPublicUrl + "/self-service/recovery/browser");
     } catch (e) {
       console.log(e);
     }
@@ -69,7 +71,7 @@ export class Kratos {
 
   async verify() {
     try {
-      await this.redirect(process.env.kratosPublic + "/self-service/verification/browser");
+      await this.redirect(this.kratosPublicUrl + "/self-service/verification/browser");
     } catch (e) {
       console.log(e);
     }
@@ -77,7 +79,7 @@ export class Kratos {
 
   async settings() {
     try {
-      await this.redirect(process.env.kratosPublic + "/self-service/settings/browser");
+      await this.redirect(this.kratosPublicUrl + "/self-service/settings/browser");
     } catch (e) {
       console.log(e);
     }
@@ -118,8 +120,8 @@ export class Kratos {
         console.debug(flowInfo.data.ui.nodes);
         return { ui: flowInfo.data.ui, flowId: flowInfo.data.id };
       } catch (e) {
-        console.log("redirectOnError", e.response?.data ? e.response.data : e);
-        this.redirectOnError(onErrRedirect);
+        console.debug("redirectOnError", e.response?.data ? e.response.data : e);
+        this.redirectOnError(onErrRedirect)(e);
         return null;
       }
     }
@@ -164,7 +166,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig();
   return {
     provide: {
-      kratos: new Kratos(process.server ? config.kratos : config.public.kratosPublic, process.server ? nuxtApp.ssrContext?.event : null),
+      kratos: new Kratos(
+        process.server ? config.kratos : config.public.kratosPublic,
+        config.public.kratosPublic,
+        process.server ? nuxtApp.ssrContext?.event : null
+      ),
     },
   };
 });

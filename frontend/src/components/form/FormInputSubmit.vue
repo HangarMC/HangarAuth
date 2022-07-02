@@ -5,9 +5,10 @@
     :name="node.attributes.name"
     :messages="messages"
     :error-messages="errorMessages"
-    :value="node.attributes.value"
+    :value="value"
+    size="large"
     button-type="primary"
-    class="mt-2"
+    type="submit"
   >
     {{ text }}
   </Button>
@@ -19,7 +20,7 @@ import Button from "~/lib/components/design/Button.vue";
 import { formProps, Props, useFormElement } from "~/composables/useFormElement";
 
 const props = defineProps(formProps());
-const { node, messages, errorMessages, disabledField } = useFormElement(props as Props);
+const { node, messages, errorMessages, disabledField, value } = useFormElement(props as Props);
 
 const text = computed(() => (node.meta.label ? node.meta.label.text : "submit"));
 </script>

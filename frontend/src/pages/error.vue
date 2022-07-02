@@ -1,13 +1,13 @@
 <template>
   <Card>
     <template v-if="errorDetails">
-      <h1>{{ errorDetails.code }} - {{ errorDetails.message }}</h1>
+      <h1 class="text-xl mb-4">{{ errorDetails.code }} - {{ errorDetails.message }}</h1>
       <p>
         {{ errorDetails.reason }}
       </p>
     </template>
     <template v-else-if="errorName">
-      <h1>Technical error: {{ errorName }}</h1>
+      <h1 class="text-xl mb-4">Technical error: {{ errorName }}</h1>
       <p>
         {{ errorDescription }}
         <br />
@@ -15,7 +15,7 @@
       </p>
     </template>
     <template v-else>
-      <h1>An error occurred</h1>
+      <h1 class="text-xl mb-4">An error occurred</h1>
       <p>Trying to fetch more info...</p>
     </template>
   </Card>

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted, ref, h } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 import { UiNodeScriptAttributes } from "@ory/kratos-client";
 import { formProps, useFormElement } from "~/composables/useFormElement";
-import { Props } from "~/types/helpers";
 
 const script = ref();
 
@@ -30,6 +29,8 @@ onBeforeUnmount(() => {
     document.body.removeChild(script.value);
   }
 });
-
-// return (h: any) => h();
 </script>
+
+<template>
+  <span class="hidden">script</span>
+</template>

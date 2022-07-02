@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Alert v-for="message in ui.messages" :key="message.id" :type="message.type">
+    <Alert v-for="message in ui.messages" :key="message.id" :type="type(message.type)">
       {{ message.text }}
     </Alert>
   </div>
@@ -10,7 +10,13 @@
 import { UiContainer } from "@ory/kratos-client/api";
 import Alert from "~/lib/components/design/Alert.vue";
 
-defineProps<{
+const props = defineProps<{
   ui: UiContainer;
 }>();
+
+function type(alertType: string) {
+  if (alertType === "error") return "danger";
+  if (alertType === "info" || alertType === "success" || alertType === "warning") return alertType;
+  return "info";
+}
 </script>

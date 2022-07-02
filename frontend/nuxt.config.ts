@@ -13,7 +13,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     kratos: "http://localhost:4433",
     public: {
-      kratosPublic: "http://localhost:4433"
+      kratosPublic: "http://localhost:4433",
+      hangarHost: "http://localhost:3333",
+      signupDisabled: false,
     },
   },
   modules: [
