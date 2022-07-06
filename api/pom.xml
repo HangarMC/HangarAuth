@@ -19,7 +19,7 @@
         <kratos-client.version>0.10.1</kratos-client.version>
         <hydra-client.version>1.11.8</hydra-client.version>
         <okhttp.version>4.9.2</okhttp.version>
-        <jdbi3-bom.version>3.27.2</jdbi3-bom.version>
+        <jdbi3-bom.version>3.30.0</jdbi3-bom.version>
         <annotations.version>23.0.0</annotations.version>
         <h2.version>2.1.210</h2.version>
         <pg.version>1.16.3</pg.version>
