@@ -10,6 +10,7 @@ import prettier from "./src/lib/plugins/prettier";
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   srcDir: "src",
+  // todo make configurable
   runtimeConfig: {
     kratos: "http://localhost:4433",
     public: {
@@ -20,7 +21,8 @@ export default defineNuxtConfig({
   },
   modules: [
     "nuxt-windicss",
-    "@pinia/nuxt"
+    "@pinia/nuxt",
+    "@nuxtjs-alt/proxy"
   ],
   vite: {
     plugins: [
@@ -46,7 +48,7 @@ export default defineNuxtConfig({
 
       // https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n
       VueI18n({
-        include: [path.resolve(__dirname, "src/i18n/locales/*.json")],
+        include: [path.resolve(__dirname, "src/locales/*.json")],
       }),
 
       // TODO fix this
@@ -56,4 +58,8 @@ export default defineNuxtConfig({
       prettier(),
     ],
   },
+  proxy: {
+    "/oauth/login": "http://localhost:8081",
+    "/oauth/handleConsent": "http://localhost:8081",
+  }
 });

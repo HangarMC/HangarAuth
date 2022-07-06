@@ -1,62 +1,80 @@
 <template>
   <Card v-if="error">
-    <h5>Error processing consent request</h5>
+    <h1 class="text-xl">Error processing consent request</h1>
     {{ error }}
   </Card>
-  <form v-else action="/oauth/consent" method="POST">
-    <input name="challenge" type="hidden" :value="challenge" />
-    <input name="_csrf" type="hidden" :value="csrfToken" />
+  <Card v-else-if="consentData.redirectTo">
+    <h1 class="text-xl">Redirecting...</h1>
+    <Link :href="consentData.redirectTo">Click here if nothing happens</Link>
+  </Card>
+  <form v-else action="/oauth/handleConsent" method="POST">
+    <input name="challenge" type="hidden" :value="consentData.challenge" />
+    <input name="_csrf" type="hidden" :value="consentData.csrfToken" />
     <Card>
-      <h5>Consent Required!</h5>
+      <h1 class="text-xl">Consent Required!</h1>
       <p>
-        <template v-if="user">Hi {{ user }}, application</template>
+        <template v-if="consentData.username">Hi {{ consentData.username }}, application</template>
         <template v-else>Application</template>
-        <strong>{{ clientName }}</strong> wants access resources on your behalf and to:
+        <strong>{{ " " + consentData.clientName }}</strong> wants access resources on your behalf and to:
       </p>
 
       <div class="mt-2 bt-2">Scopes:</div>
-      <div v-for="scope in requestedScope" :key="scope" class="mb-2">
-        <!-- todo make sure these checkboxes still work -->
-        <InputCheckbox :id="scope" class="inline-block mr-1" :model-value="scope" name="grant_scope" />
-        <div class="inline-block">{{ scope }}</div>
+      <div v-for="scope in consentData.requestScope" :key="scope" class="mb-2">
+        <InputCheckbox :id="scope" class="inline-block mr-1" :value="scope" name="grant_scope" :label="scope" />
       </div>
 
-      <ul>
-        <li v-if="policyUrl">
-          <a :href="policyUrl">Read the Privacy Policy</a>
+      <ul class="mt-2">
+        <li v-if="consentData.policyUri">
+          <a :href="consentData.policyUrl">Read the Privacy Policy</a>
         </li>
-        <li v-if="tosUri">
-          <a :href="tosUri">Terms of Service</a>
+        <li v-if="consentData.tosUri">
+          <a :href="consentData.tosUri">Terms of Service</a>
         </li>
       </ul>
 
-      <div>
-        <InputCheckbox id="remember" :model-value="1" name="remember" />
+      <div class="mt-2 flex">
+        <InputCheckbox id="remember" value="1" name="remember" />
         <div style="display: inline-block; margin-right: 3px">Do not ask me again</div>
       </div>
 
       <Button id="accept" button-type="primary" type="submit" name="submit" value="Allow access">Allow access</Button>
-      <Button id="deny" button-type="red" type="submit" name="submit" value="Deny access">Deny access</Button>
+      <Button id="deny" class="ml-2" button-type="red" type="submit" name="submit" value="Deny access">Deny access </Button>
     </Card>
   </form>
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
 import Button from "~/lib/components/design/Button.vue";
 import InputCheckbox from "~/lib/components/ui/InputCheckbox.vue";
 import Card from "~/lib/components/design/Card.vue";
-import { useAuthStore } from "~/store/useAuthStore";
+import { useFetch, useNuxtApp, useRoute } from "nuxt/app";
+import { sendRedirect } from "h3";
+import Link from "~/lib/components/design/Link.vue";
 
-// TODO replace this shit
-// todo what did the passheader middleware do?
-const store = useAuthStore();
-const error = computed(() => (store.hydraData && store.hydraData.length === 1 ? store.hydraData[0] : null));
-const challenge = computed(() => store.hydraData[0]);
-const csrfToken = computed(() => store.hydraData[1]);
-const user = computed(() => store.hydraData[2]);
-const clientName = computed(() => store.hydraData[3]);
-const requestedScope = computed(() => store.hydraData[4]?.split(","));
-const policyUrl = computed(() => store.hydraData[5]);
-const tosUri = computed(() => store.hydraData[6]);
+interface ConsentData {
+  redirectTo: string;
+  challenge: string;
+  csrfToken: string;
+  username: string;
+  clientName: string;
+  requestScope: string[];
+  policyUri: string;
+  tosUri: string;
+}
+
+const route = useRoute();
+const nuxtApp = useNuxtApp();
+// TODO make configurable
+const { data: consentData, error } = await useFetch<ConsentData>("http://localhost:8081/oauth/handleConsent", {
+  params: { consent_challenge: route.query.consent_challenge },
+});
+
+if (consentData.value.redirectTo) {
+  console.log("we can skip!", consentData.value.redirectTo);
+  if (process.server) {
+    nuxtApp.callHook("app:redirected").then(() => sendRedirect(nuxtApp.ssrContext!.event, consentData.value.redirectTo, 301));
+  } else {
+    location.href = consentData.value.redirectTo;
+  }
+}
 </script>

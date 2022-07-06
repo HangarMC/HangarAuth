@@ -8,6 +8,8 @@ auth:
   kratos:
     public-url: "http://localhost:4433"
     admin-url: "http://localhost:4434"
+  hydra:
+    admin-url: "http://localhost:4445"
 
 spring:
   sql:
@@ -36,3 +38,7 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
     date-format: com.fasterxml.jackson.databind.util.StdDateFormat
+
+logging:
+  level:
+    io.papermc.hangarauth: DEBUG

@@ -6,7 +6,6 @@ import { AALInfo } from "~/plugins/kratos";
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<Identity | null>(null);
   const aal = ref<AALInfo | null>(null);
-  const hydraData = ref<string[]>([]);
 
-  return { user, aal, hydraData };
+  return { user, aal };
 });
