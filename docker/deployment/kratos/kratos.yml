@@ -82,7 +82,7 @@ selfservice:
 
     logout:
       after:
-        default_browser_return_url: https://hangar-auth.benndorf.dev/
+        default_browser_return_url: https://hangar-auth.benndorf.dev/?loggedOut
 
     login:
       ui_url: https://hangar-auth.benndorf.dev/account/login

@@ -61,5 +61,7 @@ export default defineNuxtConfig({
   proxy: {
     "/oauth/login": "http://localhost:8081",
     "/oauth/handleConsent": "http://localhost:8081",
+    "/oauth/logout": "http://localhost:8081",
+    "/oauth/frontchannel-logout": "http://localhost:8081",
   }
 });

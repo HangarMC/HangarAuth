@@ -1,5 +1,6 @@
 package io.papermc.hangarauth.controller;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +21,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import io.papermc.hangarauth.config.custom.GeneralConfig;
 import io.papermc.hangarauth.config.custom.HydraConfig;
 import io.papermc.hangarauth.config.custom.KratosConfig;
 import io.papermc.hangarauth.controller.model.ConsentResponse;
@@ -36,6 +39,7 @@ import sh.ory.hydra.model.ConsentRequestSession;
 import sh.ory.hydra.model.LoginRequest;
 import sh.ory.hydra.model.RejectRequest;
 import sh.ory.kratos.api.V0alpha2Api;
+import sh.ory.kratos.model.SelfServiceLogoutUrl;
 import sh.ory.kratos.model.Session;
 
 @RestController
@@ -46,15 +50,22 @@ public class OAuthController {
 
     private final AdminApi hydraClient;
     private final V0alpha2Api kratosClient;
+    private final GeneralConfig generalConfig;
+    private final KratosConfig kratosConfig;
 
     @Autowired
-    public OAuthController(final HydraConfig hydraConfig, final KratosConfig kratosConfig) {
+    public OAuthController(final HydraConfig hydraConfig, final KratosConfig kratosConfig, final GeneralConfig generalConfig) {
         this.hydraClient = new AdminApi(Configuration.getDefaultApiClient().setBasePath(hydraConfig.getAdminUrl()));
         this.kratosClient = new V0alpha2Api(sh.ory.kratos.Configuration.getDefaultApiClient().setBasePath(kratosConfig.getAdminUrl()));
+        this.generalConfig = generalConfig;
+        this.kratosConfig = kratosConfig;
     }
 
     @GetMapping("/login")
-    public RedirectView login(@RequestParam(value = "login_challenge", required = false) String challenge, @CookieValue(value = "ory_kratos_session", required = false) String sessionCookie, @RequestHeader(value = "cookie", required = false) String cookieHeader, HttpSession session) {
+    public RedirectView login(@RequestParam(value = "login_challenge", required = false) String challenge,
+                              @CookieValue(value = "ory_kratos_session", required = false) String sessionCookie,
+                              @RequestHeader(value = "cookie", required = false) String cookieHeader,
+                              HttpSession session, HttpServletRequest request) {
         if (StringUtils.isBlank(challenge)) {
             // TODO proper error page
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login flow could not be completed because no Login Challenge was found in the HTTP request.");
@@ -81,6 +92,9 @@ public class OAuthController {
         //     }
         // }
 
+        // we use this if we need to go to login and retry
+        String endpointAndQuery = request.getServletPath() + "?" + request.getQueryString();
+
         UriComponents requestUrl = UriComponentsBuilder.fromHttpUrl(loginRequest.getRequestUrl()).build();
 
         if ("login".equals(requestUrl.getQueryParams().getFirst("prompt"))) {
@@ -88,18 +102,18 @@ public class OAuthController {
             String state = requestUrl.getQueryParams().getFirst("hydra_login_state");
             if (StringUtils.isBlank(state)) {
                 log.debug("login: redirecting to login cause no state");
-                return redirectToLogin();
+                return redirectToLogin(session, endpointAndQuery);
             }
 
             if (!state.equals(session.getAttribute("ory_kratos_session"))) {
                 log.debug("login: redirecting to login cause session mismatch");
-                return redirectToLogin();
+                return redirectToLogin(session, endpointAndQuery);
             }
         }
 
         if (StringUtils.isBlank(sessionCookie)) {
             log.debug("login: redirecting to login cause no session");
-            return redirectToLogin();
+            return redirectToLogin(session, endpointAndQuery);
         }
 
         log.debug("login: asking kratos for details");
@@ -209,73 +223,58 @@ public class OAuthController {
     }
 
     @GetMapping("/logout")
-    public void logout() {
-        log.debug("logout");
-        // TODO logout
-        //
-        //     try {
-        //        const challenge = req.query.logout_challenge as string;
-        //        if (!challenge || !isString(challenge)) {
-        //            return next(new Error('Logout flow could not be completed because no Logout Challenge was found in the HTTP request.'));
-        //        }
-        //
-        //        // we don't actually need the details as we directly accept the request
-        //        // console.debug('asking hydra for details');
-        //        // const { data: logoutMetadata } = await hydraClient.getLogoutRequest(challenge);
-        //        // console.debug(logoutMetadata);
-        //
-        //        console.debug('accepting logout request');
-        //        const { data: redirect } = await hydraClient.acceptLogoutRequest(challenge);
-        //        return res.redirect(String(redirect.redirect_to));
-        //    } catch (e) {
-        //        console.debug('error in get logout', e);
-        //        next();
-        //    }
+    public RedirectView logout(@RequestParam("logout_challenge") String challenge) {
+        if (StringUtils.isBlank(challenge)) {
+            // TODO proper error page
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Logout flow could not be completed because no Logout Challenge was found in the HTTP request.");
+        }
+
+        // we don't actually need the details as we directly accept the request
+        // try {
+        //     log.debug("asking hydra for details");
+        //     LogoutRequest logoutMetadata = hydraClient.getLogoutRequest(challenge);
+        //     log.debug(String.valueOf(logoutMetadata));
+        // } catch (ApiException e) {
+        //     throw new RuntimeException(e);
+        // }
+
+        try {
+            log.debug("accepting logout request");
+            CompletedRequest redirect = hydraClient.acceptLogoutRequest(challenge);
+            return new RedirectView(redirect.getRedirectTo());
+        } catch (ApiException e) {
+            log.warn("consent: Error on acceptLogoutRequest: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error on acceptLogoutRequest: " + e.getResponseBody(), e);
+        }
     }
 
     @GetMapping("/frontchannel-logout")
-    public void frontchannelLogout() {
-        log.debug("frontchannelLogout");
-        // TODO frontchannelLogout
-        // try {
-        //        const { data: redirect } = await kratosClient.createSelfServiceLogoutFlowUrlForBrowsers(req.header('cookie'));
-        //        console.debug('front channel logout redirect', redirect.logout_url);
-        //        return res.redirect(String(redirect.logout_url));
-        //    } catch (e) {
-        //        console.debug('error in get frontchannel-logout', e);
-        //        next();
-        //    }
+    public RedirectView frontchannelLogout(@RequestHeader(value = "cookie", required = false) String cookieHeader) {
+        try {
+            SelfServiceLogoutUrl redirect = kratosClient.createSelfServiceLogoutFlowUrlForBrowsers(cookieHeader);
+            log.debug("front channel logout redirect {}", redirect.getLogoutUrl());
+            return new RedirectView(redirect.getLogoutUrl());
+        } catch (sh.ory.kratos.ApiException e) {
+            log.warn("consent: Error on createSelfServiceLogoutFlowUrlForBrowsers: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error on createSelfServiceLogoutFlowUrlForBrowsers: " + e.getResponseBody(), e);
+        }
     }
 
-    private RedirectView redirectToLogin() {
-        log.debug("redirectToLogin");
-        // TODO redirectToLogin
-        // if (!req.session) {
-        //        next(new Error('No express-session?'));
-        //        return;
-        //    }
-        //
-        //    const state = crypto.randomBytes(48).toString('hex');
-        //    req.session.hydraLoginState = state;
-        //    req.session.save((error) => {
-        //        if (error) {
-        //            next(error);
-        //            return;
-        //        }
-        //        // @ts-ignore
-        //        const configBaseUrl = baseUrl && baseUrl !== '/' ? baseUrl : '';
-        //        const ourBaseUrl = configBaseUrl || `${req.protocol}://${req.headers.host}`;
-        //        console.log('create return url: ', baseUrl, configBaseUrl, ourBaseUrl);
-        //        const returnTo = new URL('/oauth' + req.url, ourBaseUrl);
-        //        returnTo.searchParams.set('hydra_login_state', state);
-        //
-        //        const redirectTo = new URL(kratosPublic + '/self-service/login/browser', ourBaseUrl);
-        //        redirectTo.searchParams.set('refresh', 'true');
-        //        redirectTo.searchParams.set('return_to', returnTo.toString());
-        //
-        //        res.redirect(redirectTo.toString());
-        //    });
-        return null;
+    private RedirectView redirectToLogin(HttpSession session, String endpointAndQuery) {
+        String state = RandomStringUtils.randomAlphabetic(16);
+        session.setAttribute("hydraLoginState", state);
+
+        String returnTo = UriComponentsBuilder.fromHttpUrl(generalConfig.getPublicHost() + endpointAndQuery)
+            .queryParam("hydra_login_state", state)
+            .build().toUriString();
+        String redirectTo = UriComponentsBuilder.fromHttpUrl(kratosConfig.getPublicUrl() + "/self-service/login/browser")
+            .queryParam("refresh", "true")
+            .queryParam("return_to", returnTo)
+            .build().toUriString();
+
+        log.debug("redirectToLogin: {}", redirectTo);
+
+        return new RedirectView(redirectTo);
     }
 
     @SuppressWarnings("unchecked")

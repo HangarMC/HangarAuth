@@ -26,7 +26,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { useHead, useNuxtApp, useRuntimeConfig } from "nuxt/app";
+import { useHead, useNuxtApp, useRoute, useRuntimeConfig } from "nuxt/app";
 import Card from "~/lib/components/design/Card.vue";
 import Alert from "~/lib/components/design/Alert.vue";
 import Button from "~/lib/components/design/Button.vue";
@@ -38,6 +38,7 @@ const authStore = useAuthStore();
 const { t } = useI18n();
 const { $kratos } = useNuxtApp();
 const config = useRuntimeConfig();
+const route = useRoute();
 
 useHead({
   title: t("index.title"),
@@ -83,5 +84,7 @@ const currentUserName = computed(() => {
   return authStore.user?.traits.username;
 });
 
-await $kratos.loadUser();
+if (route.query.loggedOut === undefined) {
+  await $kratos.loadUser();
+}
 </script>

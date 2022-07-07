@@ -47,6 +47,7 @@ hydra clients create \
     --scope offline_access,openid,offline,email,profile \
     --callbacks http://localhost:3333/login \
     --post-logout-callbacks http://localhost:3333/handle-logout
+    --frontchannel-logout-callback http://localhost:3001/oauth/frontchannel-logout
 ```
 
 ## Client for deployment with logout

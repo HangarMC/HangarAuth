@@ -7,7 +7,7 @@
 - [ ] footer
 - [ ] layout
 - [ ] recheck env vars (env vars are now handled via runtime config stuff)
-- [ ] server stuff for hydra (move to spring?)
+- [x] server stuff for hydra (move to spring?)
 - [ ] figure out why it bork `Uncaught SyntaxError: The requested module '/_nuxt/types/helpers.d.ts' does not provide an export named 'Props' (at FormScript.vue:5:1)`
   - workaround seems to just not import it? lol
 

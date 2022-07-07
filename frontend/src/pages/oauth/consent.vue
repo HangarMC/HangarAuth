@@ -32,9 +32,8 @@
         </li>
       </ul>
 
-      <div class="mt-2 flex">
-        <InputCheckbox id="remember" value="1" name="remember" />
-        <div style="display: inline-block; margin-right: 3px">Do not ask me again</div>
+      <div class="mt-2">
+        <InputCheckbox id="remember" value="1" name="remember" label="Do not ask me again" />
       </div>
 
       <Button id="accept" button-type="primary" type="submit" name="submit" value="Allow access">Allow access</Button>

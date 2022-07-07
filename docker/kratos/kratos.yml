@@ -79,7 +79,7 @@ selfservice:
 
     logout:
       after:
-        default_browser_return_url: http://localhost:3001/
+        default_browser_return_url: http://localhost:3001/?loggedOut
 
     login:
       ui_url: http://localhost:3001/account/login
