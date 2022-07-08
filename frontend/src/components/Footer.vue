@@ -1,99 +1,24 @@
-<template>
-    <v-footer dark padless>
-        <v-container>
-            <v-row align="center" justify="center">
-                <v-col cols="12" class="d-flex justify-center">
-                    By using this site you're accepting our <a href="https://papermc.io/community-guidelines"> Terms of Service</a>
-                </v-col>
-            </v-row>
+<script setup lang="ts">
+import { useI18n } from "vue-i18n";
 
-            <v-row align="center" justify="center">
-                <v-col cols="12" sm="2" class="d-flex justify-center">
-                    <div>
-                        <h5 class="d-flex justify-center pb-2">Hangar API</h5>
-                        <v-btn color="primary" to="/api">API</v-btn>
-                    </div>
-                </v-col>
-
-                <v-col cols="12" sm="2" class="d-flex justify-center">
-                    <div>
-                        <h5 class="d-flex justify-center pb-2">Help Needed?</h5>
-                        <v-btn color="primary" href="https://papermc.io/forums">Forum</v-btn>
-                    </div>
-                </v-col>
-
-                <v-col cols="12" sm="4" class="d-flex justify-center">
-                    <a href="https://papermc.io">
-                        <img src="/icon.png" alt="Paper Logo" />
-                    </a>
-                </v-col>
-
-                <v-col cols="12" sm="2" class="d-flex justify-center">
-                    <div>
-                        <h5 class="d-flex justify-center pb-2">Found an Issue?</h5>
-                        <v-btn color="primary" href="https://github.com/PaperMC/Hangar/issues" target="_blank" rel="noopener">Issues</v-btn>
-                    </div>
-                </v-col>
-
-                <v-col cols="12" sm="2" class="d-flex justify-center">
-                    <div>
-                        <h5 class="d-flex justify-center pb-2">Our Sponsors</h5>
-                        <v-btn color="primary" href="https://papermc.io/sponsors">Sponsors</v-btn>
-                    </div>
-                </v-col>
-            </v-row>
-
-            <v-row align="center" justify="center">
-                <v-col cols="12" class="d-flex justify-center">
-                    Copyright © <a href="https://papermc.io">PaperMC</a> 2016 - {{ new Date().getFullYear() }}
-                </v-col>
-            </v-row>
-        </v-container>
-    </v-footer>
-</template>
-
-<script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator';
-
-@Component
-export default class Footer extends Vue {}
+const i18n = useI18n();
 </script>
 
-<style lang="scss" scoped>
-img {
-    height: 60px;
-    width: 60px;
-
-    @media (min-width: 768px) {
-        height: 74px;
-        width: 74px;
-
-        &:hover {
-            animation-name: bounce;
-            animation-duration: 0.5s;
-            animation-fill-mode: both;
-            animation-iteration-count: infinite;
-        }
-
-        @keyframes bounce {
-            0%,
-            100% {
-                transform: rotateZ(0);
-            }
-            33% {
-                transform: rotateZ(-5deg);
-            }
-            50% {
-                transform: rotateZ(0);
-            }
-            76% {
-                transform: rotateZ(5deg);
-            }
-        }
-    }
-}
-
-a {
-    margin: 0 3px;
-}
-</style>
+<template>
+  <footer class="fixed bottom-0 flex items-end background-default px-8 pb-2 text-light-10 min-h-10">
+    <div class="footerContent w-screen">
+      <div class="footerBar flex flex-col gap-4 md:(flex-row-reverse gap-0) items-center justify-around mt-4 max-w-1200px m-auto text-sm">
+        <div class="footerBarLinks flex flex-col md:flex-row">
+          <a href="https://github.com/HangarMC" class="flex items-center rounded-md px-6 py-2" hover="text-primary-400 bg-primary-0">
+            {{ i18n.t("footer.org") }}
+          </a>
+          <!-- todo tos link -->
+          <a href="#" class="flex items-center rounded-md px-6 py-2" hover="text-primary-400 bg-primary-0">
+            {{ i18n.t("footer.tos") }}
+          </a>
+        </div>
+        <p class="font-bold">© {{ new Date().getFullYear() }} <a href="https://papermc.io/">PaperMC</a></p>
+      </div>
+    </div>
+  </footer>
+</template>

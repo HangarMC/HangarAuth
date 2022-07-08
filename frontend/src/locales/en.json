@@ -20,6 +20,10 @@
       "auth": "Authentication Portal"
     }
   },
+  "footer": {
+    "org": "GitHub Organization",
+    "tos": "Terms of Service"
+  },
   "index": {
     "title": "Paper Authentication Portal",
     "text": "You are currently logged in as {0}",

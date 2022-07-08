@@ -1,22 +1,19 @@
 <template>
-    <v-app>
-        <Header />
-        <v-main>
-            <v-container>
-                <v-row>
-                    <nuxt />
-                </v-row>
-            </v-container>
-        </v-main>
-        <Footer />
-    </v-app>
+  <div>
+    <Header />
+    <Container class="mb-16">
+      <slot />
+    </Container>
+    <Footer />
+  </div>
 </template>
 
 <script lang="ts" setup>
-import Header from '~/components/Header.vue';
-import Footer from '~/components/Footer.vue';
+import Header from "~/components/Header.vue";
+import Footer from "~/components/Footer.vue";
+import Container from "~/lib/components/design/Container.vue";
 
 definePageMeta({
-  title: "HangarAuth"
+  title: "HangarAuth",
 });
 </script>

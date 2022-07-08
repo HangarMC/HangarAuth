@@ -12,14 +12,18 @@
 
     <ul>
       <li v-for="(item, idx) in actions" :key="idx">
-        <Link :href="item.href" :to="item.to">
+        <Link :href="item.href" :to="item.to" class="flex">
           {{ item.title }}
-          <!-- todo icon item.icon -->
+          <component :is="item.icon" class="ml-2" />
         </Link>
       </li>
     </ul>
 
     <Button button-type="primary" size="medium" class="mt-2" @click="$kratos.logout()">{{ t("general.logout") }}</Button>
+  </Card>
+  <Card v-else>
+    <h1 class="text-xl mb-4">Logged out!</h1>
+    <Button button-type="primary" size="medium" class="mt-2" @click="$kratos.login()">{{ t("general.login") }}</Button>
   </Card>
 </template>
 
@@ -32,6 +36,11 @@ import Alert from "~/lib/components/design/Alert.vue";
 import Button from "~/lib/components/design/Button.vue";
 import { useAuthStore } from "~/store/useAuthStore";
 import Link from "~/lib/components/design/Link.vue";
+import IconMdiDownload from "~icons/mdi/download";
+import IconMdiMessageReply from "~icons/mdi/message-reply";
+import IconMdiPowerPlug from "~icons/mdi/power-plug";
+import IconMdiUpload from "~icons/mdi/upload";
+import IconMdiCog from "~icons/mdi/cog";
 
 // TODO auth required
 const authStore = useAuthStore();
@@ -67,11 +76,11 @@ const aal2 = computed(() => {
 const actions = computed(() => {
   const a = [];
   a.push(
-    { title: t("index.download"), icon: "mdi-download", href: "https://papermc.io/downloads" },
-    { title: t("index.forums"), icon: "mdi-message-reply", href: "https://papermc.io/forums/" },
-    { title: t("index.plugins"), icon: "mdi-power-plug", href: config.public.hangarHost },
-    { title: t("index.upload"), icon: "mdi-upload", href: "https://hangar.benndorf.dev/new" },
-    { title: t("index.manage"), icon: "mdi-cog", to: "/account/settings" }
+    { title: t("index.download"), icon: IconMdiDownload, href: "https://papermc.io/downloads" },
+    { title: t("index.forums"), icon: IconMdiMessageReply, href: "https://papermc.io/forums/" },
+    { title: t("index.plugins"), icon: IconMdiPowerPlug, href: config.public.hangarHost },
+    { title: t("index.upload"), icon: IconMdiUpload, href: "https://hangar.benndorf.dev/new" },
+    { title: t("index.manage"), icon: IconMdiCog, to: "/account/settings" }
   );
   return a;
 });
