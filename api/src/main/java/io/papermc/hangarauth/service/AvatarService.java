@@ -108,7 +108,7 @@ public class AvatarService {
     }
 
     private void checkAvatarFile(@NotNull MultipartFile avatar) {
-        if (!StringUtils.equalsAny(avatar.getContentType(), MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE)) {
+        if (!StringUtils.equalsAny(avatar.getContentType(), MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid file type, only png or jpeg");
         }
         if (StringUtils.isBlank(avatar.getOriginalFilename()) || avatar.getOriginalFilename().length() > 255) {
@@ -121,8 +121,8 @@ public class AvatarService {
         Files.createDirectories(subjectDir);
         FileUtils.cleanDirectory(subjectDir.toFile());
 
-        // convert pngs to jpeg cause they compress better
-        if (MediaType.IMAGE_PNG_VALUE.equals(avatar.getContentType())) {
+        // convert everything to jpeg cause they compress better
+        if (!MediaType.IMAGE_JPEG_VALUE.equals(avatar.getContentType())) {
             BufferedImage img = ImageIO.read(avatar.getInputStream());
             // draw to get rid of alpha
             BufferedImage result = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);

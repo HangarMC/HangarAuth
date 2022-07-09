@@ -15,7 +15,7 @@
           <img :src="`/avatar/${store.user.id}`" width="200" />
         </div>
         <div class="basis-full md:basis-1/2">
-          <AvatarChangeModal :csrf-token="csrfToken" :user-id="store.user.id" :flow-id="data.flowId" />
+          <AvatarChangeModal :csrf-token="csrfToken" :avatar="`/avatar/${store.user.id}`" :action="`/avatar/${store.user.id}?flowId=${data.flowId}`" />
         </div>
       </div>
     </Card>
@@ -30,7 +30,7 @@ import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
 import { useAuthStore } from "~/store/useAuthStore";
-import AvatarChangeModal from "~/components/modals/AvatarChangeModal.vue";
+import AvatarChangeModal from "~/lib/components/modals/AvatarChangeModal.vue";
 
 const { t } = useI18n();
 const store = useAuthStore();
