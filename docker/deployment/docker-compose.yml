@@ -20,7 +20,7 @@ services:
       DEBUG: "hangar:*"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.hangar-auth.loadbalancer.server.port=3001"
+      - "traefik.http.services.hangar-auth.loadbalancer.server.port=3000"
       - "traefik.http.routers.hangar-auth.rule=Host(`hangar-auth.benndorf.dev`)"
       - "traefik.http.routers.hangar-auth.entrypoints=web-secure"
       - "traefik.http.routers.hangar-auth.tls=true"
