@@ -91,10 +91,9 @@ public class AvatarController {
     }
 
     @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public RedirectView setUsersAvatar(@NotNull @PathVariable UUID userId, @RequestParam String flowId, @CookieValue("ory_kratos_session") String session, @RequestParam("csrf_token") String csrfToken, @RequestParam MultipartFile avatar) throws IOException {
+    public void setUsersAvatar(@NotNull @PathVariable UUID userId, @RequestParam String flowId, @CookieValue("ory_kratos_session") String session, @RequestParam("csrf_token") String csrfToken, @RequestParam MultipartFile avatar) throws IOException {
         this.kratosService.checkCsrfToken(flowId, session, csrfToken);
         this.avatarService.saveAvatar(userId, avatar);
-        return new RedirectView(this.generalConfig.getPublicHost() + "/account/settings");
     }
 
     @PostMapping(value = "/org/{orgName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
