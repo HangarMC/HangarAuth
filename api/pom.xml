@@ -23,6 +23,8 @@
         <annotations.version>23.0.0</annotations.version>
         <h2.version>2.1.214</h2.version>
         <pg.version>1.17.3</pg.version>
+        <webp.version>0.1.6</webp.version>
+        <springdoc.version>1.6.9</springdoc.version>
     </properties>
 
     <dependencyManagement>
@@ -117,6 +119,20 @@
         <dependency>
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi3-stringtemplate4</artifactId>
+        </dependency>
+
+        <!-- webp -->
+        <dependency>
+            <groupId>org.sejda.imageio</groupId>
+            <artifactId>webp-imageio</artifactId>
+            <version>${webp.version}</version>
+        </dependency>
+
+        <!-- swagger -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
 
         <dependency>
