@@ -22,7 +22,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: frontend-old
+        working-directory: frontend
 
     steps:
       - name: Checkout
@@ -35,17 +35,20 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache Yarn
+      - name: Cache pnpm
         uses: actions/cache@v2
         with:
-          path: "~/.cache/yarn"
-          key: ${{ runner.os }}-yarn-${{ github.ref }}-${{ hashFiles('**/yarn.lock') }}
+          path: "~/.pnpm-store"
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
 
       - name: Install frontend deps
-        run: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+        run: pnpm install --frozen-lockfile
 
-      - name: Lint frontend
-        run: yarn lint
+      # todo lint
+      # - name: Lint frontend
+      #   run: pnpm lint
 
       - name: Build frontend
         env:
@@ -53,12 +56,11 @@ jobs:
           host: "0.0.0.0"
           publicHost: "https://hangar-auth.benndorf.dev"
           publicApi: "https://hangar-auth.benndorf.dev/api"
-          SECRETS_COOKIE: "supersecuresupersecure"
-          cookieHttps: "true"
+          api: "http://api:8080"
           kratosPublic: "https://hangar-auth.benndorf.dev/kratos"
           hydraPublic: "https://hangar-auth.benndorf.dev/hydra"
           kratos: "http://kratos:4433"
           hydraAdmin: "http://hydra:4445"
           hangarHost: "https://hangar.benndorf.dev"
-          DEBUG: "nuxt:*"
-        run: yarn build
+          DEBUG: "hangar:*"
+        run: pnpm build

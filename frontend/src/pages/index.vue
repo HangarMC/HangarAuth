@@ -30,7 +30,6 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { useHead, useNuxtApp, useRoute, useRuntimeConfig } from "nuxt/app";
 import Card from "~/lib/components/design/Card.vue";
 import Alert from "~/lib/components/design/Alert.vue";
 import Button from "~/lib/components/design/Button.vue";
@@ -42,7 +41,6 @@ import IconMdiPowerPlug from "~icons/mdi/power-plug";
 import IconMdiUpload from "~icons/mdi/upload";
 import IconMdiCog from "~icons/mdi/cog";
 
-// TODO auth required
 const authStore = useAuthStore();
 const { t } = useI18n();
 const { $kratos } = useNuxtApp();
@@ -79,7 +77,7 @@ const actions = computed(() => {
     { title: t("index.download"), icon: IconMdiDownload, href: "https://papermc.io/downloads" },
     { title: t("index.forums"), icon: IconMdiMessageReply, href: "https://papermc.io/forums/" },
     { title: t("index.plugins"), icon: IconMdiPowerPlug, href: config.public.hangarHost },
-    { title: t("index.upload"), icon: IconMdiUpload, href: "https://hangar.benndorf.dev/new" },
+    { title: t("index.upload"), icon: IconMdiUpload, href: config.public.hangarHost + "/new" },
     { title: t("index.manage"), icon: IconMdiCog, to: "/account/settings" }
   );
   return a;

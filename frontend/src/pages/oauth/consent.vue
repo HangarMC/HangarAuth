@@ -46,7 +46,6 @@
 import Button from "~/lib/components/design/Button.vue";
 import InputCheckbox from "~/lib/components/ui/InputCheckbox.vue";
 import Card from "~/lib/components/design/Card.vue";
-import { useFetch, useNuxtApp, useRoute } from "nuxt/app";
 import { sendRedirect } from "h3";
 import Link from "~/lib/components/design/Link.vue";
 
@@ -63,13 +62,12 @@ interface ConsentData {
 
 const route = useRoute();
 const nuxtApp = useNuxtApp();
-// TODO make configurable
-const { data: consentData, error } = await useFetch<ConsentData>("http://localhost:8081/oauth/handleConsent", {
+const config = useRuntimeConfig();
+const { data: consentData, error } = await useFetch<ConsentData>(config.public.publicApi + "/oauth/handleConsent", {
   params: { consent_challenge: route.query.consent_challenge },
 });
 
 if (consentData.value.redirectTo) {
-  console.log("we can skip!", consentData.value.redirectTo);
   if (process.server) {
     nuxtApp.callHook("app:redirected").then(() => sendRedirect(nuxtApp.ssrContext!.event, consentData.value.redirectTo, 301));
   } else {

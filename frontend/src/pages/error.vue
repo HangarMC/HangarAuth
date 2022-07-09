@@ -22,7 +22,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useHead, useNuxtApp, useRoute, useState } from "nuxt/app";
 import Card from "~/lib/components/design/Card.vue";
 
 const { $kratos } = useNuxtApp();

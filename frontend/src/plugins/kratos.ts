@@ -1,10 +1,10 @@
 import { UiContainer, V0alpha2ApiFactory } from "@ory/kratos-client";
 import { AuthenticatorAssuranceLevel, SessionAuthenticationMethod, V0alpha2Api } from "@ory/kratos-client/api";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { defineNuxtPlugin, useRoute, useRuntimeConfig } from "nuxt/app";
 import { CompatibilityEvent, sendRedirect } from "h3";
 import { useFlow } from "~/composables/useFlow";
 import { useAuthStore } from "~/store/useAuthStore";
+import { kratosLog } from "~/lib/composables/useLog";
 
 export interface AALInfo {
   aal: AuthenticatorAssuranceLevel;
@@ -29,7 +29,7 @@ export class Kratos {
   }
 
   async redirect(url: string) {
-    console.log("redirect to: " + url);
+    kratosLog("redirect to: " + url);
     if (process.server) {
       await sendRedirect(this.event!, url);
     } else {
@@ -41,7 +41,7 @@ export class Kratos {
     try {
       await this.redirect(this.kratosUrl + "/self-service/login/browser");
     } catch (e) {
-      console.log(e);
+      kratosLog(e);
     }
   }
 
@@ -49,7 +49,7 @@ export class Kratos {
     try {
       await this.redirect(this.kratosUrl + "/self-service/login/browser?aal=aal2");
     } catch (e) {
-      console.log(e);
+      kratosLog(e);
     }
   }
 
@@ -57,7 +57,7 @@ export class Kratos {
     try {
       await this.redirect(this.kratosUrl + "/self-service/registration/browser");
     } catch (e) {
-      console.log(e);
+      kratosLog(e);
     }
   }
 
@@ -65,7 +65,7 @@ export class Kratos {
     try {
       await this.redirect(this.kratosPublicUrl + "/self-service/recovery/browser");
     } catch (e) {
-      console.log(e);
+      kratosLog(e);
     }
   }
 
@@ -73,7 +73,7 @@ export class Kratos {
     try {
       await this.redirect(this.kratosPublicUrl + "/self-service/verification/browser");
     } catch (e) {
-      console.log(e);
+      kratosLog(e);
     }
   }
 
@@ -81,7 +81,7 @@ export class Kratos {
     try {
       await this.redirect(this.kratosPublicUrl + "/self-service/settings/browser");
     } catch (e) {
-      console.log(e);
+      kratosLog(e);
     }
   }
 
@@ -98,8 +98,8 @@ export class Kratos {
 
   redirectOnError(redirect: () => void): (err: AxiosError) => void {
     return (err) => {
-      console.error(err.message);
-      console.error(err.response?.data);
+      kratosLog(err.message);
+      kratosLog(err.response?.data);
       if (err.response) {
         if (err.response.status === 404 || err.response.status === 410 || err.response.status === 403) {
           return redirect();
@@ -117,10 +117,10 @@ export class Kratos {
     if (flow) {
       try {
         const flowInfo = await fetchFlow(flow, this.event ? this.event.req.headers.cookie : undefined);
-        console.debug(flowInfo.data.ui.nodes);
+        kratosLog(flowInfo.data.ui.nodes);
         return { ui: flowInfo.data.ui, flowId: flowInfo.data.id };
       } catch (e) {
-        console.debug("redirectOnError", e.response?.data ? e.response.data : e);
+        kratosLog("redirectOnError", e.response?.data ? e.response.data : e);
         this.redirectOnError(onErrRedirect)(e);
         return null;
       }
@@ -132,7 +132,7 @@ export class Kratos {
     try {
       const session = await this.client.toSession(undefined, this.event ? this.event.req.headers.cookie : undefined, { withCredentials: true });
 
-      console.debug("got result", session.data);
+      kratosLog("got result", session.data);
       if (session.data && session.data.active) {
         const authStore = useAuthStore();
         authStore.user = session.data.identity;
@@ -142,22 +142,22 @@ export class Kratos {
         };
         return;
       }
-      console.debug("no session -> login");
+      kratosLog("no session -> login");
       return this.login();
     } catch (e) {
       if (e.response) {
         if (e.response.data.redirect_browser_to) {
-          console.debug("session catch: url", e.response.data.redirect_browser_to);
+          kratosLog("session catch: url", e.response.data.redirect_browser_to);
           return this.redirect(e.response.data.redirect_browser_to);
         } else if (e.response.status === 401) {
-          console.debug("session catch: 401 -> login");
+          kratosLog("session catch: 401 -> login");
           return this.login();
         } else if (e.response.status === 404) {
-          console.debug("session catch: 403 -> aal");
+          kratosLog("session catch: 403 -> aal");
           return this.aal2();
         }
       }
-      console.error("session catch:", e);
+      kratosLog("session catch:", e);
     }
   }
 }

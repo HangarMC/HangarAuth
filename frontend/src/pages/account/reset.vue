@@ -8,7 +8,6 @@
 <script lang="ts" setup>
 import { UiContainer, UiText } from "@ory/kratos-client/api";
 import { computed } from "vue";
-import { useHead, useNuxtApp, useState } from "nuxt/app";
 import { useI18n } from "vue-i18n";
 import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";

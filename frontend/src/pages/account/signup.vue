@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useHead, useNuxtApp, useRuntimeConfig, useState } from "nuxt/app";
 import { useI18n } from "vue-i18n";
 import { UiContainer } from "@ory/kratos-client/api";
 import Card from "~/lib/components/design/Card.vue";

@@ -38,7 +38,6 @@
 <script lang="ts" setup>
 import { UiContainer, UiNodeInputAttributes } from "@ory/kratos-client/api";
 import { computed, ref } from "vue";
-import { useHead, useNuxtApp, useState } from "nuxt/app";
 import { useI18n } from "vue-i18n";
 import Card from "~/lib/components/design/Card.vue";
 import Button from "~/lib/components/design/Button.vue";

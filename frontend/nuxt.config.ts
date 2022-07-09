@@ -7,16 +7,29 @@ import Components from "unplugin-vue-components/vite";
 import EslintPlugin from "vite-plugin-eslint";
 import prettier from "./src/lib/plugins/prettier";
 
+const hangarHost = process.env.hangarHost || "http://localhost:3333";
+const publicHost = process.env.publicHost || "http://localhost:3001";
+const publicApi = process.env.publicApi || "http://localhost:8081";
+const api = process.env.api || "http://localhost:8081";
+const kratos = process.env.kratos || "http://localhost:4433";
+const kratosPublic = process.env.kratosPublic || "http://localhost:4433";
+const hydraPublic = process.env.hydraPublic || "http://localhost:4445";
+const signupDisabled = process.env.signupDisabled;
+
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   srcDir: "src",
   // todo make configurable
   runtimeConfig: {
-    kratos: "http://localhost:4433",
+    kratos,
+    api,
     public: {
-      kratosPublic: "http://localhost:4433",
-      hangarHost: "http://localhost:3333",
-      signupDisabled: false,
+      hangarHost,
+      publicHost,
+      publicApi,
+      kratosPublic,
+      hydraPublic,
+      signupDisabled: Boolean(signupDisabled)
     },
   },
   modules: [
@@ -59,9 +72,9 @@ export default defineNuxtConfig({
     ],
   },
   proxy: {
-    "/oauth/login": "http://localhost:8081",
-    "/oauth/handleConsent": "http://localhost:8081",
-    "/oauth/logout": "http://localhost:8081",
-    "/oauth/frontchannel-logout": "http://localhost:8081",
+    "/oauth/login": api,
+    "/oauth/handleConsent": api,
+    "/oauth/logout": api,
+    "/oauth/frontchannel-logout": api,
   }
 });

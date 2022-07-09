@@ -7,7 +7,8 @@
     "build": "nuxt build",
     "dev": "nuxt dev --port 3001",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "previewBuild": "nuxt build && nuxt preview"
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.1.24",

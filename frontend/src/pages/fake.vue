@@ -9,7 +9,6 @@
 
 <script lang="ts" setup>
 import Card from "~/lib/components/design/Card.vue";
-import { useHead } from "nuxt/app";
 import Link from "~/lib/components/design/Link.vue";
 
 useHead({

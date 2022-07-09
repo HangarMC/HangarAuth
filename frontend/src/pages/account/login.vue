@@ -13,7 +13,6 @@
 <script lang="ts" setup>
 import { UiContainer } from "@ory/kratos-client/api";
 import { ref } from "vue";
-import { useHead, useNuxtApp, useState } from "nuxt/app";
 import { useI18n } from "vue-i18n";
 import Card from "~/lib/components/design/Card.vue";
 import Button from "~/lib/components/design/Button.vue";
