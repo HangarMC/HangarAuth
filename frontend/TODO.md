@@ -10,6 +10,7 @@
 - [x] server stuff for hydra (move to spring?)
 - [ ] figure out why it bork `Uncaught SyntaxError: The requested module '/_nuxt/types/helpers.d.ts' does not provide an export named 'Props' (at FormScript.vue:5:1)`
   - workaround seems to just not import it? lol
+- [ ] more work on validations (buttons should trigger validation, more rules for the inputs, etc)
 
 ## Big lost of pages!
 

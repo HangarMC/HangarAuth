@@ -1,6 +1,8 @@
 import { UiNode } from "@ory/kratos-client";
 import { computed, PropType, ref } from "vue";
 import { UiNodeInputAttributes } from "@ory/kratos-client/api";
+import { ValidationRule } from "@vuelidate/core";
+import { required } from "~/lib/composables/useValidationHelpers";
 
 export const formProps = () => ({
   node: {
@@ -34,6 +36,11 @@ export function useFormElement(props: Props) {
 
   const value = ref<string>((props.node.attributes as UiNodeInputAttributes).value);
 
+  const rules: ValidationRule<string | undefined>[] = [];
+  if ((props.node.attributes as UiNodeInputAttributes).required) {
+    rules.push(required());
+  }
+
   return {
     errorMessages,
     messages,
@@ -41,5 +48,6 @@ export function useFormElement(props: Props) {
     disabledField: props.disabledField,
     disabledAutocomplete: props.disabledAutocomplete,
     value,
+    rules,
   };
 }
