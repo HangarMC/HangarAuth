@@ -1,5 +1,7 @@
 package io.papermc.hangarauth.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,6 +30,7 @@ import io.papermc.hangarauth.config.custom.GeneralConfig;
 import io.papermc.hangarauth.config.custom.HydraConfig;
 import io.papermc.hangarauth.config.custom.KratosConfig;
 import io.papermc.hangarauth.controller.model.ConsentResponse;
+import io.papermc.hangarauth.controller.model.Traits;
 import sh.ory.hydra.ApiException;
 import sh.ory.hydra.Configuration;
 import sh.ory.hydra.api.AdminApi;
@@ -38,7 +41,7 @@ import sh.ory.hydra.model.ConsentRequest;
 import sh.ory.hydra.model.ConsentRequestSession;
 import sh.ory.hydra.model.LoginRequest;
 import sh.ory.hydra.model.RejectRequest;
-import sh.ory.kratos.api.V0alpha2Api;
+import sh.ory.kratos.api.V0alpha1Api;
 import sh.ory.kratos.model.SelfServiceLogoutUrl;
 import sh.ory.kratos.model.Session;
 
@@ -49,16 +52,18 @@ public class OAuthController {
     private static final Logger log = LoggerFactory.getLogger(OAuthController.class);
 
     private final AdminApi hydraClient;
-    private final V0alpha2Api kratosClient;
+    private final V0alpha1Api kratosClient;
     private final GeneralConfig generalConfig;
     private final KratosConfig kratosConfig;
+    private final ObjectMapper mapper;
 
     @Autowired
-    public OAuthController(final HydraConfig hydraConfig, final KratosConfig kratosConfig, final GeneralConfig generalConfig) {
+    public OAuthController(final HydraConfig hydraConfig, final KratosConfig kratosConfig, final GeneralConfig generalConfig, ObjectMapper mapper) {
         this.hydraClient = new AdminApi(Configuration.getDefaultApiClient().setBasePath(hydraConfig.getAdminUrl()));
-        this.kratosClient = new V0alpha2Api(sh.ory.kratos.Configuration.getDefaultApiClient().setBasePath(kratosConfig.getAdminUrl()));
+        this.kratosClient = new V0alpha1Api(sh.ory.kratos.Configuration.getDefaultApiClient().setBasePath(kratosConfig.getAdminUrl()));
         this.generalConfig = generalConfig;
         this.kratosConfig = kratosConfig;
+        this.mapper = mapper;
     }
 
     @GetMapping("/login")
@@ -178,10 +183,10 @@ public class OAuthController {
     }
 
     private String getUserName(Object context) {
-        if (context instanceof Session session) {
-            Object traits = session.getIdentity().getTraits();
-            // TODO return traits.getUsername();
-            return "dum";
+        if (context instanceof Map map) {
+            Map<String, Object> identity = (Map<String, Object>) map.get("identity");
+            Traits traits = this.mapper.convertValue(identity.get("traits"), Traits.class);
+            return traits.getUsername();
         }
         return "";
     }

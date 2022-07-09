@@ -2,7 +2,6 @@ package io.papermc.hangarauth.controller;
 
 import io.papermc.hangarauth.config.custom.GeneralConfig;
 import io.papermc.hangarauth.db.model.AvatarTable;
-import io.papermc.hangarauth.db.model.UserAvatarTable;
 import io.papermc.hangarauth.service.AvatarService;
 import io.papermc.hangarauth.service.KratosService;
 import org.apache.commons.lang3.StringUtils;
@@ -11,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -91,8 +90,8 @@ public class AvatarController {
     }
 
     @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void setUsersAvatar(@NotNull @PathVariable UUID userId, @RequestParam String flowId, @CookieValue("ory_kratos_session") String session, @RequestParam("csrf_token") String csrfToken, @RequestParam MultipartFile avatar) throws IOException {
-        this.kratosService.checkCsrfToken(flowId, session, csrfToken);
+    public void setUsersAvatar(@NotNull @PathVariable UUID userId, @RequestParam String flowId, @RequestHeader("cookie") String cookies, @RequestParam("csrf_token") String csrfToken, @RequestParam MultipartFile avatar) throws IOException {
+        this.kratosService.checkCsrfToken(flowId, cookies, csrfToken);
         this.avatarService.saveAvatar(userId, avatar);
     }
 
@@ -104,7 +103,7 @@ public class AvatarController {
         this.avatarService.saveOrgAvatar(orgName, avatar);
     }
 
-    private RedirectView getUserAvatarRedirect(@NotNull UUID userId) throws IOException {
+    private RedirectView getUserAvatarRedirect(@NotNull UUID userId) {
         return getUserAvatarRedirect(this.kratosService.getTraits(userId).getUsername());
     }
 
