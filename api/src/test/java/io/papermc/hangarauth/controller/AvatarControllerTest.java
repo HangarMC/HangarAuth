@@ -58,11 +58,11 @@ class AvatarControllerTest {
     @Test
     void ok200WithConfiguredAvatar() throws Exception {
         checkDummyAvatarExists();
-        this.mockMvc.perform(get("/avatar/" + DummyData.DUMMY_UUID)).andExpectAll(status().isOk(), header().doesNotExist(HttpHeaders.LOCATION), header().string(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE));
+        this.mockMvc.perform(get("/avatar/" + DummyData.DUMMY_UUID)).andExpectAll(status().isOk(), header().doesNotExist(HttpHeaders.LOCATION), header().string(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE));
     }
 
     private void checkDummyAvatarExists() {
-        Path dummyAvatar = this.avatarService.getAvatarFor(DummyData.DUMMY_UUID.toString(), "avatar.png");
+        Path dummyAvatar = this.avatarService.getAvatarFor(DummyData.DUMMY_UUID.toString(), "blob.jpeg");
         if (Files.notExists(dummyAvatar)) {
             throw new IllegalStateException("Dummy avatar doesn't exist at " + dummyAvatar.toAbsolutePath());
         }
