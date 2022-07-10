@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.nio.file.Path;
+import java.util.List;
 
 @Configuration
 @ConfigurationProperties("auth.image")
@@ -14,6 +15,7 @@ public class ImageConfig {
     private float qualityWebp;
     private int size;
     private Path workFolder;
+    private List<String> whitelist;
 
     public int interval() {
         return interval;
@@ -39,6 +41,10 @@ public class ImageConfig {
         return workFolder;
     }
 
+    public List<String> whitelist() {
+        return whitelist;
+    }
+
     public void setInterval(int interval) {
         this.interval = interval;
     }
@@ -61,5 +67,9 @@ public class ImageConfig {
 
     public void setWorkFolder(Path workFolder) {
         this.workFolder = workFolder;
+    }
+
+    public void setWhitelist(List<String> whitelist) {
+        this.whitelist = whitelist;
     }
 }

@@ -1,16 +1,9 @@
 package io.papermc.hangarauth.controller;
 
-import io.papermc.hangarauth.config.custom.GeneralConfig;
-import io.papermc.hangarauth.db.model.AvatarTable;
-import io.papermc.hangarauth.service.AvatarService;
-import io.papermc.hangarauth.service.ImageService;
-import io.papermc.hangarauth.service.KratosService;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +26,14 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import io.papermc.hangarauth.config.custom.GeneralConfig;
+import io.papermc.hangarauth.db.model.AvatarTable;
+import io.papermc.hangarauth.service.AvatarService;
+import io.papermc.hangarauth.service.ImageService;
+import io.papermc.hangarauth.service.KratosService;
 
 @RestController
 @RequestMapping("/avatar")

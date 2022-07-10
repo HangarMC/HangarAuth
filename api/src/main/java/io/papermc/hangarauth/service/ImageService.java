@@ -1,5 +1,15 @@
 package io.papermc.hangarauth.service;
 
+import com.luciad.imageio.webp.WebPWriteParam;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -7,9 +17,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,6 +30,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+import javax.imageio.IIOException;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -27,20 +42,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-
-import com.luciad.imageio.webp.WebPWriteParam;
-
 import io.papermc.hangarauth.config.custom.ImageConfig;
 
 @Component
 public class ImageService {
 
     private static final MediaType WEBP = new MediaType("image", "webp");
+    private static final String HEADER = "X-Hangar-Optimized";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
@@ -77,37 +85,55 @@ public class ImageService {
     }
 
     public byte[] getImage(Path origFile, HttpServletRequest request, HttpServletResponse response) {
-        boolean supportsWebp = supportsWebp(request);
+        return getImage(
+            (content, hash) -> workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
+            () -> getContent(origFile),
+            () -> getHash(origFile.toString().getBytes(StandardCharsets.UTF_8)),
+            request, response);
+    }
 
-        byte[] content = getContent(origFile);
-        if (content.length == 0) {
-            return new byte[0];
-        }
+    public byte[] getImage(String origUrl, HttpServletRequest request, HttpServletResponse response) {
+        return getImage(
+            (content, hash) -> workerQueue.add(new ImageToOptimize(null, origUrl, content, hash)),
+            () -> getContent(origUrl),
+            () -> getHash(origUrl.getBytes(StandardCharsets.UTF_8)),
+            request, response);
+    }
+
+    private byte[] getImage(BiConsumer<byte[], String> queueUp, Supplier<byte[]> contentSupplier, Supplier<String> hashSupplier, HttpServletRequest request, HttpServletResponse response) {
         if ("true".equals(request.getParameter("orig"))) {
-            response.setHeader("X-Hangar-Optimized", "disabled");
-            response.setHeader("Content-Type", MediaType.IMAGE_JPEG_VALUE);
-            return content; // disabled, return orig
+            response.setHeader(HEADER, "disabled");
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
+            return contentSupplier.get();
         }
-        String hash = getHash(content);
+
+        String hash = hashSupplier.get();
         if (hash == null) {
-            response.setHeader("X-Hangar-Optimized", "error");
-            response.setHeader("Content-Type", MediaType.IMAGE_JPEG_VALUE);
-            return content; // error, return orig
+            response.setHeader(HEADER, "error");
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
+            return contentSupplier.get();
         }
+        boolean supportsWebp = supportsWebp(request);
         byte[] optimizedFile = getOptimizedFile(hash, supportsWebp);
         if (optimizedFile.length == 0) {
-            queueUp(origFile, content, hash);
-            response.setHeader("X-Hangar-Optimized", "orig");
-            response.setHeader("Content-Type", MediaType.IMAGE_JPEG_VALUE);
-            return content; // no optimization available, return orig
-        } else {
-            response.setHeader("X-Hangar-Optimized", hash);
-            if (supportsWebp) {
-                response.setHeader("Content-Type", WEBP.toString());
-            } else {
-                response.setHeader("Content-Type", MediaType.IMAGE_JPEG_VALUE);
+            byte[] bytes = contentSupplier.get();
+            if (bytes.length == 0) {
+                response.setHeader(HEADER, "error");
+                response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
+                return bytes;
             }
-            return optimizedFile; // return optimized file
+            queueUp.accept(bytes, hash);
+            response.setHeader(HEADER, "orig");
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
+            return bytes;
+        } else {
+            response.setHeader(HEADER, hash);
+            if (supportsWebp) {
+                response.setHeader(HttpHeaders.CONTENT_TYPE, WEBP.toString());
+            } else {
+                response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
+            }
+            return optimizedFile;
         }
     }
 
@@ -152,6 +178,17 @@ public class ImageService {
         }
     }
 
+    private byte[] getContent(String url) {
+        try {
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setConnectTimeout(5 * 1000);
+            return conn.getInputStream().readAllBytes();
+        } catch (IOException e) {
+            LOGGER.warn("Couldn't read url {}", url, e);
+            return new byte[0];
+        }
+    }
+
     private String getHash(byte[] content) {
         try {
             byte[] hash = MessageDigest.getInstance("MD5").digest(content);
@@ -160,11 +197,6 @@ public class ImageService {
             LOGGER.error("error while hashing ", e);
             return null;
         }
-    }
-
-    private void queueUp(Path origFile, byte[] content, String hash) {
-        ImageToOptimize image = new ImageToOptimize(origFile, content, hash);
-        workerQueue.add(image);
     }
 
     private void optimize(ImageToOptimize image) throws IOException {
@@ -229,8 +261,24 @@ public class ImageService {
         ImageOutputStream ios = ImageIO.createImageOutputStream(out);
         writer.setOutput(ios);
 
-        IIOImage optimizedImage = new IIOImage(bufferedImage, null, null);
-        writer.write(null, optimizedImage, params);
+        try {
+            IIOImage optimizedImage = new IIOImage(bufferedImage, null, null);
+            writer.write(null, optimizedImage, params);
+        } catch (IIOException ex) {
+            if (!ex.getMessage().contains("Bogus input colorspace")) {
+                throw ex;
+            }
+            // draw to get rid of alpha
+            BufferedImage result = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+            result.createGraphics().drawImage(bufferedImage, 0, 0, Color.WHITE, null);
+            // reset the writer
+            writer.reset();
+            writer.setOutput(ios);
+            // then attempt optimization again
+            IIOImage optimizedImage = new IIOImage(result, null, null);
+            writer.write(null, optimizedImage, params);
+        }
+
         writer.dispose();
         ios.flush();
 
@@ -250,6 +298,7 @@ public class ImageService {
 
     record ImageToOptimize(
         Path origFile,
+        String origUrl,
         byte[] content,
         String hash
     ) {

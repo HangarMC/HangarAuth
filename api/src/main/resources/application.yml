@@ -17,6 +17,9 @@ auth:
     quality-webp: 0.35
     size: 256
     work-folder: api/work/images
+    whitelist:
+      - hangar.benndorf.dev
+      - localhost
 
 spring:
   sql:
