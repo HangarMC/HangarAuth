@@ -1,24 +1,30 @@
 <template>
-  <Card v-if="data && data.ui">
-    <UserMessages :ui="data.ui" />
-    <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('settings.title')" />
-    <div class="flex">
-      <div class="basis-full md:basis-8/12">
-        <Form :title="t('settings.userinfo')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'profile']" />
-        <Form :title="t('settings.password')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'password']" />
-        <Form :title="t('settings.2fa-backup')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'lookup_secret']" />
-        <Form :title="t('settings.webauthn')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'webauthn']" />
+  <div>
+    <Alert v-if="!verified" type="info" class="mb-2"><a @click="$kratos.verify()">Your account is not verified yet, click here to change that!</a> </Alert>
+    <Alert v-if="verified && !aal2" type="info" class="mb-2">
+      <NuxtLink to="/account/settings">You haven't set up 2fa yet, go to the settings to change that!</NuxtLink>
+    </Alert>
+    <Card v-if="data && data.ui">
+      <UserMessages :ui="data.ui" />
+      <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('settings.title')" />
+      <div class="flex">
+        <div class="basis-full md:basis-8/12">
+          <Form :title="t('settings.userinfo')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'profile']" />
+          <Form :title="t('settings.password')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'password']" />
+          <Form :title="t('settings.2fa-backup')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'lookup_secret']" />
+          <Form :title="t('settings.webauthn')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'webauthn']" />
+        </div>
+        <div class="basis-full md:basis-4/12">
+          <Card class="mt-2">
+            <h3 class="text-lg mb-2" v-text="t('settings.avatar.title')" />
+            <img :src="`/avatar/${store.user?.id}`" width="200" class="mb-2" />
+            <AvatarChangeModal :csrf-token="csrfToken" :avatar="`/avatar/${store.user?.id}`" :action="`/avatar/${store.user?.id}?flowId=${data.flowId}`" />
+          </Card>
+          <Form :title="t('settings.2fa')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'totp']" />
+        </div>
       </div>
-      <div class="basis-full md:basis-4/12">
-        <Card class="mt-2">
-          <h3 class="text-lg mb-2" v-text="t('settings.avatar.title')" />
-          <img :src="`/avatar/${store.user?.id}`" width="200" class="mb-2" />
-          <AvatarChangeModal :csrf-token="csrfToken" :avatar="`/avatar/${store.user?.id}`" :action="`/avatar/${store.user?.id}?flowId=${data.flowId}`" />
-        </Card>
-        <Form :title="t('settings.2fa')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'totp']" />
-      </div>
-    </div>
-  </Card>
+    </Card>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -30,6 +36,7 @@ import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
 import { useAuthStore } from "~/store/useAuthStore";
 import AvatarChangeModal from "~/lib/components/modals/AvatarChangeModal.vue";
+import Alert from "~/lib/components/design/Alert.vue";
 
 const { t } = useI18n();
 const store = useAuthStore();
@@ -40,6 +47,7 @@ data.value = await $kratos.requestUiContainer(
   $kratos.settings.bind($kratos)
 );
 
+const authStore = useAuthStore();
 const file = ref();
 
 const csrfToken = computed(() => {
@@ -51,6 +59,26 @@ const csrfToken = computed(() => {
     throw new Error("No csrf token found");
   }
   return (node.attributes as UiNodeInputAttributes).value;
+});
+
+const verified = computed(() => {
+  const user = authStore.user;
+  if (!user || !user.verifiable_addresses) {
+    return false;
+  }
+  for (const verifiableAddress of user.verifiable_addresses) {
+    if (verifiableAddress.verified) {
+      return true;
+    }
+  }
+  return false;
+});
+
+const aal2 = computed(() => {
+  if (verified.value) {
+    return authStore.aal?.aal === "aal2";
+  }
+  return false;
 });
 
 useHead({

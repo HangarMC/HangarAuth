@@ -11,9 +11,10 @@ import IconMdiLanguageJava from "~icons/mdi/language-java";
 import IconMdiDownloadCircle from "~icons/mdi/download-circle";
 import IconMdiPuzzle from "~icons/mdi/puzzle";
 import Button from "~/lib/components/design/Button.vue";
+import { useAuthStore } from "~/store/useAuthStore";
 
-//const settings = useSettingsStore();
 const { t } = useI18n();
+const authStore = useAuthStore();
 
 const navBarMenuLinksMoreFromPaper = [
   { link: "https://papermc.io/", label: t("nav.hangar.home"), icon: IconMdiHome },
@@ -80,6 +81,7 @@ const navBarMenuLinksMoreFromPaper = [
           <icon-mdi-weather-night d-v-if="settings.darkMode" class="text-[1.2em]"></icon-mdi-weather-night>
           <icon-mdi-white-balance-sunny d-v-else class="text-[1.2em]"></icon-mdi-white-balance-sunny>
         </button>
+        <Button v-if="authStore.user" button-type="primary" size="small" class="mt-2" @click="$kratos.logout()">{{ t("general.logout") }}</Button>
       </div>
     </nav>
   </header>
