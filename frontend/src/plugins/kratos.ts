@@ -39,7 +39,7 @@ export class Kratos {
 
   async login() {
     try {
-      await this.redirect(this.kratosUrl + "/self-service/login/browser");
+      await this.redirect(this.kratosPublicUrl + "/self-service/login/browser");
     } catch (e) {
       kratosLog(e);
     }
@@ -47,7 +47,7 @@ export class Kratos {
 
   async aal2() {
     try {
-      await this.redirect(this.kratosUrl + "/self-service/login/browser?aal=aal2");
+      await this.redirect(this.kratosPublicUrl + "/self-service/login/browser?aal=aal2");
     } catch (e) {
       kratosLog(e);
     }
@@ -55,7 +55,7 @@ export class Kratos {
 
   async register() {
     try {
-      await this.redirect(this.kratosUrl + "/self-service/registration/browser");
+      await this.redirect(this.kratosPublicUrl + "/self-service/registration/browser");
     } catch (e) {
       kratosLog(e);
     }
