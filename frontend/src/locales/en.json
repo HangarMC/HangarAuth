@@ -35,6 +35,9 @@
   },
   "signup": {
     "title": "Sign Up",
+    "userInfo": "User Information",
+    "optionalInfo": "Optional Information",
+    "credentials": "Credentials",
     "username": "Username",
     "usernameHint": "Unique, no spaces, max 20 characters",
     "password": "Password",
@@ -72,6 +75,7 @@
   "settings": {
     "title": "Account Settings",
     "userinfo": "User Information",
+    "optionalInfo": "Optional Information",
     "username": "Username",
     "email": "Email",
     "created": "Member since",

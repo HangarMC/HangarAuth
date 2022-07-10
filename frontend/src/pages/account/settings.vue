@@ -2,20 +2,22 @@
   <Card v-if="data && data.ui">
     <UserMessages :ui="data.ui" />
     <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('settings.title')" />
-    <Form :title="t('settings.userinfo')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'profile']" />
-    <Form :title="t('settings.password')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'password']" />
-    <Form :title="t('settings.2fa')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'totp']" />
-    <Form :title="t('settings.2fa-backup')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'lookup_secret']" />
-    <Form :title="t('settings.webauthn')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'webauthn']" />
-    <Card class="mt-2">
-      <h3 class="text-lg mb-2" v-text="t('settings.avatar.title')" />
-      <div class="flex">
-        <div class="basis-full md:basis-1/2">
-          <div>current</div>
-          <img :src="`/avatar/${store.user?.id}`" width="200" />
-        </div>
+    <div class="flex">
+      <div class="basis-full md:basis-8/12">
+        <Form :title="t('settings.userinfo')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'profile']" />
+        <Form :title="t('settings.password')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'password']" />
+        <Form :title="t('settings.2fa-backup')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'lookup_secret']" />
+        <Form :title="t('settings.webauthn')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'webauthn']" />
       </div>
-    </Card>
+      <div class="basis-full md:basis-4/12">
+        <Card class="mt-2">
+          <h3 class="text-lg mb-2" v-text="t('settings.avatar.title')" />
+          <img :src="`/avatar/${store.user?.id}`" width="200" class="mb-2" />
+          <AvatarChangeModal :csrf-token="csrfToken" :avatar="`/avatar/${store.user?.id}`" :action="`/avatar/${store.user?.id}?flowId=${data.flowId}`" />
+        </Card>
+        <Form :title="t('settings.2fa')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'totp']" />
+      </div>
+    </div>
   </Card>
 </template>
 

@@ -28,13 +28,17 @@ const props = withDefaults(
   defineProps<{
     title: string;
     includeGroups?: string[];
+    fields?: string[];
+    fieldsAsExcludes?: boolean;
     disabledFields?: string[];
     ui: UiContainer;
     disableAutocomplete?: boolean;
   }>(),
   {
     includeGroups: () => [],
+    fields: () => [],
     disabledFields: () => [],
+    fieldsAsExcludes: false,
     disableAutocomplete: false,
   }
 );
@@ -43,10 +47,16 @@ const filteredNodes = computed<UiNode[]>(() => {
   if (!props.ui.nodes) {
     return [];
   }
-  if (!props.includeGroups || props.includeGroups.length === 0) {
+  if (props.includeGroups.length === 0 && props.fields.length === 0) {
     return props.ui.nodes;
   }
-  return props.ui.nodes.filter((n) => props.includeGroups.includes(n.group));
+  return props.ui.nodes.filter(
+    (n) =>
+      (props.includeGroups.length === 0 || props.includeGroups.includes(n.group)) &&
+      (props.fields.length === 0 || props.fieldsAsExcludes
+        ? !props.fields.includes((n.attributes as any).name)
+        : props.fields.includes((n.attributes as any).name))
+  );
 });
 </script>
 
