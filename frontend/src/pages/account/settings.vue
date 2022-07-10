@@ -12,10 +12,7 @@
       <div class="flex">
         <div class="basis-full md:basis-1/2">
           <div>current</div>
-          <img :src="`/avatar/${store.user.id}`" width="200" />
-        </div>
-        <div class="basis-full md:basis-1/2">
-          <AvatarChangeModal :csrf-token="csrfToken" :avatar="`/avatar/${store.user.id}`" :action="`/avatar/${store.user.id}?flowId=${data.flowId}`" />
+          <img :src="`/avatar/${store.user?.id}`" width="200" />
         </div>
       </div>
     </Card>

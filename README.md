@@ -12,11 +12,12 @@ It uses vuetify for the components.
 
 ## Development Setup
 
-HangarAuth is a pnpm project, so you wanna run `pnpm i` and then `pnpm dev` inside the `frontend` folder to start the dev server.
+HangarAuth is a pnpm project, so you need to run `pnpm install` and then `pnpm dev` inside the `frontend` folder to start the dev server.
+By default, this will run on http://localhost:3001/.
 
-Additionally, you will want to run kratos, hydra, a database and a test mail server. Those have been provided via docker compose. Checkout the docker folder.
+Additionally, you will want to run kratos, hydra, a database and a test mail server. Those have been provided via docker compose, see the `docker` folder.
 
-Furthermore, you need to run the spring application in the `api` folder, it provides functionality for avatars. 
+Furthermore, you need to run the Spring application via `AuthApiApplication` in the `api` directory; it provides functionality for avatars. 
 
 You can access all emails that are send via mailslurper @ http://localhost:4436/
 
@@ -26,9 +27,9 @@ or in their `.bashrc` or `.zshrc` files.
 
 ## Initial setup
 
-When starting the docker-compose for the first time 3 databases should be created, `hydra`, `kratos`, and `hangar`. `hangar` is
+When starting the docker-compose for the first time by running `docker-compose -f docker-compose.yml up` inside the `docker` directory, 3 databases should be created: `hydra`, `kratos`, and `hangar`. `hangar` is
 not used by this application, but is used for everything by Hangar. When you start the spring application for this project, a second
-schema `auth` will be created inside the `kratos` database. This holds HangarAuth-specific information about users.
+schema, `auth`, will be created inside the `kratos` database. This holds HangarAuth-specific information about users.
 
 You also need to create a hydra client for communication with hangar once the databases have been created:
 
@@ -46,7 +47,7 @@ hydra clients create \
     --response-types code \
     --scope offline_access,openid,offline,email,profile \
     --callbacks http://localhost:3333/login \
-    --post-logout-callbacks http://localhost:3333/handle-logout
+    --post-logout-callbacks http://localhost:3333/handle-logout \
     --frontchannel-logout-callback http://localhost:3001/oauth/frontchannel-logout
 ```
 
