@@ -50,11 +50,12 @@ hydra clients create \
     --post-logout-callbacks http://localhost:3333/handle-logout \
     --frontchannel-logout-callback http://localhost:3001/oauth/frontchannel-logout
 ```
+Additionally, you can set the `owner` field to `PaperMC` to skip the consent screen.
 
 ## Client for deployment with logout
-| id     | client\_name | redirect\_uris                    | grant\_types                            | response\_types | scope                                        | frontchannel\_logout\_uri                                  | frontchannel\_logout\_session\_required | post\_logout\_redirect\_uris              |
-|:-------|:-------------|:----------------------------------|:----------------------------------------|:----------------|:---------------------------------------------|:-----------------------------------------------------------|:----------------------------------------|:------------------------------------------|
-| hangar | Hangar       | https://hangar.benndorf.dev/login | authorization\_code&#124;refresh\_token | code            | offline\_access openid offline email profile | https://hangar-auth.benndorf.dev/oauth/frontchannel-logout | false                                   | https://hangar.benndorf.dev/handle-logout |
+| id     | client\_name | redirect\_uris                    | grant\_types                            | response\_types | scope                                        | owner   | frontchannel\_logout\_uri                                  | frontchannel\_logout\_session\_required | post\_logout\_redirect\_uris              |
+|:-------|:-------------|:----------------------------------|:----------------------------------------|:----------------|:---------------------------------------------|:--------|:-----------------------------------------------------------|:----------------------------------------|:------------------------------------------|
+| hangar | Hangar       | https://hangar.benndorf.dev/login | authorization\_code&#124;refresh\_token | code            | offline\_access openid offline email profile | PaperMC | https://hangar-auth.benndorf.dev/oauth/frontchannel-logout | false                                   | https://hangar.benndorf.dev/handle-logout |
 
 
 ## Contributing
