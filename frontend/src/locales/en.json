@@ -109,5 +109,13 @@
     "403": "You do not have permission to do that",
     "404": "404 Not found",
     "unknown": "An error occurred"
+  },
+  "validation": {
+    "required": "{property} is required",
+    "requiredIf": "{property} is required",
+    "maxLength": "Maximum length is {max}",
+    "minLength": "Minimum length is {min}",
+    "pattern": "{property} is invalid",
+    "url": "Invalid URL format"
   }
 }

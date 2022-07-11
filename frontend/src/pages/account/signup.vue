@@ -2,16 +2,26 @@
   <Card v-if="data && data.ui">
     <UserMessages :ui="data.ui" />
     <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('signup.title')" />
-    <Form :ui="data.ui" :title="t('signup.userInfo')" disable-autocomplete :include-groups="['default']" :fields="['traits.username', 'traits.email']" />
-    <Form
-      :ui="data.ui"
-      :title="t('signup.optionalInfo')"
-      disable-autocomplete
-      :include-groups="['default']"
-      fields-as-excludes
-      :fields="['traits.username', 'traits.email']"
-    />
-    <Form :ui="data.ui" :title="t('signup.credentials')" disable-autocomplete :include-groups="['password', 'webauthn']" />
+    <form :method="data.ui.method" :action="data.ui.action">
+      <Form
+        :ui="data.ui"
+        :title="t('signup.userInfo')"
+        disable-autocomplete
+        :include-groups="['default']"
+        :fields="['traits.username', 'traits.email']"
+        no-form
+      />
+      <Form
+        :ui="data.ui"
+        :title="t('signup.optionalInfo')"
+        disable-autocomplete
+        :include-groups="['default']"
+        fields-as-excludes
+        :fields="['traits.username', 'traits.email']"
+        no-form
+      />
+      <Form :ui="data.ui" :title="t('signup.credentials')" disable-autocomplete :include-groups="['password', 'webauthn']" no-form />
+    </form>
   </Card>
   <Card v-else-if="signupDisabled">
     <h1 class="text-xl mb-4">Signup is currently disabled!</h1>

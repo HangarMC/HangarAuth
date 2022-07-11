@@ -1,5 +1,5 @@
 <template>
-  <form v-if="filteredNodes.length > 0" :method="ui.method" :action="ui.action">
+  <component :is="noForm ? 'div' : 'form'" v-if="filteredNodes.length > 0" :method="noForm ? null : ui.method" :action="noForm ? null : ui.action">
     <Card class="mt-2">
       <h1 class="text-xl mb-4">{{ title }}</h1>
       <div class="flex flex-wrap gap-2">
@@ -15,7 +15,7 @@
         <slot name="additional-buttons" />
       </div>
     </Card>
-  </form>
+  </component>
 </template>
 
 <script lang="ts" setup>
@@ -33,6 +33,7 @@ const props = withDefaults(
     disabledFields?: string[];
     ui: UiContainer;
     disableAutocomplete?: boolean;
+    noForm?: boolean;
   }>(),
   {
     includeGroups: () => [],
@@ -40,6 +41,7 @@ const props = withDefaults(
     disabledFields: () => [],
     fieldsAsExcludes: false,
     disableAutocomplete: false,
+    noForm: false,
   }
 );
 

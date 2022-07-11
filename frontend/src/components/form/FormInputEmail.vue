@@ -9,6 +9,7 @@
     :rules="rules"
     type="email"
     persistent-hint
+    no-error-tooltip
     autocomplete="email"
   ></InputText>
 </template>

@@ -9,6 +9,7 @@
     :error-messages="errorMessages"
     :rules="rules"
     type="text"
+    no-error-tooltip
     :autocomplete="autocomplete"
   />
 </template>

@@ -11,6 +11,7 @@
     :error-messages="errorMessages"
     :rules="rules"
     persistent-hint
+    no-error-tooltip
     :autocomplete="disabledAutocomplete ? 'new-password' : 'current-password'"
     @click:append="show = !show"
   ></InputText>
