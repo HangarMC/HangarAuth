@@ -34,6 +34,7 @@ specifiers:
   pinia: 2.0.14
   pnpm: 7.5.0
   prettier: 2.7.1
+  regenerator-runtime: ^0.13.9
   sass: 1.53.0
   typescript: 4.7.4
   unplugin-auto-import: 0.9.2
@@ -85,6 +86,7 @@ devDependencies:
   nuxt-windicss: 2.4.2_vite@2.9.14
   pnpm: 7.5.0
   prettier: 2.7.1
+  regenerator-runtime: 0.13.9
   sass: 1.53.0
   typescript: 4.7.4
   unplugin-auto-import: 0.9.2_jg57o3hw2g6ynl3mkvtaux3hqe
@@ -5999,6 +6001,10 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       redis-errors: 1.2.0
+    dev: true
+
+  /regenerator-runtime/0.13.9:
+    resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
     dev: true
 
   /regexp-tree/0.1.24:
