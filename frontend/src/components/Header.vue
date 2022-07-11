@@ -81,7 +81,7 @@ const navBarMenuLinksMoreFromPaper = [
           <icon-mdi-weather-night d-v-if="settings.darkMode" class="text-[1.2em]"></icon-mdi-weather-night>
           <icon-mdi-white-balance-sunny d-v-else class="text-[1.2em]"></icon-mdi-white-balance-sunny>
         </button>
-        <Button v-if="authStore.user" button-type="primary" size="small" class="mt-2" @click="$kratos.logout()">{{ t("general.logout") }}</Button>
+        <Button v-if="authStore.user" button-type="primary" size="small" @click="$kratos.logout()">{{ t("general.logout") }}</Button>
       </div>
     </nav>
   </header>
