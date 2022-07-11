@@ -7,8 +7,8 @@
     <Card v-if="data && data.ui">
       <UserMessages :ui="data.ui" />
       <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('settings.title')" />
-      <div class="flex">
-        <div class="basis-full md:basis-8/12">
+      <div class="flex gap-2 flex-wrap md:flex-nowrap">
+        <div class="basis-full md:basis-8/12 flex-shrink">
           <Form :title="t('settings.userinfo')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'profile']" />
           <Form :title="t('settings.password')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'password']" />
           <Form :title="t('settings.2fa-backup')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'lookup_secret']" />

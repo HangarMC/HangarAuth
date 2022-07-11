@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <Container class="mb-16">
+    <Container class="mb-24 md:mb-16">
       <slot />
     </Container>
     <Footer />
