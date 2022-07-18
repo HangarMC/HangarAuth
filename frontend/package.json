@@ -43,7 +43,7 @@
     "vue": "3.2.37"
   },
   "dependencies": {
-    "@headlessui/vue": "1.6.6",
+    "@headlessui/vue": "1.6.7",
     "@ory/hydra-client": "1.11.8",
     "@ory/kratos-client": "0.10.1",
     "@pinia/nuxt": "0.1.9",
