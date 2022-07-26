@@ -52,3 +52,4 @@ spring:
 logging:
   level:
     io.papermc.hangarauth: DEBUG
+    # org.springframework: DEBUG

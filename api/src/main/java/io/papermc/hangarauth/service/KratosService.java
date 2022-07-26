@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +18,7 @@ import io.papermc.hangarauth.db.dao.KratosIdentityDAO;
 import sh.ory.kratos.ApiException;
 import sh.ory.kratos.Configuration;
 import sh.ory.kratos.api.V0alpha1Api;
+import sh.ory.kratos.model.AdminUpdateIdentityBody;
 import sh.ory.kratos.model.Identity;
 import sh.ory.kratos.model.SelfServiceSettingsFlow;
 
@@ -73,6 +73,14 @@ public class KratosService {
         final Optional<String> flowCsrfToken = flow.getUi().getNodes().stream().filter(n -> n.getAttributes().getName().equals("csrf_token")).map(n -> n.getAttributes().getValue().toString()).findAny();
         if (flowCsrfToken.isEmpty() || !flowCsrfToken.get().equals(csrfToken)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "csrf token mismatch");
+        }
+    }
+
+    public void setTraits(UUID userId, Traits newTraits) {
+        try {
+            kratosClient.adminUpdateIdentity(userId.toString(), new AdminUpdateIdentityBody().traits(newTraits));
+        } catch (ApiException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 }

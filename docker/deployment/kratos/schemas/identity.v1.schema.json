@@ -71,6 +71,11 @@
           "title": "Language",
           "type": "string",
           "default": "en_US"
+        },
+        "theme": {
+          "title": "Theme",
+          "type": "string",
+          "default": "light"
         }
       },
       "required": [

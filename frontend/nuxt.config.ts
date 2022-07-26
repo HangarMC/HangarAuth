@@ -78,5 +78,6 @@ export default defineNuxtConfig({
     "/oauth/frontchannel-logout": api,
     "/avatar": api,
     "/image": api,
+    "/sync": api,
   }
 });

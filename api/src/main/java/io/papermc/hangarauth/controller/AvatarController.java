@@ -118,7 +118,7 @@ public class AvatarController {
     }
 
     private ResponseEntity<?> getUserAvatarFallback(@NotNull UUID userId) {
-        return getUserAvatarFallback(this.kratosService.getTraits(userId).getUsername());
+        return getUserAvatarFallback(this.kratosService.getTraits(userId).username());
     }
 
     private ResponseEntity<?> getUserAvatarFallback(@NotNull String name) {

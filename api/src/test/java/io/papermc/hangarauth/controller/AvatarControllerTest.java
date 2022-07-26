@@ -51,7 +51,7 @@ class AvatarControllerTest {
     @Test
     void ok200WithProxiedAvatar() throws Exception {
         final Traits mockedTraits = mock(Traits.class);
-        when(mockedTraits.getUsername()).thenReturn("Machine_Maker");
+        when(mockedTraits.username()).thenReturn("Machine_Maker");
         when(this.kratosService.getTraits(REDIRECTED_UUID)).thenReturn(mockedTraits);
         this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is2xxSuccessful(), header().string(HttpHeaders.SERVER, "cloudflare"));
     }

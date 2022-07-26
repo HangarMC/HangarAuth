@@ -186,7 +186,7 @@ public class OAuthController {
         if (context instanceof Map map) {
             Map<String, Object> identity = (Map<String, Object>) map.get("identity");
             Traits traits = this.mapper.convertValue(identity.get("traits"), Traits.class);
-            return traits.getUsername();
+            return traits.username();
         }
         return "";
     }
