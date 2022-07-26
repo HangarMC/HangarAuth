@@ -20,7 +20,7 @@
         :fields="['traits.username', 'traits.email']"
         no-form
       />
-      <Form :ui="data.ui" :title="t('signup.credentials')" disable-autocomplete :include-groups="['password', 'webauthn']" no-form />
+      <Form :ui="data.ui" :title="t('signup.credentials')" disable-autocomplete :include-groups="['password', 'webauthn']" no-form :tabs="credentialsTabs" />
     </form>
   </Card>
   <Card v-else-if="signupDisabled">
@@ -35,6 +35,8 @@ import { UiContainer } from "@ory/kratos-client/api";
 import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
+import { computed } from "vue";
+import { FormTab } from "~/components/form/FormContainer.vue";
 
 const { t } = useI18n();
 
@@ -49,6 +51,13 @@ if (!signupDisabled) {
     $kratos.register.bind($kratos)
   );
 }
+
+const credentialsTabs = computed<FormTab[]>(() => {
+  return [
+    { value: "password", header: "Password", groups: ["password"] },
+    { value: "key", header: "Security key", groups: ["webauthn"] },
+  ];
+});
 
 useHead({
   title: t("signup.title"),

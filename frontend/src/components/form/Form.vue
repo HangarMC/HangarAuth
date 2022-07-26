@@ -3,15 +3,7 @@
     <Card class="mt-2">
       <h1 class="text-xl mb-4">{{ title }}</h1>
       <div class="flex flex-wrap gap-2">
-        <component
-          :is="'form-' + node.type + (node.attributes.type && !node.attributes.type.includes('/') ? '-' + node.attributes.type : '')"
-          v-for="(node, idx) in filteredNodes"
-          :key="idx"
-          :node="node"
-          :disable-autocomplete="disableAutocomplete"
-          :disabled-field="disabledFields.includes(node.attributes.name)"
-          class="basis-full"
-        />
+        <FormContainer :nodes="filteredNodes" :disable-autocomplete="disableAutocomplete" :disabled-fields="disabledFields" :tabs="tabs" />
         <slot name="additional-buttons" />
       </div>
     </Card>
@@ -23,6 +15,7 @@ import { UiNode } from "@ory/kratos-client";
 import { computed } from "vue";
 import { UiContainer } from "@ory/kratos-client/api";
 import Card from "~/lib/components/design/Card.vue";
+import FormContainer, { FormTab } from "~/components/form/FormContainer.vue";
 
 const props = withDefaults(
   defineProps<{
@@ -34,6 +27,7 @@ const props = withDefaults(
     ui: UiContainer;
     disableAutocomplete?: boolean;
     noForm?: boolean;
+    tabs?: FormTab[];
   }>(),
   {
     includeGroups: () => [],
@@ -42,6 +36,7 @@ const props = withDefaults(
     fieldsAsExcludes: false,
     disableAutocomplete: false,
     noForm: false,
+    tabs: () => [],
   }
 );
 
