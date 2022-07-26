@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -43,26 +43,28 @@ public class AvatarController {
     private final AvatarService avatarService;
     private final GeneralConfig generalConfig;
     private final ImageService imageService;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public AvatarController(KratosService kratosService, AvatarService avatarService, GeneralConfig generalConfig, ImageService imageService) {
+    public AvatarController(KratosService kratosService, AvatarService avatarService, GeneralConfig generalConfig, ImageService imageService, RestTemplate restTemplate) {
         this.kratosService = kratosService;
         this.avatarService = avatarService;
         this.generalConfig = generalConfig;
         this.imageService = imageService;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping(value = "/{user}", produces = MediaType.IMAGE_PNG_VALUE)
-    public Object getUsersAvatar(@NotNull @PathVariable String user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity<?> getUsersAvatar(@NotNull @PathVariable String user, HttpServletRequest request, HttpServletResponse response) {
         return this.getUsersAvatar0(user, request, response);
     }
 
     @GetMapping(value = "/user/{user}", produces = MediaType.IMAGE_PNG_VALUE)
-    public Object getUsersAvatar2(@NotNull @PathVariable String user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity<?> getUsersAvatar2(@NotNull @PathVariable String user, HttpServletRequest request, HttpServletResponse response) {
         return this.getUsersAvatar0(user, request, response);
     }
 
-    private Object getUsersAvatar0(String user, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private ResponseEntity<?> getUsersAvatar0(String user, HttpServletRequest request, HttpServletResponse response) {
         UUID userId;
         AvatarTable avatarTable = null;
         try {
@@ -73,7 +75,7 @@ public class AvatarController {
                 avatarTable = this.avatarService.getOrgAvatarTable(user);
                 if (avatarTable == null) {
                     // could still be an org, lets just always use the letter
-                    return getUserAvatarRedirect(user);
+                    return getUserAvatarFallback(user);
                 }
             }
         }
@@ -82,16 +84,16 @@ public class AvatarController {
             avatarTable = this.avatarService.getUsersAvatarTable(userId);
         }
         if (avatarTable == null) {
-            return getUserAvatarRedirect(userId);
+            return getUserAvatarFallback(userId);
         }
         Path userAvatarPath = this.avatarService.getAvatarFor(userId == null ? user : userId.toString(), avatarTable.getFileName());
         if (Files.notExists(userAvatarPath)) {
             if (userId == null) {
                 this.avatarService.deleteAvatarTable(user);
-                return getUserAvatarRedirect(user);
+                return getUserAvatarFallback(user);
             } else {
                 this.avatarService.deleteAvatarTable(userId);
-                return getUserAvatarRedirect(userId);
+                return getUserAvatarFallback(userId);
             }
         }
         byte[] image = imageService.getImage(userAvatarPath, request, response);
@@ -115,17 +117,18 @@ public class AvatarController {
         this.avatarService.saveOrgAvatar(orgName, avatar);
     }
 
-    private RedirectView getUserAvatarRedirect(@NotNull UUID userId) {
-        return getUserAvatarRedirect(this.kratosService.getTraits(userId).getUsername());
+    private ResponseEntity<?> getUserAvatarFallback(@NotNull UUID userId) {
+        return getUserAvatarFallback(this.kratosService.getTraits(userId).getUsername());
     }
 
-    private RedirectView getUserAvatarRedirect(@NotNull String name) {
+    private ResponseEntity<?> getUserAvatarFallback(@NotNull String name) {
         String userNameMd5 = DigestUtils.md5DigestAsHex(name.getBytes(StandardCharsets.UTF_8));
         long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);
         int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
         //noinspection PointlessBitwiseExpression
         int colorRgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8) | ((num[2] & 0xFF) << 0);
-        return new RedirectView(String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", name.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0')));
+        String url = String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", name.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0'));
+        return restTemplate.getForEntity(url, byte[].class);
     }
 
     static final List<int[]> COLORS = List.of(
