@@ -1,9 +1,5 @@
 package io.papermc.hangarauth.controller;
 
-import io.papermc.hangarauth.DummyData;
-import io.papermc.hangarauth.controller.model.Traits;
-import io.papermc.hangarauth.service.AvatarService;
-import io.papermc.hangarauth.service.KratosService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,6 +14,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
+
+import io.papermc.hangarauth.DummyData;
+import io.papermc.hangarauth.controller.model.Traits;
+import io.papermc.hangarauth.service.AvatarService;
+import io.papermc.hangarauth.service.KratosService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -48,11 +49,11 @@ class AvatarControllerTest {
     }
 
     @Test
-    void ok200WithRedirectedAvatar() throws Exception {
+    void ok200WithProxiedAvatar() throws Exception {
         final Traits mockedTraits = mock(Traits.class);
         when(mockedTraits.getUsername()).thenReturn("Machine_Maker");
         when(this.kratosService.getTraits(REDIRECTED_UUID)).thenReturn(mockedTraits);
-        this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is3xxRedirection(), header().exists(HttpHeaders.LOCATION));
+        this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is2xxSuccessful(), header().string(HttpHeaders.SERVER, "cloudflare"));
     }
 
     @Test
