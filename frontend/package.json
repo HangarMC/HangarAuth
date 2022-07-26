@@ -52,6 +52,7 @@
     "@vueuse/core": "8.9.4",
     "@vueuse/head": "0.7.7",
     "@vueuse/integrations": "8.9.4",
+    "accept-language-parser": "^1.5.0",
     "axios": "0.27.2",
     "debug": "4.3.4",
     "filesize": "9.0.11",

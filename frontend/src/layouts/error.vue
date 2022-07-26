@@ -1,13 +1,15 @@
 <template>
-  <Card max-width="400" class="mx-auto">
-    <h1>{{ error.statusCode }}</h1>
-    <p>{{ text }}</p>
-    <!-- nuxt button? -->
-    <Button nuxt to="/" color="secondary">
-      <IconMdiHome />
-      {{ t("general.home") }}
-    </Button>
-  </Card>
+  <div class="background-body text-[#262626] dark:text-[#E0E6f0]">
+    <Card max-width="400" class="mx-auto">
+      <h1>{{ error.statusCode }}</h1>
+      <p>{{ text }}</p>
+      <!-- todo nuxt button? -->
+      <Button nuxt to="/" color="secondary">
+        <IconMdiHome />
+        {{ t("general.home") }}
+      </Button>
+    </Card>
+  </div>
 </template>
 
 <script lang="ts" setup>

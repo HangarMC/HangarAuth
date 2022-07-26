@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite-plugin-windicss';
+import { defineConfig } from "vite-plugin-windicss";
 import colors from "windicss/colors";
 import typography from "windicss/plugin/typography";
 import plugin from "windicss/plugin";

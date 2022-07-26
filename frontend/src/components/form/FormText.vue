@@ -3,7 +3,7 @@
     <!-- this is a hardcoded way to display secrets differently -->
     <template v-if="secrets">
       <div>{{ node.meta.label.text }}</div>
-      <div class="flex mt-2 mb-2">
+      <div class="flex flex-wrap mt-2 mb-2">
         <div v-for="secret in secrets" :key="secret.id" class="basis-3/12">
           <!-- 1050014 means used -->
           <code>{{ secret.id === 1050014 ? "Used" : secret.text }}</code>

@@ -12,9 +12,11 @@ import IconMdiDownloadCircle from "~icons/mdi/download-circle";
 import IconMdiPuzzle from "~icons/mdi/puzzle";
 import Button from "~/lib/components/design/Button.vue";
 import { useAuthStore } from "~/store/useAuthStore";
+import { useSettingsStore } from "~/store/useSettingsStore";
 
 const { t } = useI18n();
 const authStore = useAuthStore();
+const settings = useSettingsStore();
 
 const navBarMenuLinksMoreFromPaper = [
   { link: "https://papermc.io/", label: t("nav.hangar.home"), icon: IconMdiHome },
@@ -77,9 +79,9 @@ const navBarMenuLinksMoreFromPaper = [
       <!-- Right side items -->
       <div class="flex items-center gap-2">
         <!-- todo dark mode -->
-        <button class="flex rounded-md p-2" hover="text-primary-400 bg-primary-0" d-@click="settings.toggleDarkMode()">
-          <icon-mdi-weather-night d-v-if="settings.darkMode" class="text-[1.2em]"></icon-mdi-weather-night>
-          <icon-mdi-white-balance-sunny d-v-else class="text-[1.2em]"></icon-mdi-white-balance-sunny>
+        <button class="flex rounded-md p-2" hover="text-primary-400 bg-primary-0" @click="settings.toggleDarkMode()">
+          <icon-mdi-weather-night v-if="settings.darkMode" class="text-[1.2em]"></icon-mdi-weather-night>
+          <icon-mdi-white-balance-sunny v-else class="text-[1.2em]"></icon-mdi-white-balance-sunny>
         </button>
         <Button v-if="authStore.user" button-type="primary" size="small" @click="$kratos.logout()">{{ t("general.logout") }}</Button>
       </div>
