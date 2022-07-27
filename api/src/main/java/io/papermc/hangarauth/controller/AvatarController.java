@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -100,6 +104,8 @@ public class AvatarController {
         return ResponseEntity.ok()
             .contentLength(image.length)
             .contentType(MediaType.parseMediaType(response.getContentType()))
+            .lastModified(Instant.now())
+            .cacheControl(CacheControl.maxAge(Duration.of(4, ChronoUnit.HOURS)))
             .body(new ByteArrayResource(image));
     }
 
