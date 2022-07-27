@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -82,5 +83,22 @@ public class KratosService {
         } catch (ApiException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
+    }
+
+    public void updateTraits(UUID userId, Traits updatedTraits) {
+        Traits traits = getTraits(userId);
+        // copy old
+        Traits.Name name = traits.name();
+        String username = traits.username();
+        String email = traits.email();
+        String github = traits.github();
+        String discord = traits.discord();
+        String minecraft = traits.minecraft();
+        // copy over new if set
+        String language = StringUtils.hasText(updatedTraits.language()) ? updatedTraits.language() : traits.language();
+        String theme = StringUtils.hasText(updatedTraits.theme()) ? updatedTraits.theme() : traits.theme();
+        // save new
+        Traits newTraits = new Traits(name, email, github, discord, language, username, minecraft, theme);
+        setTraits(userId, newTraits);
     }
 }

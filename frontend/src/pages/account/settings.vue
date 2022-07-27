@@ -9,7 +9,14 @@
       <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('settings.title')" />
       <div class="flex gap-2 flex-wrap md:flex-nowrap">
         <div class="basis-full md:basis-8/12 flex-shrink">
-          <Form :title="t('settings.userinfo')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'profile']" />
+          <Form
+            :title="t('settings.userinfo')"
+            disable-autocomplete
+            :ui="data.ui"
+            :include-groups="['default', 'profile']"
+            fields-as-excludes
+            :fields="['traits.theme']"
+          />
           <Form :title="t('settings.password')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'password']" />
           <Form :title="t('settings.2fa-backup')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'lookup_secret']" />
           <Form :title="t('settings.webauthn')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'webauthn']" />
@@ -29,7 +36,7 @@
 
 <script lang="ts" setup>
 import { UiContainer, UiNodeInputAttributes } from "@ory/kratos-client/api";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";
@@ -37,6 +44,11 @@ import UserMessages from "~/components/UserMessages.vue";
 import { useAuthStore } from "~/store/useAuthStore";
 import AvatarChangeModal from "~/lib/components/modals/AvatarChangeModal.vue";
 import Alert from "~/lib/components/design/Alert.vue";
+import { useSettingsStore } from "~/store/useSettingsStore";
+
+definePageMeta({
+  loginRequired: true,
+});
 
 const { t } = useI18n();
 const store = useAuthStore();
@@ -48,6 +60,7 @@ data.value = await $kratos.requestUiContainer(
 );
 
 const authStore = useAuthStore();
+const settingsStore = useSettingsStore();
 const file = ref();
 
 const csrfToken = computed(() => {
@@ -60,6 +73,20 @@ const csrfToken = computed(() => {
   }
   return (node.attributes as UiNodeInputAttributes).value;
 });
+
+const csrfTokenLenient = computed(() => {
+  if (!data.value?.ui) {
+    return null;
+  }
+  const node = data.value.ui.nodes.find((n) => "name" in n.attributes && n.attributes.name === "csrf_token");
+  if (!node) {
+    return null;
+  }
+  return (node.attributes as UiNodeInputAttributes).value;
+});
+
+watch(csrfTokenLenient, (newVal) => (settingsStore.csrfToken = newVal), { immediate: true });
+watch(data, (newVal) => (settingsStore.flowId = newVal?.flowId), { immediate: true });
 
 const verified = computed(() => {
   const user = authStore.user;
@@ -84,6 +111,4 @@ const aal2 = computed(() => {
 useHead({
   title: t("settings.title"),
 });
-
-await $kratos.loadUser();
 </script>

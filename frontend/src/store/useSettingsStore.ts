@@ -1,19 +1,18 @@
 import { defineStore } from "pinia";
 import type { Ref } from "vue";
-import { ref, unref, watch } from "vue";
+import { computed, ref, unref } from "vue";
 import { settingsLog } from "~/lib/composables/useLog";
-import localeParser from "accept-language-parser";
-import { SUPPORTED_LOCALES } from "~/lib/i18n";
 import { useAuthStore } from "~/store/useAuthStore";
+import { $fetch } from "ohmyfetch";
+import { useSettingsHelper } from "~/lib/composables/useSettingsHelper";
 
-// TODO somehow share this with hangar, right now its copy pasted and adjusted
 export const useSettingsStore = defineStore("settings", () => {
   settingsLog("defineSettingsStore");
   const darkMode: Ref<boolean> = ref(false);
   const locale: Ref<string> = ref("en");
 
-  const mobile: Ref<boolean> = ref(true); // True cause mobile first!!
-  const mobileBreakPoint = 700;
+  const csrfToken = ref<string | undefined>();
+  const flowId = ref<string | undefined>();
 
   function toggleDarkMode() {
     darkMode.value = !unref(darkMode);
@@ -30,130 +29,69 @@ export const useSettingsStore = defineStore("settings", () => {
     settingsLog("darkmode", darkMode.value);
   }
 
-  function toggleMobile() {
-    mobile.value = !unref(mobile);
-  }
-
-  function enableMobile() {
-    mobile.value = true;
-  }
-
-  function disableMobile() {
-    mobile.value = false;
-  }
-
-  // TODO actually call this
-  function loadSettingsServer(request: any, response: any) {
-    if (!import.meta.env.SSR) return;
-    const authStore = useAuthStore();
-    let newLocale;
-    let theme;
-    if (authStore.user) {
-      newLocale = authStore.user.traits.language || "en";
-      theme = authStore.user.traits.theme || "white";
-      settingsLog("user is logged in, locale = " + newLocale + ", theme = " + theme);
-    } else {
-      if (request.headers["accept-language"]) {
-        const pickedLocale = localeParser.pick(SUPPORTED_LOCALES, request.headers["accept-language"]);
-        if (!pickedLocale) {
-          settingsLog("user is not logged in and could not pick locale from header, using default...", SUPPORTED_LOCALES, request.headers["accept-language"]);
-          newLocale = "en";
-        } else {
-          settingsLog("user is not logged in, picking from locale header, locale = " + pickedLocale, SUPPORTED_LOCALES, request.headers["accept-language"]);
-          newLocale = pickedLocale;
-        }
-      } else {
-        settingsLog("using default locale cause there was no header...");
-        newLocale = "en";
-      }
-
-      response?.setHeader("Accept-CH", "Sec-CH-Prefers-Color-Scheme");
-      response?.setHeader("Vary", "Sec-CH-Prefers-Color-Scheme");
-      response?.setHeader("Critical-CH", "Sec-CH-Prefers-Color-Scheme");
-      const themeHeader = request.headers["sec-ch-prefers-color-scheme"];
-      if (themeHeader) {
-        settingsLog("user is not logged in, using theme from header", themeHeader);
-        theme = themeHeader;
-      } else {
-        settingsLog("user is not logged in and we got no theme header, using default...", themeHeader);
-      }
-    }
-
-    locale.value = newLocale;
-    if (theme === "white" || theme === "light") {
-      disableDarkMode();
-    } else {
-      enableDarkMode();
-    }
-    // TODO save into traits
-    // const obj = {
-    //   theme: darkMode.value ? "dark" : "light",
-    //   language: locale.value,
-    // };
-  }
-
-  watch(darkMode, (newMode) => {
-    if (import.meta.env.SSR) return;
-    if (newMode) {
-      settingsLog("set dark");
-      localStorage.theme = "dark";
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-    } else {
-      settingsLog("set light");
-      localStorage.theme = "light";
-      document.documentElement.classList.add("light");
-      document.documentElement.classList.remove("dark");
-    }
-    // TODO save into traits
-    // const obj = {
-    //   theme: darkMode.value ? "dark" : "light",
-    //   language: locale.value,
-    // };
+  const authStore = useAuthStore();
+  const userData = computed(() => {
+    return {
+      hasUser: Boolean(authStore.user),
+      theme: authStore.user?.traits?.theme,
+      language: authStore.user?.traits?.language,
+    };
   });
 
-  function loadSettingsClient() {
-    if (import.meta.env.SSR) return;
+  async function saveSettings() {
+    const store = useAuthStore();
+    // we always want to save in order to set the cookie
+    const user = store.user?.id || "anon";
+    settingsLog("Save settings for", user);
 
-    let darkMode = localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    const user = useAuthStore().user;
-    if (user && user.traits.theme) {
-      darkMode = user.traits.theme === "dark";
+    const form = new FormData();
+    form.append("theme", darkMode.value ? "dark" : "light");
+    form.append("language", locale.value);
+    form.append("flowId", flowId.value || "");
+    if (csrfToken.value) {
+      form.append("csrf_token", csrfToken.value);
     }
 
-    if (darkMode) {
-      enableDarkMode();
-    } else {
-      disableDarkMode();
+    // TODO pass cookies
+    let headers = {};
+    if (process.server) {
+      headers = { cookie: "" };
     }
 
-    // For checking if on mobile or not
-    if (innerWidth <= mobileBreakPoint && !mobile.value) {
-      enableMobile();
-    } else if (innerWidth > mobileBreakPoint && mobile) {
-      disableMobile();
+    // TODO use url from env var (client prolly doesn't even need a proxy, so only backend)
+    const url = `http://localhost:3001/settings/${user}`;
+    console.log("url", url);
+    try {
+      await $fetch(url, {
+        method: "POST",
+        body: form,
+        credentials: "include",
+        headers,
+      });
+    } catch (e) {
+      settingsLog("Can't save settings", e);
     }
-    addEventListener("resize", () => {
-      if (innerWidth <= mobileBreakPoint && !mobile.value) {
-        enableMobile();
-      } else if (innerWidth > mobileBreakPoint && mobile) {
-        disableMobile();
-      }
-    });
   }
+
+  const { loadSettingsServer, loadSettingsClient } = useSettingsHelper(
+    process.server,
+    userData,
+    () => useCookie("HANGAR_theme").value,
+    (loc) => (locale.value = loc),
+    (dark) => (darkMode.value = dark),
+    saveSettings,
+    darkMode
+  );
 
   return {
     darkMode,
     toggleDarkMode,
     enableDarkMode,
     disableDarkMode,
-    mobile,
-    toggleMobile,
-    enableMobile,
-    disableMobile,
-    mobileBreakPoint,
     loadSettingsServer,
     loadSettingsClient,
     locale,
+    csrfToken,
+    flowId,
   };
 });

@@ -128,7 +128,7 @@ export class Kratos {
     return null;
   }
 
-  async loadUser() {
+  async loadUser(shouldRedirect = false) {
     try {
       const session = await this.client.toSession(undefined, this.event ? this.event.req.headers.cookie : undefined, { withCredentials: true });
 
@@ -143,18 +143,18 @@ export class Kratos {
         return;
       }
       kratosLog("no session -> login");
-      return this.login();
+      return !shouldRedirect || this.login();
     } catch (e) {
       if (e.response) {
         if (e.response.data.redirect_browser_to) {
           kratosLog("session catch: url", e.response.data.redirect_browser_to);
-          return this.redirect(e.response.data.redirect_browser_to);
+          return !shouldRedirect || this.redirect(e.response.data.redirect_browser_to);
         } else if (e.response.status === 401) {
           kratosLog("session catch: 401 -> login");
-          return this.login();
+          return !shouldRedirect || this.login();
         } else if (e.response.status === 404) {
           kratosLog("session catch: 403 -> aal");
-          return this.aal2();
+          return !shouldRedirect || this.aal2();
         }
       }
       kratosLog("session catch:", e);

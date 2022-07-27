@@ -79,5 +79,6 @@ export default defineNuxtConfig({
     "/avatar": api,
     "/image": api,
     "/sync": api,
+    "/settings": api,
   }
 });
