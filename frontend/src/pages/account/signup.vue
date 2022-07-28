@@ -3,6 +3,7 @@
     <UserMessages :ui="data.ui" />
     <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('signup.title')" />
     <form :method="data.ui.method" :action="data.ui.action">
+      <!-- normal -->
       <Form
         :ui="data.ui"
         :title="t('signup.userInfo')"
@@ -20,6 +21,26 @@
         :fields="['traits.username', 'traits.email']"
         no-form
       />
+      <!-- oicd -->
+      <Form
+        :ui="data.ui"
+        :title="t('signup.userInfo')"
+        disable-autocomplete
+        :include-groups="['oidc']"
+        no-form
+        :disabled-fields="['traits.email']"
+        :fields="['traits.username', 'traits.email']"
+      />
+      <Form
+        :ui="data.ui"
+        :title="t('signup.optionalInfo')"
+        disable-autocomplete
+        :include-groups="['oidc']"
+        no-form
+        fields-as-excludes
+        :fields="['traits.username', 'traits.email']"
+      />
+      <!-- creds -->
       <Form :ui="data.ui" :title="t('signup.credentials')" disable-autocomplete :include-groups="['password', 'webauthn']" no-form :tabs="credentialsTabs" />
     </form>
   </Card>

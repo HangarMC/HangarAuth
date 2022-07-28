@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Alert v-if="!verified" type="info" class="mb-2"><a @click="$kratos.verify()">Your account is not verified yet, click here to change that!</a> </Alert>
+    <Alert v-if="!verified" type="info" class="mb-2 cursor-pointer">
+      <a @click="$kratos.verify()">Your account is not verified yet, click here to change that!</a>
+    </Alert>
     <Alert v-if="verified && !aal2" type="info" class="mb-2">
       <NuxtLink to="/account/settings">You haven't set up 2fa yet, go to the settings to change that!</NuxtLink>
     </Alert>

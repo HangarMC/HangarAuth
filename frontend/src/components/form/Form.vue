@@ -1,5 +1,5 @@
 <template>
-  <component :is="noForm ? 'div' : 'form'" v-if="filteredNodes.length > 0" :method="noForm ? null : ui.method" :action="noForm ? null : ui.action">
+  <component :is="noForm ? 'div' : 'form'" v-if="!empty" :method="noForm ? null : ui.method" :action="noForm ? null : ui.action">
     <Card class="mt-2">
       <h1 class="text-xl mb-4">{{ title }}</h1>
       <div class="flex flex-wrap gap-2">
@@ -54,6 +54,16 @@ const filteredNodes = computed<UiNode[]>(() => {
         ? !props.fields.includes((n.attributes as any).name)
         : props.fields.includes((n.attributes as any).name))
   );
+});
+
+const empty = computed(() => {
+  if (filteredNodes.value.length === 0) {
+    return true;
+  }
+  if (filteredNodes.value.length === 1) {
+    return (filteredNodes.value[0].attributes as any).name === "csrf_token";
+  }
+  return false;
 });
 </script>
 

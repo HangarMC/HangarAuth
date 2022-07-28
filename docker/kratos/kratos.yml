@@ -26,6 +26,16 @@ selfservice:
       enabled: true
     oidc:
       enabled: true
+      config:
+        providers:
+          - id: github
+            provider: github
+            # see mapper/github.jsonnet
+            mapper_url: "base64://bG9jYWwgY2xhaW1zID0gewogIGVtYWlsX3ZlcmlmaWVkOiBmYWxzZSwKfSArIHN0ZC5leHRWYXIoJ2NsYWltcycpOwp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICAvLyBBbGxvd2luZyB1bnZlcmlmaWVkIGVtYWlsIGFkZHJlc3NlcyBlbmFibGVzIGFjY291bnQKICAgICAgLy8gZW51bWVyYXRpb24gYXR0YWNrcywgZXNwZWNpYWxseSBpZiB0aGUgdmFsdWUgaXMgdXNlZCBmb3IKICAgICAgLy8gZS5nLiB2ZXJpZmljYXRpb24gb3IgYXMgYSBwYXNzd29yZCBsb2dpbiBpZGVudGlmaWVyLgogICAgICAvLwogICAgICAvLyBUaGVyZWZvcmUgd2Ugb25seSByZXR1cm4gdGhlIGVtYWlsIGlmIGl0IChhKSBleGlzdHMgYW5kIChiKSBpcyBtYXJrZWQgdmVyaWZpZWQKICAgICAgLy8gYnkgR2l0SHViLgogICAgICBbaWYgJ2VtYWlsJyBpbiBjbGFpbXMgJiYgY2xhaW1zLmVtYWlsX3ZlcmlmaWVkIHRoZW4gJ2VtYWlsJyBlbHNlIG51bGxdOiBjbGFpbXMuZW1haWwsCiAgICAgICdnaXRodWInOiBjbGFpbXMucHJvZmlsZQogICAgfSwKICB9LAp9Cg=="
+            client_id: "d7547a1bc2f7766cfe3e"
+            client_secret: ""
+            scope:
+              - "user:email"
     link:
       enabled: true
       config:
@@ -91,8 +101,10 @@ selfservice:
       after:
         password:
           hooks:
-            -
-              hook: session
+            - hook: session
+        oidc:
+          hooks:
+            - hook: session
 
 log:
   level: debug

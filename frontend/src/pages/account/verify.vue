@@ -17,7 +17,7 @@ const { t } = useI18n();
 
 const { $kratos } = useNuxtApp();
 const data = useState<{ ui: UiContainer }>("ui");
-data.value = $kratos.requestUiContainer(
+data.value = await $kratos.requestUiContainer(
   (flow, cookie) => $kratos.client.getSelfServiceVerificationFlow(flow, cookie, { withCredentials: true }),
   $kratos.verify.bind($kratos),
   $kratos.verify.bind($kratos)

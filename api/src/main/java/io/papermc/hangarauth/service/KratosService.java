@@ -69,7 +69,11 @@ public class KratosService {
         }
     }
 
-    public void checkCsrfToken(@NotNull final String flowId, @NotNull final String cookies, @NotNull final String csrfToken) {
+    public void checkCsrfToken(@NotNull final String flowId, @NotNull final String cookies, final String csrfToken) {
+        if (csrfToken == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "no csrf token");
+        }
+
         final SelfServiceSettingsFlow flow = this.getSettingsFlow(flowId, cookies);
         final Optional<String> flowCsrfToken = flow.getUi().getNodes().stream().filter(n -> n.getAttributes().getName().equals("csrf_token")).map(n -> n.getAttributes().getValue().toString()).findAny();
         if (flowCsrfToken.isEmpty() || !flowCsrfToken.get().equals(csrfToken)) {
