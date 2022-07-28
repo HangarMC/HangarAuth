@@ -79,7 +79,12 @@ export class Kratos {
 
   async settings() {
     try {
-      await this.redirect(this.kratosPublicUrl + "/self-service/settings/browser");
+      const route = useRoute();
+      let query = "";
+      if (route.query.new) {
+        query = "?new=true";
+      }
+      await this.redirect(this.kratosPublicUrl + "/self-service/settings/browser" + query);
     } catch (e) {
       kratosLog(e);
     }
@@ -109,16 +114,16 @@ export class Kratos {
   }
 
   async requestUiContainer(
-    fetchFlow: (flow: string, cookie: unknown) => Promise<AxiosResponse<{ ui: UiContainer; id: string }>>,
+    fetchFlow: (flow: string, cookie: unknown) => Promise<AxiosResponse<{ ui: UiContainer; id: string; request_url: string }>>,
     onNoFlow: () => void = this.login.bind(this),
     onErrRedirect: () => void = this.login.bind(this)
-  ): Promise<null | { ui: UiContainer; flowId: string }> {
+  ): Promise<null | { ui: UiContainer; flowId: string; requestUrl: string }> {
     const flow = useFlow(useRoute(), onNoFlow);
     if (flow) {
       try {
         const flowInfo = await fetchFlow(flow, this.event ? this.event.req.headers.cookie : undefined);
         kratosLog(flowInfo.data.ui.nodes);
-        return { ui: flowInfo.data.ui, flowId: flowInfo.data.id };
+        return { ui: flowInfo.data.ui, flowId: flowInfo.data.id, requestUrl: flowInfo.data.request_url };
       } catch (e) {
         kratosLog("redirectOnError", e.response?.data ? e.response.data : e);
         this.redirectOnError(onErrRedirect)(e);

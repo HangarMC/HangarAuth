@@ -92,6 +92,7 @@ selfservice:
       lifespan: 10m
       ui_url: https://hangar-auth.benndorf.dev/account/signup
       after:
+        default_browser_return_url: "https://hangar-auth.benndorf.dev/account/settings?new=true"
         password:
           hooks:
             -

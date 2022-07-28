@@ -6,6 +6,9 @@
     <Alert v-if="verified && !aal2" type="info" class="mb-2">
       <NuxtLink to="/account/settings">You haven't set up 2fa yet, go to the settings to change that!</NuxtLink>
     </Alert>
+    <Alert v-if="newAccount" type="info" class="mb-2">
+      <a :href="runtimeConfig.public.hangarHost + '/login?returnUrl=/'">Account created! Click here to go to Hangar!</a>
+    </Alert>
     <Card v-if="data && data.ui">
       <UserMessages :ui="data.ui" />
       <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('settings.title')" />
@@ -55,7 +58,7 @@ definePageMeta({
 const { t } = useI18n();
 const store = useAuthStore();
 const { $kratos } = useNuxtApp();
-const data = useState<{ ui: UiContainer; flowId: string }>("ui");
+const data = useState<{ ui: UiContainer; flowId: string; requestUrl: string }>("ui");
 data.value = await $kratos.requestUiContainer(
   (flow, cookie) => $kratos.client.getSelfServiceSettingsFlow(flow, undefined, cookie, { withCredentials: true }),
   $kratos.settings.bind($kratos)
@@ -63,6 +66,7 @@ data.value = await $kratos.requestUiContainer(
 
 const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
+const runtimeConfig = useRuntimeConfig();
 const file = ref();
 
 const csrfToken = computed(() => {
@@ -109,6 +113,8 @@ const aal2 = computed(() => {
   }
   return false;
 });
+
+const newAccount = computed(() => data.value?.requestUrl?.includes("new=true"));
 
 useHead({
   title: t("settings.title"),

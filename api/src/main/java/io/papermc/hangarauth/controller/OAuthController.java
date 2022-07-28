@@ -133,7 +133,7 @@ public class OAuthController {
             log.warn("login: Error on toSession: {}", e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error on toSession: " + e.getResponseBody(), e);
         } catch (ApiException e) {
-            log.warn("login: Error on acceptLoginRequest: {}", e.getMessage());
+            log.warn("login: Error on acceptLoginRequest: {} {}", e.getMessage(), e.getResponseBody());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error on acceptLoginRequest: " + e.getResponseBody(), e);
         }
     }

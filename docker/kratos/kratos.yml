@@ -99,6 +99,7 @@ selfservice:
       lifespan: 10m
       ui_url: http://localhost:3001/account/signup
       after:
+        default_browser_return_url: "http://localhost:3001/account/settings?new=true"
         password:
           hooks:
             - hook: session

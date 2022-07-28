@@ -17,6 +17,7 @@ import { useSettingsStore } from "~/store/useSettingsStore";
 const { t } = useI18n();
 const authStore = useAuthStore();
 const settings = useSettingsStore();
+const runtimeConfig = useRuntimeConfig();
 
 const navBarMenuLinksMoreFromPaper = [
   { link: "https://papermc.io/", label: t("nav.hangar.home"), icon: IconMdiHome },
@@ -26,7 +27,7 @@ const navBarMenuLinksMoreFromPaper = [
   { link: "https://papermc.io/javadocs", label: t("nav.hangar.javadocs"), icon: IconMdiLanguageJava },
   { link: "https://papermc.io/downloads", label: t("nav.hangar.downloads"), icon: IconMdiDownloadCircle },
   { link: "https://papermc.io/community", label: t("nav.hangar.community"), icon: IconMdiAccountGroup },
-  { link: "https://hangar.benndorf.dev", label: t("nav.hangar.hangar"), icon: IconMdiPuzzle },
+  { link: runtimeConfig.public.hangarHost, label: t("nav.hangar.hangar"), icon: IconMdiPuzzle },
 ];
 </script>
 
