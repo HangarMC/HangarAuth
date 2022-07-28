@@ -11,6 +11,8 @@ declare module '@vue/runtime-core' {
     IconMdiAlertBox: typeof import('~icons/mdi/alert-box')['default']
     IconMdiCheckBold: typeof import('~icons/mdi/check-bold')['default']
     IconMdiClose: typeof import('~icons/mdi/close')['default']
+    IconMdiEye: typeof import('~icons/mdi/eye')['default']
+    IconMdiEyeOff: typeof import('~icons/mdi/eye-off')['default']
     IconMdiHome: typeof import('~icons/mdi/home')['default']
     IconMdiInformation: typeof import('~icons/mdi/information')['default']
     IconMdiMenu: typeof import('~icons/mdi/menu')['default']

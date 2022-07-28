@@ -116,6 +116,7 @@
     "maxLength": "Maximum length is {max}",
     "minLength": "Minimum length is {min}",
     "pattern": "{property} is invalid",
-    "url": "Invalid URL format"
+    "url": "Invalid URL format",
+    "email": "Invalid email"
   }
 }

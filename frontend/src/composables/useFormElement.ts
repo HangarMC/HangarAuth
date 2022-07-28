@@ -2,7 +2,7 @@ import { UiNode } from "@ory/kratos-client";
 import { computed, PropType, ref } from "vue";
 import { UiNodeInputAttributes } from "@ory/kratos-client/api";
 import { ValidationRule } from "@vuelidate/core";
-import { required } from "~/lib/composables/useValidationHelpers";
+import { minLength, required, email } from "~/lib/composables/useValidationHelpers";
 
 export const formProps = () => ({
   node: {
@@ -39,6 +39,12 @@ export function useFormElement(props: Props) {
   const rules: ValidationRule<string | undefined>[] = [];
   if ((props.node.attributes as UiNodeInputAttributes).required) {
     rules.push(required());
+  }
+  if ((props.node.attributes as UiNodeInputAttributes).type === "password") {
+    rules.push(minLength()(8));
+  }
+  if ((props.node.attributes as UiNodeInputAttributes).type === "email") {
+    rules.push(email());
   }
 
   return {
