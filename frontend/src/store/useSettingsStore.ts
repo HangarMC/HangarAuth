@@ -58,9 +58,8 @@ export const useSettingsStore = defineStore("settings", () => {
       headers = { cookie: "" };
     }
 
-    // TODO use url from env var (client prolly doesn't even need a proxy, so only backend)
-    const url = `http://localhost:3001/settings/${user}`;
-    console.log("url", url);
+    const runtimeConfig = useRuntimeConfig();
+    const url = `${runtimeConfig.public.publicHost}/settings/${user}`;
     try {
       await $fetch(url, {
         method: "POST",
