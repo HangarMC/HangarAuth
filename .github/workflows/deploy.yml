@@ -73,7 +73,7 @@ jobs:
         env:
           # keep these in sync with compose!
           PUBLIC_HOST: "https://hangar-auth.benndorf.dev"
-          BACKEND_HOST: "http://backend:8080"
+          BACKEND_HOST: "http://hangarauth_backend:8080"
           KRATOS_PUBLIC: "https://hangar-auth.benndorf.dev/kratos"
           KRATOS: "http://kratos:4433"
           HANGAR_HOST: "https://hangar.benndorf.dev"
@@ -98,6 +98,7 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           EMAIL_SETTINGS: ${{ secrets.EMAIL_SETTINGS }}
+          SSO_API_KEY: ${{ secrets.SSO_API_KEY }}
         run: |
           echo ${{ secrets.DOCKER_HOST_SSH_SIG }} > ~/.ssh/known_hosts
           docker-compose build
