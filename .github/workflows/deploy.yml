@@ -72,17 +72,12 @@ jobs:
         working-directory: frontend
         env:
           # keep these in sync with compose!
-          host: "0.0.0.0"
-          publicHost: "https://hangar-auth.benndorf.dev"
-          publicApi: "https://hangar-auth.benndorf.dev/api"
-          api: "http://api:8080"
-          kratosPublic: "https://hangar-auth.benndorf.dev/kratos"
-          hydraPublic: "https://hangar-auth.benndorf.dev/hydra"
-          kratos: "http://kratos:4433"
-          hydraAdmin: "http://hydra:4445"
-          hangarHost: "https://hangar.benndorf.dev"
+          PUBLIC_HOST: "https://hangar-auth.benndorf.dev"
+          BACKEND_HOST: "http://backend:8080"
+          KRATOS_PUBLIC: "https://hangar-auth.benndorf.dev/kratos"
+          KRATOS: "http://kratos:4433"
+          HANGAR_HOST: "https://hangar.benndorf.dev"
           DEBUG: "hangar:*"
-          # signupDisabled: "true"
         run: pnpm build
 
       - name: SSH

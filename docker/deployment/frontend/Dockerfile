@@ -2,6 +2,7 @@ FROM node:16-alpine
 
 WORKDIR frontend
 ENV TERM xterm-256color
+ENV HOST 0.0.0.0
 
 EXPOSE 3000
 ENTRYPOINT ["./entrypoint.sh"]

@@ -7,27 +7,22 @@ import Components from "unplugin-vue-components/vite";
 import EslintPlugin from "vite-plugin-eslint";
 import prettier from "./src/lib/plugins/prettier";
 
-const hangarHost = process.env.hangarHost || "http://localhost:3333";
-const publicHost = process.env.publicHost || "http://localhost:3001";
-const publicApi = process.env.publicApi || "http://localhost:8081";
-const backend = process.env.backend || "http://localhost:8081";
-const kratos = process.env.kratos || "http://localhost:4433";
-const kratosPublic = process.env.kratosPublic || "http://localhost:4433";
-const hydraPublic = process.env.hydraPublic || "http://localhost:4445";
-const signupDisabled = process.env.signupDisabled;
+const hangarHost = process.env.HANGAR_HOST || "http://localhost:3333";
+const publicHost = process.env.PUBLIC_HOST || "http://localhost:3001";
+const backend = process.env.BACKEND_HOST || "http://localhost:8081";
+const kratos = process.env.KRATOS || "http://localhost:4433";
+const kratosPublic = process.env.KRATOS_PUBLIC || "http://localhost:4433";
+const signupDisabled = process.env.signupDisabled || false;
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   srcDir: "src",
   runtimeConfig: {
     kratos,
-    backend,
     public: {
       hangarHost,
       publicHost,
-      publicApi,
       kratosPublic,
-      hydraPublic,
       signupDisabled: Boolean(signupDisabled)
     },
   },

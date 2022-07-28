@@ -8,15 +8,11 @@ services:
       dockerfile: docker/deployment/frontend/Dockerfile
     environment:
       # keep these in sync with deploy.yml action!
-      host: "0.0.0.0"
-      publicHost: "https://hangar-auth.benndorf.dev"
-      publicApi: "https://hangar-auth.benndorf.dev/api"
-      backendHost: "http://backend:8080"
-      kratosPublic: "https://hangar-auth.benndorf.dev/kratos"
-      kratos: "http://kratos:4433"
-      hydraAdmin: "http://hydra:4445"
-      hydraPublic: "https://hangar-auth.benndorf.dev/hydra"
-      hangarHost: "https://hangar.benndorf.dev"
+      PUBLIC_HOST: "https://hangar-auth.benndorf.dev"
+      BACKEND_HOST: "http://backend:8080"
+      KRATOS_PUBLIC: "https://hangar-auth.benndorf.dev/kratos"
+      KRATOS: "http://kratos:4433"
+      HANGAR_HOST: "https://hangar.benndorf.dev"
       DEBUG: "hangar:*"
     labels:
       - "traefik.enable=true"
@@ -36,23 +32,11 @@ services:
       context: ../..
       dockerfile: docker/deployment/backend/Dockerfile
     environment:
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://hangar_postgres:5432/kratos?currentSchema=auth"
-      SPRING_DATASOURCE_USERNAME: "${POSTGRES_USER}"
-      SPRING_DATASOURCE_PASSWORD: "${POSTGRES_PW}"
-      API_KEY: "changeme"
-      AUTH_KRATOS_ADMIN_URL: "http://hangar_auth_kratos:4434"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PW: "${POSTGRES_PW}"
+      SSO_API_KEY: "changeme"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.hangar-auth-api.loadbalancer.server.port=8080"
-      - "traefik.http.routers.hangar-auth-api.rule=Host(`hangar-auth.benndorf.dev`) && (PathPrefix(`/api`) || PathPrefix(`/avatar`))"
-      - "traefik.http.routers.hangar-auth-api.middlewares=stripapi@docker"
-      - "traefik.http.middlewares.stripapi.stripprefix.prefixes=/api"
-      - "traefik.http.routers.hangar-auth-api.entrypoints=web-secure"
-      - "traefik.http.routers.hangar-auth-api.tls=true"
-      - "traefik.http.routers.hangar-auth-api.tls.options=default"
-      - "traefik.http.routers.hangar-auth-api.tls.certresolver=default"
-      - "traefik.http.routers.hangar-auth-api.tls.domains[0].main=benndorf.dev"
-      - "traefik.http.routers.hangar-auth-api.tls.domains[0].sans=*.benndorf.dev"
+      - "traefik.enable=false"
     networks:
       - web
     volumes:
@@ -61,9 +45,6 @@ services:
     image: "ghcr.io/papermc/hangarauth_kratos-migrate"
     build:
       context: kratos
-      args:
-        API_HOST: "http://api:8081"
-        BACKEND_HOST: "http://hangar_backend:8080"
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
     environment:
@@ -79,14 +60,10 @@ services:
     image: "ghcr.io/papermc/hangarauth_kratos"
     build:
       context: kratos
-      args:
-        API_HOST: "http://api:8081"
-        BACKEND_HOST: "http://hangar_backend:8080"
     restart: unless-stopped
     environment:
       DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_postgres:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_COOKIE: "supersecuresupersecure"
-      LOG_LEAK_SENSITIVE_VALUES: "true"
       COURIER_SMTP_CONNECTION_URI: "${EMAIL_SETTINGS}"
     labels:
       - "traefik.enable=true"
@@ -127,7 +104,6 @@ services:
       DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PW}@hangar_postgres:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
       SECRETS_SYSTEM: "supersecuresupersecure"
       OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT: "supersecuresupersecure"
-      LOG_LEAK_SENSITIVE_VALUES: "true"
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.hangar-oauth.loadbalancer.server.port=4444"

@@ -61,7 +61,7 @@ selfservice:
             - hook: web_hook
               config:
                 method: POST
-                url: "${BACKEND_HOST}/sync"
+                url: "http://hangar_backend:8080/sync"
                 body: file:///etc/config/kratos/hooks/settings/after/profile.jsonnet
                 auth:
                   type: api_key

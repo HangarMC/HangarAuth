@@ -68,7 +68,7 @@ selfservice:
             - hook: web_hook
               config:
                 method: POST
-                url: "${BACKEND_HOST}/sync"
+                url: "http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:8080/sync"
                 body: file:///etc/config/kratos/hooks/settings/after/profile.jsonnet
                 auth:
                   type: api_key

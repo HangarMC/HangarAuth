@@ -1,10 +1,18 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://hangar_postgres:5432/kratos?currentSchema=auth"
+    username: "${POSTGRES_USER}"
+    password: "${POSTGRES_PASSWORD}"
+
 server:
   port: 8080
 
 auth:
   data-dir: /auth/data
+  api-key: "${SSO_API_KEY}"
   public-host: "https://hangar-auth.benndorf.dev"
   kratos:
     public-url: "https://hangar-auth.benndorf.dev/kratos"
+    admin-url: "http://kratos:4434"
   hydra:
     admin-url: "http://hydra:4445"

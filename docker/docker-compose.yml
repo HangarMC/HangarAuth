@@ -4,9 +4,6 @@ services:
   kratos-migrate:
     build:
       context: kratos
-      args:
-        API_HOST: "http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:8081"
-        BACKEND_HOST: "http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:8080"
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
   kratos:
@@ -15,9 +12,6 @@ services:
     restart: unless-stopped
     build:
       context: kratos
-      args:
-        API_HOST: "http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:8081"
-        BACKEND_HOST: "http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:8080"
     ports:
       - '4433:4433' # public
       - '4434:4434' # admin
