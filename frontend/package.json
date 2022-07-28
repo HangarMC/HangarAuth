@@ -19,7 +19,7 @@
     "@nuxtjs/eslint-config-typescript": "10.0.0",
     "@types/debug": "4.1.7",
     "@types/nprogress": "0.2.0",
-    "@types/prettier": "2.6.3",
+    "@types/prettier": "2.6.4",
     "@vue/eslint-config-typescript": "11.0.0",
     "eslint": "8.20.0",
     "eslint-config-prettier": "8.5.0",
