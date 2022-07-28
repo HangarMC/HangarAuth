@@ -53,7 +53,7 @@ class AvatarControllerTest {
         final Traits mockedTraits = mock(Traits.class);
         when(mockedTraits.username()).thenReturn("Machine_Maker");
         when(this.kratosService.getTraits(REDIRECTED_UUID)).thenReturn(mockedTraits);
-        this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is2xxSuccessful(), header().string(HttpHeaders.SERVER, "cloudflare"));
+        this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is2xxSuccessful(), header().stringValues(HttpHeaders.SERVER, "HangarAuth", "cloudflare"));
     }
 
     @Test
