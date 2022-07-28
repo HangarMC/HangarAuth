@@ -1,13 +1,5 @@
 package io.papermc.hangarauth.service;
 
-import io.papermc.hangarauth.config.custom.GeneralConfig;
-import io.papermc.hangarauth.db.dao.AvatarDAO;
-import io.papermc.hangarauth.db.dao.OrgAvatarDAO;
-import io.papermc.hangarauth.db.model.AvatarTable;
-import io.papermc.hangarauth.db.model.OrgAvatarTable;
-import io.papermc.hangarauth.db.model.UserAvatarTable;
-import io.papermc.hangarauth.utils.Crypto;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.function.TriFunction;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -33,6 +25,14 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import javax.imageio.ImageIO;
 
+import io.papermc.hangarauth.config.custom.GeneralConfig;
+import io.papermc.hangarauth.db.dao.AvatarDAO;
+import io.papermc.hangarauth.db.dao.OrgAvatarDAO;
+import io.papermc.hangarauth.db.model.AvatarTable;
+import io.papermc.hangarauth.db.model.OrgAvatarTable;
+import io.papermc.hangarauth.db.model.UserAvatarTable;
+import io.papermc.hangarauth.utils.Crypto;
+
 @Service
 public class AvatarService {
 
@@ -41,12 +41,14 @@ public class AvatarService {
     private final AvatarDAO avatarDAO;
     private final OrgAvatarDAO orgAvatarDAO;
     private final Path avatarDir;
+    private final ImageService imageService;
 
     @Autowired
-    public AvatarService(AvatarDAO avatarDAO, OrgAvatarDAO orgAvatarDAO, GeneralConfig config) throws IOException {
+    public AvatarService(AvatarDAO avatarDAO, OrgAvatarDAO orgAvatarDAO, GeneralConfig config, ImageService imageService) throws IOException {
         this.avatarDAO = avatarDAO;
         this.orgAvatarDAO = orgAvatarDAO;
         this.avatarDir = config.getDataDir().resolve("avatars");
+        this.imageService = imageService;
         Files.createDirectories(this.avatarDir);
         LOGGER.info("Avatars directory: {}", avatarDir.toAbsolutePath());
     }
@@ -103,7 +105,8 @@ public class AvatarService {
             table = ctor.apply(subject, Crypto.md5ToHex(avatar.getBytes()), fileName);
             createOrUpdate = creator;
         }
-        copyFileTo(subject.toString(), avatar, fileName);
+        Path path = copyFileTo(subject.toString(), avatar, fileName);
+        imageService.evictCache(path.toString());
         createOrUpdate.accept(table);
     }
 
@@ -116,10 +119,11 @@ public class AvatarService {
         }
     }
 
-    private void copyFileTo(@NotNull String subject, @NotNull MultipartFile avatar, String fileName) throws IOException {
+    private Path copyFileTo(@NotNull String subject, @NotNull MultipartFile avatar, String fileName) throws IOException {
         final Path subjectDir = this.avatarDir.resolve(subject);
         Files.createDirectories(subjectDir);
         FileUtils.cleanDirectory(subjectDir.toFile());
+        final Path file = subjectDir.resolve(fileName);
 
         // convert everything to jpeg cause they compress better
         if (!MediaType.IMAGE_JPEG_VALUE.equals(avatar.getContentType())) {
@@ -127,10 +131,12 @@ public class AvatarService {
             // draw to get rid of alpha
             BufferedImage result = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
             result.createGraphics().drawImage(img, 0, 0, Color.WHITE, null);
-            boolean dum = ImageIO.write(result, "jpg", subjectDir.resolve(fileName).toFile());
-            if (!dum) System.out.println("failed to write jpg " + subjectDir.resolve(fileName).toFile());
+            boolean dum = ImageIO.write(result, "jpg", file.toFile());
+            if (!dum) System.out.println("failed to write jpg " + file.toFile());
         } else {
-            Files.copy(avatar.getInputStream(), subjectDir.resolve(fileName));
+            Files.copy(avatar.getInputStream(), file);
         }
+
+        return file;
     }
 }

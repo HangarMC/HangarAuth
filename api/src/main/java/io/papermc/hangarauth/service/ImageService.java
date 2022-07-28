@@ -5,6 +5,8 @@ import com.luciad.imageio.webp.WebPWriteParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -19,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -42,6 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 
+import io.papermc.hangarauth.config.CacheConfig;
 import io.papermc.hangarauth.config.custom.ImageConfig;
 
 @Component
@@ -55,9 +57,10 @@ public class ImageService {
     private final ImageConfig config;
 
     private final LinkedBlockingQueue<ImageToOptimize> workerQueue = new LinkedBlockingQueue<>();
+    private final Cache hashCache;
 
     @Autowired
-    public ImageService(ImageConfig config) {
+    public ImageService(ImageConfig config, CacheManager cacheManager) {
         this.config = config;
 
         if (!Files.isDirectory(config.workFolder())) {
@@ -67,6 +70,8 @@ public class ImageService {
                 LOGGER.error("Couldn't create work folder {}", config.workFolder());
             }
         }
+
+        hashCache = cacheManager.getCache(CacheConfig.HASH_CACHE);
 
         ExecutorService service = Executors.newFixedThreadPool(config.threads());
         service.submit(() -> {
@@ -88,7 +93,7 @@ public class ImageService {
         return getImage(
             (content, hash) -> workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
             () -> getContent(origFile),
-            () -> getHash(origFile.toString().getBytes(StandardCharsets.UTF_8)),
+            () -> getHash(origFile.toString(), () -> getContent(origFile)),
             request, response);
     }
 
@@ -96,7 +101,7 @@ public class ImageService {
         return getImage(
             (content, hash) -> workerQueue.add(new ImageToOptimize(null, origUrl, content, hash)),
             () -> getContent(origUrl),
-            () -> getHash(origUrl.getBytes(StandardCharsets.UTF_8)),
+            () -> getHash(origUrl, () -> getContent(origUrl)),
             request, response);
     }
 
@@ -189,14 +194,25 @@ public class ImageService {
         }
     }
 
-    private String getHash(byte[] content) {
+    private String getHash(String cacheKey, Supplier<byte[]> contentSupplier) {
+        String cachedHash = hashCache.get(cacheKey, String.class);
+        if (cachedHash != null) {
+            return cachedHash;
+        }
+
         try {
-            byte[] hash = MessageDigest.getInstance("MD5").digest(content);
-            return DatatypeConverter.printHexBinary(hash);
+            byte[] hash = MessageDigest.getInstance("MD5").digest(contentSupplier.get());
+            String hex = DatatypeConverter.printHexBinary(hash);
+            hashCache.put(cacheKey, hex);
+            return hex;
         } catch (NoSuchAlgorithmException e) {
             LOGGER.error("error while hashing ", e);
             return null;
         }
+    }
+
+    public void evictCache(String key) {
+        hashCache.evict(key);
     }
 
     private void optimize(ImageToOptimize image) throws IOException {
@@ -295,7 +311,6 @@ public class ImageService {
 
         return rescaledImage;
     }
-
     record ImageToOptimize(
         Path origFile,
         String origUrl,
