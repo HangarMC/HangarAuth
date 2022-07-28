@@ -10,7 +10,7 @@ import prettier from "./src/lib/plugins/prettier";
 const hangarHost = process.env.hangarHost || "http://localhost:3333";
 const publicHost = process.env.publicHost || "http://localhost:3001";
 const publicApi = process.env.publicApi || "http://localhost:8081";
-const api = process.env.api || "http://localhost:8081";
+const backend = process.env.backend || "http://localhost:8081";
 const kratos = process.env.kratos || "http://localhost:4433";
 const kratosPublic = process.env.kratosPublic || "http://localhost:4433";
 const hydraPublic = process.env.hydraPublic || "http://localhost:4445";
@@ -19,10 +19,9 @@ const signupDisabled = process.env.signupDisabled;
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   srcDir: "src",
-  // todo make configurable
   runtimeConfig: {
     kratos,
-    api,
+    backend,
     public: {
       hangarHost,
       publicHost,
@@ -72,13 +71,13 @@ export default defineNuxtConfig({
     ],
   },
   proxy: {
-    "/oauth/login": api,
-    "/oauth/handleConsent": api,
-    "/oauth/logout": api,
-    "/oauth/frontchannel-logout": api,
-    "/avatar": api,
-    "/image": api,
-    "/sync": api,
-    "/settings": api,
+    "/oauth/login": backend,
+    "/oauth/handleConsent": backend,
+    "/oauth/logout": backend,
+    "/oauth/frontchannel-logout": backend,
+    "/avatar": backend,
+    "/image": backend,
+    "/sync": backend,
+    "/settings": backend,
   }
 });

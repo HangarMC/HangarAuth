@@ -11,7 +11,7 @@ services:
       host: "0.0.0.0"
       publicHost: "https://hangar-auth.benndorf.dev"
       publicApi: "https://hangar-auth.benndorf.dev/api"
-      api: "http://api:8080"
+      backendHost: "http://backend:8080"
       kratosPublic: "https://hangar-auth.benndorf.dev/kratos"
       kratos: "http://kratos:4433"
       hydraAdmin: "http://hydra:4445"
@@ -30,11 +30,11 @@ services:
       - "traefik.http.routers.hangar-auth.tls.domains[0].sans=*.benndorf.dev"
     networks:
       - web
-  api:
+  backend:
     image: "ghcr.io/papermc/hangarauth_api"
     build:
       context: ../..
-      dockerfile: docker/deployment/api/Dockerfile
+      dockerfile: docker/deployment/backend/Dockerfile
     environment:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://hangar_postgres:5432/kratos?currentSchema=auth"
       SPRING_DATASOURCE_USERNAME: "${POSTGRES_USER}"

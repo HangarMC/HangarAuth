@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="backend" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" />
-    <module name="hangar-auth" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="io.papermc.hangarauth.AuthApiApplication" />
+    <module name="backend" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="io.papermc.hangarauth.HangarAuthApplication" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="io.papermc.hangarauth.*" />

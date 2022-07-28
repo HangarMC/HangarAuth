@@ -2,7 +2,7 @@ version: 2
 
 updates:
   - package-ecosystem: "maven"
-    directory: "/api/"
+    directory: "/backend/"
     schedule:
       interval: "weekly"
   - package-ecosystem: "npm"

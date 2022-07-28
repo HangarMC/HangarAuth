@@ -11,8 +11,8 @@
     <groupId>io.papermc.hangar-auth</groupId>
     <artifactId>hangar-auth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>api</name>
-    <description>api</description>
+    <name>backend</name>
+    <description>backend</description>
     <properties>
         <java.version>17</java.version>
 

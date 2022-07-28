@@ -7,7 +7,7 @@ on:
   pull_request:
     paths:
       - 'api/**'
-      - '.github/workflows/api_build.yml'
+      - '.github/workflows/backend_build.yml'
 
 concurrency:
   group: ${{ github.ref }}-api-build
