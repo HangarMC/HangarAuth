@@ -9,7 +9,7 @@ services:
     environment:
       # keep these in sync with deploy.yml action!
       PUBLIC_HOST: "https://hangar-auth.benndorf.dev"
-      BACKEND_HOST: "http://hangarauth_backend:8080"
+      BACKEND_HOST: "http://hangar_auth_backend:8080"
       KRATOS_PUBLIC: "https://hangar-auth.benndorf.dev/kratos"
       KRATOS: "http://kratos:4433"
       HANGAR_HOST: "https://hangar.benndorf.dev"
