@@ -33,7 +33,7 @@ services:
       dockerfile: docker/deployment/backend/Dockerfile
     environment:
       POSTGRES_USER: "${POSTGRES_USER}"
-      POSTGRES_PW: "${POSTGRES_PW}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       SSO_API_KEY: "changeme"
     labels:
       - "traefik.enable=false"
