@@ -28,8 +28,8 @@ const { $kratos } = useNuxtApp();
 const route = useRoute();
 
 const errorDetails = useState<object>("errorDetails");
-const errorName = useState<string>("errorDetails");
-const errorDescription = useState<string>("errorDetails");
+const errorName = useState<string>("errorName");
+const errorDescription = useState<string>("errorDescription");
 
 const errorId = route.query.id;
 if (errorId) {
