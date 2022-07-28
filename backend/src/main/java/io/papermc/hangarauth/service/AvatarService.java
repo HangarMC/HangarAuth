@@ -2,7 +2,6 @@ package io.papermc.hangarauth.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.function.TriFunction;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -32,6 +31,7 @@ import io.papermc.hangarauth.db.model.AvatarTable;
 import io.papermc.hangarauth.db.model.OrgAvatarTable;
 import io.papermc.hangarauth.db.model.UserAvatarTable;
 import io.papermc.hangarauth.utils.Crypto;
+import io.undertow.util.FileUtils;
 
 @Service
 public class AvatarService {
@@ -122,7 +122,7 @@ public class AvatarService {
     private Path copyFileTo(@NotNull String subject, @NotNull MultipartFile avatar, String fileName) throws IOException {
         final Path subjectDir = this.avatarDir.resolve(subject);
         Files.createDirectories(subjectDir);
-        FileUtils.cleanDirectory(subjectDir.toFile());
+        FileUtils.deleteRecursive(subjectDir);
         final Path file = subjectDir.resolve(fileName);
 
         // convert everything to jpeg cause they compress better
