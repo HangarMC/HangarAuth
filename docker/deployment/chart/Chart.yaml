@@ -1,0 +1,4 @@
+name: hangar_auth
+description: A Helm Chart for Hangar Auth
+version: 0.0.1
+apiVersion: v1

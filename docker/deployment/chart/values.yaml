@@ -1,0 +1,21 @@
+ingressHost: hangar-auth.benndorf.dev
+env:
+  frontend:
+    PUBLIC_HOST: "https://hangar-auth.benndorf.dev"
+    BACKEND_HOST: "http://hangar_auth_backend:8080"
+    KRATOS_PUBLIC: "https://hangar-auth.benndorf.dev/kratos"
+    KRATOS: "http://kratos:4433"
+    HANGAR_HOST: "https://hangar.benndorf.dev"
+    DEBUG: "hangar:*"
+  backend:
+    POSTGRES_USER: "hangar"
+    POSTGRES_PASSWORD: "hangar"
+    SSO_API_KEY: "changeme"
+  kratos:
+    DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@hangar_postgres:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
+    SECRETS_COOKIE: "supersecuresupersecure"
+    COURIER_SMTP_CONNECTION_URI: "smtps://noreply@mail.papermc.dev:<token from 1password>@smtp.mailgun.org:465"
+  hydra:
+    DSN: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@hangar_postgres:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4"
+    SECRETS_SYSTEM: "supersecuresupersecure"
+    OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT: "supersecuresupersecure"
