@@ -2,7 +2,7 @@ server:
   port: 8081
 
 auth:
-  data-dir: api/work
+  data-dir: backend/work
   public-host: "http://localhost:3001"
   api-key: "supersecret"
   kratos:
