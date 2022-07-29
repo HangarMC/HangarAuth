@@ -1,5 +1,5 @@
 <template>
-  <div class="background-body text-[#262626] dark:text-[#E0E6f0]">
+  <div>
     <Header />
     <Container class="mb-24 md:mb-16">
       <slot />

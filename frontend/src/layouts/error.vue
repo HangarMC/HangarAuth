@@ -1,5 +1,5 @@
 <template>
-  <div class="background-body text-[#262626] dark:text-[#E0E6f0]">
+  <div>
     <Card max-width="400" class="mx-auto">
       <h1>{{ error.statusCode }}</h1>
       <p>{{ text }}</p>

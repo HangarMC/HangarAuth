@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout>
+  <NuxtLayout class="background-body text-[#262626] dark:text-[#E0E6f0]">
     <NuxtPage />
   </NuxtLayout>
 </template>
@@ -17,6 +17,9 @@ settingsLog("render for user", authStore.user?.traits?.username, "with darkmode"
 useHead({
   htmlAttrs: {
     class: settingsStore.darkMode ? "dark" : "light",
+  },
+  bodyAttrs: {
+    class: "background-body text-[#262626] dark:text-[#E0E6f0]",
   },
 });
 </script>
