@@ -1,0 +1,88 @@
+{
+  "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Person",
+  "type": "object",
+  "properties": {
+    "traits": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "title": "Username",
+          "ory.sh/kratos": {
+            "credentials": {
+              "password": {
+                "identifier": true
+              }
+            }
+          }
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "title": "E-Mail",
+          "ory.sh/kratos": {
+            "credentials": {
+              "password": {
+                "identifier": true
+              },
+              "totp": {
+                  "account_name": true
+              },
+              "webauthn": {
+                  "identifier": true
+              }
+            },
+            "verification": {
+              "via": "email"
+            },
+            "recovery": {
+              "via": "email"
+            }
+          }
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "first": {
+              "title": "First Name",
+              "type": "string"
+            },
+            "last": {
+              "title": "Last Name",
+              "type": "string"
+            }
+          }
+        },
+        "discord": {
+          "title": "Discord ID",
+          "type": "string"
+        },
+        "github": {
+          "title": "Github Username",
+          "type": "string"
+        },
+        "minecraft": {
+          "title": "Minecraft Username",
+          "type": "string"
+        },
+        "language": {
+          "title": "Language",
+          "type": "string",
+          "default": "en_US"
+        },
+        "theme": {
+          "title": "Theme",
+          "type": "string",
+          "default": "light"
+        }
+      },
+      "required": [
+        "email",
+        "username"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -48,14 +48,14 @@ frontend:
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
     hosts:
-      - host: hangar-auth.local
+      - host: auth.hangar.local
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls: []
     #  - secretName: hangar-auth-tls
     #    hosts:
-    #      - hangar-auth.local
+    #      - auth.hangar.local
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -164,7 +164,7 @@ hydra:
     public:
       enabled: true
       hosts: 
-        - host: "hangar-auth.local"
+        - host: "auth.hangar.local"
           paths:
             - path: "/hydra"
               pathType: ImplementationSpecific
@@ -191,12 +191,12 @@ hydra:
               - 192.168.0.0/16
       urls:
         self:
-          public: https://hangar-auth.local/hydra/
-          issuer: https://hangar-auth.local
-        consent: https://hangar-auth.local/oauth/consent
-        login: https://hangar-auth.local/oauth/login
-        logout: https://hangar-auth.local/oauth/logout
-        error: https://hangar-auth.local/error
+          public: https://auth.hangar.local/hydra/
+          issuer: https://auth.hangar.local
+        consent: https://auth.hangar.local/oauth/consent
+        login: https://auth.hangar.local/oauth/login
+        logout: https://auth.hangar.local/oauth/logout
+        error: https://auth.hangar.local/error
       dsn: "postgres://hangarauth:hangarauth@hangarauth-postgresql:5432/hangarauth?sslmode=disable&max_conns=20&max_idle_conns=4"
       secrets:
         system:
@@ -210,4 +210,161 @@ hydra:
             salt: "supersecuresupersecure"
 
 kratos:
-  enabled: false
+  enabled: true
+  ingress:
+    public:
+      enabled: true
+      hosts: 
+        - host: "auth.hangar.local"
+          paths:
+            - path: "/kratos"
+              pathType: ImplementationSpecific
+  kratos:
+    automigration:
+      enabled: true
+    deployment:
+      extraVolumes:
+        - name: hangarauth-kratos-hooks
+          configMap:
+            name: hangarauth-kratos-hooks
+        - name: hangarauth-kratos-schemas
+          configMap:
+            name: hangarauth-kratos-hooks
+        - name: hangarauth-kratos-email-recovery-invalid
+          configMap:
+            name: hangarauth-kratos-email-recovery-invalid
+        - name: hangarauth-kratos-email-recovery-valid
+          configMap:
+            name: hangarauth-kratos-email-recovery-valid
+        - name: hangarauth-kratos-email-verification-invalid
+          configMap:
+            name: hangarauth-kratos-email-verification-invalid
+        - name: hangarauth-kratos-email-verification-invalid
+          configMap:
+            name: hangarauth-kratos-email-verification-invalid
+      extraVolumeMounts:
+        - name: hangarauth-kratos-hooks
+          mountPath: /etc/hangarauth/hooks
+          readOnly: true
+        - name: hangarauth-kratos-schemas
+          mountPath: /etc/hangarauth/schemas
+          readOnly: true
+        - name: hangarauth-kratos-email-recovery-invalid
+          mountPath: /etc/hangarauth/email/recovery/invalid
+          readOnly: true
+        - name: hangarauth-kratos-email-recovery-valid
+          mountPath: /etc/hangarauth/email/recovery/valid
+          readOnly: true
+        - name: hangarauth-kratos-email-verification-invalid
+          mountPath: /etc/hangarauth/email/verification/invalid
+          readOnly: true
+        - name: hangarauth-kratos-email-verification-invalid
+          mountPath: /etc/hangarauth/email/verification/invalid
+          readOnly: true
+    config:
+      dsn: "postgres://hangarauth:hangarauth@hangarauth-postgresql:5432/hangarauth?sslmode=disable&max_conns=20&max_idle_conns=4"
+      serve:
+        public:
+          base_url: https://auth.hangar.local/kratos
+          cors:
+            enabled: true
+            allowed_origins:
+              - https://auth.hangar.local
+        admin:
+          base_url: http://127.0.0.1:4434/
+      cookies:
+        domain: hangar.local
+      session:
+        lifespan: 720h # 30 days
+      selfservice:
+        default_browser_return_url: https://auth.hangar.local/
+        allowed_return_urls:
+          - https://auth.hangar.local/
+        methods:
+          password:
+            enabled: true
+          oidc:
+            enabled: true
+          link:
+            enabled: true
+            config:
+              lifespan: 1h
+          totp:
+            enabled: true
+            config:
+              issuer: HangarAuth
+          lookup_secret:
+            enabled: true
+          webauthn:
+            enabled: true
+            config:
+              passwordless: true
+              rp:
+                id: hangar.local
+                origin: https://auth.hangar.local
+                display_name: HangarAuth
+        flows:
+          error:
+            ui_url: https://auth.hangar.local/error
+          settings:
+            ui_url: https://auth.hangar.local/account/settings
+            privileged_session_max_age: 15m
+            after:
+              profile:
+                hooks:
+                  - hook: web_hook
+                    config:
+                      method: POST
+                      url: "http://hangar_backend:8080/sync"
+                      body: file:///etc/config/kratos/hooks/settings/after/profile.jsonnet
+                      auth:
+                        type: api_key
+                        config:
+                          in: header
+                          name: X-Kratos-Hook-Api-Key
+                          value: hookapikey-changeme
+          recovery:
+            enabled: true
+            ui_url: https://auth.hangar.local/account/reset
+          verification:
+            enabled: true
+            ui_url: https://auth.hangar.local/account/verify
+            after:
+              default_browser_return_url: https://auth.hangar.local/
+          logout:
+            after:
+              default_browser_return_url: https://auth.hangar.local/?loggedOut
+          login:
+            ui_url: https://auth.hangar.local/account/login
+            lifespan: 10m
+          registration:
+            lifespan: 10m
+            ui_url: https://auth.hangar.local/account/signup
+            after:
+              default_browser_return_url: "https://auth.hangar.local/account/settings?new=true"
+              password:
+                hooks:
+                  - hook: session
+      log:
+        level: debug
+        format: text
+        leak_sensitive_values: true
+      secrets:
+        cookie:
+          - "supersecuresupersecure"
+      hashers:
+        argon2:
+          parallelism: 1
+          memory: 128MB
+          iterations: 2
+          salt_length: 16
+          key_length: 16
+      identity:
+        default_schema_id: identity_v1
+        schemas:
+          - id: identity_v1
+            url: "file:///etc/config/identity.v1.schema.json"
+      courier:
+        smtp:
+          connection_uri: "smtps://hangarauth:hangarauth@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true"
+          from_address: "no-reply@hangar.local"
