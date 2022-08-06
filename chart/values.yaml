@@ -86,7 +86,7 @@ backend:
   replicaCount: 1
 
   image:
-    repository: ghcr.io/papermc/hangarauth_backend
+    repository: ghcr.io/papermc/hangarauth_api
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
