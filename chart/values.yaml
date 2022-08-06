@@ -160,6 +160,14 @@ hydra:
   enabled: true
   maester:
     enabled: false
+  ingress:
+    public:
+      enabled: true
+      hosts: 
+        - host: "hangar-auth.local"
+          paths:
+            - path: "/hydra"
+              pathType: ImplementationSpecific
   hydra:
     automigration:
       enabled: true
