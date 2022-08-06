@@ -219,48 +219,48 @@ kratos:
           paths:
             - path: "/kratos"
               pathType: ImplementationSpecific
+  deployment:
+    extraVolumes:
+      - name: hangarauth-kratos-hooks
+        configMap:
+          name: hangarauth-kratos-hooks
+      - name: hangarauth-kratos-schemas
+        configMap:
+          name: hangarauth-kratos-schemas
+      - name: hangarauth-kratos-email-recovery-invalid
+        configMap:
+          name: hangarauth-kratos-email-recovery-invalid
+      - name: hangarauth-kratos-email-recovery-valid
+        configMap:
+          name: hangarauth-kratos-email-recovery-valid
+      - name: hangarauth-kratos-email-verification-invalid
+        configMap:
+          name: hangarauth-kratos-email-verification-invalid
+      - name: hangarauth-kratos-email-verification-valid
+        configMap:
+          name: hangarauth-kratos-email-verification-valid
+    extraVolumeMounts:
+      - name: hangarauth-kratos-hooks
+        mountPath: /etc/hangarauth/hooks
+        readOnly: true
+      - name: hangarauth-kratos-schemas
+        mountPath: /etc/hangarauth/schemas
+        readOnly: true
+      - name: hangarauth-kratos-email-recovery-invalid
+        mountPath: /etc/hangarauth/email/recovery/invalid
+        readOnly: true
+      - name: hangarauth-kratos-email-recovery-valid
+        mountPath: /etc/hangarauth/email/recovery/valid
+        readOnly: true
+      - name: hangarauth-kratos-email-verification-invalid
+        mountPath: /etc/hangarauth/email/verification/invalid
+        readOnly: true
+      - name: hangarauth-kratos-email-verification-valid
+        mountPath: /etc/hangarauth/email/verification/valid
+        readOnly: true
   kratos:
     automigration:
       enabled: true
-    deployment:
-      extraVolumes:
-        - name: hangarauth-kratos-hooks
-          configMap:
-            name: hangarauth-kratos-hooks
-        - name: hangarauth-kratos-schemas
-          configMap:
-            name: hangarauth-kratos-hooks
-        - name: hangarauth-kratos-email-recovery-invalid
-          configMap:
-            name: hangarauth-kratos-email-recovery-invalid
-        - name: hangarauth-kratos-email-recovery-valid
-          configMap:
-            name: hangarauth-kratos-email-recovery-valid
-        - name: hangarauth-kratos-email-verification-invalid
-          configMap:
-            name: hangarauth-kratos-email-verification-invalid
-        - name: hangarauth-kratos-email-verification-invalid
-          configMap:
-            name: hangarauth-kratos-email-verification-invalid
-      extraVolumeMounts:
-        - name: hangarauth-kratos-hooks
-          mountPath: /etc/hangarauth/hooks
-          readOnly: true
-        - name: hangarauth-kratos-schemas
-          mountPath: /etc/hangarauth/schemas
-          readOnly: true
-        - name: hangarauth-kratos-email-recovery-invalid
-          mountPath: /etc/hangarauth/email/recovery/invalid
-          readOnly: true
-        - name: hangarauth-kratos-email-recovery-valid
-          mountPath: /etc/hangarauth/email/recovery/valid
-          readOnly: true
-        - name: hangarauth-kratos-email-verification-invalid
-          mountPath: /etc/hangarauth/email/verification/invalid
-          readOnly: true
-        - name: hangarauth-kratos-email-verification-invalid
-          mountPath: /etc/hangarauth/email/verification/invalid
-          readOnly: true
     config:
       dsn: "postgres://hangarauth:hangarauth@hangarauth-postgresql:5432/hangarauth?sslmode=disable&max_conns=20&max_idle_conns=4"
       serve:
@@ -316,7 +316,7 @@ kratos:
                     config:
                       method: POST
                       url: "http://hangar_backend:8080/sync"
-                      body: file:///etc/config/kratos/hooks/settings/after/profile.jsonnet
+                      body: file:///etc/hangarauth/hooks/settings-after-profile.jsonnet
                       auth:
                         type: api_key
                         config:
@@ -363,8 +363,9 @@ kratos:
         default_schema_id: identity_v1
         schemas:
           - id: identity_v1
-            url: "file:///etc/config/identity.v1.schema.json"
+            url: file:///etc/hangarauth/schemas/identity.v1.schema.json
       courier:
         smtp:
           connection_uri: "smtps://hangarauth:hangarauth@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true"
           from_address: "no-reply@hangar.local"
+        template_override_path: /etc/hangerauth/email

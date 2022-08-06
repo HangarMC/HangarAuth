@@ -1,4 +1,5 @@
 # We don't use the fullname template here because we need the configmap names to be predictable as we can't use {{ .Release.Name }} in values.yaml when configuring Kratos
+# This entire file could probably be a lot cleaner with Helm range functions but I can't be bothered
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -15,7 +16,7 @@ metadata:
   labels:
     {{- include "hangarauth.labels" . | nindent 4 }}
 data:
-{{ (.Files.Glob "kratos/hooks/*").AsConfig | indent 2 }}
+{{ (.Files.Glob "kratos/schemas/*").AsConfig | indent 2 }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -47,7 +48,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: hangarauth-kratos-email-recovery-valid
+  name: hangarauth-kratos-email-verification-valid
   labels:
     {{- include "hangarauth.labels" . | nindent 4 }}
 data:
