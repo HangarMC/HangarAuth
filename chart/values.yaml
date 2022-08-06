@@ -146,8 +146,60 @@ backend:
 
   affinity: {}
 
+postgresql:
+  enabled: true
+  global:
+    postgresql:
+      auth:
+        postgresPassword: "hangarauth"
+        username: "hangarauth"
+        password: "hangarauth"
+        database: "hangarauth"
+
 hydra:
-  enabled: false
+  enabled: true
+  maester:
+    enabled: false
+  hydra:
+    automigration:
+      enabled: true
+    config:
+      serve:
+        admin:
+          cors:
+            debug: true
+          tls:
+            allow_termination_from:
+              - 10.0.0.0/8
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+        cookies:
+          same_site_mode: Lax
+        public:
+          tls:
+            allow_termination_from:
+              - 10.0.0.0/16
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+      urls:
+        self:
+          public: https://hangar-auth.local/hydra/
+          issuer: https://hangar-auth.local
+        consent: https://hangar-auth.local/oauth/consent
+        login: https://hangar-auth.local/oauth/login
+        logout: https://hangar-auth.local/oauth/logout
+        error: https://hangar-auth.local/error
+      dsn: "postgres://hangarauth:hangarauth@hangarauth-postgresql:5432/hangarauth?sslmode=disable&max_conns=20&max_idle_conns=4"
+      secrets:
+        system:
+          - "supersecuresupersecure"
+      oidc:
+        subject_identifiers:
+          supported_types:
+            - pairwise
+            - public
+          pairwise:
+            salt: "supersecuresupersecure"
 
 kratos:
   enabled: false
