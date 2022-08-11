@@ -35,9 +35,9 @@ data:
     auth:
       data-dir: /auth/data
       api-key: "${SSO_API_KEY}"
-      public-host: "https://hangar-auth.benndorf.dev"
+      public-host: "{{ .Values.backend.config.auth.publicHost }}"
       kratos:
-        public-url: "https://hangar-auth.benndorf.dev/kratos"
-        admin-url: "http://kratos:4434"
+        public-url: "{{ .Values.backend.config.auth.kratos.publicUrl }}"
+        admin-url: "{{ .Values.backend.config.auth.kratos.adminUrl }}"
       hydra:
-        admin-url: "http://hydra:4445"
+        admin-url: "{{ .Values.backend.config.auth.hydra.adminUrl }}"

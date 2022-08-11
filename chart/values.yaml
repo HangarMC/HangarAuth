@@ -154,6 +154,13 @@ backend:
       password: "hangarauth" # TODO: secret
       database: "hangarauth"
       options: "?currentSchema=auth"
+    auth:
+      publicHost: "http://auth.hangar.local"
+      kratos:
+        publicUrl: "http://auth.hangar.local/kratos"
+        adminUrl: "http://hangarauth-kratos-admin"
+      hydra:
+        adminUrl: "http://hangarauth-hydra-admin:4445"
 
 postgresql:
   enabled: true
