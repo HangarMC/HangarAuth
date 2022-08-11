@@ -1,6 +1,5 @@
 package io.papermc.hangarauth.controller;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -8,7 +7,6 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,14 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,7 +75,7 @@ public class AvatarController {
                 avatarTable = this.avatarService.getOrgAvatarTable(user);
                 if (avatarTable == null) {
                     // could still be an org, lets just always use the letter
-                    return getUserAvatarFallback(user);
+                    return getUserAvatarFallback(user, request, response);
                 }
             }
         }
@@ -88,16 +84,16 @@ public class AvatarController {
             avatarTable = this.avatarService.getUsersAvatarTable(userId);
         }
         if (avatarTable == null) {
-            return getUserAvatarFallback(userId);
+            return getUserAvatarFallback(userId, request, response);
         }
         Path userAvatarPath = this.avatarService.getAvatarFor(userId == null ? user : userId.toString(), avatarTable.getFileName());
         if (Files.notExists(userAvatarPath)) {
             if (userId == null) {
                 this.avatarService.deleteAvatarTable(user);
-                return getUserAvatarFallback(user);
+                return getUserAvatarFallback(user, request, response);
             } else {
                 this.avatarService.deleteAvatarTable(userId);
-                return getUserAvatarFallback(userId);
+                return getUserAvatarFallback(userId, request, response);
             }
         }
         byte[] image = imageService.getImage(userAvatarPath, request, response);
@@ -123,18 +119,24 @@ public class AvatarController {
         this.avatarService.saveOrgAvatar(orgName, avatar);
     }
 
-    private ResponseEntity<?> getUserAvatarFallback(@NotNull UUID userId) {
-        return getUserAvatarFallback(this.kratosService.getTraits(userId).username());
+    private ResponseEntity<?> getUserAvatarFallback(@NotNull UUID userId, HttpServletRequest request, HttpServletResponse response) {
+        return getUserAvatarFallback(this.kratosService.getTraits(userId).username(), request, response);
     }
 
-    private ResponseEntity<?> getUserAvatarFallback(@NotNull String name) {
-        String userNameMd5 = DigestUtils.md5DigestAsHex(name.getBytes(StandardCharsets.UTF_8));
+    private ResponseEntity<?> getUserAvatarFallback(@NotNull String name, HttpServletRequest request, HttpServletResponse response) {
+        //TODO nice avatars
+        /*String userNameMd5 = DigestUtils.md5DigestAsHex(name.getBytes(StandardCharsets.UTF_8));
         long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);
         int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
-        //noinspection PointlessBitwiseExpression
-        int colorRgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8) | ((num[2] & 0xFF) << 0);
-        String url = String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", name.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0'));
-        return restTemplate.getForEntity(url, byte[].class);
+        int colorRgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8) | ((num[2] & 0xFF));
+        String url = String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", name.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0'));*/
+        byte[] image = imageService.getImage(this.avatarService.getFallbackAvatar(), request, response);
+        return ResponseEntity.ok()
+            .contentLength(image.length)
+            .contentType(MediaType.parseMediaType(response.getContentType()))
+            .lastModified(Instant.now())
+            .cacheControl(CacheControl.maxAge(Duration.of(4, ChronoUnit.HOURS)))
+            .body(new ByteArrayResource(image));
     }
 
     static final List<int[]> COLORS = List.of(

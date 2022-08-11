@@ -8,11 +8,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.util.AssertionErrors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import io.papermc.hangarauth.DummyData;
@@ -53,7 +56,10 @@ class AvatarControllerTest {
         final Traits mockedTraits = mock(Traits.class);
         when(mockedTraits.username()).thenReturn("Machine_Maker");
         when(this.kratosService.getTraits(REDIRECTED_UUID)).thenReturn(mockedTraits);
-        this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is2xxSuccessful(), header().stringValues(HttpHeaders.SERVER, "HangarAuth", "cloudflare"));
+        this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is2xxSuccessful(), result -> {
+            final List<Object> actual = result.getResponse().getHeaderValues(HttpHeaders.SERVER);
+            AssertionErrors.assertTrue("Response header '" + HttpHeaders.SERVER + "'", Arrays.asList("HangarAuth", "cloudflare").equals(actual) || Arrays.asList("HangarAuth").equals(actual));
+        });
     }
 
     @Test
