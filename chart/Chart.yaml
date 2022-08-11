@@ -5,10 +5,6 @@ type: application
 version: 0.0.1
 appVersion: "0.0.1"
 dependencies:
-  - name: postgresql
-    repository: https://charts.bitnami.com/bitnami
-    version: 11.6.25
-    condition: postgresql.enabled
   - name: kratos
     repository: https://k8s.ory.sh/helm/charts
     version: 0.24.5
@@ -17,3 +13,7 @@ dependencies:
     repository: https://k8s.ory.sh/helm/charts
     version: 0.24.5
     condition: hydra.enabled
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.6.25
+    condition: postgresql.enabled

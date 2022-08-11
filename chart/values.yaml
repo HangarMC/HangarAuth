@@ -146,6 +146,15 @@ backend:
 
   affinity: {}
 
+  config:
+    postgresql:
+      hostname: "hangarauth-postgresql"
+      port: 5432
+      username: "hangarauth"
+      password: "hangarauth" # TODO: secret
+      database: "hangarauth"
+      options: "?currentSchema=auth"
+
 postgresql:
   enabled: true
   global:
@@ -157,7 +166,7 @@ postgresql:
         database: "hangarauth"
 
 hydra:
-  enabled: true
+  enabled: true # During local testing you may want to disable this and wait for PostgreSQL to be up. Helm does not have a way to install subcharts in a specific order.
   maester:
     enabled: false
   ingress:
@@ -210,7 +219,7 @@ hydra:
             salt: "supersecuresupersecure"
 
 kratos:
-  enabled: true
+  enabled: true # During local testing you may want to disable this and wait for PostgreSQL to be up. Helm does not have a way to install subcharts in a specific ord
   ingress:
     public:
       enabled: true

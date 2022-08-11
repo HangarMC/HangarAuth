@@ -63,7 +63,7 @@ Create the name of the service account to use
 
 {{- define "hangarauth.backend.serviceAccountName" -}}
 {{- if .Values.backend.serviceAccount.create }}
-{{- default (printf "%s-frontend" (include "hangarauth.fullname" .)) .Values.backend.serviceAccount.name }}
+{{- default (printf "%s-backend" (include "hangarauth.fullname" .)) .Values.backend.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.backend.serviceAccount.name }}
 {{- end }}
