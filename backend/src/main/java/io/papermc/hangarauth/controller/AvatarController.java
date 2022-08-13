@@ -25,6 +25,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -124,19 +125,66 @@ public class AvatarController {
     }
 
     private ResponseEntity<?> getUserAvatarFallback(@NotNull String name, HttpServletRequest request, HttpServletResponse response) {
-        //TODO nice avatars
-        /*String userNameMd5 = DigestUtils.md5DigestAsHex(name.getBytes(StandardCharsets.UTF_8));
-        long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);
-        int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
-        int colorRgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8) | ((num[2] & 0xFF));
-        String url = String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", name.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0'));*/
-        byte[] image = imageService.getImage(this.avatarService.getFallbackAvatar(), request, response);
+        final Random random = new Random(name.hashCode());
+        final int[] num = COLORS.get(random.nextInt(COLORS.size()));
+        final int rgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8)  | (num[2] & 0xFF);
+
+        final int size = 512;
+        final int margin = Math.round(size * 0.08F);
+        final int cell = (size - (margin * 2)) / 5;
+        final String background = "#f0f0f0";
+        final String foreground = '#' + Integer.toHexString(rgb);
+
+        final StringBuilder sb = new StringBuilder()
+            .append("<svg xmlns='http://www.w3.org/2000/svg' width='") // init SVG
+            .append(size)
+            .append("' height='")
+            .append(size)
+            .append("'>")
+            .append("<path fill='") // full size path of background color
+            .append(background)
+            .append("' d='M0 0h")
+            .append(size)
+            .append("v")
+            .append(size)
+            .append("H0z'/>")
+            .append("<g style='fill:") // group with foreground fill style for all cells
+            .append(foreground)
+            .append("'>");
+
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (random.nextBoolean()) continue;
+                sb.append("<rect x='")
+                    .append(i * cell + margin)
+                    .append("' y='")
+                    .append(j * cell + margin)
+                    .append("' width='")
+                    .append(cell)
+                    .append("' height='")
+                    .append(cell)
+                    .append("'/>")
+                    .append("<rect x='") // second cell on opposite side
+                    .append(size - margin - (i + 1) * cell) // offset by 1 for 5 cells wide
+                    .append("' y='")
+                    .append(j * cell + margin)
+                    .append("' width='")
+                    .append(cell)
+                    .append("' height='")
+                    .append(cell)
+                    .append("'/>");
+            }
+        }
+
+        sb.append("</g></svg>");
+
         return ResponseEntity.ok()
-            .contentLength(image.length)
-            .contentType(MediaType.parseMediaType(response.getContentType()))
+            .contentLength(sb.length())
+            .contentType(MediaType.parseMediaType("image/svg+xml"))
             .lastModified(Instant.now())
             .cacheControl(CacheControl.maxAge(Duration.of(4, ChronoUnit.HOURS)))
-            .body(new ByteArrayResource(image));
+            .body(sb.toString());
     }
 
     static final List<int[]> COLORS = List.of(
