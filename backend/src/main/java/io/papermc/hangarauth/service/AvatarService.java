@@ -52,15 +52,10 @@ public class AvatarService {
         this.imageService = imageService;
         Files.createDirectories(this.avatarDir);
         LOGGER.info("Avatars directory: {}", avatarDir.toAbsolutePath());
-        Files.copy(AvatarService.class.getClassLoader().getResourceAsStream("avatar/blob.jpeg"), this.avatarDir.resolve("blob.jpeg"), StandardCopyOption.REPLACE_EXISTING);
     }
 
     public @NotNull Path getAvatarFor(@NotNull String folder, @NotNull String fileName) {
         return this.avatarDir.resolve(folder).resolve(fileName);
-    }
-
-    public @NotNull Path getFallbackAvatar() {
-        return this.avatarDir.resolve("blob.jpeg");
     }
 
     public @Nullable UserAvatarTable getUsersAvatarTable(@NotNull UUID userId) {

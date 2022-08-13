@@ -76,7 +76,7 @@ public class AvatarController {
                 avatarTable = this.avatarService.getOrgAvatarTable(user);
                 if (avatarTable == null) {
                     // could still be an org, lets just always use the letter
-                    return getUserAvatarFallback(user, request, response);
+                    return getUserAvatarFallback(user);
                 }
             }
         }
@@ -85,16 +85,16 @@ public class AvatarController {
             avatarTable = this.avatarService.getUsersAvatarTable(userId);
         }
         if (avatarTable == null) {
-            return getUserAvatarFallback(userId, request, response);
+            return getUserAvatarFallback(userId);
         }
         Path userAvatarPath = this.avatarService.getAvatarFor(userId == null ? user : userId.toString(), avatarTable.getFileName());
         if (Files.notExists(userAvatarPath)) {
             if (userId == null) {
                 this.avatarService.deleteAvatarTable(user);
-                return getUserAvatarFallback(user, request, response);
+                return getUserAvatarFallback(user);
             } else {
                 this.avatarService.deleteAvatarTable(userId);
-                return getUserAvatarFallback(userId, request, response);
+                return getUserAvatarFallback(userId);
             }
         }
         byte[] image = imageService.getImage(userAvatarPath, request, response);
@@ -120,11 +120,11 @@ public class AvatarController {
         this.avatarService.saveOrgAvatar(orgName, avatar);
     }
 
-    private ResponseEntity<?> getUserAvatarFallback(@NotNull UUID userId, HttpServletRequest request, HttpServletResponse response) {
-        return getUserAvatarFallback(this.kratosService.getTraits(userId).username(), request, response);
+    private ResponseEntity<?> getUserAvatarFallback(@NotNull UUID userId) {
+        return getUserAvatarFallback(this.kratosService.getTraits(userId).username());
     }
 
-    private ResponseEntity<?> getUserAvatarFallback(@NotNull String name, HttpServletRequest request, HttpServletResponse response) {
+    private ResponseEntity<?> getUserAvatarFallback(@NotNull String name) {
         final Random random = new Random(name.hashCode());
         final int[] num = COLORS.get(random.nextInt(COLORS.size()));
         final int rgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8)  | (num[2] & 0xFF);
