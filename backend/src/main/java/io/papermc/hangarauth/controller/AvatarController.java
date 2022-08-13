@@ -164,9 +164,12 @@ public class AvatarController {
                     .append(cell)
                     .append("' height='")
                     .append(cell)
-                    .append("'/>")
-                    .append("<rect x='") // second cell on opposite side
-                    .append(size - margin - (i + 1) * cell) // offset by 1 for 5 cells wide
+                    .append("'/>");
+
+                if (i == 2) continue; // only set once for middle column
+
+                sb.append("<rect x='")
+                    .append(size - margin - (i + 1) * cell) // offset by 1 for odd width
                     .append("' y='")
                     .append(j * cell + margin)
                     .append("' width='")
