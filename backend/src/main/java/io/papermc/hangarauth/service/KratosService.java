@@ -92,17 +92,15 @@ public class KratosService {
     public void updateTraits(UUID userId, Traits updatedTraits) {
         Traits traits = getTraits(userId);
         // copy old
-        Traits.Name name = traits.name();
         String username = traits.username();
         String email = traits.email();
         String github = traits.github();
         String discord = traits.discord();
-        String minecraft = traits.minecraft();
         // copy over new if set
         String language = StringUtils.hasText(updatedTraits.language()) ? updatedTraits.language() : traits.language();
         String theme = StringUtils.hasText(updatedTraits.theme()) ? updatedTraits.theme() : traits.theme();
         // save new
-        Traits newTraits = new Traits(name, email, github, discord, language, username, minecraft, theme);
+        Traits newTraits = new Traits(email, github, discord, language, username, theme);
         setTraits(userId, newTraits);
     }
 }

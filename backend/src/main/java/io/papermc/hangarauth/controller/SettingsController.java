@@ -36,7 +36,7 @@ public class SettingsController {
                              @RequestParam String language, @RequestParam String theme, HttpServletResponse response) {
         if (!userId.equals("anon")) {
             this.kratosService.checkCsrfToken(flowId, cookies, csrfToken);
-            Traits traits = new Traits(null, "dum", null, null, language, "dum", null, theme);
+            Traits traits = new Traits("dummy", null, null, language, "dummy", theme);
             this.kratosService.updateTraits(UUID.fromString(userId), traits);
         }
         Cookie cookie = new Cookie("HANGAR_theme", theme);
