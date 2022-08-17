@@ -83,7 +83,7 @@ public class AvatarService {
             }
         }
 
-        Path path = this.identiconDir.resolve(id);
+        Path path = this.identiconDir.resolve(DigestUtils.md5DigestAsHex(id.getBytes(StandardCharsets.UTF_8)));
         if (Files.notExists(path)) {
             final Random random = new Random(id.hashCode());
             final int[] rgb = COLORS.get(random.nextInt(COLORS.size()));
