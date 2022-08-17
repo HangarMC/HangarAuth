@@ -110,14 +110,20 @@ public class AvatarService {
             g.dispose();
 
             try {
-                ImageIO.write(img, "png", path.toFile());
+                ImageIO.write(img, "webp", path.toFile());
             } catch (final IOException e) {
                 LOGGER.error("Failed to write identicon for {}", id, e);
-                path = this.avatarDir.resolve("blob.jpeg");
+                return imageService.getImage(this.avatarDir.resolve("blob.jpeg"), request, response);
             }
         }
 
-        return imageService.getImage(path, request, response);
+        try {
+            return Files.readAllBytes(path);
+        } catch (IOException e) {
+            LOGGER.error("Failed to read identicon for {}", id, e);
+        }
+
+        return imageService.getImage(this.avatarDir.resolve("blob.jpeg"), request, response);
     }
 
     private byte @Nullable [] getGravatar(final String email, final HttpServletRequest req, final HttpServletResponse res) {
