@@ -131,17 +131,12 @@ public class AvatarService {
         FileUtils.deleteRecursive(subjectDir);
         final Path file = subjectDir.resolve(fileName);
 
-        // convert everything to jpeg cause they compress better
-        if (!MediaType.IMAGE_JPEG_VALUE.equals(avatar.getContentType())) {
-            BufferedImage img = ImageIO.read(avatar.getInputStream());
-            // draw to get rid of alpha
-            BufferedImage result = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
-            result.createGraphics().drawImage(img, 0, 0, Color.WHITE, null);
-            boolean dum = ImageIO.write(result, "jpg", file.toFile());
-            if (!dum) System.out.println("failed to write jpg " + file.toFile());
-        } else {
-            Files.copy(avatar.getInputStream(), file);
-        }
+        // read into canvas to get rid of white and to convert everything to jpg
+        BufferedImage img = ImageIO.read(avatar.getInputStream());
+        BufferedImage result = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+        result.createGraphics().drawImage(img, 0, 0, Color.WHITE, null);
+        boolean dum = ImageIO.write(result, "jpg", file.toFile());
+        if (!dum) System.out.println("failed to write jpg " + file.toFile());
 
         return file;
     }
