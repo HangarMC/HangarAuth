@@ -25,6 +25,7 @@
         <pg.version>1.17.3</pg.version>
         <webp.version>0.1.6</webp.version>
         <springdoc.version>1.6.9</springdoc.version>
+        <spring-cloud-aws.version>3.0.0-M1</spring-cloud-aws.version>
     </properties>
 
     <dependencyManagement>
@@ -150,6 +151,13 @@
             <artifactId>annotations</artifactId>
             <version>${annotations.version}</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- aws -->
+        <dependency>
+            <groupId>io.awspring.cloud</groupId>
+            <artifactId>spring-cloud-aws-starter-s3</artifactId>
+            <version>${spring-cloud-aws.version}</version>
         </dependency>
 
         <!-- tests -->

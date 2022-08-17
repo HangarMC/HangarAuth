@@ -14,6 +14,7 @@ public class ImageConfig {
     private float quality;
     private float qualityWebp;
     private int size;
+    // TODO where do we store optimized images?
     private Path workFolder;
     private List<String> whitelist;
 
