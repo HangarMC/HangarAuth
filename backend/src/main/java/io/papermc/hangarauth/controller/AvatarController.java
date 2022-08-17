@@ -1,6 +1,8 @@
 package io.papermc.hangarauth.controller;
 
+import io.papermc.hangarauth.controller.model.Traits;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.CacheControl;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -24,8 +25,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,57 +43,50 @@ public class AvatarController {
     private final AvatarService avatarService;
     private final GeneralConfig generalConfig;
     private final ImageService imageService;
-    private final RestTemplate restTemplate;
 
     @Autowired
-    public AvatarController(KratosService kratosService, AvatarService avatarService, GeneralConfig generalConfig, ImageService imageService, RestTemplate restTemplate) {
+    public AvatarController(KratosService kratosService, AvatarService avatarService, GeneralConfig generalConfig, ImageService imageService) {
         this.kratosService = kratosService;
         this.avatarService = avatarService;
         this.generalConfig = generalConfig;
         this.imageService = imageService;
-        this.restTemplate = restTemplate;
     }
 
-    @GetMapping(value = "/{user}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<?> getUsersAvatar(@NotNull @PathVariable String user, HttpServletRequest request, HttpServletResponse response) {
-        return this.getUsersAvatar0(user, request, response);
+    @GetMapping(value = "/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<?> getAvatar(@NotNull @PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
+        return this.getAvatar0(id, request, response);
     }
 
-    @GetMapping(value = "/user/{user}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<?> getUsersAvatar2(@NotNull @PathVariable String user, HttpServletRequest request, HttpServletResponse response) {
-        return this.getUsersAvatar0(user, request, response);
-    }
-
-    private ResponseEntity<?> getUsersAvatar0(String user, HttpServletRequest request, HttpServletResponse response) {
-        UUID userId;
+    private ResponseEntity<?> getAvatar0(String id, HttpServletRequest request, HttpServletResponse response) {
+        UUID uuid;
         AvatarTable avatarTable = null;
         try {
-            userId = UUID.fromString(user);
+            uuid = UUID.fromString(id);
         } catch (IllegalArgumentException e) {
-            userId = this.kratosService.getUserId(user);
-            if (userId == null) {
-                avatarTable = this.avatarService.getOrgAvatarTable(user);
+            uuid = this.kratosService.getUserId(id);
+            if (uuid == null) {
+                avatarTable = this.avatarService.getOrgAvatarTable(id);
                 if (avatarTable == null) {
                     // could still be an org, lets just always use the letter
-                    return getUserAvatarFallback(user);
+                    return getAvatarFallback(id, request, response);
                 }
             }
         }
 
         if (avatarTable == null) {
-            avatarTable = this.avatarService.getUsersAvatarTable(userId);
+            avatarTable = this.avatarService.getUsersAvatarTable(uuid);
         }
         if (avatarTable == null) {
-            return getUserAvatarFallback(userId);
+            return getAvatarFallback(uuid, request, response);
         }
-        Path userAvatarPath = this.avatarService.getAvatarFor(userId == null ? user : userId.toString(), avatarTable.getFileName());
+        Path userAvatarPath = this.avatarService.getAvatarFor(uuid == null ? id : uuid.toString(), avatarTable.getFileName());
         if (Files.notExists(userAvatarPath)) {
-            if (userId == null) {
-                this.avatarService.deleteAvatarTable(user);
-                return getUserAvatarFallback(user);
+            if (uuid == null) {
+                this.avatarService.deleteAvatarTable(id);
+                return getAvatarFallback(id, request, response);
             } else {
-                this.avatarService.deleteAvatarTable(userId);
-                return getUserAvatarFallback(userId);
+                this.avatarService.deleteAvatarTable(uuid);
+                return getAvatarFallback(uuid, request, response);
             }
         }
         byte[] image = imageService.getImage(userAvatarPath, request, response);
@@ -120,292 +112,20 @@ public class AvatarController {
         this.avatarService.saveOrgAvatar(orgName, avatar);
     }
 
-    private ResponseEntity<?> getUserAvatarFallback(@NotNull UUID userId) {
-        return getUserAvatarFallback(this.kratosService.getTraits(userId).username());
+    private ResponseEntity<?> getAvatarFallback(@NotNull UUID userId, HttpServletRequest request, HttpServletResponse response) {
+        final Traits user = this.kratosService.getTraits(userId);
+        return getAvatarFallback(userId.toString(), user.email(), request, response);
     }
 
-    private ResponseEntity<?> getUserAvatarFallback(@NotNull String name) {
-        final Random random = new Random(name.hashCode());
-        final int[] num = COLORS.get(random.nextInt(COLORS.size()));
-        final int rgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8)  | (num[2] & 0xFF);
+    private ResponseEntity<?> getAvatarFallback(@NotNull String id, HttpServletRequest request, HttpServletResponse response) {
+        return getAvatarFallback(id, null, request, response);
+    }
 
-        final int size = 512;
-        final int margin = Math.round(size * 0.08F);
-        final int cell = (size - (margin * 2)) / 5;
-        final String background = "#f0f0f0";
-        final String foreground = '#' + Integer.toHexString(rgb);
-
-        final StringBuilder sb = new StringBuilder()
-            .append("<svg xmlns='http://www.w3.org/2000/svg' width='") // init SVG
-            .append(size)
-            .append("' height='")
-            .append(size)
-            .append("'>")
-            .append("<path fill='") // full size path of background color
-            .append(background)
-            .append("' d='M0 0h")
-            .append(size)
-            .append("v")
-            .append(size)
-            .append("H0z'/>")
-            .append("<g style='fill:") // group with foreground fill style for all cells
-            .append(foreground)
-            .append("'>");
-
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (random.nextBoolean()) continue;
-                sb.append("<rect x='")
-                    .append(i * cell + margin)
-                    .append("' y='")
-                    .append(j * cell + margin)
-                    .append("' width='")
-                    .append(cell)
-                    .append("' height='")
-                    .append(cell)
-                    .append("'/>");
-
-                if (i == 2) continue; // only set once for middle column
-
-                sb.append("<rect x='")
-                    .append(size - margin - (i + 1) * cell) // offset by 1 for odd width
-                    .append("' y='")
-                    .append(j * cell + margin)
-                    .append("' width='")
-                    .append(cell)
-                    .append("' height='")
-                    .append(cell)
-                    .append("'/>");
-            }
-        }
-
-        sb.append("</g></svg>");
+    private ResponseEntity<?> getAvatarFallback(@NotNull String id, @Nullable String email, HttpServletRequest request, HttpServletResponse response) {
+        final byte[] image = avatarService.getFallbackAvatar(id, email, request, response);
 
         return ResponseEntity.ok()
-            .contentLength(sb.length())
-            .contentType(MediaType.parseMediaType("image/svg+xml"))
-            .lastModified(Instant.now())
-            .cacheControl(CacheControl.maxAge(Duration.of(4, ChronoUnit.HOURS)))
-            .body(sb.toString());
+            .cacheControl(CacheControl.maxAge(Duration.ofHours(4)))
+            .body(image);
     }
-
-    static final List<int[]> COLORS = List.of(
-        new int[]{198, 125, 40},
-        new int[]{61, 155, 243},
-        new int[]{74, 243, 75},
-        new int[]{238, 89, 166},
-        new int[]{52, 240, 224},
-        new int[]{177, 156, 155},
-        new int[]{240, 120, 145},
-        new int[]{111, 154, 78},
-        new int[]{237, 179, 245},
-        new int[]{237, 101, 95},
-        new int[]{89, 239, 155},
-        new int[]{43, 254, 70},
-        new int[]{163, 212, 245},
-        new int[]{65, 152, 142},
-        new int[]{165, 135, 246},
-        new int[]{181, 166, 38},
-        new int[]{187, 229, 206},
-        new int[]{77, 164, 25},
-        new int[]{179, 246, 101},
-        new int[]{234, 93, 37},
-        new int[]{225, 155, 115},
-        new int[]{142, 140, 188},
-        new int[]{223, 120, 140},
-        new int[]{249, 174, 27},
-        new int[]{244, 117, 225},
-        new int[]{137, 141, 102},
-        new int[]{75, 191, 146},
-        new int[]{188, 239, 142},
-        new int[]{164, 199, 145},
-        new int[]{173, 120, 149},
-        new int[]{59, 195, 89},
-        new int[]{222, 198, 220},
-        new int[]{68, 145, 187},
-        new int[]{236, 204, 179},
-        new int[]{159, 195, 72},
-        new int[]{188, 121, 189},
-        new int[]{166, 160, 85},
-        new int[]{181, 233, 37},
-        new int[]{236, 177, 85},
-        new int[]{121, 147, 160},
-        new int[]{234, 218, 110},
-        new int[]{241, 157, 191},
-        new int[]{62, 200, 234},
-        new int[]{133, 243, 34},
-        new int[]{88, 149, 110},
-        new int[]{59, 228, 248},
-        new int[]{183, 119, 118},
-        new int[]{251, 195, 45},
-        new int[]{113, 196, 122},
-        new int[]{197, 115, 70},
-        new int[]{80, 175, 187},
-        new int[]{103, 231, 238},
-        new int[]{240, 72, 133},
-        new int[]{228, 149, 241},
-        new int[]{180, 188, 159},
-        new int[]{172, 132, 85},
-        new int[]{180, 135, 251},
-        new int[]{236, 194, 58},
-        new int[]{217, 176, 109},
-        new int[]{88, 244, 199},
-        new int[]{186, 157, 239},
-        new int[]{113, 230, 96},
-        new int[]{206, 115, 165},
-        new int[]{244, 178, 163},
-        new int[]{230, 139, 26},
-        new int[]{241, 125, 89},
-        new int[]{83, 160, 66},
-        new int[]{107, 190, 166},
-        new int[]{197, 161, 210},
-        new int[]{198, 203, 245},
-        new int[]{238, 117, 19},
-        new int[]{228, 119, 116},
-        new int[]{131, 156, 41},
-        new int[]{145, 178, 168},
-        new int[]{139, 170, 220},
-        new int[]{233, 95, 125},
-        new int[]{87, 178, 230},
-        new int[]{157, 200, 119},
-        new int[]{237, 140, 76},
-        new int[]{229, 185, 186},
-        new int[]{144, 206, 212},
-        new int[]{236, 209, 158},
-        new int[]{185, 189, 79},
-        new int[]{34, 208, 66},
-        new int[]{84, 238, 129},
-        new int[]{133, 140, 134},
-        new int[]{67, 157, 94},
-        new int[]{168, 179, 25},
-        new int[]{140, 145, 240},
-        new int[]{151, 241, 125},
-        new int[]{67, 162, 107},
-        new int[]{200, 156, 21},
-        new int[]{169, 173, 189},
-        new int[]{226, 116, 189},
-        new int[]{133, 231, 191},
-        new int[]{194, 161, 63},
-        new int[]{241, 77, 99},
-        new int[]{241, 217, 53},
-        new int[]{123, 204, 105},
-        new int[]{210, 201, 119},
-        new int[]{229, 108, 155},
-        new int[]{240, 91, 72},
-        new int[]{187, 115, 210},
-        new int[]{240, 163, 100},
-        new int[]{178, 217, 57},
-        new int[]{179, 135, 116},
-        new int[]{204, 211, 24},
-        new int[]{186, 135, 57},
-        new int[]{223, 176, 135},
-        new int[]{204, 148, 151},
-        new int[]{116, 223, 50},
-        new int[]{95, 195, 46},
-        new int[]{123, 160, 236},
-        new int[]{181, 172, 131},
-        new int[]{142, 220, 202},
-        new int[]{240, 140, 112},
-        new int[]{172, 145, 164},
-        new int[]{228, 124, 45},
-        new int[]{135, 151, 243},
-        new int[]{42, 205, 125},
-        new int[]{192, 233, 116},
-        new int[]{119, 170, 114},
-        new int[]{158, 138, 26},
-        new int[]{73, 190, 183},
-        new int[]{185, 229, 243},
-        new int[]{227, 107, 55},
-        new int[]{196, 205, 202},
-        new int[]{132, 143, 60},
-        new int[]{233, 192, 237},
-        new int[]{62, 150, 220},
-        new int[]{205, 201, 141},
-        new int[]{106, 140, 190},
-        new int[]{161, 131, 205},
-        new int[]{135, 134, 158},
-        new int[]{198, 139, 81},
-        new int[]{115, 171, 32},
-        new int[]{101, 181, 67},
-        new int[]{149, 137, 119},
-        new int[]{37, 142, 183},
-        new int[]{183, 130, 175},
-        new int[]{168, 125, 133},
-        new int[]{124, 142, 87},
-        new int[]{236, 156, 171},
-        new int[]{232, 194, 91},
-        new int[]{219, 200, 69},
-        new int[]{144, 219, 34},
-        new int[]{219, 95, 187},
-        new int[]{145, 154, 217},
-        new int[]{165, 185, 100},
-        new int[]{127, 238, 163},
-        new int[]{224, 178, 198},
-        new int[]{119, 153, 120},
-        new int[]{124, 212, 92},
-        new int[]{172, 161, 105},
-        new int[]{231, 155, 135},
-        new int[]{157, 132, 101},
-        new int[]{122, 185, 146},
-        new int[]{53, 166, 51},
-        new int[]{70, 163, 90},
-        new int[]{150, 190, 213},
-        new int[]{210, 107, 60},
-        new int[]{166, 152, 185},
-        new int[]{159, 194, 159},
-        new int[]{39, 141, 222},
-        new int[]{202, 176, 161},
-        new int[]{95, 140, 229},
-        new int[]{168, 142, 87},
-        new int[]{93, 170, 203},
-        new int[]{159, 142, 54},
-        new int[]{14, 168, 39},
-        new int[]{94, 150, 149},
-        new int[]{187, 206, 136},
-        new int[]{157, 224, 166},
-        new int[]{235, 158, 208},
-        new int[]{109, 232, 216},
-        new int[]{141, 201, 87},
-        new int[]{208, 124, 118},
-        new int[]{142, 125, 214},
-        new int[]{19, 237, 174},
-        new int[]{72, 219, 41},
-        new int[]{234, 102, 111},
-        new int[]{168, 142, 79},
-        new int[]{188, 135, 35},
-        new int[]{95, 155, 143},
-        new int[]{148, 173, 116},
-        new int[]{223, 112, 95},
-        new int[]{228, 128, 236},
-        new int[]{206, 114, 54},
-        new int[]{195, 119, 88},
-        new int[]{235, 140, 94},
-        new int[]{235, 202, 125},
-        new int[]{233, 155, 153},
-        new int[]{214, 214, 238},
-        new int[]{246, 200, 35},
-        new int[]{151, 125, 171},
-        new int[]{132, 145, 172},
-        new int[]{131, 142, 118},
-        new int[]{199, 126, 150},
-        new int[]{61, 162, 123},
-        new int[]{58, 176, 151},
-        new int[]{215, 141, 69},
-        new int[]{225, 154, 220},
-        new int[]{220, 77, 167},
-        new int[]{233, 161, 64},
-        new int[]{130, 221, 137},
-        new int[]{81, 191, 129},
-        new int[]{169, 162, 140},
-        new int[]{174, 177, 222},
-        new int[]{236, 174, 47},
-        new int[]{233, 188, 180},
-        new int[]{69, 222, 172},
-        new int[]{71, 232, 93},
-        new int[]{118, 211, 238},
-        new int[]{157, 224, 83},
-        new int[]{218, 105, 73},
-        new int[]{126, 169, 36}
-    );
 }
