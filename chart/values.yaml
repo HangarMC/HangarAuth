@@ -84,11 +84,11 @@ frontend:
 
   config:
     kratos:
-      publicUrl: "http://auth.hangar.test/kratos"
+      publicUrl: "https://auth.hangar.test/kratos"
       adminUrl: "http://hangarauth-kratos-admin"
-    publicHost: "http://auth.hangar.test"
+    publicHost: "https://auth.hangar.test"
     backendHost: "http://hangarauth-backend:8080"
-    hangarHost: "http://hangar.test"
+    hangarHost: "https://hangar.test"
     debug: "hangar:*"
     signupDisabled: "false"
 
@@ -165,9 +165,9 @@ backend:
       database: "hangarauth"
       options: "?currentSchema=auth"
     auth:
-      publicHost: "http://auth.hangar.test"
+      publicHost: "https://auth.hangar.test"
       kratos:
-        publicUrl: "http://auth.hangar.test/kratos"
+        publicUrl: "https://auth.hangar.test/kratos"
         adminUrl: "http://hangarauth-kratos-admin"
       hydra:
         adminUrl: "http://hangarauth-hydra-admin:4445"
@@ -189,10 +189,12 @@ hydra:
   ingress:
     public:
       enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
       hosts:
         - host: "auth.hangar.test"
           paths:
-            - path: "/hydra"
+            - path: "/hydra(/|$)(.*)"
               pathType: ImplementationSpecific
   hydra:
     automigration:
@@ -240,10 +242,12 @@ kratos:
   ingress:
     public:
       enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
       hosts:
         - host: "auth.hangar.test"
           paths:
-            - path: "/kratos"
+            - path: "/kratos(/|$)(.*)"
               pathType: ImplementationSpecific
   deployment:
     extraVolumes:
