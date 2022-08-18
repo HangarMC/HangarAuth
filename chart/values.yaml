@@ -82,6 +82,16 @@ frontend:
 
   affinity: {}
 
+  config:
+    kratos:
+      publicUrl: "http://auth.hangar.local/kratos"
+      adminUrl: "http://hangarauth-kratos-admin"
+    publicHost: "http://auth.hangar.local"
+    backendHost: "http://hangarauth-backend:8080"
+    hangarHost: "http://hangar.local"
+    debug: "hangar:*"
+    signupDisabled: "false"
+
 backend:
   replicaCount: 1
 
@@ -179,7 +189,7 @@ hydra:
   ingress:
     public:
       enabled: true
-      hosts: 
+      hosts:
         - host: "auth.hangar.local"
           paths:
             - path: "/hydra"
@@ -230,7 +240,7 @@ kratos:
   ingress:
     public:
       enabled: true
-      hosts: 
+      hosts:
         - host: "auth.hangar.local"
           paths:
             - path: "/kratos"
