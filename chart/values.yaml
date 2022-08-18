@@ -42,20 +42,20 @@ frontend:
     port: 8080
 
   ingress:
-    enabled: false
+    enabled: true
     className: ""
     annotations: {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
     hosts:
-      - host: auth.hangar.local
+      - host: auth.hangar.test
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls: []
     #  - secretName: hangar-auth-tls
     #    hosts:
-    #      - auth.hangar.local
+    #      - auth.hangar.test
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -84,11 +84,11 @@ frontend:
 
   config:
     kratos:
-      publicUrl: "http://auth.hangar.local/kratos"
+      publicUrl: "http://auth.hangar.test/kratos"
       adminUrl: "http://hangarauth-kratos-admin"
-    publicHost: "http://auth.hangar.local"
+    publicHost: "http://auth.hangar.test"
     backendHost: "http://hangarauth-backend:8080"
-    hangarHost: "http://hangar.local"
+    hangarHost: "http://hangar.test"
     debug: "hangar:*"
     signupDisabled: "false"
 
@@ -165,9 +165,9 @@ backend:
       database: "hangarauth"
       options: "?currentSchema=auth"
     auth:
-      publicHost: "http://auth.hangar.local"
+      publicHost: "http://auth.hangar.test"
       kratos:
-        publicUrl: "http://auth.hangar.local/kratos"
+        publicUrl: "http://auth.hangar.test/kratos"
         adminUrl: "http://hangarauth-kratos-admin"
       hydra:
         adminUrl: "http://hangarauth-hydra-admin:4445"
@@ -190,7 +190,7 @@ hydra:
     public:
       enabled: true
       hosts:
-        - host: "auth.hangar.local"
+        - host: "auth.hangar.test"
           paths:
             - path: "/hydra"
               pathType: ImplementationSpecific
@@ -217,12 +217,12 @@ hydra:
               - 192.168.0.0/16
       urls:
         self:
-          public: https://auth.hangar.local/hydra/
-          issuer: https://auth.hangar.local
-        consent: https://auth.hangar.local/oauth/consent
-        login: https://auth.hangar.local/oauth/login
-        logout: https://auth.hangar.local/oauth/logout
-        error: https://auth.hangar.local/error
+          public: https://auth.hangar.test/hydra/
+          issuer: https://auth.hangar.test
+        consent: https://auth.hangar.test/oauth/consent
+        login: https://auth.hangar.test/oauth/login
+        logout: https://auth.hangar.test/oauth/logout
+        error: https://auth.hangar.test/error
       dsn: "postgres://hangarauth:hangarauth@hangarauth-postgresql:5432/hangarauth?sslmode=disable&max_conns=20&max_idle_conns=4"
       secrets:
         system:
@@ -241,7 +241,7 @@ kratos:
     public:
       enabled: true
       hosts:
-        - host: "auth.hangar.local"
+        - host: "auth.hangar.test"
           paths:
             - path: "/kratos"
               pathType: ImplementationSpecific
@@ -291,21 +291,21 @@ kratos:
       dsn: "postgres://hangarauth:hangarauth@hangarauth-postgresql:5432/hangarauth?sslmode=disable&max_conns=20&max_idle_conns=4"
       serve:
         public:
-          base_url: https://auth.hangar.local/kratos
+          base_url: https://auth.hangar.test/kratos
           cors:
             enabled: true
             allowed_origins:
-              - https://auth.hangar.local
+              - https://auth.hangar.test
         admin:
           base_url: http://127.0.0.1:4434/
       cookies:
-        domain: hangar.local
+        domain: hangar.test
       session:
         lifespan: 720h # 30 days
       selfservice:
-        default_browser_return_url: https://auth.hangar.local/
+        default_browser_return_url: https://auth.hangar.test/
         allowed_return_urls:
-          - https://auth.hangar.local/
+          - https://auth.hangar.test/
         methods:
           password:
             enabled: true
@@ -326,14 +326,14 @@ kratos:
             config:
               passwordless: true
               rp:
-                id: hangar.local
-                origin: https://auth.hangar.local
+                id: hangar.test
+                origin: https://auth.hangar.test
                 display_name: HangarAuth
         flows:
           error:
-            ui_url: https://auth.hangar.local/error
+            ui_url: https://auth.hangar.test/error
           settings:
-            ui_url: https://auth.hangar.local/account/settings
+            ui_url: https://auth.hangar.test/account/settings
             privileged_session_max_age: 15m
             after:
               profile:
@@ -351,23 +351,23 @@ kratos:
                           value: hookapikey-changeme
           recovery:
             enabled: true
-            ui_url: https://auth.hangar.local/account/reset
+            ui_url: https://auth.hangar.test/account/reset
           verification:
             enabled: true
-            ui_url: https://auth.hangar.local/account/verify
+            ui_url: https://auth.hangar.test/account/verify
             after:
-              default_browser_return_url: https://auth.hangar.local/
+              default_browser_return_url: https://auth.hangar.test/
           logout:
             after:
-              default_browser_return_url: https://auth.hangar.local/?loggedOut
+              default_browser_return_url: https://auth.hangar.test/?loggedOut
           login:
-            ui_url: https://auth.hangar.local/account/login
+            ui_url: https://auth.hangar.test/account/login
             lifespan: 10m
           registration:
             lifespan: 10m
-            ui_url: https://auth.hangar.local/account/signup
+            ui_url: https://auth.hangar.test/account/signup
             after:
-              default_browser_return_url: "https://auth.hangar.local/account/settings?new=true"
+              default_browser_return_url: "https://auth.hangar.test/account/settings?new=true"
               password:
                 hooks:
                   - hook: session
@@ -393,5 +393,5 @@ kratos:
       courier:
         smtp:
           connection_uri: "smtps://hangarauth:hangarauth@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true"
-          from_address: "no-reply@hangar.local"
+          from_address: "no-reply@hangar.test"
         template_override_path: /etc/hangerauth/email
