@@ -3,9 +3,7 @@
     <Alert v-if="!verified" type="info" class="mb-2 cursor-pointer">
       <a @click="$kratos.verify()">Your account is not verified yet, click here to change that!</a>
     </Alert>
-    <Alert v-if="verified && !aal2" type="info" class="mb-2">
-      You haven't set up 2FA yet!
-    </Alert>
+    <Alert v-if="verified && !aal2" type="info" class="mb-2"> You haven't set up 2FA yet! </Alert>
     <Alert v-if="newAccount" type="info" class="mb-2">
       <a :href="runtimeConfig.public.hangarHost + '/login?returnUrl=/'">Account created! Click here to go to Hangar!</a>
     </Alert>

@@ -125,7 +125,8 @@ export class Kratos {
         kratosLog(flowInfo.data.ui.nodes);
         return { ui: flowInfo.data.ui, flowId: flowInfo.data.id, requestUrl: flowInfo.data.request_url };
       } catch (e) {
-        kratosLog("redirectOnError", e.response?.data ? e.response.data : e);
+        const { request, ...err } = e;
+        kratosLog("redirectOnError", e.response?.data ? e.response.data : err);
         this.redirectOnError(onErrRedirect)(e);
         return null;
       }
@@ -151,7 +152,7 @@ export class Kratos {
       return !shouldRedirect || this.login();
     } catch (e) {
       if (e.response) {
-        if (e.response.data.redirect_browser_to) {
+        if (e.response.data?.redirect_browser_to) {
           kratosLog("session catch: url", e.response.data.redirect_browser_to);
           return !shouldRedirect || this.redirect(e.response.data.redirect_browser_to);
         } else if (e.response.status === 401) {
@@ -162,7 +163,10 @@ export class Kratos {
           return !shouldRedirect || this.aal2();
         }
       }
-      kratosLog("session catch:", e);
+
+      const { config, request, ...err } = e;
+      kratosLog("session catch:", err);
+      return !shouldRedirect || this.login();
     }
   }
 }
