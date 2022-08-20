@@ -43,7 +43,7 @@ jobs:
       - name: Cache pnpm
         uses: actions/cache@v2
         with:
-          path: "~/.pnpm-store"
+          path: "/home/runner/.local/share/pnpm/store/v3"
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
@@ -56,12 +56,4 @@ jobs:
       #   run: pnpm lint
 
       - name: Build frontend
-        env:
-          # keep these in sync with compose! (not sure if we need these since its just checking that build doesn't fail)
-          PUBLIC_HOST: "https://hangar-auth.benndorf.dev"
-          BACKEND_HOST: "http://hangar_auth_backend:8080"
-          KRATOS_PUBLIC: "https://hangar-auth.benndorf.dev/kratos"
-          KRATOS: "http://kratos:4433"
-          HANGAR_HOST: "https://hangar.benndorf.dev"
-          DEBUG: "hangar:*"
         run: pnpm build

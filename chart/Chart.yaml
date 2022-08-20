@@ -1,0 +1,19 @@
+apiVersion: v2
+name: hangarauth
+description: HangarAuth Kubernetes Deployment
+type: application
+version: 0.0.1
+appVersion: "0.0.1"
+dependencies:
+  - name: kratos
+    repository: https://k8s.ory.sh/helm/charts
+    version: 0.25.0
+    condition: kratos.enabled
+  - name: hydra
+    repository: https://k8s.ory.sh/helm/charts
+    version: 0.25.0
+    condition: hydra.enabled
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.6.25
+    condition: postgresql.enabled

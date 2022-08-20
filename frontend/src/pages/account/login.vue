@@ -22,8 +22,15 @@ import { FormTab } from "~/components/form/FormContainer.vue";
 
 const { t } = useI18n();
 const { $kratos } = useNuxtApp();
-const data = useState<{ ui: UiContainer }>("ui");
-data.value = await $kratos.requestUiContainer((flow, cookie) => $kratos.client.getSelfServiceLoginFlow(flow, cookie, { withCredentials: true }));
+const { data } = useAsyncData<{ ui: UiContainer }>(
+  "ui",
+  async () =>
+    await $kratos.requestUiContainer((flow, cookie) =>
+      $kratos.client.getSelfServiceLoginFlow(flow, cookie, {
+        withCredentials: true,
+      })
+    )
+);
 
 const file = ref();
 

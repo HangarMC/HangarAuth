@@ -1,5 +1,5 @@
 <template>
-  <Card v-if="data && data.ui">
+  <Card v-if="!signupDisabled && data && data.ui">
     <UserMessages :ui="data.ui" />
     <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('signup.title')" />
     <form :method="data.ui.method" :action="data.ui.action">
@@ -64,14 +64,15 @@ const { t } = useI18n();
 const config = useRuntimeConfig();
 const signupDisabled = config.public.signupDisabled;
 const { $kratos } = useNuxtApp();
-const data = useState<{ ui: UiContainer }>("ui");
-if (!signupDisabled) {
-  data.value = await $kratos.requestUiContainer(
-    (flow, cookie) => $kratos.client.getSelfServiceRegistrationFlow(flow, cookie, { withCredentials: true }),
-    $kratos.register.bind($kratos),
-    $kratos.register.bind($kratos)
-  );
-}
+const { data } = useAsyncData<{ ui: UiContainer }>(
+  "ui",
+  async () =>
+    await $kratos.requestUiContainer(
+      (flow, cookie) => $kratos.client.getSelfServiceRegistrationFlow(flow, cookie, { withCredentials: true }),
+      $kratos.register.bind($kratos),
+      $kratos.register.bind($kratos)
+    )
+);
 
 const credentialsTabs = computed<FormTab[]>(() => {
   return [

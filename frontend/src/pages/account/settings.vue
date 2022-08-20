@@ -56,10 +56,13 @@ definePageMeta({
 const { t } = useI18n();
 const store = useAuthStore();
 const { $kratos } = useNuxtApp();
-const data = useState<{ ui: UiContainer; flowId: string; requestUrl: string }>("ui");
-data.value = await $kratos.requestUiContainer(
-  (flow, cookie) => $kratos.client.getSelfServiceSettingsFlow(flow, undefined, cookie, { withCredentials: true }),
-  $kratos.settings.bind($kratos)
+const { data } = useAsyncData<{ ui: UiContainer }>(
+  "ui",
+  async () =>
+    await $kratos.requestUiContainer(
+      (flow, cookie) => $kratos.client.getSelfServiceSettingsFlow(flow, undefined, cookie, { withCredentials: true }),
+      $kratos.settings.bind($kratos)
+    )
 );
 
 const authStore = useAuthStore();

@@ -1,0 +1,55 @@
+# We don't use the fullname template here because we need the configmap names to be predictable as we can't use {{ .Release.Name }} in values.yaml when configuring Kratos
+# This entire file could probably be a lot cleaner with Helm range functions but I can't be bothered
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hangarauth-kratos-hooks
+  labels:
+    {{- include "hangarauth.labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob "kratos/hooks/*").AsConfig | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hangarauth-kratos-schemas
+  labels:
+    {{- include "hangarauth.labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob "kratos/schemas/*").AsConfig | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hangarauth-kratos-email-recovery-invalid
+  labels:
+    {{- include "hangarauth.labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob "kratos/templates/recovery/invalid/*").AsConfig | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hangarauth-kratos-email-recovery-valid
+  labels:
+    {{- include "hangarauth.labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob "kratos/templates/recovery/valid/*").AsConfig | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hangarauth-kratos-email-verification-invalid
+  labels:
+    {{- include "hangarauth.labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob "kratos/templates/verification/invalid/*").AsConfig | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hangarauth-kratos-email-verification-valid
+  labels:
+    {{- include "hangarauth.labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob "kratos/templates/verification/valid/*").AsConfig | indent 2 }}

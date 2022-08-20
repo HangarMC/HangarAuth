@@ -1,7 +1,9 @@
+import * as https from "https";
 import { UiContainer, V0alpha2ApiFactory } from "@ory/kratos-client";
 import { AuthenticatorAssuranceLevel, SessionAuthenticationMethod, V0alpha2Api } from "@ory/kratos-client/api";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { CompatibilityEvent, sendRedirect } from "h3";
+import { createCookies } from "@vueuse/integrations/useCookies";
 import { useFlow } from "~/composables/useFlow";
 import { useAuthStore } from "~/store/useAuthStore";
 import { kratosLog } from "~/lib/composables/useLog";
@@ -23,9 +25,17 @@ export class Kratos {
   }
 
   get client(): V0alpha2Api {
+    let instance = axios.create();
+    if (process.server) {
+      instance = axios.create({
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false,
+        }),
+      });
+    }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    return V0alpha2ApiFactory({ basePath: this.kratosUrl }, this.kratosUrl, axios);
+    return V0alpha2ApiFactory({ basePath: this.kratosUrl }, this.kratosUrl, instance);
   }
 
   async redirect(url: string) {
@@ -114,18 +124,20 @@ export class Kratos {
   }
 
   async requestUiContainer(
-    fetchFlow: (flow: string, cookie: unknown) => Promise<AxiosResponse<{ ui: UiContainer; id: string; request_url: string }>>,
+    fetchFlow: (flow: string, cookieHeader: string | undefined) => Promise<AxiosResponse<{ ui: UiContainer; id: string; request_url: string }>>,
     onNoFlow: () => void = this.login.bind(this),
     onErrRedirect: () => void = this.login.bind(this)
   ): Promise<null | { ui: UiContainer; flowId: string; requestUrl: string }> {
     const flow = useFlow(useRoute(), onNoFlow);
     if (flow) {
       try {
+        kratosLog("cookie header", this.event ? this.event.req.headers.cookie : undefined);
         const flowInfo = await fetchFlow(flow, this.event ? this.event.req.headers.cookie : undefined);
         kratosLog(flowInfo.data.ui.nodes);
         return { ui: flowInfo.data.ui, flowId: flowInfo.data.id, requestUrl: flowInfo.data.request_url };
       } catch (e) {
-        kratosLog("redirectOnError", e.response?.data ? e.response.data : e);
+        const { request, ...err } = e;
+        kratosLog("redirectOnError", e.response?.data ? e.response.data : err);
         this.redirectOnError(onErrRedirect)(e);
         return null;
       }
@@ -147,22 +159,25 @@ export class Kratos {
         };
         return;
       }
-      kratosLog("no session -> login");
+      kratosLog("no session -> login", shouldRedirect);
       return !shouldRedirect || this.login();
     } catch (e) {
       if (e.response) {
-        if (e.response.data.redirect_browser_to) {
-          kratosLog("session catch: url", e.response.data.redirect_browser_to);
+        if (e.response.data?.redirect_browser_to) {
+          kratosLog("session catch: url", e.response.data.redirect_browser_to, shouldRedirect);
           return !shouldRedirect || this.redirect(e.response.data.redirect_browser_to);
         } else if (e.response.status === 401) {
-          kratosLog("session catch: 401 -> login");
+          kratosLog("session catch: 401 -> login", shouldRedirect);
           return !shouldRedirect || this.login();
-        } else if (e.response.status === 404) {
-          kratosLog("session catch: 403 -> aal");
+        } else if (e.response.status === 403) {
+          kratosLog("session catch: 403 -> aal", shouldRedirect);
           return !shouldRedirect || this.aal2();
         }
       }
-      kratosLog("session catch:", e);
+
+      const { config, request, ...err } = e;
+      kratosLog("session catch:", Object.keys(err).length > 0 ? err : e, shouldRedirect);
+      return !shouldRedirect || this.login();
     }
   }
 }

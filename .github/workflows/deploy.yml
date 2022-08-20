@@ -50,7 +50,7 @@ jobs:
       - name: Cache pnpm
         uses: actions/cache@v2
         with:
-          path: "~/.pnpm-store"
+          path: "/home/runner/.local/share/pnpm/store/v3"
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
@@ -70,20 +70,7 @@ jobs:
 
       - name: Build frontend
         working-directory: frontend
-        env:
-          # keep these in sync with compose!
-          PUBLIC_HOST: "https://hangar-auth.benndorf.dev"
-          BACKEND_HOST: "http://hangar_auth_backend:8080"
-          KRATOS_PUBLIC: "https://hangar-auth.benndorf.dev/kratos"
-          KRATOS: "http://kratos:4433"
-          HANGAR_HOST: "https://hangar.benndorf.dev"
-          DEBUG: "hangar:*"
         run: pnpm build
-
-      - name: SSH
-        uses: webfactory/ssh-agent@v0.5.2
-        with:
-          ssh-private-key: ${{ secrets.DOCKER_HOST_SSH_KEY }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
@@ -92,15 +79,20 @@ jobs:
           username: ${{ secrets.CR_USER }}
           password: ${{ secrets.CR_PAT }}
 
-      - name: Docker
-        working-directory: docker/deployment
-        env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          EMAIL_SETTINGS: ${{ secrets.EMAIL_SETTINGS }}
-          SSO_API_KEY: ${{ secrets.SSO_API_KEY }}
-        run: |
-          echo ${{ secrets.DOCKER_HOST_SSH_SIG }} > ~/.ssh/known_hosts
-          docker-compose build
-          docker-compose push
-          DOCKER_HOST="${{ secrets.DOCKER_HOST }}" docker stack deploy --with-registry-auth --compose-file=docker-compose.yml hangar_auth
+      - name: Build and push frontend Dockerfile
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: docker/deployment/frontend/Dockerfile
+          tags: ghcr.io/papermc/hangarauth_frontend:latest
+          push: true
+
+      - name: Build and push backend Dockerfile
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: docker/deployment/backend/Dockerfile
+          tags: ghcr.io/papermc/hangarauth_backend:latest
+          push: true
+
+      # TODO actually trigger a deploy
