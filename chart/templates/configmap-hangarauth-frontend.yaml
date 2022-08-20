@@ -6,7 +6,7 @@ metadata:
     {{- include "hangarauth.labels" . | nindent 4 }}
 data:
   NITRO_PUBLIC_KRATOS_PUBLIC: "{{ .Values.frontend.config.kratos.publicUrl }}"
-  NITRO_KRATOS: "{{ .Values.frontend.config.kratos.adminUrl }}"
+  NITRO_KRATOS: "{{ .Values.frontend.config.kratos.backendUrl }}"
   NITRO_PUBLIC_PUBLIC_HOST: "{{ .Values.frontend.config.publicHost }}"
   NITRO_PUBLIC_BACKEND_HOST: "{{ .Values.frontend.config.backendHost }}"
   NITRO_PUBLIC_HANGAR_HOST: "{{ .Values.frontend.config.hangarHost }}"

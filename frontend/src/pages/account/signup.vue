@@ -68,8 +68,7 @@ const { data } = useAsyncData<{ ui: UiContainer }>(
   "ui",
   async () =>
     await $kratos.requestUiContainer(
-      (flow, cookie, csrfToken) =>
-        $kratos.client.getSelfServiceRegistrationFlow(flow, cookie, { withCredentials: true, headers: { "X-CSRF-Token": csrfToken } }),
+      (flow, cookie) => $kratos.client.getSelfServiceRegistrationFlow(flow, cookie, { withCredentials: true }),
       $kratos.register.bind($kratos),
       $kratos.register.bind($kratos)
     )

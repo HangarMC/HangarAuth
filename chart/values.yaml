@@ -86,6 +86,7 @@ frontend:
     kratos:
       publicUrl: "https://auth.hangar.test/kratos"
       adminUrl: "http://hangarauth-kratos-admin"
+      backendUrl: "http://hangarauth-kratos-public"
     publicHost: "https://auth.hangar.test"
     backendHost: "http://hangarauth-backend:8080"
     hangarHost: "https://hangar.test"

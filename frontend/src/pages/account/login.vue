@@ -25,10 +25,9 @@ const { $kratos } = useNuxtApp();
 const { data } = useAsyncData<{ ui: UiContainer }>(
   "ui",
   async () =>
-    await $kratos.requestUiContainer((flow, cookie, csrfToken) =>
+    await $kratos.requestUiContainer((flow, cookie) =>
       $kratos.client.getSelfServiceLoginFlow(flow, cookie, {
         withCredentials: true,
-        headers: { "X-CSRF-Token": csrfToken },
       })
     )
 );
