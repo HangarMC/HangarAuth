@@ -43,7 +43,7 @@ jobs:
       - name: Cache pnpm
         uses: actions/cache@v2
         with:
-          path: "~/.pnpm-store"
+          path: "/home/runner/.local/share/pnpm/store/v3"
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
