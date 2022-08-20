@@ -52,10 +52,10 @@ export const useSettingsStore = defineStore("settings", () => {
       form.append("csrf_token", csrfToken.value);
     }
 
-    // TODO pass cookies
+    const nuxtApp = useNuxtApp();
     let headers = {};
-    if (process.server) {
-      headers = { cookie: "" };
+    if (process.server && nuxtApp.ssrContext?.event) {
+      headers = { cookie: nuxtApp.ssrContext?.event.req.headers.cookie };
     }
 
     const runtimeConfig = useRuntimeConfig();

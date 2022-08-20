@@ -26,11 +26,7 @@ const currentUser = computed(() => {
   return authStore.user;
 });
 
-if (route.query.loggedOut === undefined) {
-  await $kratos.loadUser();
-}
-
-if (currentUser) {
+if (currentUser.value) {
   // We can add a landing page if/once auth is used for more than just Hangar
   router.replace("/account/settings");
 }

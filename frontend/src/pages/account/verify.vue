@@ -16,11 +16,15 @@ import UserMessages from "~/components/UserMessages.vue";
 const { t } = useI18n();
 
 const { $kratos } = useNuxtApp();
-const data = useState<{ ui: UiContainer }>("ui");
-data.value = await $kratos.requestUiContainer(
-  (flow, cookie) => $kratos.client.getSelfServiceVerificationFlow(flow, cookie, { withCredentials: true }),
-  $kratos.verify.bind($kratos),
-  $kratos.verify.bind($kratos)
+const { data } = useAsyncData<{ ui: UiContainer }>(
+  "ui",
+  async () =>
+    await $kratos.requestUiContainer(
+      (flow, cookie, csrfToken) =>
+        $kratos.client.getSelfServiceVerificationFlow(flow, cookie, { withCredentials: true, headers: { "X-CSRF-Token": csrfToken } }),
+      $kratos.verify.bind($kratos),
+      $kratos.verify.bind($kratos)
+    )
 );
 
 const modifiedUi = computed(() => {
