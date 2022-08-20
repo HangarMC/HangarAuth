@@ -22,6 +22,8 @@ auth:
       - localhost
 
 spring:
+  application:
+    name: hangarauth-backend
   sql:
     init:
       platform: postgres
