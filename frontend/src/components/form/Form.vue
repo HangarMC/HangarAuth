@@ -1,7 +1,7 @@
 <template>
   <component :is="noForm ? 'div' : 'form'" v-if="!empty" :method="noForm ? null : ui.method" :action="noForm ? null : ui.action">
     <Card class="mt-2">
-      <h1 class="text-xl mb-4">{{ title }}</h1>
+      <h1 class="text-xl mb-2">{{ title }}</h1>
       <div class="flex flex-wrap gap-2">
         <FormContainer :nodes="filteredNodes" :disable-autocomplete="disableAutocomplete" :disabled-fields="disabledFields" :tabs="tabs" />
         <slot name="additional-buttons" />

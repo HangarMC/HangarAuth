@@ -43,29 +43,12 @@
             }
           }
         },
-        "name": {
-          "type": "object",
-          "properties": {
-            "first": {
-              "title": "First Name",
-              "type": "string"
-            },
-            "last": {
-              "title": "Last Name",
-              "type": "string"
-            }
-          }
-        },
         "discord": {
           "title": "Discord ID",
           "type": "string"
         },
         "github": {
           "title": "GitHub Username",
-          "type": "string"
-        },
-        "minecraft": {
-          "title": "Minecraft Username",
           "type": "string"
         },
         "language": {

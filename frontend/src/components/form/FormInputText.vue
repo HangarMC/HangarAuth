@@ -28,10 +28,6 @@ const autocomplete = computed(() => {
     case "password_identifier":
     case "traits.username":
       return "username";
-    case "traits.name.first":
-      return "given-name";
-    case "traits.name.last":
-      return "family-name";
     case "traits.language":
       return "language";
   }

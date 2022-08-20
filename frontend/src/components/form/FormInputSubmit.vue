@@ -6,7 +6,7 @@
     :messages="messages"
     :error-messages="errorMessages"
     :value="value"
-    size="large"
+    size="medium"
     button-type="primary"
     type="submit"
   >

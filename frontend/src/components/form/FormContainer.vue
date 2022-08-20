@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap gap-2 basis-full">
+  <div class="flex flex-wrap basis-full">
     <Tabs v-if="tabs" v-model="selectedTabValue" :tabs="filteredTabs" :vertical="false">
       <template #catchall>
         <div class="flex flex-wrap gap-2">
@@ -14,7 +14,7 @@
         </div>
       </template>
     </Tabs>
-    <div v-for="(node, idx) in noTab" :key="idx" class="basis-full">
+    <div v-for="(node, idx) in noTab" :key="idx" class="basis-full mb-2">
       <component
         :is="'form-' + node.type + (node.attributes.type && !node.attributes.type.includes('/') ? '-' + node.attributes.type : '')"
         :node="node"

@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -51,10 +52,15 @@ public class AvatarService {
         this.imageService = imageService;
         Files.createDirectories(this.avatarDir);
         LOGGER.info("Avatars directory: {}", avatarDir.toAbsolutePath());
+        Files.copy(AvatarService.class.getClassLoader().getResourceAsStream("avatar/blob.jpeg"), this.avatarDir.resolve("blob.jpeg"), StandardCopyOption.REPLACE_EXISTING);
     }
 
     public @NotNull Path getAvatarFor(@NotNull String folder, @NotNull String fileName) {
         return this.avatarDir.resolve(folder).resolve(fileName);
+    }
+
+    public @NotNull Path getFallbackAvatar() {
+        return this.avatarDir.resolve("blob.jpeg");
     }
 
     public @Nullable UserAvatarTable getUsersAvatarTable(@NotNull UUID userId) {

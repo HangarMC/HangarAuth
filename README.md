@@ -27,6 +27,8 @@ or in their `.bashrc` or `.zshrc` files.
 
 ## Initial setup
 
+Run `git submodule update --init` to initialize the [HangarLib](https://github.com/HangarMC/HangarLib) submodule. If you want to commit code to the lib repository (found in `frontend/src/lib`) without cloning the repo separately, you also need to checkout a branch using `cd frontend/src/lib && git switch master`.
+
 When starting the docker-compose for the first time by running `docker-compose -f docker-compose.yml up` inside the `docker` directory, 3 databases should be created: `hydra`, `kratos`, and `hangar`. `hangar` is
 not used by this application, but is used for everything by Hangar. When you start the spring application for this project, a second
 schema, `auth`, will be created inside the `kratos` database. This holds HangarAuth-specific information about users.
