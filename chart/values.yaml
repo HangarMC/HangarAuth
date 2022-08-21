@@ -42,16 +42,16 @@ frontend:
     port: 3000
 
   ingress:
-    enabled: true
+    enabled: false
     className: ""
     annotations: {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
-    hosts:
-      - host: auth.hangar.test
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
+    hosts: []
+#       - host: auth.hangar.test
+#         paths:
+#           - path: /
+#             pathType: ImplementationSpecific
     tls: []
     #  - secretName: hangar-auth-tls
     #    hosts:
@@ -189,14 +189,18 @@ hydra:
     enabled: false
   ingress:
     public:
-      enabled: true
+      enabled: false
       annotations:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
-      hosts:
-        - host: "auth.hangar.test"
-          paths:
-            - path: "/hydra(/|$)(.*)"
-              pathType: ImplementationSpecific
+      hosts: []
+#         - host: "auth.hangar.test"
+#           paths:
+#             - path: "/hydra(/|$)(.*)"
+#               pathType: ImplementationSpecific
+      tls: []
+      #  - secretName: hangar-auth-tls
+      #    hosts:
+      #      - auth.hangar.test
   hydra:
     automigration:
       enabled: true
