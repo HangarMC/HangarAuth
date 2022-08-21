@@ -5,6 +5,10 @@ import org.springframework.boot.system.ApplicationHome;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import io.awspring.cloud.autoconfigure.core.AwsProperties;
 import io.papermc.hangarauth.HangarAuthApplication;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -34,6 +38,13 @@ public class StorageConfig {
     @Bean
     public AwsRegionProvider regionProvider() {
         return () -> Region.of("hangar");
+    }
+
+    @Bean
+    public AwsProperties awsProperties() throws URISyntaxException {
+        AwsProperties awsProperties = new AwsProperties();
+        awsProperties.setEndpoint(new URI(objectStorageEndpoint));
+        return awsProperties;
     }
 
     public String getType() {
