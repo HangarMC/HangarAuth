@@ -21,9 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
@@ -45,6 +42,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import io.papermc.hangarauth.config.CacheConfig;
 import io.papermc.hangarauth.config.custom.ImageConfig;
+import io.papermc.hangarauth.service.file.FileService;
 
 @Component
 public class ImageService {
@@ -55,21 +53,17 @@ public class ImageService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     private final ImageConfig config;
+    private final FileService fileService;
+    private final String imagesFolder;
 
     private final LinkedBlockingQueue<ImageToOptimize> workerQueue = new LinkedBlockingQueue<>();
     private final Cache hashCache;
 
     @Autowired
-    public ImageService(ImageConfig config, CacheManager cacheManager) {
+    public ImageService(ImageConfig config, CacheManager cacheManager, FileService fileService) {
         this.config = config;
-
-        if (!Files.isDirectory(config.workFolder())) {
-            try {
-                Files.createDirectories(config.workFolder());
-            } catch (IOException e) {
-                LOGGER.error("Couldn't create work folder {}", config.workFolder());
-            }
-        }
+        this.fileService = fileService;
+        this.imagesFolder = fileService.resolve(fileService.getRoot(), "images");
 
         hashCache = cacheManager.getCache(CacheConfig.HASH_CACHE);
 
@@ -89,19 +83,19 @@ public class ImageService {
         });
     }
 
-    public byte[] getImage(Path origFile, HttpServletRequest request, HttpServletResponse response) {
+    public byte[] getImageFromFile(String origFile, HttpServletRequest request, HttpServletResponse response) {
         return getImage(
             (content, hash) -> workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
-            () -> getContent(origFile),
-            () -> getHash(origFile.toString(), () -> getContent(origFile)),
+            () -> getContentFromPath(origFile),
+            () -> getHash(origFile, () -> getContentFromPath(origFile)),
             request, response);
     }
 
-    public byte[] getImage(String origUrl, HttpServletRequest request, HttpServletResponse response) {
+    public byte[] getImageFromUrl(String origUrl, HttpServletRequest request, HttpServletResponse response) {
         return getImage(
             (content, hash) -> workerQueue.add(new ImageToOptimize(null, origUrl, content, hash)),
-            () -> getContent(origUrl),
-            () -> getHash(origUrl, () -> getContent(origUrl)),
+            () -> getContentFromUrl(origUrl),
+            () -> getHash(origUrl, () -> getContentFromUrl(origUrl)),
             request, response);
     }
 
@@ -155,35 +149,32 @@ public class ImageService {
 
     private byte[] getOptimizedFile(String hash, boolean webp) {
         String folderName = hash.substring(0, 2);
-        Path folderPath = config.workFolder().resolve(folderName);
-        if (!Files.isDirectory(folderPath)) {
-            return new byte[0];
-        }
+        String folderPath = fileService.resolve(imagesFolder, folderName);
 
-        Path imagePath;
+        String imagePath;
         if (webp) {
-            imagePath = folderPath.resolve(hash + ".webp");
+            imagePath = fileService.resolve(folderPath, hash + ".webp");
         } else {
-            imagePath = folderPath.resolve(hash);
+            imagePath = fileService.resolve(folderPath,hash);
         }
 
-        if (Files.isRegularFile(imagePath)) {
-            return getContent(imagePath);
+        if (fileService.exists(imagePath)) {
+            return getContentFromPath(imagePath);
         } else {
             return new byte[0];
         }
     }
 
-    private byte[] getContent(Path path) {
+    private byte[] getContentFromPath(String path) {
         try {
-            return Files.readAllBytes(path);
+            return fileService.bytes(path);
         } catch (IOException e) {
             LOGGER.warn("Couldn't read file {}", path, e);
             return new byte[0];
         }
     }
 
-    private byte[] getContent(String url) {
+    private byte[] getContentFromUrl(String url) {
         try {
             HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
             conn.setConnectTimeout(5 * 1000);
@@ -218,27 +209,19 @@ public class ImageService {
     private void optimize(ImageToOptimize image) throws IOException {
         // construct folder
         String folderName = image.hash().substring(0, 2);
-        Path folderPath = config.workFolder().resolve(folderName);
-        if (!Files.isDirectory(folderPath)) {
-            try {
-                Files.createDirectories(folderPath);
-            } catch (IOException e) {
-                LOGGER.warn("Error while creating folder {}", folderPath, e);
-                return;
-            }
-        }
+        String folderPath = fileService.resolve(imagesFolder, folderName);
         // optimize
-        optimizeAndWrite(image.content(), folderPath.resolve(image.hash() + ".jpg"), false);
+        optimizeAndWrite(image.content(), fileService.resolve(folderPath, image.hash() + ".jpg"), false);
         // webp
-        optimizeAndWrite(image.content(), folderPath.resolve(image.hash() + ".webp"), true);
+        optimizeAndWrite(image.content(), fileService.resolve(folderPath, image.hash() + ".webp"), true);
     }
 
-    private void optimizeAndWrite(byte[] imageBytes, Path imagePath, boolean webp)
+    private void optimizeAndWrite(byte[] imageBytes, String imagePath, boolean webp)
         throws IOException {
-        if (!Files.isRegularFile(imagePath)) {
+        if (!fileService.exists(imagePath)) {
             byte[] optimzed = optimizeBytes(imageBytes, webp);
             try {
-                Files.write(imagePath, optimzed, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+                fileService.write(new ByteArrayInputStream(optimzed), imagePath);
             } catch (IOException e) {
                 LOGGER.warn("Error while writing file {}", imagePath, e);
             }
@@ -312,7 +295,7 @@ public class ImageService {
         return rescaledImage;
     }
     record ImageToOptimize(
-        Path origFile,
+        String origFile,
         String origUrl,
         byte[] content,
         String hash

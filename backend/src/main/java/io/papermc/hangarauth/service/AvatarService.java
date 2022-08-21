@@ -4,8 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,51 +14,50 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import javax.imageio.ImageIO;
 
-import io.papermc.hangarauth.config.custom.GeneralConfig;
 import io.papermc.hangarauth.db.dao.AvatarDAO;
 import io.papermc.hangarauth.db.dao.OrgAvatarDAO;
 import io.papermc.hangarauth.db.model.AvatarTable;
 import io.papermc.hangarauth.db.model.OrgAvatarTable;
 import io.papermc.hangarauth.db.model.UserAvatarTable;
+import io.papermc.hangarauth.service.file.FileService;
 import io.papermc.hangarauth.utils.Crypto;
-import io.undertow.util.FileUtils;
 
 @Service
 public class AvatarService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AvatarService.class);
-
     private final AvatarDAO avatarDAO;
     private final OrgAvatarDAO orgAvatarDAO;
-    private final Path avatarDir;
     private final ImageService imageService;
+    private final FileService fileService;
+    private final String avatarFolder;
 
     @Autowired
-    public AvatarService(AvatarDAO avatarDAO, OrgAvatarDAO orgAvatarDAO, GeneralConfig config, ImageService imageService) throws IOException {
+    public AvatarService(AvatarDAO avatarDAO, OrgAvatarDAO orgAvatarDAO, ImageService imageService, FileService fileService) throws IOException {
         this.avatarDAO = avatarDAO;
         this.orgAvatarDAO = orgAvatarDAO;
-        this.avatarDir = config.getDataDir().resolve("avatars");
         this.imageService = imageService;
-        Files.createDirectories(this.avatarDir);
-        LOGGER.info("Avatars directory: {}", avatarDir.toAbsolutePath());
-        Files.copy(AvatarService.class.getClassLoader().getResourceAsStream("avatar/blob.jpeg"), this.avatarDir.resolve("blob.jpeg"), StandardCopyOption.REPLACE_EXISTING);
+        this.fileService = fileService;
+        this.avatarFolder = fileService.resolve(fileService.getRoot(), "avatars");
+        // save default avatar
+        if (!this.fileService.exists(getFallbackAvatar())) {
+            this.fileService.write(AvatarService.class.getClassLoader().getResourceAsStream("avatar/blob.jpeg"), getFallbackAvatar());
+        }
     }
 
-    public @NotNull Path getAvatarFor(@NotNull String folder, @NotNull String fileName) {
-        return this.avatarDir.resolve(folder).resolve(fileName);
+    public @NotNull String getAvatarFor(@NotNull String folder, @NotNull String fileName) {
+        return fileService.resolve(fileService.resolve(avatarFolder, folder), fileName);
     }
 
-    public @NotNull Path getFallbackAvatar() {
-        return this.avatarDir.resolve("blob.jpeg");
+    public @NotNull String getFallbackAvatar() {
+        return fileService.resolve(avatarFolder, "blob.jpeg");
     }
 
     public @Nullable UserAvatarTable getUsersAvatarTable(@NotNull UUID userId) {
@@ -111,8 +108,8 @@ public class AvatarService {
             table = ctor.apply(subject, Crypto.md5ToHex(avatar.getBytes()), fileName);
             createOrUpdate = creator;
         }
-        Path path = copyFileTo(subject.toString(), avatar, fileName);
-        imageService.evictCache(path.toString());
+        String path = copyFileTo(subject.toString(), avatar, fileName);
+        imageService.evictCache(path);
         createOrUpdate.accept(table);
     }
 
@@ -125,18 +122,20 @@ public class AvatarService {
         }
     }
 
-    private Path copyFileTo(@NotNull String subject, @NotNull MultipartFile avatar, String fileName) throws IOException {
-        final Path subjectDir = this.avatarDir.resolve(subject);
-        Files.createDirectories(subjectDir);
-        FileUtils.deleteRecursive(subjectDir);
-        final Path file = subjectDir.resolve(fileName);
+    private String copyFileTo(@NotNull String subject, @NotNull MultipartFile avatar, String fileName) throws IOException {
+        final String subjectDir = fileService.resolve(avatarFolder, subject);
+        fileService.deleteDirectory(subjectDir);
+        final String file = fileService.resolve(subjectDir, fileName);
 
         // read into canvas to get rid of white and to convert everything to jpg
         BufferedImage img = ImageIO.read(avatar.getInputStream());
         BufferedImage result = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
         result.createGraphics().drawImage(img, 0, 0, Color.WHITE, null);
-        boolean dum = ImageIO.write(result, "jpg", file.toFile());
-        if (!dum) System.out.println("failed to write jpg " + file.toFile());
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        boolean dum = ImageIO.write(result, "jpg", outputStream);
+        if (!dum) System.out.println("failed to write jpg " + file);
+        fileService.write(new ByteArrayInputStream(outputStream.toByteArray()), file);
 
         return file;
     }

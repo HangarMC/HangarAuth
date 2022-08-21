@@ -3,7 +3,6 @@ package io.papermc.hangarauth.config.custom;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import java.nio.file.Path;
 import java.util.List;
 
 @Configuration
@@ -14,8 +13,6 @@ public class ImageConfig {
     private float quality;
     private float qualityWebp;
     private int size;
-    // TODO where do we store optimized images?
-    private Path workFolder;
     private List<String> whitelist;
 
     public int interval() {
@@ -36,10 +33,6 @@ public class ImageConfig {
 
     public int size() {
         return size;
-    }
-
-    public Path workFolder() {
-        return workFolder;
     }
 
     public List<String> whitelist() {
@@ -64,10 +57,6 @@ public class ImageConfig {
 
     public void setSize(int size) {
         this.size = size;
-    }
-
-    public void setWorkFolder(Path workFolder) {
-        this.workFolder = workFolder;
     }
 
     public void setWhitelist(List<String> whitelist) {
