@@ -184,9 +184,43 @@ postgresql:
         database: "hangarauth"
 
 hydra:
-  enabled: true # During local testing you may want to disable this and wait for PostgreSQL to be up. Helm does not have a way to install subcharts in a specific order.
-  maester:
-    enabled: false
+  replicaCount: 1
+
+  image:
+    repository: oryd/hydra
+    pullPolicy: Always
+    tag: "v1.11.8"
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 4444
+
   ingress:
     public:
       enabled: false
@@ -197,49 +231,73 @@ hydra:
 #          paths:
 #            - path: "/hydra(/|$)(.*)"
 #              pathType: ImplementationSpecific
-  hydra:
-    automigration:
-      enabled: true
-    config:
-      serve:
-        admin:
-          cors:
-            debug: true
-          tls:
-            allow_termination_from:
-              - 10.0.0.0/8
-              - 172.16.0.0/12
-              - 192.168.0.0/16
-        cookies:
-          same_site_mode: Lax
-        public:
-          tls:
-            allow_termination_from:
-              - 10.0.0.0/16
-              - 172.16.0.0/12
-              - 192.168.0.0/16
-      urls:
-        self:
-          public: https://auth.hangar.test/hydra/
-          issuer: https://auth.hangar.test
-        consent: https://auth.hangar.test/oauth/consent
-        login: https://auth.hangar.test/oauth/login
-        logout: https://auth.hangar.test/oauth/logout
-        error: https://auth.hangar.test/error
-      dsn: "postgres://hangarauth:hangarauth@hangarauth-postgresql:5432/hangarauth?sslmode=disable&max_conns=20&max_idle_conns=4"
-      secrets:
-        system:
-          - "supersecuresupersecure"
-      oidc:
-        subject_identifiers:
-          supported_types:
-            - pairwise
-            - public
-          pairwise:
-            salt: "supersecuresupersecure"
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  config:
+    # todo abstract out values from the configmap, then abstract common values across all services
 
 kratos:
-  enabled: true # During local testing you may want to disable this and wait for PostgreSQL to be up. Helm does not have a way to install subcharts in a specific ord
+  replicaCount: 1
+
+  image:
+    repository: oryd/kratos
+    pullPolicy: Always
+    tag: "v0.10.1"
+
+  imagePullSecrets: [ ]
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: { }
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  podAnnotations: { }
+
+  podSecurityContext: { }
+    # fsGroup: 2000
+
+  securityContext: { }
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+      type: ClusterIP
+      port: 4433
+
   ingress:
     public:
       enabled: false
@@ -250,153 +308,31 @@ kratos:
 #          paths:
 #            - path: "/kratos(/|$)(.*)"
 #              pathType: ImplementationSpecific
-  deployment:
-    extraVolumes:
-      - name: hangarauth-kratos-hooks
-        configMap:
-          name: hangarauth-kratos-hooks
-      - name: hangarauth-kratos-schemas
-        configMap:
-          name: hangarauth-kratos-schemas
-      - name: hangarauth-kratos-email-recovery-invalid
-        configMap:
-          name: hangarauth-kratos-email-recovery-invalid
-      - name: hangarauth-kratos-email-recovery-valid
-        configMap:
-          name: hangarauth-kratos-email-recovery-valid
-      - name: hangarauth-kratos-email-verification-invalid
-        configMap:
-          name: hangarauth-kratos-email-verification-invalid
-      - name: hangarauth-kratos-email-verification-valid
-        configMap:
-          name: hangarauth-kratos-email-verification-valid
-    extraVolumeMounts:
-      - name: hangarauth-kratos-hooks
-        mountPath: /etc/hangarauth/hooks
-        readOnly: true
-      - name: hangarauth-kratos-schemas
-        mountPath: /etc/hangarauth/schemas
-        readOnly: true
-      - name: hangarauth-kratos-email-recovery-invalid
-        mountPath: /etc/hangarauth/email/recovery/invalid
-        readOnly: true
-      - name: hangarauth-kratos-email-recovery-valid
-        mountPath: /etc/hangarauth/email/recovery/valid
-        readOnly: true
-      - name: hangarauth-kratos-email-verification-invalid
-        mountPath: /etc/hangarauth/email/verification/invalid
-        readOnly: true
-      - name: hangarauth-kratos-email-verification-valid
-        mountPath: /etc/hangarauth/email/verification/valid
-        readOnly: true
-  kratos:
-    automigration:
-      enabled: true
-    config:
-      dsn: "postgres://hangarauth:hangarauth@hangarauth-postgresql:5432/hangarauth?sslmode=disable&max_conns=20&max_idle_conns=4"
-      serve:
-        public:
-          base_url: https://auth.hangar.test/kratos
-          cors:
-            enabled: true
-            allowed_origins:
-              - https://auth.hangar.test
-        admin:
-          base_url: http://127.0.0.1:4434/
-      cookies:
-        domain: hangar.test
-      session:
-        lifespan: 720h # 30 days
-      selfservice:
-        default_browser_return_url: https://auth.hangar.test/
-        allowed_return_urls:
-          - https://auth.hangar.test/
-        methods:
-          password:
-            enabled: true
-          oidc:
-            enabled: true
-          link:
-            enabled: true
-            config:
-              lifespan: 1h
-          totp:
-            enabled: true
-            config:
-              issuer: HangarAuth
-          lookup_secret:
-            enabled: true
-          webauthn:
-            enabled: true
-            config:
-              passwordless: true
-              rp:
-                id: hangar.test
-                origin: https://auth.hangar.test
-                display_name: HangarAuth
-        flows:
-          error:
-            ui_url: https://auth.hangar.test/error
-          settings:
-            ui_url: https://auth.hangar.test/account/settings
-            privileged_session_max_age: 15m
-            after:
-              profile:
-                hooks:
-                  - hook: web_hook
-                    config:
-                      method: POST
-                      url: "http://hangar_backend:8080/sync"
-                      body: file:///etc/hangarauth/hooks/settings-after-profile.jsonnet
-                      auth:
-                        type: api_key
-                        config:
-                          in: header
-                          name: X-Kratos-Hook-Api-Key
-                          value: hookapikey-changeme
-          recovery:
-            enabled: true
-            ui_url: https://auth.hangar.test/account/reset
-          verification:
-            enabled: true
-            ui_url: https://auth.hangar.test/account/verify
-            after:
-              default_browser_return_url: https://auth.hangar.test/
-          logout:
-            after:
-              default_browser_return_url: https://auth.hangar.test/?loggedOut
-          login:
-            ui_url: https://auth.hangar.test/account/login
-            lifespan: 10m
-          registration:
-            lifespan: 10m
-            ui_url: https://auth.hangar.test/account/signup
-            after:
-              default_browser_return_url: "https://auth.hangar.test/account/settings?new=true"
-              password:
-                hooks:
-                  - hook: session
-      log:
-        level: debug
-        format: text
-        leak_sensitive_values: true
-      secrets:
-        cookie:
-          - "supersecuresupersecure"
-      hashers:
-        argon2:
-          parallelism: 1
-          memory: 128MB
-          iterations: 2
-          salt_length: 16
-          key_length: 16
-      identity:
-        default_schema_id: identity_v1
-        schemas:
-          - id: identity_v1
-            url: file:///etc/hangarauth/schemas/identity.v1.schema.json
-      courier:
-        smtp:
-          connection_uri: "smtps://hangarauth:hangarauth@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true"
-          from_address: "no-reply@hangar.test"
-        template_override_path: /etc/hangerauth/email
+
+  resources: { }
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  config:
+    # todo abstract out values from the configmap, then abstract common values across all services

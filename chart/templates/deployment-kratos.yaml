@@ -28,8 +28,8 @@ spec:
       {{- end }}
       volumes:
         - name: {{ include "hangarauth.fullname" . }}-kratos-config-volume
-          configMap:
-            name: {{ include "hangarauth.fullname" . }}-kratos-config
+          secret:
+            secretName: {{ include "hangarauth.fullname" . }}-kratos-config
         - name: {{ include "hangarauth.fullname" . }}-kratos-hooks-volume
           configMap:
             name: {{ include "hangarauth.fullname" . }}-kratos-hooks

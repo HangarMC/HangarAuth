@@ -28,8 +28,8 @@ spec:
       {{- end }}
       volumes:
         - name: {{ include "hangarauth.fullname" . }}-hydra-config-volume
-          configMap:
-            name: {{ include "hangarauth.fullname" . }}-hydra-config
+          secret:
+            secretName: {{ include "hangarauth.fullname" . }}-hydra-config
       serviceAccountName: {{ include "hangarauth.hydra.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.hydra.podSecurityContext | nindent 8 }}
