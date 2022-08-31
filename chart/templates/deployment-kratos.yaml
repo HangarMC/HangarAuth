@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hangarauth.fullname" . }}-kratos
+  labels:
+    {{- include "hangarauth.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.kratos.autoscaling.enabled }}
+  replicas: {{ .Values.kratos.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "hangarauth.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: "kratos"
+  template:
+    metadata:
+      {{- with .Values.kratos.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "hangarauth.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: "kratos"
+    spec:
+      {{- with .Values.kratos.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: {{ include "hangarauth.fullname" . }}-kratos-config-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-config
+        - name: {{ include "hangarauth.fullname" . }}-kratos-hooks-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-hooks
+        - name: {{ include "hangarauth.fullname" . }}-kratos-schemas-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-schemas
+        - name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-invalid-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-invalid
+        - name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-valid-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-valid
+        - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-invalid-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-invalid
+        - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-valid-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-valid
+      serviceAccountName: {{ include "hangarauth.kratos.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.kratos.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: {{ include "hangarauth.fullname" . }}-kratos-automigrate
+          securityContext:
+            {{- toYaml .Values.kratos.securityContext | nindent 12 }}
+          image: "{{ .Values.kratos.image.repository }}:{{ .Values.kratos.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.kratos.image.pullPolicy }}
+          command: ["kratos"]
+          args: ["migrate", "sql", "-e", "--yes", "--config", "/etc/config/kratos.yaml"]
+          volumeMounts:
+            - name: {{ include "hangarauth.fullname" . }}-kratos-config-volume
+              mountPath: /etc/config
+              readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-schemas-volume
+              mountPath: /etc/hangarauth/schemas
+              readOnly: true
+      containers:
+        - name: {{ include "hangarauth.fullname" . }}-kratos
+          securityContext:
+            {{- toYaml .Values.kratos.securityContext | nindent 12 }}
+          image: "{{ .Values.kratos.image.repository }}:{{ .Values.kratos.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.kratos.image.pullPolicy }}
+          command: ["kratos"]
+          args: ["serve", "all", "--config", "/etc/config/kratos.yaml"]
+          volumeMounts:
+            - name: {{ include "hangarauth.fullname" . }}-kratos-config-volume
+              mountPath: /etc/config
+              readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-schemas-volume
+              mountPath: /etc/hangarauth/schemas
+              readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-invalid-volume
+              mountPath: /etc/hangarauth/email/recovery/invalid
+              readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-valid-volume
+              mountPath: /etc/hangarauth/email/recovery/valid
+              readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-invalid-volume
+              mountPath: /etc/hangarauth/email/verification/invalid
+              readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-valid-volume
+              mountPath: /etc/hangarauth/email/verification/valid
+              readOnly: true
+          ports:
+            - name: http
+              containerPort: 4433
+              protocol: TCP
+            - name: admin
+              containerPort: 4434
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /admin/health/ready
+              port: admin
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /admin/health/ready
+              port: admin
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.kratos.resources | nindent 12 }}
+      {{- with .Values.kratos.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.kratos.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.kratos.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

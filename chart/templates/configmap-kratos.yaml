@@ -53,3 +53,119 @@ metadata:
     {{- include "hangarauth.labels" . | nindent 4 }}
 data:
 {{ (.Files.Glob "kratos/templates/verification/valid/*").AsConfig | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hangarauth-kratos-config
+  labels:
+    {{- include "hangarauth.labels" . | nindent 4 }}
+data:
+  kratos.yaml: |
+    dsn: "postgres://hangarauth:hangarauth@hangarauth-postgresql:5432/hangarauth?sslmode=disable&max_conns=20&max_idle_conns=4"
+    serve:
+      public:
+        base_url: https://auth.hangar.test/kratos
+        cors:
+          enabled: true
+          allowed_origins:
+            - https://auth.hangar.test
+      admin:
+        base_url: http://127.0.0.1:4434/
+    cookies:
+      domain: hangar.test
+    session:
+      lifespan: 720h # 30 days
+    selfservice:
+      default_browser_return_url: https://auth.hangar.test/
+      allowed_return_urls:
+        - https://auth.hangar.test/
+      methods:
+        password:
+          enabled: true
+        oidc:
+          enabled: true
+        link:
+          enabled: true
+          config:
+            lifespan: 1h
+        totp:
+          enabled: true
+          config:
+            issuer: HangarAuth
+        lookup_secret:
+          enabled: true
+        webauthn:
+          enabled: true
+          config:
+            passwordless: true
+            rp:
+              id: hangar.test
+              origin: https://auth.hangar.test
+              display_name: HangarAuth
+      flows:
+        error:
+          ui_url: https://auth.hangar.test/error
+        settings:
+          ui_url: https://auth.hangar.test/account/settings
+          privileged_session_max_age: 15m
+          after:
+            profile:
+              hooks:
+                - hook: web_hook
+                  config:
+                    method: POST
+                    url: "http://hangar_backend:8080/sync"
+                    body: file:///etc/hangarauth/hooks/settings-after-profile.jsonnet
+                    auth:
+                      type: api_key
+                      config:
+                        in: header
+                        name: X-Kratos-Hook-Api-Key
+                        value: hookapikey-changeme
+        recovery:
+          enabled: true
+          ui_url: https://auth.hangar.test/account/reset
+        verification:
+          enabled: true
+          ui_url: https://auth.hangar.test/account/verify
+          after:
+            default_browser_return_url: https://auth.hangar.test/
+        logout:
+          after:
+            default_browser_return_url: https://auth.hangar.test/?loggedOut
+        login:
+          ui_url: https://auth.hangar.test/account/login
+          lifespan: 10m
+        registration:
+          lifespan: 10m
+          ui_url: https://auth.hangar.test/account/signup
+          after:
+            default_browser_return_url: "https://auth.hangar.test/account/settings?new=true"
+            password:
+              hooks:
+                - hook: session
+    log:
+      level: debug
+      format: text
+      leak_sensitive_values: true
+    secrets:
+      cookie:
+        - "supersecuresupersecure"
+    hashers:
+      argon2:
+        parallelism: 1
+        memory: 128MB
+        iterations: 2
+        salt_length: 16
+        key_length: 16
+    identity:
+      default_schema_id: identity_v1
+      schemas:
+        - id: identity_v1
+          url: file:///etc/hangarauth/schemas/identity.v1.schema.json
+    courier:
+      smtp:
+        connection_uri: "smtps://hangarauth:hangarauth@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true"
+        from_address: "no-reply@hangar.test"
+      template_override_path: /etc/hangerauth/email

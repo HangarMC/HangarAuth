@@ -68,3 +68,19 @@ Create the name of the service account to use
 {{- default "default" .Values.backend.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "hangarauth.hydra.serviceAccountName" -}}
+{{- if .Values.hydra.serviceAccount.create }}
+{{- default (printf "%s-hydra" (include "hangarauth.fullname" .)) .Values.hydra.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.hydra.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{- define "hangarauth.kratos.serviceAccountName" -}}
+{{- if .Values.kratos.serviceAccount.create }}
+{{- default (printf "%s-kratos" (include "hangarauth.fullname" .)) .Values.kratos.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.kratos.serviceAccount.name }}
+{{- end }}
+{{- end }}
