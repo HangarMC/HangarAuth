@@ -1,0 +1,28 @@
+{{- if .Values.kratos.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "hangarauth.fullname" . }}-frontend
+  labels:
+    {{- include "hangarauth.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "hangarauth.fullname" . }}-frontend
+  minReplicas: {{ .Values.kratos.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.kratos.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.kratos.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.kratos.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.kratos.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.kratos.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

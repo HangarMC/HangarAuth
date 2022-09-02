@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hangarauth.fullname" . }}-hydra
+  labels:
+    {{- include "hangarauth.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.hydra.autoscaling.enabled }}
+  replicas: {{ .Values.hydra.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "hangarauth.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: "hydra"
+  template:
+    metadata:
+      {{- with .Values.hydra.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "hangarauth.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: "hydra"
+    spec:
+      {{- with .Values.hydra.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: {{ include "hangarauth.fullname" . }}-hydra-config-volume
+          secret:
+            secretName: {{ include "hangarauth.fullname" . }}-hydra-config
+      serviceAccountName: {{ include "hangarauth.hydra.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.hydra.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: {{ include "hangarauth.fullname" . }}-hydra-automigrate
+          securityContext:
+            {{- toYaml .Values.hydra.securityContext | nindent 12 }}
+          image: "{{ .Values.hydra.image.repository }}:{{ .Values.hydra.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.hydra.image.pullPolicy }}
+          command: ["hydra"]
+          args: ["migrate", "sql", "-e", "--yes", "--config", "/etc/config/hydra.yaml"]
+          volumeMounts:
+            - name: {{ include "hangarauth.fullname" . }}-hydra-config-volume
+              mountPath: /etc/config
+              readOnly: true
+      containers:
+        - name: {{ include "hangarauth.fullname" . }}-hydra
+          securityContext:
+            {{- toYaml .Values.hydra.securityContext | nindent 12 }}
+          image: "{{ .Values.hydra.image.repository }}:{{ .Values.hydra.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.hydra.image.pullPolicy }}
+          command: ["hydra"]
+          args: ["serve", "all", "--config", "/etc/config/hydra.yaml"]
+          volumeMounts:
+            - name: {{ include "hangarauth.fullname" . }}-hydra-config-volume
+              mountPath: /etc/config
+              readOnly: true
+          ports:
+            - name: http
+              containerPort: 4444
+              protocol: TCP
+            - name: admin
+              containerPort: 4445
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health/alive
+              port: admin
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: admin
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.hydra.resources | nindent 12 }}
+      {{- with .Values.hydra.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.hydra.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.hydra.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

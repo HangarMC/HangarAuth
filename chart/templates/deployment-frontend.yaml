@@ -53,7 +53,7 @@ spec:
           #  initialDelaySeconds: 5
           #  periodSeconds: 5
           envFrom:
-            - configMapRef:
+            - secretRef:
                 name: hangarauth-frontend
           resources:
             {{- toYaml .Values.frontend.resources | nindent 12 }}
