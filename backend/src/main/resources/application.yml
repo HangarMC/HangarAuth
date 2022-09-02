@@ -58,6 +58,14 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
     date-format: com.fasterxml.jackson.databind.util.StdDateFormat
 
+  cloud:
+    aws:
+      s3:
+        endpoint: "${hangar.storage.object-storage-endpoint}"
+    kubernetes:
+      secrets:
+        enableApi: true
+
 logging:
   level:
     io.papermc.hangarauth: DEBUG
