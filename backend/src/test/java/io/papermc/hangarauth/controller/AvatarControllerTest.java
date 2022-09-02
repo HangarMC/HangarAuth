@@ -71,7 +71,7 @@ class AvatarControllerTest {
     }
 
     private void checkDummyAvatarExists() {
-        String dummyAvatar = this.avatarService.getAvatarFor(DummyData.DUMMY_UUID.toString(), "blob.jpeg");
+        String dummyAvatar = this.avatarService.getFallbackAvatar();
         if (!fileService.exists(dummyAvatar)) {
             throw new IllegalStateException("Dummy avatar doesn't exist at " + dummyAvatar);
         }

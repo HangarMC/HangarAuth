@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.papermc.hangarauth.config.custom.GeneralConfig;
+import io.papermc.hangarauth.controller.model.Traits;
 import io.papermc.hangarauth.db.model.AvatarTable;
 import io.papermc.hangarauth.service.AvatarService;
 import io.papermc.hangarauth.service.ImageService;
@@ -118,10 +119,11 @@ public class AvatarController {
     }
 
     private ResponseEntity<?> getUserAvatarFallback(@NotNull UUID userId, HttpServletRequest request, HttpServletResponse response) {
-        return getUserAvatarFallback(this.kratosService.getTraits(userId).username(), request, response);
+        Traits traits = this.kratosService.getTraits(userId);
+        return getUserAvatarFallback(traits == null ? null : traits.username(), request, response);
     }
 
-    private ResponseEntity<?> getUserAvatarFallback(@NotNull String name, HttpServletRequest request, HttpServletResponse response) {
+    private ResponseEntity<?> getUserAvatarFallback(String name, HttpServletRequest request, HttpServletResponse response) {
         //TODO nice avatars
         /*String userNameMd5 = DigestUtils.md5DigestAsHex(name.getBytes(StandardCharsets.UTF_8));
         long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);

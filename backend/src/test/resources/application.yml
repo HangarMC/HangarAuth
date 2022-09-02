@@ -22,3 +22,10 @@ auth:
     quality-webp: 0.35
     size: 256
     work-folder: target/test-classes/work/images
+  storage:
+      type: "local"
+      access-key: "dum"
+      secret-key: "dum"
+      bucket: "test"
+      object-storage-endpoint: "http://127.0.0.1:9000"
+      cdn-endpoint: "http://127.0.0.1:9000"
