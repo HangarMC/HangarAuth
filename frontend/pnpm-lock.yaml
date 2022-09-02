@@ -13,7 +13,7 @@ specifiers:
   '@types/nprogress': 0.2.0
   '@types/prettier': 2.7.0
   '@vue/eslint-config-typescript': 11.0.0
-  '@vuelidate/core': 2.0.0-alpha.43
+  '@vuelidate/core': 2.0.0-alpha.44
   '@vuelidate/validators': 2.0.0-alpha.31
   '@vueuse/core': 9.1.1
   '@vueuse/head': 0.7.9
@@ -55,7 +55,7 @@ dependencies:
   '@ory/hydra-client': 1.11.8_debug@4.3.4
   '@ory/kratos-client': 0.10.1_debug@4.3.4
   '@pinia/nuxt': 0.4.1_cvu7owxjbshfpajx6m3skjp4ny
-  '@vuelidate/core': 2.0.0-alpha.43_vue@3.2.38
+  '@vuelidate/core': 2.0.0-alpha.44_vue@3.2.38
   '@vuelidate/validators': 2.0.0-alpha.31_vue@3.2.38
   '@vueuse/core': 9.1.1_vue@3.2.38
   '@vueuse/head': 0.7.9_vue@3.2.38
@@ -1642,8 +1642,8 @@ packages:
   /@vue/shared/3.2.38:
     resolution: {integrity: sha512-dTyhTIRmGXBjxJE+skC8tTWCGLCVc4wQgRRLt8+O9p5ewBAjoBwtCAkLPrtToSr1xltoe3st21Pv953aOZ7alg==}
 
-  /@vuelidate/core/2.0.0-alpha.43_vue@3.2.38:
-    resolution: {integrity: sha512-0/IoC8+A/wgNqmTIQc2eFYYnBlwIkvfM+riVDG1HAG3amdH7iNrFxNRkiHH/XJ810ZpOYPfYVslqYLbgq6E5HQ==}
+  /@vuelidate/core/2.0.0-alpha.44_vue@3.2.38:
+    resolution: {integrity: sha512-3DlCe3E0RRXbB+OfPacUetKhLmXzmnjeHkzjnbkc03p06mKm6h9pXR5pd6Mv4s4tus4sieuKDb2YWNmKK6rQeA==}
     dependencies:
       vue-demi: 0.13.8_vue@3.2.38
     transitivePeerDependencies:
