@@ -50,7 +50,8 @@ public class ImageProxyController {
             return restTemplate.getForEntity(url, byte[].class);
         }
 
-        byte[] image = service.getImage(url, request, response);
+        //
+        byte[] image = service.getImageFromUrl(url, request, response);
         return ResponseEntity.ok()
             .contentLength(image.length)
             .contentType(MediaType.parseMediaType(response.getContentType()))

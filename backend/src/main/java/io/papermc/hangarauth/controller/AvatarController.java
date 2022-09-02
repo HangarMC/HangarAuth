@@ -14,13 +14,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -34,6 +31,7 @@ import io.papermc.hangarauth.db.model.AvatarTable;
 import io.papermc.hangarauth.service.AvatarService;
 import io.papermc.hangarauth.service.ImageService;
 import io.papermc.hangarauth.service.KratosService;
+import io.papermc.hangarauth.service.file.FileService;
 
 @RestController
 @RequestMapping("/avatar")
@@ -43,15 +41,15 @@ public class AvatarController {
     private final AvatarService avatarService;
     private final GeneralConfig generalConfig;
     private final ImageService imageService;
-    private final RestTemplate restTemplate;
+    private final FileService fileService;
 
     @Autowired
-    public AvatarController(KratosService kratosService, AvatarService avatarService, GeneralConfig generalConfig, ImageService imageService, RestTemplate restTemplate) {
+    public AvatarController(KratosService kratosService, AvatarService avatarService, GeneralConfig generalConfig, ImageService imageService, FileService fileService) {
         this.kratosService = kratosService;
         this.avatarService = avatarService;
         this.generalConfig = generalConfig;
         this.imageService = imageService;
-        this.restTemplate = restTemplate;
+        this.fileService = fileService;
     }
 
     @GetMapping(value = "/{user}", produces = MediaType.IMAGE_PNG_VALUE)
@@ -86,8 +84,8 @@ public class AvatarController {
         if (avatarTable == null) {
             return getUserAvatarFallback(userId, request, response);
         }
-        Path userAvatarPath = this.avatarService.getAvatarFor(userId == null ? user : userId.toString(), avatarTable.getFileName());
-        if (Files.notExists(userAvatarPath)) {
+        String userAvatarPath = this.avatarService.getAvatarFor(userId == null ? user : userId.toString(), avatarTable.getFileName());
+        if (!fileService.exists(userAvatarPath)) {
             if (userId == null) {
                 this.avatarService.deleteAvatarTable(user);
                 return getUserAvatarFallback(user, request, response);
@@ -96,7 +94,7 @@ public class AvatarController {
                 return getUserAvatarFallback(userId, request, response);
             }
         }
-        byte[] image = imageService.getImage(userAvatarPath, request, response);
+        byte[] image = imageService.getImageFromFile(userAvatarPath, request, response);
         return ResponseEntity.ok()
             .contentLength(image.length)
             .contentType(MediaType.parseMediaType(response.getContentType()))
@@ -130,7 +128,7 @@ public class AvatarController {
         int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
         int colorRgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8) | ((num[2] & 0xFF));
         String url = String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", name.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0'));*/
-        byte[] image = imageService.getImage(this.avatarService.getFallbackAvatar(), request, response);
+        byte[] image = imageService.getImageFromFile(this.avatarService.getFallbackAvatar(), request, response);
         return ResponseEntity.ok()
             .contentLength(image.length)
             .contentType(MediaType.parseMediaType(response.getContentType()))

@@ -1,3 +1,5 @@
+This directory contains the helm chart that is used to deploy this app.
+
 ```
 minikube image build -t hangarauth-frontend:2 . -f docker/deployment/frontend/Dockerfile
 ```

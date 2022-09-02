@@ -12,8 +12,6 @@ import org.springframework.test.util.AssertionErrors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +20,7 @@ import io.papermc.hangarauth.DummyData;
 import io.papermc.hangarauth.controller.model.Traits;
 import io.papermc.hangarauth.service.AvatarService;
 import io.papermc.hangarauth.service.KratosService;
+import io.papermc.hangarauth.service.file.FileService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -39,6 +38,9 @@ class AvatarControllerTest {
 
     @Autowired
     private AvatarService avatarService;
+
+    @Autowired
+    private FileService fileService;
 
     @MockBean
     private KratosService kratosService;
@@ -69,9 +71,9 @@ class AvatarControllerTest {
     }
 
     private void checkDummyAvatarExists() {
-        Path dummyAvatar = this.avatarService.getAvatarFor(DummyData.DUMMY_UUID.toString(), "blob.jpeg");
-        if (Files.notExists(dummyAvatar)) {
-            throw new IllegalStateException("Dummy avatar doesn't exist at " + dummyAvatar.toAbsolutePath());
+        String dummyAvatar = this.avatarService.getAvatarFor(DummyData.DUMMY_UUID.toString(), "blob.jpeg");
+        if (!fileService.exists(dummyAvatar)) {
+            throw new IllegalStateException("Dummy avatar doesn't exist at " + dummyAvatar);
         }
     }
 }
