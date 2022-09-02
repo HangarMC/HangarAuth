@@ -83,7 +83,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: docker/deployment/frontend/Dockerfile
+          file: chart/dockerfiles/frontend/Dockerfile
           tags: ghcr.io/papermc/hangarauth_frontend:latest
           push: true
 
@@ -91,7 +91,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: docker/deployment/backend/Dockerfile
+          file: chart/dockerfiles/backend/Dockerfile
           tags: ghcr.io/papermc/hangarauth_backend:latest
           push: true
 

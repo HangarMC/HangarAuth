@@ -6,7 +6,7 @@ on:
   # run on PRs
   pull_request:
     paths:
-      - 'api/**'
+      - 'backend/**'
       - '.github/workflows/backend_build.yml'
 
 concurrency:
