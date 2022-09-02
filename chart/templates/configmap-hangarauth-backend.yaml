@@ -1,11 +1,10 @@
 apiVersion: v1
-kind: Secret
+kind: ConfigMap # TODO: Convert back to Secret
 metadata:
   name: hangarauth-backend
   labels:
     {{- include "hangarauth.labels" . | nindent 4 }}
-type: Opaque
-stringData:
+data:
   application.yaml: |
     spring:
       application:
