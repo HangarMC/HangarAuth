@@ -258,7 +258,16 @@ hydra:
   affinity: {}
 
   config:
-    # todo abstract out values from the configmap, then abstract common values across all services
+    postgresql:
+      hostname: "hangarauth-postgresql"
+      port: 5432
+      username: "hangarauth"
+      password: "hangarauth"
+      database: "hangarauth"
+      options: "?sslmode=disable&max_conns=20&max_idle_conns=4"
+    publicHost: "https://auth.hangar.test"
+    systemSecret: "secret"
+    oidcSalt: "secret"
 
 kratos:
   replicaCount: 1
@@ -335,4 +344,20 @@ kratos:
   affinity: { }
 
   config:
-    # todo abstract out values from the configmap, then abstract common values across all services
+    postgresql:
+      hostname: "hangarauth-postgresql"
+      port: 5432
+      username: "hangarauth"
+      password: "hangarauth"
+      database: "hangarauth"
+      options: "?sslmode=disable&max_conns=20&max_idle_conns=4"
+    publicHost: "https://auth.hangar.test"
+    domain: "hangar.test"
+    smtp:
+      hostname: "mailslurper"
+      port: 1025
+      username: "hangarauth"
+      password: "hangarauth"
+      options: "?skip_ssl_verify=true&legacy_ssl=true"
+      from: "no-reply@hangar.test"
+    cookieSecret: "secret"
