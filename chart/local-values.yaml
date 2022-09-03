@@ -1,0 +1,24 @@
+frontend:
+  ingress:
+    enabled: true
+    hosts:
+      - host: auth.hangar.test
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+hydra:
+  ingress:
+    enabled: true
+    hosts:
+      - host: "auth.hangar.test"
+        paths:
+          - path: "/hydra(/|$)(.*)"
+            pathType: ImplementationSpecific
+kratos:
+  ingress:
+    enabled: true
+    hosts:
+      - host: "auth.hangar.test"
+        paths:
+          - path: "/kratos(/|$)(.*)"
+            pathType: ImplementationSpecific

@@ -1,6 +1,11 @@
 # Default values for hangarauth.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+base:
+  hangarHost: "https://hangar.test"
+  authHost: "https://auth.hangar.test"
+  sso:
+    apiKey: "some-id"
 
 frontend:
   replicaCount: 1
@@ -84,12 +89,9 @@ frontend:
 
   config:
     kratos:
-      publicUrl: "https://auth.hangar.test/kratos"
       adminUrl: "http://hangarauth-kratos-admin"
       backendUrl: "http://hangarauth-kratos-public"
-    publicHost: "https://auth.hangar.test"
     backendHost: "http://hangarauth-backend:8080"
-    hangarHost: "https://hangar.test"
     debug: "hangar:*"
     signupDisabled: "false"
 
@@ -166,9 +168,7 @@ backend:
       database: "hangarauth"
       options: "?currentSchema=auth"
     auth:
-      publicHost: "https://auth.hangar.test"
       kratos:
-        publicUrl: "https://auth.hangar.test/kratos"
         adminUrl: "http://hangarauth-kratos-admin"
       hydra:
         adminUrl: "http://hangarauth-hydra-admin:4445"
@@ -265,9 +265,8 @@ hydra:
       password: "hangarauth"
       database: "hangarauth"
       options: "?sslmode=disable&max_conns=20&max_idle_conns=4"
-    publicHost: "https://auth.hangar.test"
-    systemSecret: "secret"
-    oidcSalt: "secret"
+    systemSecret: "supersecuresupersecure"
+    oidcSalt: "supersecuresupersecure"
 
 kratos:
   replicaCount: 1
@@ -360,4 +359,4 @@ kratos:
       password: "hangarauth"
       options: "?skip_ssl_verify=true&legacy_ssl=true"
       from: "no-reply@hangar.test"
-    cookieSecret: "secret"
+    cookieSecret: "supersecuresupersecure"
