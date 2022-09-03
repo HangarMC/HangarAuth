@@ -61,7 +61,7 @@ spring:
   cloud:
     aws:
       s3:
-        endpoint: "${hangar.storage.object-storage-endpoint}"
+        endpoint: "${auth.storage.object-storage-endpoint}"
     kubernetes:
       secrets:
         enableApi: true
