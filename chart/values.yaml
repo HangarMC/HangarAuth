@@ -87,7 +87,7 @@ frontend:
 
   affinity: {}
 
-  topologySpreadConstraints: {}
+  topologySpreadConstraints: []
 
   config:
     kratos:
@@ -161,7 +161,7 @@ backend:
 
   affinity: {}
 
-  topologySpreadConstraints: {}
+  topologySpreadConstraints: []
 
   config:
     postgresql:
@@ -261,7 +261,7 @@ hydra:
 
   affinity: {}
 
-  topologySpreadConstraints: {}
+  topologySpreadConstraints: []
 
   config:
     postgresql:
@@ -348,7 +348,7 @@ kratos:
 
   affinity: {}
 
-  topologySpreadConstraints: {}
+  topologySpreadConstraints: []
 
   config:
     postgresql:
