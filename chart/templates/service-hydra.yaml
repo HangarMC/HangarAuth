@@ -12,9 +12,9 @@ spec:
       protocol: TCP
       name: http
     - port: 4445
-      targetPort: http
+      targetPort: admin
       protocol: TCP
-      name: http
+      name: admin
   selector:
     {{- include "hangarauth.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: "hydra"
