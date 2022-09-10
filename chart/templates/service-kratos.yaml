@@ -11,6 +11,10 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: 4434
+      targetPort: admin
+      protocol: TCP
+      name: admin
   selector:
     {{- include "hangarauth.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: "kratos"

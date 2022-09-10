@@ -89,8 +89,8 @@ frontend:
 
   config:
     kratos:
-      adminUrl: "http://hangarauth-kratos-admin"
-      backendUrl: "http://hangarauth-kratos-public"
+      adminUrl: "http://hangarauth-kratos:4434"
+      backendUrl: "http://hangarauth-kratos:4433"
     backendHost: "http://hangarauth-backend:8080"
     debug: "hangar:*"
     signupDisabled: "false"
@@ -169,9 +169,9 @@ backend:
       options: "?currentSchema=auth"
     auth:
       kratos:
-        adminUrl: "http://hangarauth-kratos-admin"
+        adminUrl: "http://hangarauth-kratos:4434"
       hydra:
-        adminUrl: "http://hangarauth-hydra-admin:4445"
+        adminUrl: "http://hangarauth-hydra:4445"
 
 postgresql:
   enabled: true
