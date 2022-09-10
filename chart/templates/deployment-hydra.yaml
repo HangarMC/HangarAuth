@@ -53,7 +53,7 @@ spec:
           image: "{{ .Values.hydra.image.repository }}:{{ .Values.hydra.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.hydra.image.pullPolicy }}
           command: ["hydra"]
-          args: ["serve", "all", "--config", "/etc/config/hydra.yaml"]
+          args: ["serve", "all", "--config", "/etc/config/hydra.yaml", "--dangerous-force-http"]
           volumeMounts:
             - name: {{ include "hangarauth.fullname" . }}-hydra-config-volume
               mountPath: /etc/config
