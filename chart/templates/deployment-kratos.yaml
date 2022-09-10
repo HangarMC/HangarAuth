@@ -14,8 +14,9 @@ spec:
       app.kubernetes.io/component: "kratos"
   template:
     metadata:
-      {{- with .Values.kratos.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/secret-kratos.yaml") . | sha256sum }}
+      {{- with .Values.backend.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
