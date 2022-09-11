@@ -71,12 +71,14 @@ spec:
               port: admin
             initialDelaySeconds: 30
             periodSeconds: 10
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /health/ready
               port: admin
             initialDelaySeconds: 5
             periodSeconds: 5
+            timeoutSeconds: 5
           resources:
             {{- toYaml .Values.hydra.resources | nindent 12 }}
       {{- with .Values.hydra.nodeSelector }}

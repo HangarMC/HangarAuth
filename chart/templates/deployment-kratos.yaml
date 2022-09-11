@@ -107,12 +107,14 @@ spec:
               port: admin
             initialDelaySeconds: 30
             periodSeconds: 10
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /admin/health/ready
               port: admin
             initialDelaySeconds: 5
             periodSeconds: 5
+            timeoutSeconds: 5
           resources:
             {{- toYaml .Values.kratos.resources | nindent 12 }}
       {{- with .Values.kratos.nodeSelector }}
