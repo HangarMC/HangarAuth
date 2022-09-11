@@ -10,6 +10,7 @@
         "username": {
           "type": "string",
           "title": "Username",
+          "pattern": "^[a-zA-Z0-9\\-_]{3,20}$",
           "ory.sh/kratos": {
             "credentials": {
               "password": {
@@ -42,29 +43,12 @@
             }
           }
         },
-        "name": {
-          "type": "object",
-          "properties": {
-            "first": {
-              "title": "First Name",
-              "type": "string"
-            },
-            "last": {
-              "title": "Last Name",
-              "type": "string"
-            }
-          }
-        },
         "discord": {
           "title": "Discord ID",
           "type": "string"
         },
         "github": {
-          "title": "Github Username",
-          "type": "string"
-        },
-        "minecraft": {
-          "title": "Minecraft Username",
+          "title": "GitHub Username",
           "type": "string"
         },
         "language": {
