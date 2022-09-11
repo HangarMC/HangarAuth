@@ -3,6 +3,10 @@
     <h1 class="text-xl">Error processing consent request</h1>
     {{ error }}
   </Card>
+  <Card v-else-if="!consentData">
+    <h1 class="text-xl">Error processing consent request</h1>
+    No consent data
+  </Card>
   <Card v-else-if="consentData.redirectTo">
     <h1 class="text-xl">Redirecting...</h1>
     <Link :href="consentData.redirectTo">Click here if nothing happens</Link>
@@ -67,7 +71,7 @@ const { data: consentData, error } = await useFetch<ConsentData>(config.public.p
   params: { consent_challenge: route.query.consent_challenge },
 });
 
-if (consentData.value.redirectTo) {
+if (consentData?.value?.redirectTo) {
   if (process.server) {
     nuxtApp.callHook("app:redirected").then(() => sendRedirect(nuxtApp.ssrContext!.event, consentData.value.redirectTo, 301));
   } else {
