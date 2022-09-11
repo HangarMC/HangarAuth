@@ -139,7 +139,7 @@ public class OAuthController {
             HttpHeaders sessionHeaders = new HttpHeaders();
             sessionHeaders.set(HttpHeaders.COOKIE, cookieHeader);
             var sessionRequest = new HttpEntity<>(sessionHeaders);
-            ResponseEntity<String> sessionResponse = restTemplate.exchange(kratosConfig.getPublicUrl() + "/sessions/whoami", HttpMethod.GET, sessionRequest, String.class);
+            ResponseEntity<String> sessionResponse = restTemplate.exchange(kratosConfig.getPublicBackendUrl() + "/sessions/whoami", HttpMethod.GET, sessionRequest, String.class);
             if (sessionResponse.getBody() == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No session");
             }

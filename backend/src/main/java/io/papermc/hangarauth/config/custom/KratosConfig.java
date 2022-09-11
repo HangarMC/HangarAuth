@@ -9,6 +9,7 @@ public class KratosConfig {
 
     private String adminUrl = "http://localhost:4434";
     private String publicUrl = "http://localhost:4433";
+    private String publicBackendUrl = "http://localhost:4433";
 
     public String getAdminUrl() {
         return adminUrl;
@@ -20,6 +21,10 @@ public class KratosConfig {
 
     public String getPublicUrl() {
         return publicUrl;
+    }
+
+    public String getPublicBackendUrl() {
+        return publicBackendUrl;
     }
 
     public void setPublicUrl(String publicUrl) {

@@ -7,6 +7,7 @@ auth:
   api-key: "supersecret"
   kratos:
     public-url: "http://localhost:4433"
+    public-backend-url: "http://localhost:4433"
     admin-url: "http://localhost:4434"
   hydra:
     admin-url: "http://localhost:4445"
