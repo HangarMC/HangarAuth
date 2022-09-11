@@ -23,11 +23,15 @@ public class KratosConfig {
         return publicUrl;
     }
 
+    public void setPublicUrl(String publicUrl) {
+        this.publicUrl = publicUrl;
+    }
+
     public String getPublicBackendUrl() {
         return publicBackendUrl;
     }
 
-    public void setPublicUrl(String publicUrl) {
-        this.publicUrl = publicUrl;
+    public void setPublicBackendUrl(String publicBackendUrl) {
+        this.publicBackendUrl = publicBackendUrl;
     }
 }
