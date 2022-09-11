@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   srcDir: "src",
   runtimeConfig: {
     kratos,
+    backend,
     public: {
       hangarHost,
       publicHost,

@@ -67,7 +67,7 @@ interface ConsentData {
 const route = useRoute();
 const nuxtApp = useNuxtApp();
 const config = useRuntimeConfig();
-const { data: consentData, error } = await useFetch<ConsentData>(config.public.publicHost + "/oauth/handleConsent", {
+const { data: consentData, error } = await useFetch<ConsentData>((process.server ? config.backend : config.public.publicHost) + "/oauth/handleConsent", {
   params: { consent_challenge: route.query.consent_challenge },
 });
 
