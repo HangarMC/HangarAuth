@@ -9,7 +9,7 @@ import prettier from "./src/lib/plugins/prettier";
 
 const hangarHost = process.env.HANGAR_HOST || "http://localhost:3333";
 const publicHost = process.env.PUBLIC_HOST || "http://localhost:3001";
-const backend = process.env.BACKEND_HOST || "http://localhost:8081";
+const backendHost = process.env.BACKEND_HOST || "http://localhost:8081";
 const kratos = process.env.KRATOS || "http://localhost:4433";
 const kratosPublic = process.env.KRATOS_PUBLIC || "http://localhost:4433";
 const signupDisabled = process.env.signupDisabled || false;
@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   srcDir: "src",
   runtimeConfig: {
     kratos,
-    backend,
+    backendHost,
     public: {
       hangarHost,
       publicHost,
