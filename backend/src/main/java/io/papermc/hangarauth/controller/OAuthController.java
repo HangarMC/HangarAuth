@@ -1,5 +1,7 @@
 package io.papermc.hangarauth.controller;
 
+import com.google.gson.JsonParseException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -7,7 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponents;
@@ -56,14 +65,16 @@ public class OAuthController {
     private final GeneralConfig generalConfig;
     private final KratosConfig kratosConfig;
     private final ObjectMapper mapper;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public OAuthController(final HydraConfig hydraConfig, final KratosConfig kratosConfig, final GeneralConfig generalConfig, ObjectMapper mapper) {
+    public OAuthController(final HydraConfig hydraConfig, final KratosConfig kratosConfig, final GeneralConfig generalConfig, ObjectMapper mapper, RestTemplate restTemplate) {
         this.hydraClient = new AdminApi(Configuration.getDefaultApiClient().setBasePath(hydraConfig.getAdminUrl()));
         this.kratosClient = new V0alpha1Api(sh.ory.kratos.Configuration.getDefaultApiClient().setBasePath(kratosConfig.getAdminUrl()));
         this.generalConfig = generalConfig;
         this.kratosConfig = kratosConfig;
         this.mapper = mapper;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping("/login")
@@ -123,18 +134,33 @@ public class OAuthController {
 
         log.debug("login: asking kratos for details");
         try {
-            Session kratosSession = kratosClient.toSession(null, cookieHeader);
+            // we do this manually since our SDK for kratos is outdated and we can't update cause of an issue...
+            // TODO fix me when we update the kratos sdk
+            HttpHeaders sessionHeaders = new HttpHeaders();
+            sessionHeaders.set(HttpHeaders.COOKIE, cookieHeader);
+            var sessionRequest = new HttpEntity<>(sessionHeaders);
+            ResponseEntity<String> sessionResponse = restTemplate.exchange(kratosConfig.getPublicUrl() + "/sessions/whoami", HttpMethod.GET, sessionRequest, String.class);
+            if (sessionResponse.getBody() == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No session");
+            }
+            Session kratosSession = kratosClient.getApiClient().getJSON().deserialize(sessionResponse.getBody(), Session.class);
             UUID subject = kratosSession.getIdentity().getId();
             log.debug("login: telling hydra we fine");
             CompletedRequest loginResponse = hydraClient.acceptLoginRequest(challenge, new AcceptLoginRequest().subject(subject.toString()).context(kratosSession).remember(true));
             log.debug("login: got url from hydra {}", loginResponse.getRedirectTo());
             return new RedirectView(loginResponse.getRedirectTo());
-        } catch (sh.ory.kratos.ApiException e) {
+        } catch (RestClientException e) {
             log.warn("login: Error on toSession: {}", e.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error on toSession: " + e.getResponseBody(), e);
+            if (e instanceof RestClientResponseException ex) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error on toSession: " + ex.getResponseBodyAsString(), e);
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error on toSession: " + e.getMessage(), e);
+            }
         } catch (ApiException e) {
             log.warn("login: Error on acceptLoginRequest: {} {}", e.getMessage(), e.getResponseBody());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error on acceptLoginRequest: " + e.getResponseBody(), e);
+        } catch (JsonParseException e) {
+            throw new RuntimeException(e);
         }
     }
 
