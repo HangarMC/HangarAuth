@@ -25,7 +25,7 @@
         <pg.version>1.17.3</pg.version>
         <webp.version>0.1.6</webp.version>
         <springdoc.version>1.6.11</springdoc.version>
-        <spring-cloud-aws.version>3.0.0-M1</spring-cloud-aws.version>
+        <spring-cloud-aws.version>3.0.0-M2</spring-cloud-aws.version>
     </properties>
 
     <dependencyManagement>
