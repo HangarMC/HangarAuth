@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from "nuxt/app";
+import { defineNuxtPlugin } from "#imports";
 import FormInputPassword from "~/components/form/FormInputPassword.vue";
 import FormInputText from "~/components/form/FormInputText.vue";
 import FormInputHidden from "~/components/form/FormInputHidden.vue";

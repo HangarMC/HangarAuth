@@ -4,7 +4,6 @@ import VueI18n from "@intlify/vite-plugin-vue-i18n";
 import IconsResolver from "unplugin-icons/resolver";
 import Icons from "unplugin-icons/vite";
 import Components from "unplugin-vue-components/vite";
-import EslintPlugin from "vite-plugin-eslint";
 import prettier from "./src/lib/plugins/prettier";
 
 const hangarHost = process.env.HANGAR_HOST || "http://localhost:3333";

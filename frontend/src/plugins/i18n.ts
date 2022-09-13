@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from "nuxt/app";
+import { defineNuxtPlugin } from "#imports";
 import { installI18n } from "~/lib/i18n";
 
 export default defineNuxtPlugin(async (nuxtApp) => {
