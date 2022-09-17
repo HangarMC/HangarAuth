@@ -74,7 +74,7 @@ spec:
           image: "{{ .Values.kratos.image.repository }}:{{ .Values.kratos.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.kratos.image.pullPolicy }}
           command: ["kratos"]
-          args: ["serve", "all", "--config", "/etc/config/kratos.yaml"]
+          args: ["serve", "all", "--config", "/etc/config/kratos.yaml", "--watch-courier"]
           volumeMounts:
             - name: {{ include "hangarauth.fullname" . }}-kratos-config-volume
               mountPath: /etc/config
