@@ -84,3 +84,11 @@ Create the name of the service account to use
 {{- default "default" .Values.kratos.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "hangarauth.kratosCourier.serviceAccountName" -}}
+{{- if .Values.kratos.serviceAccount.create }}
+{{- default (printf "%s-kratos-courier" (include "hangarauth.fullname" .)) .Values.kratos.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.kratos.serviceAccount.name }}
+{{- end }}
+{{- end }}
