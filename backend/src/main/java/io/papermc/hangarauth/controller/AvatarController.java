@@ -2,8 +2,6 @@ package io.papermc.hangarauth.controller;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
@@ -36,21 +31,18 @@ import io.papermc.hangarauth.service.file.FileService;
 
 @RestController
 @RequestMapping("/avatar")
-public class AvatarController {
+public class AvatarController extends FileController {
 
     private final KratosService kratosService;
     private final AvatarService avatarService;
     private final GeneralConfig generalConfig;
-    private final ImageService imageService;
-    private final FileService fileService;
 
     @Autowired
     public AvatarController(KratosService kratosService, AvatarService avatarService, GeneralConfig generalConfig, ImageService imageService, FileService fileService) {
+        super(imageService, fileService);
         this.kratosService = kratosService;
         this.avatarService = avatarService;
         this.generalConfig = generalConfig;
-        this.imageService = imageService;
-        this.fileService = fileService;
     }
 
     @GetMapping(value = "/{user}", produces = MediaType.IMAGE_PNG_VALUE)
@@ -95,13 +87,8 @@ public class AvatarController {
                 return getUserAvatarFallback(userId, request, response);
             }
         }
-        byte[] image = imageService.getImageFromFile(userAvatarPath, request, response);
-        return ResponseEntity.ok()
-            .contentLength(image.length)
-            .contentType(MediaType.parseMediaType(response.getContentType()))
-            .lastModified(Instant.now())
-            .cacheControl(CacheControl.maxAge(Duration.of(4, ChronoUnit.HOURS)))
-            .body(new ByteArrayResource(image));
+
+        return downloadOrRedirect(userAvatarPath, request, response, false);
     }
 
     @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -130,13 +117,7 @@ public class AvatarController {
         int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
         int colorRgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8) | ((num[2] & 0xFF));
         String url = String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", name.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0'));*/
-        byte[] image = imageService.getImageFromFile(this.avatarService.getFallbackAvatar(), request, response);
-        return ResponseEntity.ok()
-            .contentLength(image.length)
-            .contentType(MediaType.parseMediaType(response.getContentType()))
-            .lastModified(Instant.now())
-            .cacheControl(CacheControl.maxAge(Duration.of(4, ChronoUnit.HOURS)))
-            .body(new ByteArrayResource(image));
+        return downloadOrRedirect(this.avatarService.getFallbackAvatar(), request, response, false);
     }
 
     static final List<int[]> COLORS = List.of(

@@ -49,7 +49,7 @@ public class LocalStorageFileService implements FileService {
     }
 
     @Override
-    public void write(InputStream inputStream, String path) throws IOException {
+    public void write(InputStream inputStream, String path, String contentType) throws IOException {
         Path p = Path.of(path);
         if (Files.notExists(p)) {
             Files.createDirectories(p.getParent());
@@ -68,7 +68,7 @@ public class LocalStorageFileService implements FileService {
     }
 
     @Override
-    public String getDownloadUrl(String folder, String fileName) {
+    public String getDownloadUrl(String path) {
         throw new UnsupportedOperationException();
     }
 }

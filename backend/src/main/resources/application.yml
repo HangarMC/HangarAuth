@@ -22,7 +22,7 @@ auth:
       - hangar.benndorf.dev
       - localhost
   storage:
-    type: "local"
+    type: "object"
     access-key: "maaWFU0y2agLgJBD"
     secret-key: "toOBAwlz3ZC6c4dvbFh7Ywk8Y2J4b3kS"
     bucket: "test"

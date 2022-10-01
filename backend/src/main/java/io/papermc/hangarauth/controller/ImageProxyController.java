@@ -1,9 +1,6 @@
 package io.papermc.hangarauth.controller;
 
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,28 +12,25 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import io.papermc.hangarauth.config.custom.GeneralConfig;
 import io.papermc.hangarauth.config.custom.ImageConfig;
 import io.papermc.hangarauth.service.ImageService;
+import io.papermc.hangarauth.service.file.FileService;
 
 @RestController
 @RequestMapping("/image")
-public class ImageProxyController {
+public class ImageProxyController extends FileController  {
 
-    private final ImageService service;
-    private final ImageConfig config;
+    private final ImageConfig imageConfig;
     private final RestTemplate restTemplate;
     private final GeneralConfig generalConfig;
 
-    public ImageProxyController(ImageService service, ImageConfig config, RestTemplate restTemplate, GeneralConfig generalConfig) {
-        this.service = service;
-        this.config = config;
+    public ImageProxyController(ImageService imageService, FileService fileService, ImageConfig imageConfig, RestTemplate restTemplate, GeneralConfig generalConfig) {
+        super(imageService, fileService);
+        this.imageConfig = imageConfig;
         this.restTemplate = restTemplate;
         this.generalConfig = generalConfig;
     }
@@ -46,18 +40,11 @@ public class ImageProxyController {
         String url = request.getRequestURI().replace("/image/", "");
 
         UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
-        if (!config.whitelist().contains(components.getHost())) {
+        if (!imageConfig.whitelist().contains(components.getHost())) {
             return restTemplate.getForEntity(url, byte[].class);
         }
 
-        //
-        byte[] image = service.getImageFromUrl(url, request, response);
-        return ResponseEntity.ok()
-            .contentLength(image.length)
-            .contentType(MediaType.parseMediaType(response.getContentType()))
-            .lastModified(Instant.now())
-            .cacheControl(CacheControl.maxAge(Duration.of(4, ChronoUnit.HOURS)))
-            .body(new ByteArrayResource(image));
+        return downloadOrRedirect(url, request, response, true);
     }
 
     @DeleteMapping("/**")
@@ -69,11 +56,11 @@ public class ImageProxyController {
         String url = request.getRequestURI().replace("/image/", "");
 
         UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
-        if (!config.whitelist().contains(components.getHost())) {
+        if (!imageConfig.whitelist().contains(components.getHost())) {
             return ResponseEntity.badRequest().build();
         }
 
-        service.evictCache(url);
+        imageService.evictCache(url);
         return ResponseEntity.ok().build();
     }
 }

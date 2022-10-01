@@ -83,6 +83,39 @@ public class ImageService {
         });
     }
 
+    public String getCdnPathFromFile(String origFile, HttpServletRequest request, HttpServletResponse response) {
+        return getCdnPath(fileService.getDownloadUrl(origFile),
+            () -> getHash(origFile, () -> getContentFromPath(origFile)),
+            request, response
+        );
+    }
+
+    public String getCdnPathFromUrl(String origUrl, HttpServletRequest request, HttpServletResponse response) {
+        return getCdnPath(origUrl,
+             () -> getHash(origUrl, () -> getContentFromUrl(origUrl)),
+             request, response
+        );
+    }
+
+    private String getCdnPath(String orig, Supplier<String> hashSupplier, HttpServletRequest request, HttpServletResponse response) {
+        if ("true".equals(request.getParameter("orig"))) {
+            response.setHeader(HEADER, "disabled");
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
+            return orig;
+        }
+
+        String hash = hashSupplier.get();
+        if (hash == null) {
+            response.setHeader(HEADER, "error");
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
+            return orig;
+        }
+        boolean supportsWebp = supportsWebp(request);
+        // TODO somewhere here we need to queue up?
+        String optimizedFilePath = getOptimizedFilePath(hash, supportsWebp);
+        return fileService.getDownloadUrl(optimizedFilePath == null ? orig : optimizedFilePath);
+    }
+
     public byte[] getImageFromFile(String origFile, HttpServletRequest request, HttpServletResponse response) {
         return getImage(
             (content, hash) -> workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
@@ -113,26 +146,26 @@ public class ImageService {
             return contentSupplier.get();
         }
         boolean supportsWebp = supportsWebp(request);
-        byte[] optimizedFile = getOptimizedFile(hash, supportsWebp);
-        if (optimizedFile.length == 0) {
-            byte[] bytes = contentSupplier.get();
-            if (bytes.length == 0) {
-                response.setHeader(HEADER, "error");
-                response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
-                return bytes;
-            }
-            queueUp.accept(bytes, hash);
-            response.setHeader(HEADER, "orig");
-            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
-            return bytes;
-        } else {
+        String optimizedFilePath = getOptimizedFilePath(hash, supportsWebp);
+        if (optimizedFilePath != null) {
+            byte[] bytes = getContentFromPath(optimizedFilePath);
             response.setHeader(HEADER, hash);
             if (supportsWebp) {
                 response.setHeader(HttpHeaders.CONTENT_TYPE, WEBP.toString());
             } else {
                 response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
             }
-            return optimizedFile;
+            return bytes;
+        } else {
+            byte[] bytes = contentSupplier.get();
+            if (bytes.length == 0) {
+                response.setHeader(HEADER, "error");
+            } else {
+                queueUp.accept(bytes, hash);
+                response.setHeader(HEADER, "orig");
+            }
+            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
+            return bytes;
         }
     }
 
@@ -147,7 +180,7 @@ public class ImageService {
         return false;
     }
 
-    private byte[] getOptimizedFile(String hash, boolean webp) {
+    private String getOptimizedFilePath(String hash, boolean webp) {
         String folderName = hash.substring(0, 2);
         String folderPath = fileService.resolve(imagesFolder, folderName);
 
@@ -159,9 +192,9 @@ public class ImageService {
         }
 
         if (fileService.exists(imagePath)) {
-            return getContentFromPath(imagePath);
+            return imagePath;
         } else {
-            return new byte[0];
+            return null;
         }
     }
 
@@ -221,7 +254,7 @@ public class ImageService {
         if (!fileService.exists(imagePath)) {
             byte[] optimzed = optimizeBytes(imageBytes, webp);
             try {
-                fileService.write(new ByteArrayInputStream(optimzed), imagePath);
+                fileService.write(new ByteArrayInputStream(optimzed), imagePath, webp ? "image/webp" : MediaType.IMAGE_JPEG_VALUE);
             } catch (IOException e) {
                 LOGGER.warn("Error while writing file {}", imagePath, e);
             }
@@ -294,6 +327,7 @@ public class ImageService {
 
         return rescaledImage;
     }
+
     record ImageToOptimize(
         String origFile,
         String origUrl,

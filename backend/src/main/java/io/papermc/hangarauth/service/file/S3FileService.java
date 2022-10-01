@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import io.awspring.cloud.s3.ObjectMetadata;
 import io.awspring.cloud.s3.S3Resource;
 import io.awspring.cloud.s3.S3Template;
 import io.papermc.hangarauth.config.custom.StorageConfig;
@@ -54,8 +55,11 @@ public class S3FileService implements FileService {
     }
 
     @Override
-    public void write(InputStream inputStream, String path) throws IOException {
-        try (OutputStream outputStream = ((S3Resource) getResource(path)).getOutputStream()) {
+    public void write(InputStream inputStream, String path, String contentType) throws IOException {
+        // TODO need to somehow set the content type here
+        S3Resource resource = (S3Resource) getResource(path);
+        resource.setObjectMetadata(ObjectMetadata.builder().contentType(contentType).build());
+        try (OutputStream outputStream = resource.getOutputStream()) {
             outputStream.write(inputStream.readAllBytes());
         }
     }
@@ -75,7 +79,7 @@ public class S3FileService implements FileService {
     }
 
     @Override
-    public String getDownloadUrl(String folder, String fileName) {
-        return config.getCdnEndpoint() + "/" + config.getBucket() + "/" + folder + "/" + "/" + fileName;
+    public String getDownloadUrl(String path) {
+        return config.getCdnEndpoint() + "/" + config.getBucket() + "/" + path.replace("s3://" + config.getBucket() + "/", "");
     }
 }

@@ -17,11 +17,11 @@ public interface FileService {
 
     byte[] bytes(String path) throws IOException;
 
-    void write(InputStream inputStream, String path) throws IOException;
+    void write(InputStream inputStream, String path, String contentType) throws IOException;
 
     String resolve(String path, String fileName);
 
     String getRoot();
 
-    String getDownloadUrl(String folder, String fileName);
+    String getDownloadUrl(String path);
 }

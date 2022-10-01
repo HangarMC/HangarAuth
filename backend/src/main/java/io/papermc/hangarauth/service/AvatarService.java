@@ -48,7 +48,7 @@ public class AvatarService {
         this.avatarFolder = fileService.resolve(fileService.getRoot(), "avatars");
         // save default avatar
         if (!this.fileService.exists(getFallbackAvatar())) {
-            this.fileService.write(AvatarService.class.getClassLoader().getResourceAsStream("avatar/blob.jpeg"), getFallbackAvatar());
+            this.fileService.write(AvatarService.class.getClassLoader().getResourceAsStream("avatar/blob.jpeg"), getFallbackAvatar(), MediaType.IMAGE_JPEG_VALUE);
         }
     }
 
@@ -135,7 +135,7 @@ public class AvatarService {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         boolean dum = ImageIO.write(result, "jpg", outputStream);
         if (!dum) System.out.println("failed to write jpg " + file);
-        fileService.write(new ByteArrayInputStream(outputStream.toByteArray()), file);
+        fileService.write(new ByteArrayInputStream(outputStream.toByteArray()), file, MediaType.IMAGE_JPEG_VALUE);
 
         return file;
     }
