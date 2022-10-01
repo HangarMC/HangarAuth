@@ -1,4 +1,4 @@
-name: Build API
+name: Build Backend
 
 on:
   # allow manual dispatch
@@ -22,7 +22,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: api
+        working-directory: backend
 
     steps:
       - name: Checkout
