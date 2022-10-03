@@ -177,6 +177,13 @@ backend:
         publicBackendUrl: "http://hangarauth-kratos:4433"
       hydra:
         adminUrl: "http://hangarauth-hydra:4445"
+    storage:
+      type: "local"
+      accessKey: ""
+      secretKey: ""
+      bucket: ""
+      objectStorageEndpoint: ""
+      cdnEndpoint: ""
 
 postgresql:
   enabled: true
