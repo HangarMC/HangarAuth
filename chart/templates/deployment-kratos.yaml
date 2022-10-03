@@ -8,6 +8,11 @@ spec:
   {{- if not .Values.kratos.autoscaling.enabled }}
   replicas: {{ .Values.kratos.replicaCount }}
   {{- end }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   selector:
     matchLabels:
       {{- include "hangarauth.selectorLabels" . | nindent 6 }}
