@@ -85,6 +85,8 @@ public class ImageService {
 
     public String getCdnPathFromFile(String origFile, HttpServletRequest request, HttpServletResponse response) {
         return getCdnPath(fileService.getDownloadUrl(origFile),
+                (content, hash) -> workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
+                () -> getContentFromPath(origFile),
             () -> getHash(origFile, () -> getContentFromPath(origFile)),
             request, response
         );
@@ -92,12 +94,14 @@ public class ImageService {
 
     public String getCdnPathFromUrl(String origUrl, HttpServletRequest request, HttpServletResponse response) {
         return getCdnPath(origUrl,
+                (content, hash) -> workerQueue.add(new ImageToOptimize(null, origUrl, content, hash)),
+                () -> getContentFromUrl(origUrl),
              () -> getHash(origUrl, () -> getContentFromUrl(origUrl)),
              request, response
         );
     }
 
-    private String getCdnPath(String orig, Supplier<String> hashSupplier, HttpServletRequest request, HttpServletResponse response) {
+    private String getCdnPath(String orig, BiConsumer<byte[], String> queueUp, Supplier<byte[]> contentSupplier, Supplier<String> hashSupplier, HttpServletRequest request, HttpServletResponse response) {
         if ("true".equals(request.getParameter("orig"))) {
             response.setHeader(HEADER, "disabled");
             response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
@@ -111,9 +115,20 @@ public class ImageService {
             return orig;
         }
         boolean supportsWebp = supportsWebp(request);
-        // TODO somewhere here we need to queue up?
         String optimizedFilePath = getOptimizedFilePath(hash, supportsWebp);
-        return fileService.getDownloadUrl(optimizedFilePath == null ? orig : optimizedFilePath);
+        if (optimizedFilePath == null) {
+            byte[] bytes = contentSupplier.get();
+            if (bytes.length == 0) {
+                response.setHeader(HEADER, "error");
+            } else {
+                queueUp.accept(bytes, hash);
+                response.setHeader(HEADER, "queued");
+            }
+            return orig;
+        } else {
+            response.setHeader(HEADER, hash);
+            return fileService.getDownloadUrl(optimizedFilePath);
+        }
     }
 
     public byte[] getImageFromFile(String origFile, HttpServletRequest request, HttpServletResponse response) {
@@ -236,6 +251,7 @@ public class ImageService {
     }
 
     public void evictCache(String key) {
+        // TODO there is a bug here, if we change the avatar, we evict the avatar, but not all project icons that might fall back to the users avatar
         hashCache.evict(key);
     }
 

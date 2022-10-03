@@ -56,7 +56,6 @@ public class S3FileService implements FileService {
 
     @Override
     public void write(InputStream inputStream, String path, String contentType) throws IOException {
-        // TODO need to somehow set the content type here
         S3Resource resource = (S3Resource) getResource(path);
         resource.setObjectMetadata(ObjectMetadata.builder().contentType(contentType).build());
         try (OutputStream outputStream = resource.getOutputStream()) {
