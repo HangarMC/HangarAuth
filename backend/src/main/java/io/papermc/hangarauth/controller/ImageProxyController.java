@@ -68,6 +68,7 @@ public class ImageProxyController extends FileController  {
         return url
             .replace("/image/", "")
             .replace("https:/", "https://")
-            .replace("http:/", "https:/");
+            .replace("http:/", "http://")
+            .replace(generalConfig.getHangarFrontendHost(), generalConfig.getHangarBackendHost());
     }
 }

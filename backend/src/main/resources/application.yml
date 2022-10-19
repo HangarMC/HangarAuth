@@ -5,6 +5,8 @@ auth:
   data-dir: backend/work
   public-host: "http://localhost:3001"
   api-key: "supersecret"
+  hangar-frontend-host: "http://localhost:3333"
+  hangar-backend-host: "http://localhost:3333"
   kratos:
     public-url: "http://localhost:4433"
     public-backend-url: "http://localhost:4433"
