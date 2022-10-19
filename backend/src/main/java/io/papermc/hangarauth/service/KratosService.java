@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,10 +26,12 @@ import sh.ory.kratos.model.Identity;
 import sh.ory.kratos.model.SelfServiceSettingsFlow;
 
 /**
- * For interacting with the kratos admin API
+ * For interacting with the kratos API
  */
 @Service
 public class KratosService {
+
+    private static final Logger log = LoggerFactory.getLogger(KratosService.class);
 
     private final KratosIdentityDAO kratosIdentityDAO;
     private final ObjectMapper mapper;
@@ -67,6 +71,7 @@ public class KratosService {
         try {
             return publicClient.getSelfServiceSettingsFlow(flowId, null, cookies);
         } catch (ApiException e) {
+            log.error("Error while getting settings flow (" + publicClient.getApiClient().getBasePath() + ")", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -87,6 +92,7 @@ public class KratosService {
         try {
             adminClient.adminUpdateIdentity(userId.toString(), new AdminUpdateIdentityBody().traits(newTraits));
         } catch (ApiException e) {
+            log.error("Error while setting traits (" + adminClient.getApiClient().getBasePath() + ")", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
