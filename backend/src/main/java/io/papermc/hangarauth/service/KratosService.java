@@ -18,8 +18,8 @@ import java.util.UUID;
 import io.papermc.hangarauth.config.custom.KratosConfig;
 import io.papermc.hangarauth.controller.model.Traits;
 import io.papermc.hangarauth.db.dao.KratosIdentityDAO;
+import sh.ory.kratos.ApiClient;
 import sh.ory.kratos.ApiException;
-import sh.ory.kratos.Configuration;
 import sh.ory.kratos.api.V0alpha1Api;
 import sh.ory.kratos.model.AdminUpdateIdentityBody;
 import sh.ory.kratos.model.Identity;
@@ -42,8 +42,8 @@ public class KratosService {
     public KratosService(final KratosIdentityDAO kratosIdentityDAO, final KratosConfig kratosConfig, final ObjectMapper mapper) {
         this.kratosIdentityDAO = kratosIdentityDAO;
         this.mapper = mapper;
-        this.adminClient = new V0alpha1Api(Configuration.getDefaultApiClient().setBasePath(kratosConfig.getAdminUrl()));
-        this.publicClient = new V0alpha1Api(Configuration.getDefaultApiClient().setBasePath(kratosConfig.getPublicBackendUrl()));
+        this.adminClient = new V0alpha1Api(new ApiClient().setBasePath(kratosConfig.getAdminUrl()));
+        this.publicClient = new V0alpha1Api(new ApiClient().setBasePath(kratosConfig.getPublicBackendUrl()));
     }
 
     public @Nullable UUID getUserId(final String identifier) {
