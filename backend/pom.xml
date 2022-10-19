@@ -22,7 +22,7 @@
         <jdbi3-bom.version>3.33.0</jdbi3-bom.version>
         <annotations.version>23.0.0</annotations.version>
         <h2.version>2.1.214</h2.version>
-        <pg.version>1.17.4</pg.version>
+        <pg.version>1.17.5</pg.version>
         <webp.version>0.1.6</webp.version>
         <springdoc.version>1.6.11</springdoc.version>
         <spring-cloud-aws.version>3.0.0-M2</spring-cloud-aws.version>
