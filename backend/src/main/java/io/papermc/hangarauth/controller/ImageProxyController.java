@@ -37,7 +37,7 @@ public class ImageProxyController extends FileController  {
 
     @GetMapping("/**")
     public ResponseEntity<?> proxy(HttpServletRequest request, HttpServletResponse response) {
-        String url = request.getRequestURI().replace("/image/", "");
+        String url = cleanUrl(request.getRequestURI());
 
         UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
         if (!imageConfig.whitelist().contains(components.getHost())) {
@@ -53,7 +53,7 @@ public class ImageProxyController extends FileController  {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        String url = request.getRequestURI().replace("/image/", "");
+        String url = cleanUrl(request.getRequestURI());
 
         UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
         if (!imageConfig.whitelist().contains(components.getHost())) {
@@ -62,5 +62,12 @@ public class ImageProxyController extends FileController  {
 
         imageService.evictCache(url);
         return ResponseEntity.ok().build();
+    }
+
+    private String cleanUrl(String url) {
+        return url
+            .replace("/image/", "")
+            .replace("https:/", "https://")
+            .replace("http:/", "https:/");
     }
 }
