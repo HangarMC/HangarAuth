@@ -28,6 +28,7 @@ auth:
     bucket: "test"
     object-storage-endpoint: "http://127.0.0.1:9000"
     cdn-endpoint: "http://127.0.0.1:9000"
+    cdn-include-bucket: true
 
 spring:
   application:

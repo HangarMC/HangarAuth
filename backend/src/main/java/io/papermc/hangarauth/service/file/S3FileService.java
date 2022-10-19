@@ -79,6 +79,6 @@ public class S3FileService implements FileService {
 
     @Override
     public String getDownloadUrl(String path) {
-        return config.getCdnEndpoint() + "/" + config.getBucket() + "/" + path.replace("s3://" + config.getBucket() + "/", "");
+        return config.getCdnEndpoint() + (config.isCdnIncludeBucket() ? "/" + config.getBucket() : "") + "/" + path.replace("s3://" + config.getBucket() + "/", "");
     }
 }

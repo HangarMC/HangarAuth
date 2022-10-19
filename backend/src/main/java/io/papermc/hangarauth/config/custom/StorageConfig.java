@@ -29,6 +29,7 @@ public class StorageConfig {
     private String bucket;
     private String objectStorageEndpoint;
     private String cdnEndpoint;
+    private boolean cdnIncludeBucket = true;
 
     @Bean
     public StaticCredentialsProvider credProvider() {
@@ -101,5 +102,13 @@ public class StorageConfig {
 
     public void setCdnEndpoint(String cdnEndpoint) {
         this.cdnEndpoint = cdnEndpoint;
+    }
+
+    public boolean isCdnIncludeBucket() {
+        return cdnIncludeBucket;
+    }
+
+    public void setCdnIncludeBucket(boolean cdnIncludeBucket) {
+        this.cdnIncludeBucket = cdnIncludeBucket;
     }
 }
