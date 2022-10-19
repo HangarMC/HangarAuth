@@ -31,13 +31,15 @@ public class KratosService {
 
     private final KratosIdentityDAO kratosIdentityDAO;
     private final ObjectMapper mapper;
-    private final V0alpha1Api kratosClient;
+    private final V0alpha1Api adminClient;
+    private final V0alpha1Api publicClient;
 
     @Autowired
     public KratosService(final KratosIdentityDAO kratosIdentityDAO, final KratosConfig kratosConfig, final ObjectMapper mapper) {
         this.kratosIdentityDAO = kratosIdentityDAO;
         this.mapper = mapper;
-        this.kratosClient = new V0alpha1Api(Configuration.getDefaultApiClient().setBasePath(kratosConfig.getAdminUrl()));
+        this.adminClient = new V0alpha1Api(Configuration.getDefaultApiClient().setBasePath(kratosConfig.getAdminUrl()));
+        this.publicClient = new V0alpha1Api(Configuration.getDefaultApiClient().setBasePath(kratosConfig.getPublicBackendUrl()));
     }
 
     public @Nullable UUID getUserId(final String identifier) {
@@ -46,7 +48,7 @@ public class KratosService {
 
     public @NotNull Identity getUserIdentity(@NotNull final UUID userId) {
         try {
-            Identity identity = kratosClient.adminGetIdentity(userId.toString());
+            Identity identity = adminClient.adminGetIdentity(userId.toString());
             if (identity == null) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "how is the identity null here?");
             }
@@ -63,7 +65,7 @@ public class KratosService {
 
     public @NotNull SelfServiceSettingsFlow getSettingsFlow(@NotNull final String flowId, @NotNull final String cookies) {
         try {
-            return kratosClient.getSelfServiceSettingsFlow(flowId, null, cookies);
+            return publicClient.getSelfServiceSettingsFlow(flowId, null, cookies);
         } catch (ApiException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
@@ -83,7 +85,7 @@ public class KratosService {
 
     public void setTraits(UUID userId, Traits newTraits) {
         try {
-            kratosClient.adminUpdateIdentity(userId.toString(), new AdminUpdateIdentityBody().traits(newTraits));
+            adminClient.adminUpdateIdentity(userId.toString(), new AdminUpdateIdentityBody().traits(newTraits));
         } catch (ApiException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }

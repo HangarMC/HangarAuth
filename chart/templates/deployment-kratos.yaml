@@ -72,6 +72,9 @@ spec:
             - name: {{ include "hangarauth.fullname" . }}-kratos-config-volume
               mountPath: /etc/config
               readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-hooks-volume
+              mountPath: /etc/hangarauth/hooks
+              readOnly: true
             - name: {{ include "hangarauth.fullname" . }}-kratos-schemas-volume
               mountPath: /etc/hangarauth/schemas
               readOnly: true
