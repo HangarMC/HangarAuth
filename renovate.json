@@ -5,7 +5,7 @@
   ],
   "packageRules": [
     {
-      "matchLanguages": ["docker-compose", "dockerfile", "helmv3", "helm-values"],
+      "matchManagers": ["docker-compose", "dockerfile", "helmv3", "helm-values"],
       "matchPackagePatterns": [
         "*"
       ],
@@ -17,7 +17,7 @@
       "groupSlug": "infra-minor-patch"
     },
     {
-      "matchLanguages": ["github-actions"],
+      "matchManagers": ["github-actions"],
       "matchPackagePatterns": [
         "*"
       ],
@@ -29,7 +29,7 @@
       "groupSlug": "actions-minor-patch"
     },
     {
-      "matchLanguages": ["maven", "gradle"],
+      "matchManagers": ["maven", "gradle"],
       "matchPackagePatterns": [
         "*"
       ],
@@ -41,7 +41,7 @@
       "groupSlug": "backend-minor-patch"
     },
     {
-      "matchLanguages": ["npm"],
+      "matchManagers": ["npm"],
       "matchPackagePatterns": [
         "*"
       ],
