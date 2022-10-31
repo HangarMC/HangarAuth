@@ -40,7 +40,7 @@ jobs:
           version: 7
 
       - name: Cache Maven Deps
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: $GITHUB_WORKSPACE/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -48,7 +48,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Cache pnpm
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: "/home/runner/.local/share/pnpm/store/v3"
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
