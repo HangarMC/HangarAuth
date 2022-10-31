@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17.0.4_8-jre-alpine
 
 WORKDIR auth-backend
 
