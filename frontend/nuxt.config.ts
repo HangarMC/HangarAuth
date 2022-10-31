@@ -67,37 +67,40 @@ export default defineNuxtConfig({
   },
   // this is fucking ugly but else it doesn't resolve the env at runtime...
   proxy: {
-    "/oauth/login": {
-      configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
-      changeOrigin: true,
-    },
-    "/oauth/handleConsent": {
-      configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
-      changeOrigin: true,
-    },
-    "/oauth/logout": {
-      configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
-      changeOrigin: true,
-    },
-    "/oauth/frontchannel-logout": {
-      configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
-      changeOrigin: true,
-    },
-    "/avatar": {
-      configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
-      changeOrigin: true,
-    },
-    "/image": {
-      configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
-      changeOrigin: true,
-    },
-    "/sync": {
-      configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
-      changeOrigin: true,
-    },
-    "/settings": {
-      configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
-      changeOrigin: true,
-    },
+    enableProxy: true,
+    proxies: {
+      "/oauth/login": {
+        configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
+        changeOrigin: true,
+      },
+      "/oauth/handleConsent": {
+        configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
+        changeOrigin: true,
+      },
+      "/oauth/logout": {
+        configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
+        changeOrigin: true,
+      },
+      "/oauth/frontchannel-logout": {
+        configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
+        changeOrigin: true,
+      },
+      "/avatar": {
+        configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
+        changeOrigin: true,
+      },
+      "/image": {
+        configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
+        changeOrigin: true,
+      },
+      "/sync": {
+        configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
+        changeOrigin: true,
+      },
+      "/settings": {
+        configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
+        changeOrigin: true,
+      },
+    }
   },
 });
