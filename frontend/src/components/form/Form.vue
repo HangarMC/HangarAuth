@@ -1,5 +1,12 @@
 <template>
-  <component :is="noForm ? 'div' : 'form'" v-if="!empty" :method="noForm ? null : ui.method" :action="noForm ? null : ui.action">
+  <component
+    :is="noForm ? 'div' : 'form'"
+    v-if="!empty"
+    :method="noForm ? null : ui.method"
+    :action="noForm ? null : ui.action"
+    @keydown.enter="submit"
+    ref="form"
+  >
     <Card class="mt-2">
       <h1 class="text-xl mb-2">{{ title }}</h1>
       <div class="flex flex-wrap gap-2">
@@ -12,7 +19,7 @@
 
 <script lang="ts" setup>
 import { UiNode } from "@ory/kratos-client";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { UiContainer } from "@ory/kratos-client/api";
 import Card from "~/lib/components/design/Card.vue";
 import FormContainer, { FormTab } from "~/components/form/FormContainer.vue";
@@ -65,6 +72,14 @@ const empty = computed(() => {
   }
   return false;
 });
+
+const form = ref();
+function submit() {
+  const submitter = document.querySelector("button[type=submit]");
+  if (form.value.requestSubmit && submitter) {
+    form.value.requestSubmit(submitter);
+  }
+}
 </script>
 
 <style scoped></style>
