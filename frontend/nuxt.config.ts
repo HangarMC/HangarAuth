@@ -65,6 +65,9 @@ export default defineNuxtConfig({
       prettier(),
     ],
   },
+  experimental: {
+    writeEarlyHints: false,
+  },
   // this is fucking ugly but else it doesn't resolve the env at runtime...
   proxy: {
     enableProxy: true,
