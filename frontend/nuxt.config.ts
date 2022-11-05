@@ -104,6 +104,10 @@ export default defineNuxtConfig({
         configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
         changeOrigin: true,
       },
+      "/version-info": {
+        configure: (proxy, options) => options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081",
+        changeOrigin: true,
+      },
     }
   },
 });
