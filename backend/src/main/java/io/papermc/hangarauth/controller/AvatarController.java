@@ -99,7 +99,7 @@ public class AvatarController extends FileController {
 
     @PostMapping(value = "/org/{orgName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void setOrgAvatar(@NotNull @PathVariable String orgName, @RequestParam String apiKey, @RequestParam MultipartFile avatar) throws IOException {
-        if (!generalConfig.getApiKey().equals(apiKey)) {
+        if (!generalConfig.apiKey().equals(apiKey)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         this.avatarService.saveOrgAvatar(orgName, avatar);

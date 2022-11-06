@@ -42,8 +42,8 @@ public class KratosService {
     public KratosService(final KratosIdentityDAO kratosIdentityDAO, final KratosConfig kratosConfig, final ObjectMapper mapper) {
         this.kratosIdentityDAO = kratosIdentityDAO;
         this.mapper = mapper;
-        this.adminClient = new V0alpha1Api(new ApiClient().setBasePath(kratosConfig.getAdminUrl()));
-        this.publicClient = new V0alpha1Api(new ApiClient().setBasePath(kratosConfig.getPublicBackendUrl()));
+        this.adminClient = new V0alpha1Api(new ApiClient().setBasePath(kratosConfig.adminUrl()));
+        this.publicClient = new V0alpha1Api(new ApiClient().setBasePath(kratosConfig.publicBackendUrl()));
     }
 
     public @Nullable UUID getUserId(final String identifier) {

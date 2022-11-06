@@ -64,7 +64,7 @@ public class LocalStorageFileService implements FileService {
 
     @Override
     public String getRoot() {
-        return config.getWorkDir();
+        return config.workDir();
     }
 
     @Override

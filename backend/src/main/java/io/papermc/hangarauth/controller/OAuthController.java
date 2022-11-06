@@ -69,8 +69,8 @@ public class OAuthController {
 
     @Autowired
     public OAuthController(final HydraConfig hydraConfig, final KratosConfig kratosConfig, final GeneralConfig generalConfig, ObjectMapper mapper, RestTemplate restTemplate) {
-        this.hydraClient = new AdminApi(Configuration.getDefaultApiClient().setBasePath(hydraConfig.getAdminUrl()));
-        this.kratosClient = new V0alpha1Api(sh.ory.kratos.Configuration.getDefaultApiClient().setBasePath(kratosConfig.getAdminUrl()));
+        this.hydraClient = new AdminApi(Configuration.getDefaultApiClient().setBasePath(hydraConfig.adminUrl()));
+        this.kratosClient = new V0alpha1Api(sh.ory.kratos.Configuration.getDefaultApiClient().setBasePath(kratosConfig.adminUrl()));
         this.generalConfig = generalConfig;
         this.kratosConfig = kratosConfig;
         this.mapper = mapper;
@@ -139,7 +139,7 @@ public class OAuthController {
             HttpHeaders sessionHeaders = new HttpHeaders();
             sessionHeaders.set(HttpHeaders.COOKIE, cookieHeader);
             var sessionRequest = new HttpEntity<>(sessionHeaders);
-            ResponseEntity<String> sessionResponse = restTemplate.exchange(kratosConfig.getPublicBackendUrl() + "/sessions/whoami", HttpMethod.GET, sessionRequest, String.class);
+            ResponseEntity<String> sessionResponse = restTemplate.exchange(kratosConfig.publicBackendUrl() + "/sessions/whoami", HttpMethod.GET, sessionRequest, String.class);
             if (sessionResponse.getBody() == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No session");
             }
@@ -295,10 +295,10 @@ public class OAuthController {
         String state = RandomStringUtils.randomAlphabetic(16);
         session.setAttribute("hydraLoginState", state);
 
-        String returnTo = UriComponentsBuilder.fromHttpUrl(generalConfig.getPublicHost() + endpointAndQuery)
+        String returnTo = UriComponentsBuilder.fromHttpUrl(generalConfig.publicHost() + endpointAndQuery)
             .queryParam("hydra_login_state", state)
             .build().toUriString();
-        String redirectTo = UriComponentsBuilder.fromHttpUrl(kratosConfig.getPublicUrl() + "/self-service/login/browser")
+        String redirectTo = UriComponentsBuilder.fromHttpUrl(kratosConfig.publicUrl() + "/self-service/login/browser")
             .queryParam("refresh", "true")
             .queryParam("return_to", returnTo)
             .build().toUriString();

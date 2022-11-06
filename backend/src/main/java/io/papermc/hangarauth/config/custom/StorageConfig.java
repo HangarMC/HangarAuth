@@ -1,114 +1,58 @@
 package io.papermc.hangarauth.config.custom;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.system.ApplicationHome;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import io.awspring.cloud.autoconfigure.core.AwsProperties;
-import io.papermc.hangarauth.HangarAuthApplication;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.regions.providers.AwsRegionProvider;
 
-@Configuration
 @ConfigurationProperties("auth.storage")
-public class StorageConfig {
+public record StorageConfig(
+    @DefaultValue("local") String type,
+    @DefaultValue("backend/work") String workDir,
+    String accessKey,
+    String secretKey,
+    String bucket,
+    String objectStorageEndpoint,
+    String cdnEndpoint,
+    @DefaultValue("true") boolean cdnIncludeBucket
+) {
 
-    // type = local or object
-    private String type = "local";
-    // local
-    private String workDir = new ApplicationHome(HangarAuthApplication.class).getDir().toPath().resolve("work").toString();
-    // object
-    private String accessKey;
-    private String secretKey;
-    private String bucket;
-    private String objectStorageEndpoint;
-    private String cdnEndpoint;
-    private boolean cdnIncludeBucket = true;
+    @Component
+    static final class AWS {
 
-    @Bean
-    public StaticCredentialsProvider credProvider() {
-        return StaticCredentialsProvider.create(AwsBasicCredentials.create(getAccessKey(), getSecretKey()));
-    }
+        private final StorageConfig config;
 
-    @Bean
-    public AwsRegionProvider regionProvider() {
-        return () -> Region.of("hangar");
-    }
+        AWS(StorageConfig config) {
+            this.config = config;
+        }
 
-    @Bean
-    public AwsProperties awsProperties() throws URISyntaxException {
-        AwsProperties awsProperties = new AwsProperties();
-        awsProperties.setEndpoint(new URI(objectStorageEndpoint));
-        return awsProperties;
-    }
+        @Bean
+        public StaticCredentialsProvider credProvider() {
+            return StaticCredentialsProvider.create(AwsBasicCredentials.create(this.config.accessKey(), this.config.secretKey()));
+        }
 
-    public String getType() {
-        return type;
-    }
+        @Bean
+        public AwsRegionProvider regionProvider() {
+            return () -> Region.of("hangar");
+        }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+        @Bean
+        public AwsProperties awsProperties() throws URISyntaxException {
+            AwsProperties awsProperties = new AwsProperties();
+            awsProperties.setEndpoint(new URI(this.config.objectStorageEndpoint()));
+            return awsProperties;
+        }
 
-    public String getWorkDir() {
-        return workDir;
-    }
-
-    public void setWorkDir(String workDir) {
-        this.workDir = workDir;
-    }
-
-    public String getAccessKey() {
-        return accessKey;
-    }
-
-    public void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    public String getBucket() {
-        return bucket;
-    }
-
-    public void setBucket(String bucket) {
-        this.bucket = bucket;
-    }
-
-    public String getObjectStorageEndpoint() {
-        return objectStorageEndpoint;
-    }
-
-    public void setObjectStorageEndpoint(String objectStorageEndpoint) {
-        this.objectStorageEndpoint = objectStorageEndpoint;
-    }
-
-    public String getCdnEndpoint() {
-        return cdnEndpoint;
-    }
-
-    public void setCdnEndpoint(String cdnEndpoint) {
-        this.cdnEndpoint = cdnEndpoint;
-    }
-
-    public boolean isCdnIncludeBucket() {
-        return cdnIncludeBucket;
-    }
-
-    public void setCdnIncludeBucket(boolean cdnIncludeBucket) {
-        this.cdnIncludeBucket = cdnIncludeBucket;
     }
 }
