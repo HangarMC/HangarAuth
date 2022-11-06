@@ -2,7 +2,6 @@ server:
   port: 8081
 
 auth:
-  data-dir: backend/work
   public-host: "http://localhost:3001"
   api-key: "supersecret"
   hangar-frontend-host: "http://localhost:3333"
@@ -24,7 +23,8 @@ auth:
       - hangar.benndorf.dev
       - localhost
   storage:
-    type: "object"
+    type: "local"
+    work-dir: backend/work
     access-key: "maaWFU0y2agLgJBD"
     secret-key: "toOBAwlz3ZC6c4dvbFh7Ywk8Y2J4b3kS"
     bucket: "test"
