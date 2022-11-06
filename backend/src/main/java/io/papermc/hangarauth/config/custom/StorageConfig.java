@@ -8,8 +8,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import io.awspring.cloud.autoconfigure.core.AwsProperties;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -29,17 +27,11 @@ public record StorageConfig(
 ) {
 
     @Component
-    static final class AWS {
-
-        private final StorageConfig config;
-
-        AWS(StorageConfig config) {
-            this.config = config;
-        }
+    record AWSConfig(StorageConfig storageConfig) {
 
         @Bean
         public StaticCredentialsProvider credProvider() {
-            return StaticCredentialsProvider.create(AwsBasicCredentials.create(this.config.accessKey(), this.config.secretKey()));
+            return StaticCredentialsProvider.create(AwsBasicCredentials.create(this.storageConfig.accessKey(), this.storageConfig.secretKey()));
         }
 
         @Bean
@@ -50,9 +42,8 @@ public record StorageConfig(
         @Bean
         public AwsProperties awsProperties() throws URISyntaxException {
             AwsProperties awsProperties = new AwsProperties();
-            awsProperties.setEndpoint(new URI(this.config.objectStorageEndpoint()));
+            awsProperties.setEndpoint(new URI(this.storageConfig.objectStorageEndpoint()));
             return awsProperties;
         }
-
     }
 }

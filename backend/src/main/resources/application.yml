@@ -18,7 +18,6 @@ auth:
     quality: 0.4
     quality-webp: 0.35
     size: 256
-    work-folder: backend/work/images
     whitelist:
       - hangar.benndorf.dev
       - localhost
