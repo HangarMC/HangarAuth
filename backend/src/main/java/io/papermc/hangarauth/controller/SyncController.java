@@ -33,7 +33,7 @@ public class SyncController {
 
     @PostMapping(value = "/user/{user}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void syncUserTraits(@NotNull @PathVariable String user, @RequestParam String apiKey, @RequestBody Traits updatedTraits) {
-        if (!generalConfig.getApiKey().equals(apiKey)) {
+        if (!generalConfig.apiKey().equals(apiKey)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         UUID userId = UUID.fromString(user);

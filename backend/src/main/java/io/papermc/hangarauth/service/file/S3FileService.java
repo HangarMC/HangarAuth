@@ -40,7 +40,7 @@ public class S3FileService implements FileService {
 
     @Override
     public void deleteDirectory(String dir) {
-        this.s3Template.deleteObject(config.getBucket(), dir);
+        this.s3Template.deleteObject(config.bucket(), dir);
     }
 
     @Override
@@ -74,11 +74,11 @@ public class S3FileService implements FileService {
 
     @Override
     public String getRoot() {
-        return "s3://" + config.getBucket() + "/";
+        return "s3://" + config.bucket() + "/";
     }
 
     @Override
     public String getDownloadUrl(String path) {
-        return config.getCdnEndpoint() + (config.isCdnIncludeBucket() ? "/" + config.getBucket() : "") + "/" + path.replace("s3://" + config.getBucket() + "/", "");
+        return config.cdnEndpoint() + (config.cdnIncludeBucket() ? "/" + config.bucket() : "") + "/" + path.replace("s3://" + config.bucket() + "/", "");
     }
 }

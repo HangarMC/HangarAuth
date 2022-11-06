@@ -49,7 +49,7 @@ public class ImageProxyController extends FileController  {
 
     @DeleteMapping("/**")
     public ResponseEntity<?> evict(@RequestParam String apiKey, HttpServletRequest request) {
-        if (!generalConfig.getApiKey().equals(apiKey)) {
+        if (!generalConfig.apiKey().equals(apiKey)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
@@ -69,7 +69,7 @@ public class ImageProxyController extends FileController  {
             .replace("/image/", "")
             .replace("https:/", "https://")
             .replace("http:/", "http://")
-            .replace(generalConfig.getHangarFrontendHost(), generalConfig.getHangarBackendHost())
+            .replace(generalConfig.hangarFrontendHost(), generalConfig.hangarBackendHost())
             .replace(":///", "://");
     }
 }
