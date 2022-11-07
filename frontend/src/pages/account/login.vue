@@ -22,7 +22,7 @@ import { FormTab } from "~/components/form/FormContainer.vue";
 
 const { t } = useI18n();
 const { $kratos } = useNuxtApp();
-const { data } = useAsyncData<{ ui: UiContainer }>(
+const { data } = useAsyncData<null | { ui: UiContainer }>(
   "ui",
   async () =>
     await $kratos.requestUiContainer((flow, cookie) =>

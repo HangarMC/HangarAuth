@@ -2,8 +2,7 @@ import * as https from "https";
 import { UiContainer, V0alpha2ApiFactory } from "@ory/kratos-client";
 import { AuthenticatorAssuranceLevel, SessionAuthenticationMethod, V0alpha2Api } from "@ory/kratos-client/api";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { CompatibilityEvent, sendRedirect } from "h3";
-import { createCookies } from "@vueuse/integrations/useCookies";
+import { H3Event, sendRedirect } from "h3";
 import { useFlow } from "~/composables/useFlow";
 import { useAuthStore } from "~/store/useAuthStore";
 import { kratosLog } from "~/lib/composables/useLog";
@@ -16,9 +15,9 @@ export interface AALInfo {
 export class Kratos {
   kratosUrl: string;
   kratosPublicUrl: string;
-  event: CompatibilityEvent | null;
+  event: H3Event | null;
 
-  constructor(kratosUrl: string, kratosPublicUrl: string, event: CompatibilityEvent | null) {
+  constructor(kratosUrl: string, kratosPublicUrl: string, event: H3Event | null) {
     this.kratosUrl = kratosUrl;
     this.kratosPublicUrl = kratosPublicUrl;
     this.event = event;
@@ -135,7 +134,7 @@ export class Kratos {
         const flowInfo = await fetchFlow(flow, this.event ? this.event.req.headers.cookie : undefined);
         kratosLog(flowInfo.data.ui.nodes);
         return { ui: flowInfo.data.ui, flowId: flowInfo.data.id, requestUrl: flowInfo.data.request_url };
-      } catch (e) {
+      } catch (e: any) {
         const { request, ...err } = e;
         kratosLog("redirectOnError", e.response?.data ? e.response.data : err);
         this.redirectOnError(onErrRedirect)(e);
@@ -161,7 +160,7 @@ export class Kratos {
       }
       kratosLog("no session -> login", shouldRedirect);
       return !shouldRedirect || this.login();
-    } catch (e) {
+    } catch (e: any) {
       if (e.response) {
         if (e.response.data?.redirect_browser_to) {
           kratosLog("session catch: url", e.response.data.redirect_browser_to, shouldRedirect);
@@ -189,7 +188,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       kratos: new Kratos(
         process.server ? config.kratos : config.public.kratosPublic,
         config.public.kratosPublic,
-        process.server ? nuxtApp.ssrContext?.event : null
+        process.server ? nuxtApp.ssrContext?.event || null : null
       ),
     },
   };
@@ -197,12 +196,12 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 declare module "#app" {
   interface NuxtApp {
-    $kratos: typeof Kratos;
+    $kratos: Kratos;
   }
 }
 
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
-    $kratos: typeof Kratos;
+    $kratos: Kratos;
   }
 }

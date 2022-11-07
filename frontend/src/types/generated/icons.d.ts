@@ -9,6 +9,8 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     IconMdiAlert: typeof import('~icons/mdi/alert')['default']
     IconMdiAlertBox: typeof import('~icons/mdi/alert-box')['default']
+    IconMdiAlertOutline: typeof import('~icons/mdi/alert-outline')['default']
+    IconMdiCheck: typeof import('~icons/mdi/check')['default']
     IconMdiCheckBold: typeof import('~icons/mdi/check-bold')['default']
     IconMdiClose: typeof import('~icons/mdi/close')['default']
     IconMdiEye: typeof import('~icons/mdi/eye')['default']
