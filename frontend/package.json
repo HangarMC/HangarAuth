@@ -29,7 +29,7 @@
     "eslint-plugin-unicorn": "44.0.2",
     "eslint-plugin-vue": "9.7.0",
     "nuxt": "3.0.0-rc.13",
-    "nuxt-windicss": "2.5.2",
+    "nuxt-windicss": "2.5.3",
     "pnpm": "7.14.2",
     "prettier": "2.7.1",
     "qs": "6.11.0",
