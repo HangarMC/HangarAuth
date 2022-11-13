@@ -32,7 +32,12 @@ public abstract class FileController {
         if (fileService instanceof S3FileService) {
             String cdnPath = url ? imageService.getCdnPathFromUrl(path, request, response) : imageService.getCdnPathFromFile(path, request, response);
             try {
-                return ResponseEntity.status(HttpStatus.FOUND).location(new URI(cdnPath != null ? cdnPath : fileService.getDownloadUrl(path))).build();
+                return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .location(new URI(cdnPath != null ? cdnPath : fileService.getDownloadUrl(path)))
+                    .lastModified(Instant.now())
+                    .cacheControl(CacheControl.maxAge(Duration.of(4, ChronoUnit.HOURS)))
+                    .build();
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
