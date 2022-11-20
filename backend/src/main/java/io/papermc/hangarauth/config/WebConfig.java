@@ -1,5 +1,6 @@
 package io.papermc.hangarauth.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -7,6 +8,7 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,9 +20,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.papermc.hangarauth.config.custom.GeneralConfig;
+
 @EnableWebMvc
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    private final GeneralConfig generalConfig;
+
+    @Autowired
+    public WebConfig(GeneralConfig generalConfig) {
+        this.generalConfig = generalConfig;
+    }
 
     @Bean
     public RestTemplate restTemplate(List<HttpMessageConverter<?>> messageConverters) {
@@ -58,5 +69,11 @@ public class WebConfig implements WebMvcConfigurer {
             MediaType.IMAGE_PNG,
             MediaType.APPLICATION_OCTET_STREAM
         );
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/avatar/**").allowedOrigins(generalConfig.allowedOrigins());
+        registry.addMapping("/image/**").allowedOrigins(generalConfig.allowedOrigins());
     }
 }

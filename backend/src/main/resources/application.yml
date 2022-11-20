@@ -6,6 +6,7 @@ auth:
   api-key: "supersecret"
   hangar-frontend-host: "http://localhost:3333"
   hangar-backend-host: "http://localhost:3333"
+  allowed-origins: "http://localhost:3000, http://localhost:3001"
   kratos:
     public-url: "http://localhost:4433"
     public-backend-url: "http://localhost:4433"
