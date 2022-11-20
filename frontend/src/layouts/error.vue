@@ -14,10 +14,10 @@
 
 <script lang="ts" setup>
 import { useI18n } from "vue-i18n";
-import { computed } from "vue";
+import { type NuxtError } from "nuxt/app";
+import { computed } from "#imports";
 import Card from "~/lib/components/design/Card.vue";
 import Button from "~/lib/components/design/Button.vue";
-import { NuxtError } from "@nuxt/types";
 
 const props = defineProps<{
   error: NuxtError;

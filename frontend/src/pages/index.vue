@@ -11,6 +11,7 @@ import { useRouter } from "vue-router";
 import Card from "~/lib/components/design/Card.vue";
 import Button from "~/lib/components/design/Button.vue";
 import { useAuthStore } from "~/store/useAuthStore";
+import { computed, useHead, useNuxtApp, useRoute } from "#imports";
 
 const { t } = useI18n();
 const { $kratos } = useNuxtApp();

@@ -15,7 +15,7 @@ module.exports = {
     "plugin:import/recommended",
     "plugin:import/typescript",
     "@vue/typescript/recommended",
-    '@nuxtjs/eslint-config-typescript',
+    "@nuxtjs/eslint-config-typescript",
     "plugin:eslint-comments/recommended",
     "prettier",
   ],

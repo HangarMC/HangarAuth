@@ -1,8 +1,10 @@
+import { RouteMiddleware } from "nuxt/app";
 import { useSettingsStore } from "~/store/useSettingsStore";
 import { authLog } from "~/lib/composables/useLog";
+import { defineNuxtRouteMiddleware, useNuxtApp } from "#imports";
 
-export default defineNuxtRouteMiddleware(async (to) => {
-  const loginRequired = to.meta?.loginRequired || false;
+export default defineNuxtRouteMiddleware((async (to) => {
+  const loginRequired = (to.meta?.loginRequired as boolean) || false;
   authLog("middleware... loading user (login required " + loginRequired + ")", to.fullPath);
   await useNuxtApp().$kratos.loadUser(loginRequired);
   authLog("loaded");
@@ -14,4 +16,4 @@ export default defineNuxtRouteMiddleware(async (to) => {
       authLog("No request on server?!");
     }
   }
-});
+}) as RouteMiddleware);

@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
-import type { Ref } from "vue";
-import { computed, ref, unref } from "vue";
+import { computed, ref, unref, type Ref } from "vue";
+import { $fetch } from "ohmyfetch";
 import { settingsLog } from "~/lib/composables/useLog";
 import { useAuthStore } from "~/store/useAuthStore";
-import { $fetch } from "ohmyfetch";
 import { useSettingsHelper } from "~/lib/composables/useSettingsHelper";
+import { useCookie, useNuxtApp } from "#imports";
 
 export const useSettingsStore = defineStore("settings", () => {
   settingsLog("defineSettingsStore");

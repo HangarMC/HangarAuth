@@ -14,6 +14,7 @@ import Header from "~/components/Header.vue";
 import Footer from "~/components/Footer.vue";
 import Container from "~/lib/components/design/Container.vue";
 import Notifications from "~/lib/components/design/Notifications.vue";
+import { definePageMeta } from "#imports";
 
 definePageMeta({
   title: "HangarAuth",

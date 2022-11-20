@@ -50,7 +50,7 @@ const selectedTab = computed(() => {
 
 const noTab = computed(() => {
   return props.nodes.filter((n) => {
-    for (let tab of props.tabs) {
+    for (const tab of props.tabs) {
       if (matches(n, tab)) {
         return false;
       }
@@ -61,7 +61,7 @@ const noTab = computed(() => {
 
 function matches(node: UiNode, tab: FormTab, includeCsrf = true) {
   if (!tab) return false;
-  const isCsrf = node.attributes.name === "csrf_token";
+  const isCsrf = "name" in node.attributes && node.attributes.name === "csrf_token";
   if (isCsrf) {
     return includeCsrf;
   }
@@ -69,7 +69,8 @@ function matches(node: UiNode, tab: FormTab, includeCsrf = true) {
 }
 
 const filteredNodes = computed(() => {
-  return props.nodes.filter((n) => matches(n, selectedTab.value));
+  const selected = selectedTab.value;
+  return selected ? props.nodes.filter((n) => matches(n, selected)) : [];
 });
 
 const filteredTabs = computed(() => {

@@ -53,10 +53,10 @@
 <script lang="ts" setup>
 import { useI18n } from "vue-i18n";
 import { UiContainer } from "@ory/kratos-client/api";
+import { computed } from "vue";
 import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
-import { computed } from "vue";
 import { FormTab } from "~/components/form/FormContainer.vue";
 
 const { t } = useI18n();

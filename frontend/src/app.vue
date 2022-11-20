@@ -9,6 +9,7 @@ import "./lib/styles/main.css";
 import { useSettingsStore } from "~/store/useSettingsStore";
 import { useAuthStore } from "~/store/useAuthStore";
 import { settingsLog } from "~/lib/composables/useLog";
+import { useHead } from "#imports";
 
 const authStore = useAuthStore();
 const settingsStore = useSettingsStore();

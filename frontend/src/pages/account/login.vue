@@ -19,6 +19,7 @@ import Button from "~/lib/components/design/Button.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
 import { FormTab } from "~/components/form/FormContainer.vue";
+import { useAsyncData, useHead, useNuxtApp } from "#imports";
 
 const { t } = useI18n();
 const { $kratos } = useNuxtApp();

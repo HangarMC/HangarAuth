@@ -10,6 +10,7 @@
 <script lang="ts" setup>
 import Card from "~/lib/components/design/Card.vue";
 import Link from "~/lib/components/design/Link.vue";
+import { useHead } from "#imports";
 
 useHead({
   title: "Fake",

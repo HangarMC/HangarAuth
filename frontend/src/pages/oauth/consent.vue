@@ -47,10 +47,10 @@
 </template>
 
 <script lang="ts" setup>
+import { sendRedirect } from "h3";
 import Button from "~/lib/components/design/Button.vue";
 import InputCheckbox from "~/lib/components/ui/InputCheckbox.vue";
 import Card from "~/lib/components/design/Card.vue";
-import { sendRedirect } from "h3";
 import Link from "~/lib/components/design/Link.vue";
 
 interface ConsentData {

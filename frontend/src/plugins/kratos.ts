@@ -2,7 +2,8 @@ import * as https from "https";
 import { UiContainer, V0alpha2ApiFactory } from "@ory/kratos-client";
 import { AuthenticatorAssuranceLevel, SessionAuthenticationMethod, V0alpha2Api } from "@ory/kratos-client/api";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { H3Event, sendRedirect } from "h3";
+import { type H3Event, sendRedirect } from "h3";
+import { defineNuxtPlugin, useRoute, useRuntimeConfig } from "#imports";
 import { useFlow } from "~/composables/useFlow";
 import { useAuthStore } from "~/store/useAuthStore";
 import { kratosLog } from "~/lib/composables/useLog";
@@ -32,7 +33,7 @@ export class Kratos {
         }),
       });
     }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
     // @ts-ignore
     return V0alpha2ApiFactory({ basePath: this.kratosUrl }, this.kratosUrl, instance);
   }

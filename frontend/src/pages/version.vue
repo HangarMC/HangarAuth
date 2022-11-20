@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useHead } from "@vueuse/head";
 import PageTitle from "~/lib/components/design/PageTitle.vue";
 import Link from "~/lib/components/design/Link.vue";
 import Card from "~/lib/components/design/Card.vue";
+import { useFetch, useHead } from "#imports";
 
 interface VersionInfo {
   time: string;

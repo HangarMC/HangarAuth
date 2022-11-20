@@ -23,6 +23,7 @@
 
 <script lang="ts" setup>
 import Card from "~/lib/components/design/Card.vue";
+import { useHead, useNuxtApp, useRoute, useState } from "#imports";
 
 const { $kratos } = useNuxtApp();
 const route = useRoute();

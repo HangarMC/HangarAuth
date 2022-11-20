@@ -1,5 +1,5 @@
-import { defineNuxtConfig } from "nuxt";
 import path from "node:path";
+import { defineNuxtConfig } from "nuxt";
 import VueI18n from "@intlify/vite-plugin-vue-i18n";
 import IconsResolver from "unplugin-icons/resolver";
 import Icons from "unplugin-icons/vite";
@@ -15,6 +15,9 @@ const signupDisabled = process.env.signupDisabled || false;
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  imports: {
+    autoImport: false,
+  },
   srcDir: "src",
   runtimeConfig: {
     kratos,

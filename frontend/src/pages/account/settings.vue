@@ -38,9 +38,9 @@
 </template>
 
 <script lang="ts" setup>
-import { UiContainer, UiNodeInputAttributes } from "@ory/kratos-client/api";
-import { computed, ref, watch } from "vue";
+import { type UiNodeInputAttributes } from "@ory/kratos-client/api";
 import { useI18n } from "vue-i18n";
+import { type UiContainer } from "@ory/kratos-client";
 import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
@@ -48,6 +48,7 @@ import { useAuthStore } from "~/store/useAuthStore";
 import AvatarChangeModal from "~/lib/components/modals/AvatarChangeModal.vue";
 import Alert from "~/lib/components/design/Alert.vue";
 import { useSettingsStore } from "~/store/useSettingsStore";
+import { computed, definePageMeta, ref, useAsyncData, useHead, useNuxtApp, useRuntimeConfig, watch } from "#imports";
 
 definePageMeta({
   loginRequired: true,

@@ -1,7 +1,7 @@
 import { UiNode } from "@ory/kratos-client";
-import { computed, PropType, ref } from "vue";
+import { computed, type PropType, ref } from "vue";
 import { UiNodeInputAttributes } from "@ory/kratos-client/api";
-import { ValidationRule } from "@vuelidate/core";
+import { type ValidationRule } from "@vuelidate/core";
 import { minLength, required, email } from "~/lib/composables/useValidationHelpers";
 
 export const formProps = () => ({

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import { useI18n } from "vue-i18n";
+import { type Component } from "vue";
 import hangarLogo from "~/lib/assets/hangar-logo.svg";
 import IconMdiHome from "~icons/mdi/home";
 import IconMdiAccountGroup from "~icons/mdi/account-group";
@@ -13,13 +14,20 @@ import IconMdiPuzzle from "~icons/mdi/puzzle";
 import Button from "~/lib/components/design/Button.vue";
 import { useAuthStore } from "~/store/useAuthStore";
 import { useSettingsStore } from "~/store/useSettingsStore";
+import { useRuntimeConfig } from "#imports";
 
 const { t } = useI18n();
 const authStore = useAuthStore();
 const settings = useSettingsStore();
 const runtimeConfig = useRuntimeConfig();
 
-const navBarMenuLinksMoreFromPaper = [
+type NavLink = {
+  link: string;
+  label: string;
+  icon: Component;
+};
+
+const navBarMenuLinksMoreFromPaper: NavLink[] = [
   { link: "https://papermc.io/", label: t("nav.hangar.home"), icon: IconMdiHome },
   { link: "https://forums.papermc.io/", label: t("nav.hangar.forums"), icon: IconMdiForum },
   { link: "https://github.com/PaperMC", label: t("nav.hangar.code"), icon: IconMdiCodeBraces },

@@ -12,6 +12,7 @@ import { useI18n } from "vue-i18n";
 import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
+import { useAsyncData, useHead, useNuxtApp } from "#imports";
 
 const { t } = useI18n();
 

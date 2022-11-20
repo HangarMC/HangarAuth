@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import { UiNodeScriptAttributes } from "@ory/kratos-client";
-import { formProps, useFormElement } from "~/composables/useFormElement";
+import { formProps, type Props, useFormElement } from "~/composables/useFormElement";
 
 const script = ref();
 
