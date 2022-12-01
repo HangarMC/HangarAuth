@@ -290,7 +290,7 @@ kratos:
   image:
     repository: oryd/kratos
     pullPolicy: Always
-    tag: "v0.10.1"
+    tag: "v0.11.0"
 
   imagePullSecrets: []
   nameOverride: ""
@@ -383,7 +383,7 @@ kratosCourier:
   image:
     repository: oryd/kratos
     pullPolicy: Always
-    tag: "v0.10.1"
+    tag: "v0.11.0"
 
   imagePullSecrets: []
   nameOverride: ""
