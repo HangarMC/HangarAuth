@@ -1,9 +1,9 @@
 import * as https from "https";
-import { UiContainer, V0alpha2ApiFactory } from "@ory/kratos-client";
-import { AuthenticatorAssuranceLevel, SessionAuthenticationMethod, V0alpha2Api } from "@ory/kratos-client/api";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { UiContainer, FrontendApiFactory, Session } from "@ory/kratos-client";
+import { AuthenticatorAssuranceLevel, SessionAuthenticationMethod, FrontendApiFp, FlowError, LogoutFlow } from "@ory/kratos-client/api";
+import axios, { AxiosError, AxiosInstance, AxiosPromise, AxiosResponse } from "axios";
 import { type H3Event, sendRedirect } from "h3";
-import { defineNuxtPlugin, useRoute, useRuntimeConfig } from "#imports";
+import { defineNuxtPlugin, useNuxtApp, useRoute, useRuntimeConfig } from "#imports";
 import { useFlow } from "~/composables/useFlow";
 import { useAuthStore } from "~/store/useAuthStore";
 import { kratosLog } from "~/lib/composables/useLog";
@@ -11,6 +11,10 @@ import { kratosLog } from "~/lib/composables/useLog";
 export interface AALInfo {
   aal: AuthenticatorAssuranceLevel;
   methods: Array<SessionAuthenticationMethod>;
+}
+
+export function useKratos() {
+  return useNuxtApp().$kratos as Kratos;
 }
 
 export class Kratos {
@@ -24,7 +28,7 @@ export class Kratos {
     this.event = event;
   }
 
-  get client(): V0alpha2Api {
+  get client(): ReturnType<typeof FrontendApiFp> {
     let instance = axios.create();
     if (process.server) {
       instance = axios.create({
@@ -35,7 +39,7 @@ export class Kratos {
     }
 
     // @ts-ignore
-    return V0alpha2ApiFactory({ basePath: this.kratosUrl }, this.kratosUrl, instance);
+    return FrontendApiFactory({ basePath: this.kratosUrl }, this.kratosUrl, instance);
   }
 
   async redirect(url: string) {
@@ -100,14 +104,13 @@ export class Kratos {
     }
   }
 
-  logout() {
-    this.client.createSelfServiceLogoutFlowUrlForBrowsers(undefined, { withCredentials: true }).then(async (url) => {
-      await this.redirect(url.data.logout_url as string);
-    });
+  async logout() {
+    const response = (await this.client.createBrowserLogoutFlow(undefined, { withCredentials: true })) as unknown as AxiosResponse<LogoutFlow>;
+    await this.redirect(response.data.logout_url);
   }
 
   async getErrorDetails(id: string) {
-    const response = await this.client.getSelfServiceError(id);
+    const response = (await this.client.getFlowError(id)) as unknown as AxiosResponse<FlowError>;
     return response.data.error || { code: 500, message: "Unknown error occurred" };
   }
 
@@ -124,17 +127,21 @@ export class Kratos {
   }
 
   async requestUiContainer(
-    fetchFlow: (flow: string, cookieHeader: string | undefined) => Promise<AxiosResponse<{ ui: UiContainer; id: string; request_url: string }>>,
+    fetchFlow: (
+      flow: string,
+      cookieHeader: string | undefined
+    ) => Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ ui: UiContainer; id: string }>>,
     onNoFlow: () => void = this.login.bind(this),
     onErrRedirect: () => void = this.login.bind(this)
-  ): Promise<null | { ui: UiContainer; flowId: string; requestUrl: string }> {
+  ): Promise<null | { ui: UiContainer; flowId: string }> {
     const flow = useFlow(useRoute(), onNoFlow);
     if (flow) {
       try {
-        kratosLog("cookie header", this.event ? this.event.req.headers.cookie : undefined);
-        const flowInfo = await fetchFlow(flow, this.event ? this.event.req.headers.cookie : undefined);
+        const cookieHeader = this.event ? this.event.node.req.headers.cookie : undefined;
+        kratosLog("fetch flow", flow, "cookie header", cookieHeader);
+        const flowInfo = (await fetchFlow(flow, cookieHeader)) as unknown as AxiosResponse<{ ui: UiContainer; id: string }>;
         kratosLog(flowInfo.data.ui.nodes);
-        return { ui: flowInfo.data.ui, flowId: flowInfo.data.id, requestUrl: flowInfo.data.request_url };
+        return { ui: flowInfo.data.ui, flowId: flowInfo.data.id };
       } catch (e: any) {
         const { request, ...err } = e;
         kratosLog("redirectOnError", e.response?.data ? e.response.data : err);
@@ -147,9 +154,11 @@ export class Kratos {
 
   async loadUser(shouldRedirect = false) {
     try {
-      const session = await this.client.toSession(undefined, this.event ? this.event.req.headers.cookie : undefined, { withCredentials: true });
+      const session = (await this.client.toSession(undefined, this.event ? this.event.node.req.headers.cookie : undefined, {
+        withCredentials: true,
+      })) as unknown as AxiosResponse<Session>;
 
-      kratosLog("got result", session.data);
+      kratosLog("load user result", session.data);
       if (session.data && session.data.active) {
         const authStore = useAuthStore();
         authStore.user = session.data.identity;

@@ -19,15 +19,16 @@ import Button from "~/lib/components/design/Button.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
 import { FormTab } from "~/components/form/FormContainer.vue";
-import { useAsyncData, useHead, useNuxtApp } from "#imports";
+import { useAsyncData, useHead } from "#imports";
+import { useKratos } from "~/plugins/kratos";
 
 const { t } = useI18n();
-const { $kratos } = useNuxtApp();
+const kratos = useKratos();
 const { data } = useAsyncData<null | { ui: UiContainer }>(
   "ui",
   async () =>
-    await $kratos.requestUiContainer((flow, cookie) =>
-      $kratos.client.getSelfServiceLoginFlow(flow, cookie, {
+    await kratos.requestUiContainer((flow, cookie) =>
+      kratos.client.getLoginFlow(flow, cookie, {
         withCredentials: true,
       })
     )

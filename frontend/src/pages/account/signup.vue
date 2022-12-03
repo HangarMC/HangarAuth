@@ -58,19 +58,21 @@ import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
 import { FormTab } from "~/components/form/FormContainer.vue";
+import { useKratos } from "~/plugins/kratos";
+import { useAsyncData, useHead } from "#imports";
 
 const { t } = useI18n();
 
 const config = useRuntimeConfig();
 const signupDisabled = config.public.signupDisabled;
-const { $kratos } = useNuxtApp();
+const kratos = useKratos();
 const { data } = useAsyncData<{ ui: UiContainer }>(
   "ui",
   async () =>
-    await $kratos.requestUiContainer(
-      (flow, cookie) => $kratos.client.getSelfServiceRegistrationFlow(flow, cookie, { withCredentials: true }),
-      $kratos.register.bind($kratos),
-      $kratos.register.bind($kratos)
+    await kratos.requestUiContainer(
+      (flow, cookie) => kratos.client.getRegistrationFlow(flow, cookie, { withCredentials: true }),
+      kratos.register.bind(kratos),
+      kratos.register.bind(kratos)
     )
 );
 

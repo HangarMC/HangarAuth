@@ -11,7 +11,7 @@ export default defineNuxtRouteMiddleware((async (to) => {
   if (process.server) {
     const event = useNuxtApp().ssrContext?.event;
     if (event) {
-      useSettingsStore().loadSettingsServer(event.req, event.res);
+      useSettingsStore().loadSettingsServer(event.node.req, event.node.res);
     } else {
       authLog("No request on server?!");
     }

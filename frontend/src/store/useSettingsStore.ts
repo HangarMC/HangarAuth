@@ -4,7 +4,7 @@ import { $fetch } from "ohmyfetch";
 import { settingsLog } from "~/lib/composables/useLog";
 import { useAuthStore } from "~/store/useAuthStore";
 import { useSettingsHelper } from "~/lib/composables/useSettingsHelper";
-import { useCookie, useNuxtApp } from "#imports";
+import { useCookie, useNuxtApp, useRuntimeConfig } from "#imports";
 
 export const useSettingsStore = defineStore("settings", () => {
   settingsLog("defineSettingsStore");
@@ -55,7 +55,7 @@ export const useSettingsStore = defineStore("settings", () => {
     const nuxtApp = useNuxtApp();
     let headers = {};
     if (process.server && nuxtApp.ssrContext?.event) {
-      headers = { cookie: nuxtApp.ssrContext?.event.req.headers.cookie };
+      headers = { cookie: nuxtApp.ssrContext?.event.node.req.headers.cookie };
     }
 
     const runtimeConfig = useRuntimeConfig();

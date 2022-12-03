@@ -27,7 +27,7 @@
         <div class="basis-full md:basis-4/12">
           <Card class="mt-2">
             <h3 class="text-lg mb-2" v-text="t('settings.avatar.title')" />
-            <img :src="`/avatar/${store.user?.id}`" width="200" class="mb-2" />
+            <img :src="`/avatar/${store.user?.id}`" width="200" class="mb-2" alt="Avatar" />
             <AvatarChangeModal :csrf-token="csrfToken" :avatar="`/avatar/${store.user?.id}`" :action="`/avatar/${store.user?.id}?flowId=${data.flowId}`" />
           </Card>
           <Form :title="t('settings.2fa')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'totp']" />
@@ -40,7 +40,7 @@
 <script lang="ts" setup>
 import { type UiNodeInputAttributes } from "@ory/kratos-client/api";
 import { useI18n } from "vue-i18n";
-import { type UiContainer } from "@ory/kratos-client";
+import { type UiContainer, UiNode } from "@ory/kratos-client";
 import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
@@ -48,7 +48,8 @@ import { useAuthStore } from "~/store/useAuthStore";
 import AvatarChangeModal from "~/lib/components/modals/AvatarChangeModal.vue";
 import Alert from "~/lib/components/design/Alert.vue";
 import { useSettingsStore } from "~/store/useSettingsStore";
-import { computed, definePageMeta, ref, useAsyncData, useHead, useNuxtApp, useRuntimeConfig, watch } from "#imports";
+import { computed, ref, useAsyncData, useHead, useRuntimeConfig, watch, definePageMeta } from "#imports";
+import { useKratos } from "~/plugins/kratos";
 
 definePageMeta({
   loginRequired: true,
@@ -56,13 +57,13 @@ definePageMeta({
 
 const { t } = useI18n();
 const store = useAuthStore();
-const { $kratos } = useNuxtApp();
+const kratos = useKratos();
 const { data } = useAsyncData<{ ui: UiContainer }>(
   "ui",
   async () =>
-    await $kratos.requestUiContainer(
-      (flow, cookie) => $kratos.client.getSelfServiceSettingsFlow(flow, undefined, cookie, { withCredentials: true }),
-      $kratos.settings.bind($kratos)
+    await kratos.requestUiContainer(
+      (flow: string, cookie: string | undefined) => kratos.client.getSettingsFlow(flow, undefined, cookie, { withCredentials: true }),
+      kratos.settings.bind(kratos)
     )
 );
 
@@ -75,7 +76,7 @@ const csrfToken = computed(() => {
   if (!data.value?.ui) {
     throw new Error("Must have UI to get a csrfToken");
   }
-  const node = data.value.ui.nodes.find((n) => "name" in n.attributes && n.attributes.name === "csrf_token");
+  const node = data.value.ui.nodes.find((n: UiNode) => "name" in n.attributes && n.attributes.name === "csrf_token");
   if (!node) {
     throw new Error("No csrf token found");
   }
@@ -86,7 +87,7 @@ const csrfTokenLenient = computed(() => {
   if (!data.value?.ui) {
     return null;
   }
-  const node = data.value.ui.nodes.find((n) => "name" in n.attributes && n.attributes.name === "csrf_token");
+  const node = data.value.ui.nodes.find((n: UiNode) => "name" in n.attributes && n.attributes.name === "csrf_token");
   if (!node) {
     return null;
   }

@@ -9,27 +9,29 @@
 import { UiContainer, UiText } from "@ory/kratos-client/api";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
+import { UiNode } from "@ory/kratos-client";
 import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
-import { useAsyncData, useHead, useNuxtApp } from "#imports";
+import { useAsyncData, useHead } from "#imports";
+import { useKratos } from "~/plugins/kratos";
 
 const { t } = useI18n();
 
-const { $kratos } = useNuxtApp();
+const kratos = useKratos();
 const { data } = useAsyncData<{ ui: UiContainer } | null>(
   "ui",
   async () =>
-    await $kratos.requestUiContainer(
-      (flow, cookie) => $kratos.client.getSelfServiceRecoveryFlow(flow, cookie, { withCredentials: true }),
-      $kratos.reset.bind($kratos),
-      $kratos.reset.bind($kratos)
+    await kratos.requestUiContainer(
+      (flow, cookie) => kratos.client.getRecoveryFlow(flow, cookie, { withCredentials: true }),
+      kratos.reset.bind(kratos),
+      kratos.reset.bind(kratos)
     )
 );
 
 const modifiedUi = computed(() => {
   if (data.value?.ui) {
-    const node = data.value.ui.nodes.find((n) => n.group === "link");
+    const node = data.value.ui.nodes.find((n: UiNode) => n.group === "link");
     if (node) {
       node.meta.label = {
         text: "E-Mail",

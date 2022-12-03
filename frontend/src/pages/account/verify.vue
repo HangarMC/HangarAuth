@@ -12,18 +12,19 @@ import { useI18n } from "vue-i18n";
 import Card from "~/lib/components/design/Card.vue";
 import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
-import { useAsyncData, useHead, useNuxtApp } from "#imports";
+import { useAsyncData, useHead } from "#imports";
+import { useKratos } from "~/plugins/kratos";
 
 const { t } = useI18n();
 
-const { $kratos } = useNuxtApp();
+const kratos = useKratos();
 const { data } = useAsyncData<{ ui: UiContainer }>(
   "ui",
   async () =>
-    await $kratos.requestUiContainer(
-      (flow, cookie) => $kratos.client.getSelfServiceVerificationFlow(flow, cookie, { withCredentials: true }),
-      $kratos.verify.bind($kratos),
-      $kratos.verify.bind($kratos)
+    await kratos.requestUiContainer(
+      (flow, cookie) => kratos.client.getVerificationFlow(flow, cookie, { withCredentials: true }),
+      kratos.verify.bind(kratos),
+      kratos.verify.bind(kratos)
     )
 );
 
