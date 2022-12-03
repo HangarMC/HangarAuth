@@ -1,4 +1,4 @@
-FROM oryd/kratos:v0.10.1
+FROM oryd/kratos:v0.11.0
 CMD ["serve", "--watch-courier", "--dev", "-c", "/etc/config/kratos/kratos.yml"]
 COPY kratos.yml /etc/config/kratos/kratos.yml
 ADD schemas /etc/config/kratos/schemas
