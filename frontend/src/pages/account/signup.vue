@@ -59,7 +59,7 @@ import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
 import { FormTab } from "~/components/form/FormContainer.vue";
 import { useKratos } from "~/plugins/kratos";
-import { useAsyncData, useHead } from "#imports";
+import { useAsyncData, useHead, useRuntimeConfig } from "#imports";
 
 const { t } = useI18n();
 
