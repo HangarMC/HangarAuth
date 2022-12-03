@@ -52,6 +52,7 @@ import Button from "~/lib/components/design/Button.vue";
 import InputCheckbox from "~/lib/components/ui/InputCheckbox.vue";
 import Card from "~/lib/components/design/Card.vue";
 import Link from "~/lib/components/design/Link.vue";
+import { useFetch, useNuxtApp, useRoute, useRuntimeConfig } from "#imports";
 
 interface ConsentData {
   redirectTo: string;
