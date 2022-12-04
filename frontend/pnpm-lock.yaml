@@ -20,7 +20,7 @@ specifiers:
   '@vuelidate/validators': 2.0.0
   '@vueuse/components': 9.6.0
   '@vueuse/core': 9.6.0
-  '@vueuse/head': 1.0.19
+  '@vueuse/head': 1.0.20
   '@vueuse/integrations': 9.6.0
   accept-language-parser: 1.5.0
   axios: 0.27.2
@@ -39,7 +39,7 @@ specifiers:
   nuxt: 3.0.0
   nuxt-windicss: 2.6.0
   pinia: 2.0.27
-  pnpm: 7.17.1
+  pnpm: 7.18.0
   prettier: 2.8.0
   qs: 6.11.0
   regenerator-runtime: 0.13.11
@@ -65,7 +65,7 @@ dependencies:
   '@vuelidate/validators': 2.0.0_vue@3.2.45
   '@vueuse/components': 9.6.0_vue@3.2.45
   '@vueuse/core': 9.6.0_vue@3.2.45
-  '@vueuse/head': 1.0.19_vue@3.2.45
+  '@vueuse/head': 1.0.20_vue@3.2.45
   '@vueuse/integrations': 9.6.0_yjsvltparhm77zdpgfx2rdsufu
   accept-language-parser: 1.5.0
   axios: 0.27.2_debug@4.3.4
@@ -98,7 +98,7 @@ devDependencies:
   lint-staged: 13.0.4
   nuxt: 3.0.0_hs7ju3niqby2cnhr362u2o3kfi
   nuxt-windicss: 2.6.0_vite@2.9.15
-  pnpm: 7.17.1
+  pnpm: 7.18.0
   prettier: 2.8.0
   qs: 6.11.0
   regenerator-runtime: 0.13.11
@@ -1463,24 +1463,43 @@ packages:
     resolution: {integrity: sha512-X+3UqdMM65piHAmE+SHmepTS5Ld4RdJ1L5lIPdAtAF1fu6GHrJTiZRLHhxVjlkR9oZ1IwjNIKtusabTlqF0B+g==}
     dependencies:
       '@unhead/schema': 1.0.6
+    dev: true
+
+  /@unhead/dom/1.0.7:
+    resolution: {integrity: sha512-CbrHx82awA77XikV8S6GiQUWqrI57q4q27ktQ4lolqQoy79q9tF1Pyzdz//Zw/a0g8FaGOjyQRy6Di2ZqLkVxg==}
+    dependencies:
+      '@unhead/schema': 1.0.7
 
   /@unhead/schema/1.0.6:
     resolution: {integrity: sha512-l0UzuEB8blsrtUeqFtfGrEChhEPXwuU/O02l56Zp5kxqUlmlD4cDa3dxuHSNxmxnfKCvZqjMyDTlQiUu2Ey1rA==}
     dependencies:
       '@zhead/schema': 1.0.4
       hookable: 5.4.2
+    dev: true
+
+  /@unhead/schema/1.0.7:
+    resolution: {integrity: sha512-96nh3Hd05tALcpuisy3+g/fQcu88wxu81isYC+0Lb5avn9y71BTwmuf22neX/DprK11aZmpNaJIOTs0iU+OS0w==}
+    dependencies:
+      '@zhead/schema': 1.0.7
+      hookable: 5.4.2
 
   /@unhead/ssr/1.0.6:
     resolution: {integrity: sha512-38HeLIT9eQCQhgG95G8Ge7/acmo8NorUWovaEdgvTClIhEvkK5E82UYvZxLGfz3jsNOjKHVN73A3OoULvir9rA==}
     dependencies:
       '@unhead/schema': 1.0.6
+    dev: true
 
-  /@unhead/vue/1.0.6_vue@3.2.45:
-    resolution: {integrity: sha512-zkMiKyBWG1fNjbg4dVLDcUKx7nV/ZjWgnTJOzZoZuZFSE4yZBbCZoOtqyHHIih4LZS2x3g6rO/pljbMCWaPZtg==}
+  /@unhead/ssr/1.0.7:
+    resolution: {integrity: sha512-BJPrJI4nsMaHQjfBZxj/6bfoK4TnzJ11Kqicm/aCtNeZEhYhabRVHVpvKmyBFEcRGQyuZH1S6Ct4QRB8eAnHeQ==}
+    dependencies:
+      '@unhead/schema': 1.0.7
+
+  /@unhead/vue/1.0.7_vue@3.2.45:
+    resolution: {integrity: sha512-kUlX6TZi4i0if5lV32dHVaEbTQqfXsLSj+MGHs6iLx+dzRHjFGYQkpEyWURNM6jXYqiYTscD0mY2h79MqDXD2Q==}
     peerDependencies:
       vue: '>=2.7 || >=3'
     dependencies:
-      '@unhead/schema': 1.0.6
+      '@unhead/schema': 1.0.7
       hookable: 5.4.2
       vue: 3.2.45
 
@@ -1700,15 +1719,15 @@ packages:
       - '@vue/composition-api'
       - vue
 
-  /@vueuse/head/1.0.19_vue@3.2.45:
-    resolution: {integrity: sha512-UB8Vij9fjLS+VIL8VnRxkkkX1dosQEgdfq7kyHNev5tMzAlUc1BwIRlSU5PtJv9+Zk46BhTNdh/Btp+dEinWFQ==}
+  /@vueuse/head/1.0.20_vue@3.2.45:
+    resolution: {integrity: sha512-mqQw4Gr+N/ZWwBAcMDCZ79qTj8Fmjv1NQnR/NOkn23+w6UhS6cUQbZlgzKZa1ITy4jdE6m9vMOU1DALLhJwzhQ==}
     peerDependencies:
       vue: '>=2.7 || >=3'
     dependencies:
-      '@unhead/dom': 1.0.6
-      '@unhead/schema': 1.0.6
-      '@unhead/ssr': 1.0.6
-      '@unhead/vue': 1.0.6_vue@3.2.45
+      '@unhead/dom': 1.0.7
+      '@unhead/schema': 1.0.7
+      '@unhead/ssr': 1.0.7
+      '@unhead/vue': 1.0.7_vue@3.2.45
       vue: 3.2.45
 
   /@vueuse/integrations/9.6.0_yjsvltparhm77zdpgfx2rdsufu:
@@ -1797,6 +1816,10 @@ packages:
 
   /@zhead/schema/1.0.4:
     resolution: {integrity: sha512-v/CM22nH0TW9VU5IcRXlshwrMtsZPnFQWhcLBvpZjOJvfEmjl8cUb6OIJQJRR2WESNjjPW2Cji8mgL9XSVLjxA==}
+    dev: true
+
+  /@zhead/schema/1.0.7:
+    resolution: {integrity: sha512-jN2ipkz39YrHd8uulgw/Y7x8iOxvR/cTkin/E9zRQVP5JBIrrJMiGyFFj6JBW4Q029xJ5dKtpwy/3RZWpz+dkQ==}
 
   /abbrev/1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -5449,7 +5472,7 @@ packages:
       '@unhead/ssr': 1.0.6
       '@vue/reactivity': 3.2.45
       '@vue/shared': 3.2.45
-      '@vueuse/head': 1.0.19_vue@3.2.45
+      '@vueuse/head': 1.0.20_vue@3.2.45
       chokidar: 3.5.3
       cookie-es: 0.5.0
       defu: 6.1.1
@@ -5818,8 +5841,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /pnpm/7.17.1:
-    resolution: {integrity: sha512-O76jPxzoeja81Z/8YyTfuXt+f7qkpsyEJsNBreWYBLHY5rJkjvNE/bIUGQ2uD/rcYPEtmrZZYox21OjAMC9EGw==}
+  /pnpm/7.18.0:
+    resolution: {integrity: sha512-igZRB0ip8cn9f1glYzsPTJblxQcidY7/fSfJ++j6GYLT0pqIlijsdW9ZI4Waaxhi22SC4HZHe5vMiSa2IKoIoA==}
     engines: {node: '>=14.6'}
     hasBin: true
     dev: true
