@@ -18,7 +18,6 @@
     "types": ["vite/client", "vite-plugin-pages/client", "vite-plugin-vue-layouts/client", "unplugin-icons/types/vue", "nuxt-windicss"],
     "paths": {
       "~/*": ["src/*"],
-      "~icons/*": ["src/types/generated/icons.d.ts"],
       "#imports": [".nuxt/imports"]
     }
   },

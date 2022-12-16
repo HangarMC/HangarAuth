@@ -64,10 +64,9 @@ jobs:
         working-directory: frontend
         run: pnpm install --frozen-lockfile
 
-      # todo lint
-      # - name: Lint frontend
-      #   working-directory: frontend
-      #   run: pnpm lint
+      - name: Lint frontend
+        working-directory: frontend
+        run: pnpm prep && pnpm lint:eslint
 
       - name: Build frontend
         working-directory: frontend

@@ -51,9 +51,8 @@ jobs:
       - name: Install frontend deps
         run: pnpm install --frozen-lockfile
 
-      # todo lint
-      # - name: Lint frontend
-      #   run: pnpm lint
+      - name: Lint frontend
+        run: pnpm prep && pnpm lint
 
       - name: Build frontend
         run: pnpm build
