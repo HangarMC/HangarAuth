@@ -20,7 +20,7 @@
     ]
   },
   "eslintConfig": {
-    "extends": "./src/lib/config/nuxt.eslint.config.js"
+    "extends": "./src/lib/config/eslint.config.js"
   },
   "devDependencies": {
     "@iconify-json/mdi": "1.1.36",

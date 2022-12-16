@@ -9,7 +9,7 @@ import "./lib/styles/main.css";
 import { useSettingsStore } from "~/store/useSettingsStore";
 import { useAuthStore } from "~/store/useAuthStore";
 import { settingsLog } from "~/lib/composables/useLog";
-import { useHead } from "#imports";
+import { computed, useHead } from "#imports";
 
 const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
@@ -17,7 +17,7 @@ settingsStore.loadSettingsClient();
 settingsLog("render for user", authStore.user?.traits?.username, "with darkmode", settingsStore.darkMode);
 useHead({
   htmlAttrs: {
-    class: settingsStore.darkMode ? "dark" : "light",
+    class: computed(() => (settingsStore.darkMode ? "dark" : "light")),
   },
   bodyAttrs: {
     class: "background-body text-[#262626] dark:text-[#E0E6f0]",

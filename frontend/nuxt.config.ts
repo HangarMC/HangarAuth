@@ -3,6 +3,7 @@ import VueI18n from "@intlify/vite-plugin-vue-i18n";
 import IconsResolver from "unplugin-icons/resolver";
 import Icons from "unplugin-icons/vite";
 import Components from "unplugin-vue-components/vite";
+import { ProxyOptions } from "@nuxtjs-alt/proxy";
 import prettier from "./src/lib/plugins/prettier";
 
 const hangarHost = process.env.HANGAR_HOST || "http://localhost:3333";
@@ -66,64 +67,27 @@ export default defineNuxtConfig({
   experimental: {
     writeEarlyHints: false,
   },
-  // this is fucking ugly but else it doesn't resolve the env at runtime...
   proxy: {
     enableProxy: true,
     proxies: {
-      "/oauth/login": {
-        configure: (proxy, options) => {
-          options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
-        },
-        changeOrigin: true,
-      },
-      "/oauth/handleConsent": {
-        configure: (proxy, options) => {
-          options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
-        },
-        changeOrigin: true,
-      },
-      "/oauth/logout": {
-        configure: (proxy, options) => {
-          options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
-        },
-        changeOrigin: true,
-      },
-      "/oauth/frontchannel-logout": {
-        configure: (proxy, options) => {
-          options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
-        },
-        changeOrigin: true,
-      },
-      "/avatar": {
-        configure: (proxy, options) => {
-          options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
-        },
-        changeOrigin: true,
-      },
-      "/image": {
-        configure: (proxy, options) => {
-          options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
-        },
-        changeOrigin: true,
-      },
-      "/sync": {
-        configure: (proxy, options) => {
-          options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
-        },
-        changeOrigin: true,
-      },
-      "/settings": {
-        configure: (proxy, options) => {
-          options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
-        },
-        changeOrigin: true,
-      },
-      "/version-info": {
-        configure: (proxy, options) => {
-          options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
-        },
-        changeOrigin: true,
-      },
+      "/oauth/login": defineProxy(),
+      "/oauth/handleConsent": defineProxy(),
+      "/oauth/logout": defineProxy(),
+      "/oauth/frontchannel-logout": defineProxy(),
+      "/avatar": defineProxy(),
+      "/image": defineProxy(),
+      "/sync": defineProxy(),
+      "/settings": defineProxy(),
+      "/version-info": defineProxy(),
     },
   },
 });
+
+function defineProxy(): ProxyOptions {
+  return {
+    configure: (proxy, options) => {
+      options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
+    },
+    changeOrigin: true,
+  };
+}
