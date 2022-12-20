@@ -1,3 +1,4 @@
+import { NuxtApp } from "nuxt/app";
 import { defineNuxtPlugin } from "#imports";
 import FormInputPassword from "~/components/form/FormInputPassword.vue";
 import FormInputText from "~/components/form/FormInputText.vue";
@@ -9,7 +10,7 @@ import FormImg from "~/components/form/FormImg.vue";
 import FormText from "~/components/form/FormText.vue";
 import FormScript from "~/components/form/FormScript.vue";
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
   nuxtApp.vueApp.component("FormInputPassword", FormInputPassword);
   nuxtApp.vueApp.component("FormInputText", FormInputText);
   nuxtApp.vueApp.component("FormInputHidden", FormInputHidden);

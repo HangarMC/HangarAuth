@@ -48,7 +48,7 @@ import { useAuthStore } from "~/store/useAuthStore";
 import AvatarChangeModal from "~/lib/components/modals/AvatarChangeModal.vue";
 import Alert from "~/lib/components/design/Alert.vue";
 import { useSettingsStore } from "~/store/useSettingsStore";
-import { computed, ref, useAsyncData, useHead, useRuntimeConfig, watch, definePageMeta } from "#imports";
+import { computed, useAsyncData, useHead, useRuntimeConfig, watch, definePageMeta } from "#imports";
 import { useKratos } from "~/plugins/kratos";
 
 definePageMeta({
@@ -70,7 +70,6 @@ const { data } = useAsyncData<{ ui: UiContainer }>(
 const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
 const runtimeConfig = useRuntimeConfig();
-const file = ref();
 
 const csrfToken = computed(() => {
   if (!data.value?.ui) {

@@ -37,19 +37,4 @@ const text = computed(() => {
       return t("error.unknown");
   }
 });
-
-const head = computed(() => {
-  let title = t("error.unknown");
-  switch (props.error.statusCode) {
-    case 404:
-      title = t("error.404");
-      break;
-    case 401:
-      title = props.error.message!;
-      break;
-  }
-  return {
-    title,
-  };
-});
 </script>

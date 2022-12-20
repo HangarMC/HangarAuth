@@ -10,6 +10,7 @@ export const useSettingsStore = defineStore("settings", () => {
   settingsLog("defineSettingsStore");
   const darkMode: Ref<boolean> = ref(false);
   const locale: Ref<string> = ref("en");
+  const mobile: Ref<boolean> = ref(false);
 
   const csrfToken = ref<string | undefined>();
   const flowId = ref<string | undefined>();
@@ -92,5 +93,6 @@ export const useSettingsStore = defineStore("settings", () => {
     locale,
     csrfToken,
     flowId,
+    mobile,
   };
 });

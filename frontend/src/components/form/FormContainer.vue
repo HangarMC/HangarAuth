@@ -5,10 +5,10 @@
         <div class="flex flex-wrap gap-2">
           <div v-for="(node, idx) in filteredNodes" :key="idx + selectedTabValue" class="basis-full">
             <component
-              :is="'form-' + node.type + (node.attributes.type && !node.attributes.type.includes('/') ? '-' + node.attributes.type : '')"
+              :is="'form-' + node.type + ('type' in node.attributes && !node.attributes.type?.includes('/') ? '-' + node.attributes.type : '')"
               :node="node"
               :disable-autocomplete="disableAutocomplete"
-              :disabled-field="disabledFields.includes(node.attributes.name)"
+              :disabled-field="'name' in node.attributes ? disabledFields.includes(node.attributes.name) : false"
             />
           </div>
         </div>
@@ -16,10 +16,10 @@
     </Tabs>
     <div v-for="(node, idx) in noTab" :key="idx" class="basis-full mb-2">
       <component
-        :is="'form-' + node.type + (node.attributes.type && !node.attributes.type.includes('/') ? '-' + node.attributes.type : '')"
+        :is="'form-' + node.type + ('type' in node.attributes && !node.attributes.type?.includes('/') ? '-' + node.attributes.type : '')"
         :node="node"
         :disable-autocomplete="disableAutocomplete"
-        :disabled-field="disabledFields.includes(node.attributes.name)"
+        :disabled-field="'name' in node.attributes ? disabledFields.includes(node.attributes.name) : false"
       />
     </div>
   </div>
@@ -33,6 +33,7 @@ import Tabs, { Tab } from "~/lib/components/design/Tabs.vue";
 export interface FormTab extends Tab {
   value: string;
   groups: string[];
+  header: string;
 }
 
 const props = defineProps<{

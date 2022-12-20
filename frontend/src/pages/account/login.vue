@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { UiContainer } from "@ory/kratos-client/api";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import Card from "~/lib/components/design/Card.vue";
 import Button from "~/lib/components/design/Button.vue";
@@ -33,8 +33,6 @@ const { data } = useAsyncData<null | { ui: UiContainer }>(
       })
     )
 );
-
-const file = ref();
 
 const tabs = computed<FormTab[]>(() => {
   return [

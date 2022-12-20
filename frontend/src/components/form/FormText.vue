@@ -11,7 +11,7 @@
       </div>
     </template>
     <template v-else>
-      <div>{{ node.meta.label.text }}</div>
+      <div>{{ node.meta.label?.text }}</div>
       <div>{{ node.attributes.text.text }}</div>
     </template>
   </div>
@@ -23,9 +23,9 @@ import { UiNodeTextAttributes } from "@ory/kratos-client/api";
 import { formProps, Props, useFormElement } from "~/composables/useFormElement";
 
 const props = defineProps(formProps());
-const { node } = useFormElement(props as Props);
+const { node } = useFormElement<UiNodeTextAttributes>(props as Props);
 
 const secrets = computed(() => {
-  return ((node.attributes as UiNodeTextAttributes).text.context as any)?.secrets;
+  return (node.attributes.text.context as any)?.secrets;
 });
 </script>

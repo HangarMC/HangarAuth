@@ -1,4 +1,4 @@
-import { UiNode } from "@ory/kratos-client";
+import { UiNode, UiNodeAttributes } from "@ory/kratos-client";
 import { computed, type PropType, ref } from "vue";
 import { UiNodeInputAttributes } from "@ory/kratos-client/api";
 import { type ValidationRule } from "@vuelidate/core";
@@ -25,7 +25,7 @@ export interface Props {
   disabledAutocomplete: boolean;
 }
 
-export function useFormElement(props: Props) {
+export function useFormElement<T extends UiNodeAttributes>(props: Props) {
   const errorMessages = computed<string[]>(() => {
     return props.node.messages.filter((m) => m.type === "error").map((m) => m.text);
   });
@@ -50,7 +50,7 @@ export function useFormElement(props: Props) {
   return {
     errorMessages,
     messages,
-    node: props.node,
+    node: props.node as Omit<UiNode, "attributes"> & { attributes: T },
     disabledField: props.disabledField,
     disabledAutocomplete: props.disabledAutocomplete,
     value,

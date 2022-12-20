@@ -3,6 +3,7 @@ import { UiContainer, FrontendApiFactory, Session } from "@ory/kratos-client";
 import { AuthenticatorAssuranceLevel, SessionAuthenticationMethod, FrontendApiFp, FlowError, LogoutFlow } from "@ory/kratos-client/api";
 import axios, { AxiosError, AxiosInstance, AxiosPromise, AxiosResponse } from "axios";
 import { type H3Event, sendRedirect } from "h3";
+import { NuxtApp } from "nuxt/app";
 import { defineNuxtPlugin, useNuxtApp, useRoute, useRuntimeConfig } from "#imports";
 import { useFlow } from "~/composables/useFlow";
 import { useAuthStore } from "~/store/useAuthStore";
@@ -38,6 +39,7 @@ export class Kratos {
       });
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return FrontendApiFactory({ basePath: this.kratosUrl }, this.kratosUrl, instance);
   }
@@ -191,7 +193,7 @@ export class Kratos {
   }
 }
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
   const config = useRuntimeConfig();
   return {
     provide: {

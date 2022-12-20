@@ -16,7 +16,7 @@ useHead({
   title: "Fake",
 });
 
-function buildUrl(prompt: string) {
+function buildUrl(prompt: string | null) {
   const url = new URL("/oauth2/auth", "http://localhost:4444");
   url.searchParams.set("client_id", "my-client");
   url.searchParams.set("scope", "openid");

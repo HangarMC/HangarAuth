@@ -10,7 +10,7 @@
 import { UiContainer } from "@ory/kratos-client/api";
 import Alert from "~/lib/components/design/Alert.vue";
 
-const props = defineProps<{
+defineProps<{
   ui: UiContainer;
 }>();
 

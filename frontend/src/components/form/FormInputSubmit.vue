@@ -16,11 +16,12 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
+import { UiNodeInputAttributes } from "@ory/kratos-client/api";
 import Button from "~/lib/components/design/Button.vue";
 import { formProps, Props, useFormElement } from "~/composables/useFormElement";
 
 const props = defineProps(formProps());
-const { node, messages, errorMessages, disabledField, value } = useFormElement(props as Props);
+const { node, messages, errorMessages, disabledField, value } = useFormElement<UiNodeInputAttributes>(props as Props);
 
 const text = computed(() => (node.meta.label ? node.meta.label.text : "submit"));
 </script>

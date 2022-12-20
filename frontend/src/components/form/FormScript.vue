@@ -6,10 +6,10 @@ import { formProps, type Props, useFormElement } from "~/composables/useFormElem
 const script = ref();
 
 const props = defineProps(formProps());
-const { node } = useFormElement(props as Props);
+const { node } = useFormElement<UiNodeScriptAttributes>(props as Props);
 
 onMounted(() => {
-  const attributes = node.attributes as UiNodeScriptAttributes;
+  const attributes = node.attributes;
   script.value = document.createElement("script");
 
   script.value.async = true;
