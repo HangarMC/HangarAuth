@@ -165,7 +165,7 @@ export class Kratos {
   async loadUser(shouldRedirect = false) {
     try {
       // in dev on client we use a localhost:3001 and a proxy since cors for kratos doesn't seem to work locally...
-      const client = process.server && process.env.NODE_ENV === "production" ? this.client : this.proxyClient;
+      const client = process.server || process.env.NODE_ENV === "production" ? this.client : this.proxyClient;
       const session = (await client.toSession(undefined, this.event ? this.event.node.req.headers.cookie : undefined, {
         withCredentials: true,
       })) as unknown as AxiosResponse<Session>;
