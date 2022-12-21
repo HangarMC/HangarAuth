@@ -2,7 +2,7 @@
   <Card v-if="!signupDisabled && data && data.ui">
     <UserMessages :ui="data.ui" />
     <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('signup.title')" />
-    <form :method="data.ui.method" :action="data.ui.action">
+    <form :method="data.ui.method" :action="actionWithInvite">
       <!-- normal -->
       <Form
         :ui="data.ui"
@@ -59,20 +59,21 @@ import Form from "~/components/form/Form.vue";
 import UserMessages from "~/components/UserMessages.vue";
 import { FormTab } from "~/components/form/FormContainer.vue";
 import { useKratos } from "~/plugins/kratos";
-import { useAsyncData, useHead, useRuntimeConfig } from "#imports";
+import { useAsyncData, useHead, useRoute, useRuntimeConfig } from "#imports";
 
 const { t } = useI18n();
 
+const route = useRoute();
 const config = useRuntimeConfig();
 const signupDisabled = config.public.signupDisabled;
 const kratos = useKratos();
-const { data } = useAsyncData<{ ui: UiContainer }>(
+const { data } = useAsyncData<{ ui: UiContainer; request_url: string }>(
   "ui",
   async () =>
     await kratos.requestUiContainer(
       (flow, cookie) => kratos.client.getRegistrationFlow(flow, cookie, { withCredentials: true }),
-      kratos.register.bind(kratos),
-      kratos.register.bind(kratos)
+      kratos.register.bind(kratos, route.query.invite ? "?invite=" + route.query.invite : ""),
+      kratos.register.bind(kratos, route.query.invite ? "?invite=" + route.query.invite : "")
     )
 );
 
@@ -81,6 +82,12 @@ const credentialsTabs = computed<FormTab[]>(() => {
     { value: "password", header: "Password", groups: ["password"] },
     { value: "key", header: "Security key", groups: ["webauthn"] },
   ];
+});
+
+const actionWithInvite = computed(() => {
+  const url = data.value?.request_url;
+  const invite = new URL(url)?.searchParams?.get("invite");
+  return data.value?.ui.action + (invite ? "&invite=" + invite : "");
 });
 
 useHead({

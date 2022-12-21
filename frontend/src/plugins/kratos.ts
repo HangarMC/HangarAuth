@@ -69,9 +69,9 @@ export class Kratos {
     }
   }
 
-  async register() {
+  async register(query?: string) {
     try {
-      await this.redirect(this.kratosPublicUrl + "/self-service/registration/browser");
+      await this.redirect(this.kratosPublicUrl + "/self-service/registration/browser" + (query || ""));
     } catch (e) {
       kratosLog(e);
     }
@@ -135,15 +135,15 @@ export class Kratos {
     ) => Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ ui: UiContainer; id: string }>>,
     onNoFlow: () => void = this.login.bind(this),
     onErrRedirect: () => void = this.login.bind(this)
-  ): Promise<null | { ui: UiContainer; flowId: string }> {
+  ): Promise<null | { ui: UiContainer; flowId: string; request_url: string }> {
     const flow = useFlow(useRoute(), onNoFlow);
     if (flow) {
       try {
         const cookieHeader = this.event ? this.event.node.req.headers.cookie : undefined;
         kratosLog("fetch flow", flow, "cookie header", cookieHeader);
-        const flowInfo = (await fetchFlow(flow, cookieHeader)) as unknown as AxiosResponse<{ ui: UiContainer; id: string }>;
+        const flowInfo = (await fetchFlow(flow, cookieHeader)) as unknown as AxiosResponse<{ ui: UiContainer; id: string; request_url: string }>;
         kratosLog(flowInfo.data.ui.nodes);
-        return { ui: flowInfo.data.ui, flowId: flowInfo.data.id };
+        return { ui: flowInfo.data.ui, flowId: flowInfo.data.id, request_url: flowInfo.data.request_url };
       } catch (e: any) {
         const { request, ...err } = e;
         kratosLog("redirectOnError", e.response?.data ? e.response.data : err);
