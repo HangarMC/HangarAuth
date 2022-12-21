@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import { useI18n } from "vue-i18n";
-import { type Component } from "vue";
+import { type Component, ComputedRef } from "vue";
 import hangarLogo from "~/lib/assets/hangar-logo.svg";
 import IconMdiHome from "~icons/mdi/home";
 import IconMdiAccountGroup from "~icons/mdi/account-group";
@@ -14,7 +14,7 @@ import IconMdiPuzzle from "~icons/mdi/puzzle";
 import Button from "~/lib/components/design/Button.vue";
 import { useAuthStore } from "~/store/useAuthStore";
 import { useSettingsStore } from "~/store/useSettingsStore";
-import { useRuntimeConfig } from "#imports";
+import { computed, useRuntimeConfig } from "#imports";
 
 const { t } = useI18n();
 const authStore = useAuthStore();
@@ -27,7 +27,12 @@ type NavLink = {
   icon: Component;
 };
 
-const navBarMenuLinksMoreFromPaper: NavLink[] = [
+// if we are logged in, we can trigger a login
+const hangarLink = computed(() =>
+  authStore.user ? `${runtimeConfig.public.hangarHost}/login?returnUrl=${runtimeConfig.public.hangarHost}` : runtimeConfig.public.hangarHost
+);
+
+const navBarMenuLinksMoreFromPaper: ComputedRef<NavLink[]> = computed(() => [
   { link: "https://papermc.io/", label: t("nav.hangar.home"), icon: IconMdiHome },
   { link: "https://forums.papermc.io/", label: t("nav.hangar.forums"), icon: IconMdiForum },
   { link: "https://github.com/PaperMC", label: t("nav.hangar.code"), icon: IconMdiCodeBraces },
@@ -35,8 +40,8 @@ const navBarMenuLinksMoreFromPaper: NavLink[] = [
   { link: "https://papermc.io/javadocs", label: t("nav.hangar.javadocs"), icon: IconMdiLanguageJava },
   { link: "https://papermc.io/downloads", label: t("nav.hangar.downloads"), icon: IconMdiDownloadCircle },
   { link: "https://papermc.io/community", label: t("nav.hangar.community"), icon: IconMdiAccountGroup },
-  { link: runtimeConfig.public.hangarHost, label: t("nav.hangar.hangar"), icon: IconMdiPuzzle },
-];
+  { link: hangarLink.value, label: t("nav.hangar.hangar"), icon: IconMdiPuzzle },
+]);
 </script>
 
 <template>
