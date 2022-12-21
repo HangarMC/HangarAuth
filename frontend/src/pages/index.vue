@@ -28,6 +28,18 @@ const currentUser = computed(() => {
 
 if (currentUser.value) {
   // We can add a landing page if/once auth is used for more than just Hangar
-  router.replace("/account/settings");
+  await router.replace("/account/settings");
+} else if (authStore.error) {
+  // we don't want to cause infinite loops on auth errors
+  if (authStore.error.error?.id === "session_aal2_required") {
+    // but if its all2 required, we know a 2fa flow was aborted and we can just trigger it again
+    await $kratos.aal2();
+  } else if (authStore.error.error.reason === "No valid session cookie found.") {
+    // no chance of loop, you wanna go to login
+    await router.replace("/account/login");
+  }
+} else {
+  // if you are here, you want to go to login actually
+  await router.replace("/account/login");
 }
 </script>

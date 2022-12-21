@@ -163,6 +163,11 @@ export class Kratos {
   }
 
   async loadUser(shouldRedirect = false) {
+    const authStore = useAuthStore();
+    // if we have a user from the backend, we can just return on the client
+    if (authStore.user) {
+      return;
+    }
     try {
       // in dev on client we use a localhost:3001 and a proxy since cors for kratos doesn't seem to work locally...
       const client = process.server || process.env.NODE_ENV === "production" ? this.client : this.proxyClient;
@@ -172,7 +177,6 @@ export class Kratos {
 
       kratosLog("load user result", session.data);
       if (session.data && session.data.active) {
-        const authStore = useAuthStore();
         authStore.user = session.data.identity;
         authStore.aal = {
           aal: session.data.authenticator_assurance_level!,
@@ -184,6 +188,11 @@ export class Kratos {
       return !shouldRedirect || this.login();
     } catch (e: any) {
       if (e.response) {
+        // store the error, might be interesting
+        if (e.response.data) {
+          authStore.error = e.response.data;
+        }
+
         if (e.response.data?.redirect_browser_to) {
           kratosLog("session catch: url", e.response.data.redirect_browser_to, shouldRedirect);
           return !shouldRedirect || this.redirect(e.response.data.redirect_browser_to);

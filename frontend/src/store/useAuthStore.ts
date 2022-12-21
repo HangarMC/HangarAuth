@@ -1,4 +1,4 @@
-import { Identity } from "@ory/kratos-client/api";
+import { ErrorAuthenticatorAssuranceLevelNotSatisfied, ErrorGeneric, Identity } from "@ory/kratos-client/api";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { AALInfo } from "~/plugins/kratos";
@@ -6,6 +6,7 @@ import { AALInfo } from "~/plugins/kratos";
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<Identity | null>(null);
   const aal = ref<AALInfo | null>(null);
+  const error = ref<ErrorGeneric | null>(null);
 
-  return { user, aal };
+  return { user, aal, error };
 });
