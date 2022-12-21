@@ -74,23 +74,33 @@ export default defineNuxtConfig({
   proxy: {
     enableProxy: true,
     proxies: {
-      "/oauth/login": defineProxy(),
-      "/oauth/handleConsent": defineProxy(),
-      "/oauth/logout": defineProxy(),
-      "/oauth/frontchannel-logout": defineProxy(),
-      "/avatar": defineProxy(),
-      "/image": defineProxy(),
-      "/sync": defineProxy(),
-      "/settings": defineProxy(),
-      "/version-info": defineProxy(),
+      "/oauth/login": defineBackendProxy(),
+      "/oauth/handleConsent": defineBackendProxy(),
+      "/oauth/logout": defineBackendProxy(),
+      "/oauth/frontchannel-logout": defineBackendProxy(),
+      "/avatar": defineBackendProxy(),
+      "/image": defineBackendProxy(),
+      "/sync": defineBackendProxy(),
+      "/settings": defineBackendProxy(),
+      "/version-info": defineBackendProxy(),
+      "/sessions": defineKratosProxy(),
     },
   },
 });
 
-function defineProxy(): ProxyOptions {
+function defineBackendProxy(): ProxyOptions {
   return {
     configure: (proxy, options) => {
       options.target = process.env.BACKEND_HOST || process.env.NITRO_BACKEND_HOST || "http://localhost:8081";
+    },
+    changeOrigin: true,
+  };
+}
+
+function defineKratosProxy(): ProxyOptions {
+  return {
+    configure: (proxy, options) => {
+      options.target = process.env.KRATOS || process.env.NITRO_KRATOS || "http://localhost:4433";
     },
     changeOrigin: true,
   };

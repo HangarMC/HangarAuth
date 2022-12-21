@@ -29,7 +29,7 @@ export class Kratos {
     this.event = event;
   }
 
-  get client(): ReturnType<typeof FrontendApiFp> {
+  private createClient(url: string): ReturnType<typeof FrontendApiFp> {
     let instance = axios.create();
     if (process.server) {
       instance = axios.create({
@@ -41,7 +41,15 @@ export class Kratos {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    return FrontendApiFactory({ basePath: this.kratosUrl }, this.kratosUrl, instance);
+    return FrontendApiFactory({ basePath: url }, url, instance);
+  }
+
+  get client(): ReturnType<typeof FrontendApiFp> {
+    return this.createClient(this.kratosUrl);
+  }
+
+  get proxyClient(): ReturnType<typeof FrontendApiFp> {
+    return this.createClient("http://localhost:3001");
   }
 
   async redirect(url: string) {
@@ -156,7 +164,9 @@ export class Kratos {
 
   async loadUser(shouldRedirect = false) {
     try {
-      const session = (await this.client.toSession(undefined, this.event ? this.event.node.req.headers.cookie : undefined, {
+      // in dev on client we use a localhost:3001 and a proxy since cors for kratos doesn't seem to work locally...
+      const client = process.server && process.env.NODE_ENV === "production" ? this.client : this.proxyClient;
+      const session = (await client.toSession(undefined, this.event ? this.event.node.req.headers.cookie : undefined, {
         withCredentials: true,
       })) as unknown as AxiosResponse<Session>;
 
