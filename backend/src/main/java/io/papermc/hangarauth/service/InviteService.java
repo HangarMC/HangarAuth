@@ -7,6 +7,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.Map;
 
+import io.papermc.hangarauth.config.custom.InviteConfig;
 import io.papermc.hangarauth.controller.model.InviteHookData;
 import io.papermc.hangarauth.db.dao.InviteDAO;
 
@@ -14,10 +15,12 @@ import io.papermc.hangarauth.db.dao.InviteDAO;
 public class InviteService {
 
     private final InviteDAO dao;
+    private final InviteConfig config;
 
     @Autowired
-    public InviteService(InviteDAO dao) {
+    public InviteService(InviteDAO dao, InviteConfig config) {
         this.dao = dao;
+        this.config = config;
     }
 
     public Map<String, Object> handleInvite(InviteHookData data) {
@@ -26,8 +29,10 @@ public class InviteService {
             String invite = UriComponentsBuilder.fromUriString(data.url()).build().getQueryParams().getFirst("invite");
             // check that invite is valid
             if (invite == null) {
-                // TODO allow disabling invite mode
-                return errorPayload("Signup is invite only right now, sorry!");
+                if (config.enabled()) {
+                    return errorPayload("Signup is invite only right now, sorry!");
+                }
+                return Map.of();
             }
             if (dao.getInvite(invite).isEmpty()) {
                 return errorPayload("Unknown invite " + invite + ". Please contact whoever send you this link.");

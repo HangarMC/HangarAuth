@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 
+import io.papermc.hangarauth.config.custom.InviteConfig;
 import io.papermc.hangarauth.controller.model.InviteHookData;
 import io.papermc.hangarauth.service.InviteService;
 
@@ -21,15 +22,17 @@ import io.papermc.hangarauth.service.InviteService;
 public class InviteController {
 
     private final InviteService service;
+    private final InviteConfig config;
 
     @Autowired
-    public InviteController(InviteService service) {
+    public InviteController(InviteService service, InviteConfig config) {
         this.service = service;
+        this.config = config;
     }
 
     @PostMapping("/use")
     public ResponseEntity<Object> useInvite(@NotNull @RequestBody InviteHookData body, @RequestHeader("X-Kratos-Hook-Api-Key") String apiKey) {
-        if (!apiKey.equals("hookapikey-changeme")) { // TODO change
+        if (!apiKey.equals(config.apiKey())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 

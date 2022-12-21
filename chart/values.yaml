@@ -186,6 +186,9 @@ backend:
       objectStorageEndpoint: ""
       cdnEndpoint: ""
       cdnIncludeBucket: true
+    invite:
+      enabled: true
+      apiKey: "hookapikey-changeme"
 
 postgresql:
   enabled: true
