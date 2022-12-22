@@ -89,6 +89,16 @@ export default defineNuxtConfig({
       "/sessions": defineKratosProxy(),
     },
   },
+  // cache statics for a year
+  routeRules: {
+    "/_nuxt/**": { headers: { "Cache-Control": "max-age=31536000, immutable" } },
+    "/**/*.js": { headers: { "Cache-Control": "max-age=31536000, immutable" } },
+    "/**/*.mjs": { headers: { "Cache-Control": "max-age=31536000, immutable" } },
+    "/**/*.css": { headers: { "Cache-Control": "max-age=31536000, immutable" } },
+    "/**/*.json": { headers: { "Cache-Control": "max-age=31536000, immutable" } },
+    "/**/*.xml": { headers: { "Cache-Control": "max-age=31536000, immutable" } },
+    "/**/*.svg": { headers: { "Cache-Control": "max-age=31536000, immutable" } },
+  },
 });
 
 function defineBackendProxy(): ProxyOptions {
