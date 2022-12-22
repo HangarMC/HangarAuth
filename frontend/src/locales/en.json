@@ -48,6 +48,7 @@
     "fullNameHint": "Enter your full name here",
     "irc": "IRC Nick",
     "ircHint": "Join us on IRC often? Enter your IRC nick here",
+    "openid": "OpenID",
     "github": "Github Username",
     "githubHint": "Publish your software on Github? Enter your Github Username here",
     "discord": "Discord ID",

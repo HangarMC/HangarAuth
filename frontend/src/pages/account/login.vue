@@ -1,7 +1,9 @@
 <template>
   <Card v-if="data && data.ui">
     <UserMessages :ui="data.ui" />
-    <Form :title="t('login.title')" :ui="data.ui" :tabs="tabs">
+    <Form v-if="isWebAuthnLogin" title="Device ready?" :ui="data.ui" />
+    <Form v-else-if="is2fa" title="Second Factor" :ui="data.ui" />
+    <Form v-else :title="t('login.title')" :ui="data.ui" :tabs="tabs">
       <template #additional-buttons>
         <Button button-type="secondary" size="medium" @click.prevent="$kratos.register()">Register</Button>
         <Button button-type="secondary" size="medium" @click.prevent="$kratos.reset()">Forgot</Button>
@@ -42,6 +44,9 @@ const tabs = computed<FormTab[]>(() => {
     { value: "backup", header: "Backup", groups: ["lookup_secret"] },
   ];
 });
+
+const is2fa = computed(() => data.value?.ui.messages?.[0]?.id === 1010004);
+const isWebAuthnLogin = computed(() => data.value?.ui.messages?.[0]?.id === 1010012);
 
 useHead({
   title: t("login.title"),

@@ -33,7 +33,7 @@
       />
       <Form
         :ui="data.ui"
-        :title="t('signup.optionalInfo')"
+        :title="t('signup.openid')"
         disable-autocomplete
         :include-groups="['oidc']"
         no-form

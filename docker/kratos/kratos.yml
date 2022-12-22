@@ -130,6 +130,21 @@ selfservice:
                     in: header
                     name: X-Kratos-Hook-Api-Key
                     value: hookapikey-changeme
+        webauthn:
+          hooks:
+            - hook: session
+            - hook: web_hook
+              config:
+                method: POST
+                url: "http://host.docker.internal:8081/invite/use"
+                body: file:///etc/config/kratos/hooks/registration/after/profile.jsonnet
+                can_interrupt: true
+                auth:
+                  type: api_key
+                  config:
+                    in: header
+                    name: X-Kratos-Hook-Api-Key
+                    value: hookapikey-changeme
 
 log:
   level: debug

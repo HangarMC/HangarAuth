@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap basis-full">
+  <div class="flex flex-wrap basis-full form-container">
     <Tabs v-if="tabs" v-model="selectedTabValue" :tabs="filteredTabs" :vertical="false">
       <template #catchall>
         <div class="flex flex-wrap gap-2">
@@ -87,3 +87,9 @@ if (props.tabs && props.tabs.length > 0) {
   selectedTabValue.value = filteredTabs.value[0].value;
 }
 </script>
+
+<style>
+.form-container div:has(> input[type="hidden"]) {
+  display: none;
+}
+</style>
