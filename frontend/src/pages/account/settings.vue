@@ -12,13 +12,16 @@
       <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('settings.title')" />
       <div class="flex gap-2 flex-wrap md:flex-nowrap">
         <div class="basis-full md:basis-8/12 flex-shrink">
+          <!-- todo: username changing isn't implemented, so block here -->
+          <!-- todo: language and theme need a nice selector, so hide them for now -->
           <Form
             :title="t('settings.userinfo')"
             disable-autocomplete
             :ui="data.ui"
             :include-groups="['default', 'profile']"
             fields-as-excludes
-            :fields="['traits.theme']"
+            :fields="['traits.theme', 'traits.language']"
+            :disabled-fields="['traits.username']"
           />
           <Form :title="t('settings.password')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'password']" />
           <Form :title="t('settings.2fa-backup')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'lookup_secret']" />
