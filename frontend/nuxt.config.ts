@@ -71,6 +71,9 @@ export default defineNuxtConfig({
     // typeCheck: "build", // TODO enable typechecking on build
     // typeCheck: true, // uncomment to run it at dev
   },
+  nitro: {
+    compressPublicAssets: true,
+  },
   proxy: {
     enableProxy: true,
     proxies: {
