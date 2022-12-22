@@ -12,13 +12,14 @@
         :fields="['traits.username', 'traits.email']"
         no-form
       />
+      <!-- todo we don't have nice ui for language and theme, nor do they do much, so just disable for now -->
       <Form
         :ui="data.ui"
         :title="t('signup.optionalInfo')"
         disable-autocomplete
         :include-groups="['default']"
         fields-as-excludes
-        :fields="['traits.username', 'traits.email']"
+        :fields="['traits.username', 'traits.email', 'traits.language', 'traits.theme']"
         no-form
       />
       <!-- oicd -->
