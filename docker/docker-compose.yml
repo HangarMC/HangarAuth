@@ -36,6 +36,7 @@ services:
       - "OAUTH2_EXPOSE_INTERNAL_ERRORS=true"
       - "LOG_LEVEL=debug"
   mailslurper:
+    platform: linux/amd64
     image: oryd/mailslurper:latest-smtps
     ports:
       - '4436:4436'

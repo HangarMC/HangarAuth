@@ -13,7 +13,7 @@ export const formProps = () => ({
     type: Boolean,
     default: false,
   },
-  disabledAutocomplete: {
+  disableAutocomplete: {
     type: Boolean,
     default: false,
   },
@@ -22,7 +22,7 @@ export const formProps = () => ({
 export interface Props {
   node: UiNode;
   disabledField: boolean;
-  disabledAutocomplete: boolean;
+  disableAutocomplete: boolean;
 }
 
 export function useFormElement<T extends UiNodeAttributes>(props: Props) {
@@ -52,7 +52,7 @@ export function useFormElement<T extends UiNodeAttributes>(props: Props) {
     messages,
     node: props.node as Omit<UiNode, "attributes"> & { attributes: T },
     disabledField: props.disabledField,
-    disabledAutocomplete: props.disabledAutocomplete,
+    disableAutocomplete: props.disableAutocomplete,
     value,
     rules,
   };

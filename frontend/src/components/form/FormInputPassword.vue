@@ -9,7 +9,7 @@
     :error-messages="errorMessages"
     :rules="rules"
     no-error-tooltip
-    :autocomplete="disabledAutocomplete ? 'new-password' : 'current-password'"
+    :autocomplete="disableAutocomplete ? 'new-password' : 'current-password'"
   >
     <template #append>
       <IconMdiEye v-if="show" @click="show = false" />
@@ -25,7 +25,7 @@ import InputText from "~/lib/components/ui/InputText.vue";
 import { formProps, Props, useFormElement } from "~/composables/useFormElement";
 
 const props = defineProps(formProps());
-const { node, messages, errorMessages, disabledField, disabledAutocomplete, value, rules } = useFormElement<UiNodeInputAttributes>(props as Props);
+const { node, messages, errorMessages, disabledField, disableAutocomplete, value, rules } = useFormElement<UiNodeInputAttributes>(props as Props);
 
 const show = ref(false);
 </script>
