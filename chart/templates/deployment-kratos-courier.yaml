@@ -32,6 +32,9 @@ spec:
         - name: {{ include "hangarauth.fullname" . }}-kratos-config-volume
           secret:
             secretName: {{ include "hangarauth.fullname" . }}-kratos-config
+        - name: {{ include "hangarauth.fullname" . }}-kratos-hooks-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-hooks
         - name: {{ include "hangarauth.fullname" . }}-kratos-schemas-volume
           configMap:
             name: {{ include "hangarauth.fullname" . }}-kratos-schemas
@@ -61,6 +64,9 @@ spec:
           volumeMounts:
             - name: {{ include "hangarauth.fullname" . }}-kratos-config-volume
               mountPath: /etc/config
+              readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-hooks-volume
+              mountPath: /etc/hangarauth/hooks
               readOnly: true
             - name: {{ include "hangarauth.fullname" . }}-kratos-schemas-volume
               mountPath: /etc/hangarauth/schemas
