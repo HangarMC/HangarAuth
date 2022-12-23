@@ -70,7 +70,7 @@ public class OAuthController {
     @Autowired
     public OAuthController(final HydraConfig hydraConfig, final KratosConfig kratosConfig, final GeneralConfig generalConfig, ObjectMapper mapper, RestTemplate restTemplate) {
         this.hydraClient = new AdminApi(Configuration.getDefaultApiClient().setBasePath(hydraConfig.adminUrl()));
-        this.kratosClient = new V0alpha1Api(sh.ory.kratos.Configuration.getDefaultApiClient().setBasePath(kratosConfig.adminUrl()));
+        this.kratosClient = new V0alpha1Api(sh.ory.kratos.Configuration.getDefaultApiClient().setBasePath(kratosConfig.publicBackendUrl()));
         this.generalConfig = generalConfig;
         this.kratosConfig = kratosConfig;
         this.mapper = mapper;
