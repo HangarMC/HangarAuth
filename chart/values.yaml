@@ -172,7 +172,9 @@ backend:
       database: "hangarauth"
       options: "?currentSchema=auth"
     auth:
-      allowedOrigins: "https://*.hangar.test"
+      allowedOrigins:
+        - "https://auth.hangar.test"
+        - "https://hangar.test"
       kratos:
         adminUrl: "http://hangarauth-kratos:4434"
         publicBackendUrl: "http://hangarauth-kratos:4433"
