@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap basis-full form-container">
-    <Tabs v-if="tabs" v-model="selectedTabValue" :tabs="filteredTabs" :vertical="false">
+    <Tabs v-if="formTabs.length" v-model="selectedTabValue" :tabs="filteredTabs" :vertical="false">
       <template #catchall>
         <div class="flex flex-wrap gap-2">
           <div v-for="(node, idx) in filteredNodes" :key="idx + selectedTabValue" class="basis-full">
@@ -40,18 +40,18 @@ const props = defineProps<{
   nodes: UiNode[];
   disableAutocomplete: boolean;
   disabledFields: string[];
-  tabs: FormTab[];
+  formTabs: FormTab[];
 }>();
 
 const selectedTabValue = ref();
 
 const selectedTab = computed(() => {
-  return props.tabs.find((t) => t.value === selectedTabValue.value);
+  return props.formTabs?.find((t) => t.value === selectedTabValue.value);
 });
 
 const noTab = computed(() => {
   return props.nodes.filter((n) => {
-    for (const tab of props.tabs) {
+    for (const tab of props.formTabs) {
       if (matches(n, tab)) {
         return false;
       }
@@ -75,7 +75,7 @@ const filteredNodes = computed(() => {
 });
 
 const filteredTabs = computed(() => {
-  return props.tabs.filter((tab) =>
+  return props.formTabs.filter((tab) =>
     props.nodes.find((n) => {
       return matches(n, tab, false);
     })
@@ -83,7 +83,7 @@ const filteredTabs = computed(() => {
 });
 
 // select first tab
-if (props.tabs && props.tabs.length > 0) {
+if (props.formTabs && props.formTabs.length > 0) {
   selectedTabValue.value = filteredTabs.value[0].value;
 }
 </script>

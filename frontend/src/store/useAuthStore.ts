@@ -1,4 +1,4 @@
-import { ErrorAuthenticatorAssuranceLevelNotSatisfied, ErrorGeneric, Identity } from "@ory/kratos-client/api";
+import { ErrorGeneric, Identity } from "@ory/kratos-client/api";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { AALInfo } from "~/plugins/kratos";

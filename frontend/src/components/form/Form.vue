@@ -10,7 +10,7 @@
     <Card class="mt-2">
       <h1 class="text-xl mb-2">{{ title }}</h1>
       <div class="flex flex-wrap gap-2">
-        <FormContainer :nodes="filteredNodes" :disable-autocomplete="disableAutocomplete" :disabled-fields="disabledFields" :tabs="tabs" />
+        <FormContainer :nodes="filteredNodes" :disable-autocomplete="disableAutocomplete" :disabled-fields="disabledFields" :form-tabs="tabs" />
         <slot name="additional-buttons" />
       </div>
     </Card>
