@@ -9,6 +9,6 @@ public record GeneralConfig(
     @DefaultValue("supersecret2") String apiKey,
     @DefaultValue("http://localhost:3333") String hangarFrontendHost,
     @DefaultValue("http://localhost:3333") String hangarBackendHost,
-    @DefaultValue("http://localhost:3000") String[] allowedOrigins
+    @DefaultValue({"http://localhost:3000", "http://localhost:3333"}) String[] allowedOrigins
 ) {
 }
