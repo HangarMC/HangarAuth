@@ -1,5 +1,5 @@
 <template>
-  <input v-bind="node.attributes" />
+  <input :name="node.attributes.name" :value="node.attributes.value" type="hidden" required />
 </template>
 
 <script lang="ts" setup>

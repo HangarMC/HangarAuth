@@ -55,7 +55,8 @@ export class Kratos {
   async redirect(url: string) {
     kratosLog("redirect to: " + url);
     if (process.server) {
-      await sendRedirect(this.event!, url);
+      if (!this.event) throw new Error("Expecting an event to be present");
+      await sendRedirect(this.event, url);
     } else {
       window.location.href = url;
     }

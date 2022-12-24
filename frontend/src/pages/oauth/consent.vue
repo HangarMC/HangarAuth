@@ -74,7 +74,8 @@ const { data: consentData, error } = await useFetch<ConsentData>((process.server
 
 if (consentData?.value?.redirectTo) {
   if (process.server) {
-    nuxtApp.callHook("app:redirected").then(() => sendRedirect(nuxtApp.ssrContext!.event, consentData.value.redirectTo, 301));
+    if (!nuxtApp.ssrContext) throw new Error("Expecting ssrContext to be present");
+    nuxtApp.callHook("app:redirected").then(() => sendRedirect(nuxtApp.ssrContext.event, consentData.value.redirectTo, 301));
   } else {
     location.href = consentData.value.redirectTo;
   }
