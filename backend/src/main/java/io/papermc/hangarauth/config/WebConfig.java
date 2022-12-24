@@ -67,7 +67,9 @@ public class WebConfig implements WebMvcConfigurer {
         return List.of(
             MediaType.IMAGE_JPEG,
             MediaType.IMAGE_PNG,
-            MediaType.APPLICATION_OCTET_STREAM
+            MediaType.APPLICATION_OCTET_STREAM,
+            new MediaType("image", "svg+xml"),
+            new MediaType("image", "webp")
         );
     }
 
