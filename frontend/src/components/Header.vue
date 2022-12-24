@@ -85,9 +85,9 @@ const navBarMenuLinksMoreFromPaper: ComputedRef<NavLink[]> = computed(() => [
         </Popover>
 
         <!-- Site logo -->
-        <router-link to="/">
+        <a :href="hangarLink">
           <img alt="Hangar Logo" :src="hangarLogo" class="h-8" />
-        </router-link>
+        </a>
       </div>
 
       <!-- Right side items -->
