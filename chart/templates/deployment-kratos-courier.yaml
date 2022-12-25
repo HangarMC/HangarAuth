@@ -44,12 +44,24 @@ spec:
         - name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-valid-volume
           configMap:
             name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-valid
+        - name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-code-invalid-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-code-invalid
+        - name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-code-valid-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-code-valid
         - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-invalid-volume
           configMap:
             name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-invalid
         - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-valid-volume
           configMap:
             name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-valid
+        - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-code-invalid-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-code-invalid
+        - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-code-valid-volume
+          configMap:
+            name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-code-valid
       serviceAccountName: {{ include "hangarauth.kratosCourier.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.kratosCourier.podSecurityContext | nindent 8 }}
@@ -77,11 +89,23 @@ spec:
             - name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-valid-volume
               mountPath: /etc/hangarauth/email/recovery/valid
               readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-code-invalid-volume
+              mountPath: /etc/hangarauth/email/recovery_code/invalid
+              readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-email-recovery-code-valid-volume
+              mountPath: /etc/hangarauth/email/recovery_code/valid
+              readOnly: true
             - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-invalid-volume
               mountPath: /etc/hangarauth/email/verification/invalid
               readOnly: true
             - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-valid-volume
               mountPath: /etc/hangarauth/email/verification/valid
+              readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-code-invalid-volume
+              mountPath: /etc/hangarauth/email/verification_code/invalid
+              readOnly: true
+            - name: {{ include "hangarauth.fullname" . }}-kratos-email-verification-code-valid-volume
+              mountPath: /etc/hangarauth/email/verification_code/valid
               readOnly: true
           resources:
             {{- toYaml .Values.kratosCourier.resources | nindent 12 }}
