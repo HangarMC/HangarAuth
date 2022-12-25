@@ -1,11 +1,12 @@
-Welcome to Hangar, {{ .Identity.traits.username }}!
+Welcome to Hangar, {{ .Identity.traits.username }}!<br><br>
 
-Please verify your account by entering the following code:
-{{ .VerificationCode }}
-or clicking the following link:
-<a href="{{ .VerificationURL }}">{{ .VerificationURL }}</a>
+Please verify your account by entering the following code:<br><br>
+<b>{{ .VerificationCode }}</b><br><br>
 
-If this was not you, please ignore this email.
+Alternatively, you can use the following link:<br><br>
+<a href="{{ .VerificationURL }}">{{ .VerificationURL }}</a><br><br>
 
-Thanks,
+If this was not you, please ignore this email.<br><br>
+
+Thanks,<br>
 Your Hangar team
