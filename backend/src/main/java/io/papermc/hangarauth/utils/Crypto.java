@@ -1,8 +1,8 @@
 package io.papermc.hangarauth.utils;
 
+import org.jetbrains.annotations.NotNull;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import org.jetbrains.annotations.NotNull;
 
 public final class Crypto {
 

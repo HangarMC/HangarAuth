@@ -2,9 +2,9 @@ package io.papermc.hangarauth.controller;
 
 import io.papermc.hangarauth.controller.model.Traits;
 import io.papermc.hangarauth.service.KratosService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.UUID;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

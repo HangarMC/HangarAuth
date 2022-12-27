@@ -1,8 +1,8 @@
 package io.papermc.hangarauth.service.file;
 
+import org.springframework.core.io.Resource;
 import java.io.IOException;
 import java.io.InputStream;
-import org.springframework.core.io.Resource;
 
 public interface FileService {
 

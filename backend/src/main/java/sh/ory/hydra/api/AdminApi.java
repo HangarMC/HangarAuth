@@ -52,83 +52,83 @@ public class AdminApi {
         this(Configuration.getDefaultApiClient());
     }
 
-    public AdminApi(ApiClient apiClient) {
+    public AdminApi(final ApiClient apiClient) {
         this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return localVarApiClient;
+        return this.localVarApiClient;
     }
 
-    public void setApiClient(ApiClient apiClient) {
+    public void setApiClient(final ApiClient apiClient) {
         this.localVarApiClient = apiClient;
     }
 
     public int getHostIndex() {
-        return localHostIndex;
+        return this.localHostIndex;
     }
 
-    public void setHostIndex(int hostIndex) {
+    public void setHostIndex(final int hostIndex) {
         this.localHostIndex = hostIndex;
     }
 
     public String getCustomBaseUrl() {
-        return localCustomBaseUrl;
+        return this.localCustomBaseUrl;
     }
 
-    public void setCustomBaseUrl(String customBaseUrl) {
+    public void setCustomBaseUrl(final String customBaseUrl) {
         this.localCustomBaseUrl = customBaseUrl;
     }
 
     /**
      * Build call for acceptConsentRequest
-     * @param consentChallenge  (required)
-     * @param acceptConsentRequest  (optional)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param consentChallenge     (required)
+     * @param acceptConsentRequest (optional)
+     * @param _callback            Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call acceptConsentRequestCall(String consentChallenge, AcceptConsentRequest acceptConsentRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call acceptConsentRequestCall(final String consentChallenge, final AcceptConsentRequest acceptConsentRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = acceptConsentRequest;
+        final Object localVarPostBody = acceptConsentRequest;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/requests/consent/accept";
+        final String localVarPath = "/oauth2/auth/requests/consent/accept";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (consentChallenge != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("consent_challenge", consentChallenge));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("consent_challenge", consentChallenge));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -136,17 +136,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call acceptConsentRequestValidateBeforeCall(String consentChallenge, AcceptConsentRequest acceptConsentRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call acceptConsentRequestValidateBeforeCall(final String consentChallenge, final AcceptConsentRequest acceptConsentRequest, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'consentChallenge' is set
         if (consentChallenge == null) {
@@ -154,126 +154,162 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = acceptConsentRequestCall(consentChallenge, acceptConsentRequest, _callback);
+        final okhttp3.Call localVarCall = this.acceptConsentRequestCall(consentChallenge, acceptConsentRequest, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Accept a Consent Request
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This endpoint tells ORY Hydra that the subject has authorized the OAuth 2.0 client to access resources on his/her behalf. The consent provider includes additional information, such as session data for access and ID tokens, and if the consent request should be used as basis for future requests.  The response contains a redirect URL which the consent provider should redirect the user-agent to.
-     * @param consentChallenge  (required)
-     * @param acceptConsentRequest  (optional)
+     * Accept a Consent Request When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra
+     * asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject
+     * authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to
+     * access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web
+     * app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the
+     * client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private
+     * files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s
+     * user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the
+     * OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This endpoint tells ORY
+     * Hydra that the subject has authorized the OAuth 2.0 client to access resources on his/her behalf. The consent
+     * provider includes additional information, such as session data for access and ID tokens, and if the consent
+     * request should be used as basis for future requests.  The response contains a redirect URL which the consent
+     * provider should redirect the user-agent to.
+     *
+     * @param consentChallenge     (required)
+     * @param acceptConsentRequest (optional)
      * @return CompletedRequest
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public CompletedRequest acceptConsentRequest(String consentChallenge, AcceptConsentRequest acceptConsentRequest) throws ApiException {
-        ApiResponse<CompletedRequest> localVarResp = acceptConsentRequestWithHttpInfo(consentChallenge, acceptConsentRequest);
+    public CompletedRequest acceptConsentRequest(final String consentChallenge, final AcceptConsentRequest acceptConsentRequest) throws ApiException {
+        final ApiResponse<CompletedRequest> localVarResp = this.acceptConsentRequestWithHttpInfo(consentChallenge, acceptConsentRequest);
         return localVarResp.getData();
     }
 
     /**
-     * Accept a Consent Request
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This endpoint tells ORY Hydra that the subject has authorized the OAuth 2.0 client to access resources on his/her behalf. The consent provider includes additional information, such as session data for access and ID tokens, and if the consent request should be used as basis for future requests.  The response contains a redirect URL which the consent provider should redirect the user-agent to.
-     * @param consentChallenge  (required)
-     * @param acceptConsentRequest  (optional)
+     * Accept a Consent Request When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra
+     * asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject
+     * authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to
+     * access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web
+     * app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the
+     * client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private
+     * files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s
+     * user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the
+     * OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This endpoint tells ORY
+     * Hydra that the subject has authorized the OAuth 2.0 client to access resources on his/her behalf. The consent
+     * provider includes additional information, such as session data for access and ID tokens, and if the consent
+     * request should be used as basis for future requests.  The response contains a redirect URL which the consent
+     * provider should redirect the user-agent to.
+     *
+     * @param consentChallenge     (required)
+     * @param acceptConsentRequest (optional)
      * @return ApiResponse&lt;CompletedRequest&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<CompletedRequest> acceptConsentRequestWithHttpInfo(String consentChallenge, AcceptConsentRequest acceptConsentRequest) throws ApiException {
-        okhttp3.Call localVarCall = acceptConsentRequestValidateBeforeCall(consentChallenge, acceptConsentRequest, null);
-        Type localVarReturnType = new TypeToken<CompletedRequest>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<CompletedRequest> acceptConsentRequestWithHttpInfo(final String consentChallenge, final AcceptConsentRequest acceptConsentRequest) throws ApiException {
+        final okhttp3.Call localVarCall = this.acceptConsentRequestValidateBeforeCall(consentChallenge, acceptConsentRequest, null);
+        final Type localVarReturnType = new TypeToken<CompletedRequest>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Accept a Consent Request (asynchronously)
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This endpoint tells ORY Hydra that the subject has authorized the OAuth 2.0 client to access resources on his/her behalf. The consent provider includes additional information, such as session data for access and ID tokens, and if the consent request should be used as basis for future requests.  The response contains a redirect URL which the consent provider should redirect the user-agent to.
-     * @param consentChallenge  (required)
-     * @param acceptConsentRequest  (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * Accept a Consent Request (asynchronously) When an authorization code, hybrid, or implicit OAuth 2.0 Flow is
+     * initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If
+     * the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be
+     * allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and
+     * is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny
+     * the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your
+     * private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the
+     * subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch
+     * information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This
+     * endpoint tells ORY Hydra that the subject has authorized the OAuth 2.0 client to access resources on his/her
+     * behalf. The consent provider includes additional information, such as session data for access and ID tokens, and
+     * if the consent request should be used as basis for future requests.  The response contains a redirect URL which
+     * the consent provider should redirect the user-agent to.
+     *
+     * @param consentChallenge     (required)
+     * @param acceptConsentRequest (optional)
+     * @param _callback            The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call acceptConsentRequestAsync(String consentChallenge, AcceptConsentRequest acceptConsentRequest, final ApiCallback<CompletedRequest> _callback) throws ApiException {
+    public okhttp3.Call acceptConsentRequestAsync(final String consentChallenge, final AcceptConsentRequest acceptConsentRequest, final ApiCallback<CompletedRequest> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = acceptConsentRequestValidateBeforeCall(consentChallenge, acceptConsentRequest, _callback);
-        Type localVarReturnType = new TypeToken<CompletedRequest>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.acceptConsentRequestValidateBeforeCall(consentChallenge, acceptConsentRequest, _callback);
+        final Type localVarReturnType = new TypeToken<CompletedRequest>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for acceptLoginRequest
-     * @param loginChallenge  (required)
-     * @param acceptLoginRequest  (optional)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param loginChallenge     (required)
+     * @param acceptLoginRequest (optional)
+     * @param _callback          Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call acceptLoginRequestCall(String loginChallenge, AcceptLoginRequest acceptLoginRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call acceptLoginRequestCall(final String loginChallenge, final AcceptLoginRequest acceptLoginRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = acceptLoginRequest;
+        final Object localVarPostBody = acceptLoginRequest;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/requests/login/accept";
+        final String localVarPath = "/oauth2/auth/requests/login/accept";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (loginChallenge != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("login_challenge", loginChallenge));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("login_challenge", loginChallenge));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -281,17 +317,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call acceptLoginRequestValidateBeforeCall(String loginChallenge, AcceptLoginRequest acceptLoginRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call acceptLoginRequestValidateBeforeCall(final String loginChallenge, final AcceptLoginRequest acceptLoginRequest, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'loginChallenge' is set
         if (loginChallenge == null) {
@@ -299,129 +335,159 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = acceptLoginRequestCall(loginChallenge, acceptLoginRequest, _callback);
+        final okhttp3.Call localVarCall = this.acceptLoginRequestCall(loginChallenge, acceptLoginRequest, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Accept a Login Request
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint tells ORY Hydra that the subject has successfully authenticated and includes additional information such as the subject&#39;s ID and if ORY Hydra should remember the subject&#39;s subject agent for future authentication attempts by setting a cookie.  The response contains a redirect URL which the login provider should redirect the user-agent to.
-     * @param loginChallenge  (required)
-     * @param acceptLoginRequest  (optional)
+     * Accept a Login Request When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra
+     * asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then
+     * tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to
+     * authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is
+     * \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the
+     * subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information
+     * on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint tells ORY
+     * Hydra that the subject has successfully authenticated and includes additional information such as the
+     * subject&#39;s ID and if ORY Hydra should remember the subject&#39;s subject agent for future authentication
+     * attempts by setting a cookie.  The response contains a redirect URL which the login provider should redirect the
+     * user-agent to.
+     *
+     * @param loginChallenge     (required)
+     * @param acceptLoginRequest (optional)
      * @return CompletedRequest
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public CompletedRequest acceptLoginRequest(String loginChallenge, AcceptLoginRequest acceptLoginRequest) throws ApiException {
-        ApiResponse<CompletedRequest> localVarResp = acceptLoginRequestWithHttpInfo(loginChallenge, acceptLoginRequest);
+    public CompletedRequest acceptLoginRequest(final String loginChallenge, final AcceptLoginRequest acceptLoginRequest) throws ApiException {
+        final ApiResponse<CompletedRequest> localVarResp = this.acceptLoginRequestWithHttpInfo(loginChallenge, acceptLoginRequest);
         return localVarResp.getData();
     }
 
     /**
-     * Accept a Login Request
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint tells ORY Hydra that the subject has successfully authenticated and includes additional information such as the subject&#39;s ID and if ORY Hydra should remember the subject&#39;s subject agent for future authentication attempts by setting a cookie.  The response contains a redirect URL which the login provider should redirect the user-agent to.
-     * @param loginChallenge  (required)
-     * @param acceptLoginRequest  (optional)
+     * Accept a Login Request When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra
+     * asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then
+     * tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to
+     * authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is
+     * \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the
+     * subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information
+     * on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint tells ORY
+     * Hydra that the subject has successfully authenticated and includes additional information such as the
+     * subject&#39;s ID and if ORY Hydra should remember the subject&#39;s subject agent for future authentication
+     * attempts by setting a cookie.  The response contains a redirect URL which the login provider should redirect the
+     * user-agent to.
+     *
+     * @param loginChallenge     (required)
+     * @param acceptLoginRequest (optional)
      * @return ApiResponse&lt;CompletedRequest&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<CompletedRequest> acceptLoginRequestWithHttpInfo(String loginChallenge, AcceptLoginRequest acceptLoginRequest) throws ApiException {
-        okhttp3.Call localVarCall = acceptLoginRequestValidateBeforeCall(loginChallenge, acceptLoginRequest, null);
-        Type localVarReturnType = new TypeToken<CompletedRequest>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<CompletedRequest> acceptLoginRequestWithHttpInfo(final String loginChallenge, final AcceptLoginRequest acceptLoginRequest) throws ApiException {
+        final okhttp3.Call localVarCall = this.acceptLoginRequestValidateBeforeCall(loginChallenge, acceptLoginRequest, null);
+        final Type localVarReturnType = new TypeToken<CompletedRequest>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Accept a Login Request (asynchronously)
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint tells ORY Hydra that the subject has successfully authenticated and includes additional information such as the subject&#39;s ID and if ORY Hydra should remember the subject&#39;s subject agent for future authentication attempts by setting a cookie.  The response contains a redirect URL which the login provider should redirect the user-agent to.
-     * @param loginChallenge  (required)
-     * @param acceptLoginRequest  (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * Accept a Login Request (asynchronously) When an authorization code, hybrid, or implicit OAuth 2.0 Flow is
+     * initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate
+     * the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it
+     * must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name
+     * for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL
+     * to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch
+     * information on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint
+     * tells ORY Hydra that the subject has successfully authenticated and includes additional information such as the
+     * subject&#39;s ID and if ORY Hydra should remember the subject&#39;s subject agent for future authentication
+     * attempts by setting a cookie.  The response contains a redirect URL which the login provider should redirect the
+     * user-agent to.
+     *
+     * @param loginChallenge     (required)
+     * @param acceptLoginRequest (optional)
+     * @param _callback          The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call acceptLoginRequestAsync(String loginChallenge, AcceptLoginRequest acceptLoginRequest, final ApiCallback<CompletedRequest> _callback) throws ApiException {
+    public okhttp3.Call acceptLoginRequestAsync(final String loginChallenge, final AcceptLoginRequest acceptLoginRequest, final ApiCallback<CompletedRequest> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = acceptLoginRequestValidateBeforeCall(loginChallenge, acceptLoginRequest, _callback);
-        Type localVarReturnType = new TypeToken<CompletedRequest>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.acceptLoginRequestValidateBeforeCall(loginChallenge, acceptLoginRequest, _callback);
+        final Type localVarReturnType = new TypeToken<CompletedRequest>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for acceptLogoutRequest
-     * @param logoutChallenge  (required)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param logoutChallenge (required)
+     * @param _callback       Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call acceptLogoutRequestCall(String logoutChallenge, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call acceptLogoutRequestCall(final String logoutChallenge, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/requests/logout/accept";
+        final String localVarPath = "/oauth2/auth/requests/logout/accept";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (logoutChallenge != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("logout_challenge", logoutChallenge));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("logout_challenge", logoutChallenge));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -429,17 +495,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json" // TODO hack
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call acceptLogoutRequestValidateBeforeCall(String logoutChallenge, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call acceptLogoutRequestValidateBeforeCall(final String logoutChallenge, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'logoutChallenge' is set
         if (logoutChallenge == null) {
@@ -447,119 +513,125 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = acceptLogoutRequestCall(logoutChallenge, _callback);
+        final okhttp3.Call localVarCall = this.acceptLogoutRequestCall(logoutChallenge, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Accept a Logout Request
-     * When a user or an application requests ORY Hydra to log out a user, this endpoint is used to confirm that logout request. No body is required.  The response contains a redirect URL which the consent provider should redirect the user-agent to.
-     * @param logoutChallenge  (required)
+     * Accept a Logout Request When a user or an application requests ORY Hydra to log out a user, this endpoint is used
+     * to confirm that logout request. No body is required.  The response contains a redirect URL which the consent
+     * provider should redirect the user-agent to.
+     *
+     * @param logoutChallenge (required)
      * @return CompletedRequest
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public CompletedRequest acceptLogoutRequest(String logoutChallenge) throws ApiException {
-        ApiResponse<CompletedRequest> localVarResp = acceptLogoutRequestWithHttpInfo(logoutChallenge);
+    public CompletedRequest acceptLogoutRequest(final String logoutChallenge) throws ApiException {
+        final ApiResponse<CompletedRequest> localVarResp = this.acceptLogoutRequestWithHttpInfo(logoutChallenge);
         return localVarResp.getData();
     }
 
     /**
-     * Accept a Logout Request
-     * When a user or an application requests ORY Hydra to log out a user, this endpoint is used to confirm that logout request. No body is required.  The response contains a redirect URL which the consent provider should redirect the user-agent to.
-     * @param logoutChallenge  (required)
+     * Accept a Logout Request When a user or an application requests ORY Hydra to log out a user, this endpoint is used
+     * to confirm that logout request. No body is required.  The response contains a redirect URL which the consent
+     * provider should redirect the user-agent to.
+     *
+     * @param logoutChallenge (required)
      * @return ApiResponse&lt;CompletedRequest&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<CompletedRequest> acceptLogoutRequestWithHttpInfo(String logoutChallenge) throws ApiException {
-        okhttp3.Call localVarCall = acceptLogoutRequestValidateBeforeCall(logoutChallenge, null);
-        Type localVarReturnType = new TypeToken<CompletedRequest>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<CompletedRequest> acceptLogoutRequestWithHttpInfo(final String logoutChallenge) throws ApiException {
+        final okhttp3.Call localVarCall = this.acceptLogoutRequestValidateBeforeCall(logoutChallenge, null);
+        final Type localVarReturnType = new TypeToken<CompletedRequest>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Accept a Logout Request (asynchronously)
-     * When a user or an application requests ORY Hydra to log out a user, this endpoint is used to confirm that logout request. No body is required.  The response contains a redirect URL which the consent provider should redirect the user-agent to.
-     * @param logoutChallenge  (required)
-     * @param _callback The callback to be executed when the API call finishes
+     * Accept a Logout Request (asynchronously) When a user or an application requests ORY Hydra to log out a user, this
+     * endpoint is used to confirm that logout request. No body is required.  The response contains a redirect URL which
+     * the consent provider should redirect the user-agent to.
+     *
+     * @param logoutChallenge (required)
+     * @param _callback       The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call acceptLogoutRequestAsync(String logoutChallenge, final ApiCallback<CompletedRequest> _callback) throws ApiException {
+    public okhttp3.Call acceptLogoutRequestAsync(final String logoutChallenge, final ApiCallback<CompletedRequest> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = acceptLogoutRequestValidateBeforeCall(logoutChallenge, _callback);
-        Type localVarReturnType = new TypeToken<CompletedRequest>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.acceptLogoutRequestValidateBeforeCall(logoutChallenge, _callback);
+        final Type localVarReturnType = new TypeToken<CompletedRequest>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for createJsonWebKeySet
-     * @param set The set (required)
-     * @param jsonWebKeySetGeneratorRequest  (optional)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param set                           The set (required)
+     * @param jsonWebKeySetGeneratorRequest (optional)
+     * @param _callback                     Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call createJsonWebKeySetCall(String set, JsonWebKeySetGeneratorRequest jsonWebKeySetGeneratorRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createJsonWebKeySetCall(final String set, final JsonWebKeySetGeneratorRequest jsonWebKeySetGeneratorRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = jsonWebKeySetGeneratorRequest;
+        final Object localVarPostBody = jsonWebKeySetGeneratorRequest;
 
         // create path and map variables
-        String localVarPath = "/keys/{set}"
-            .replaceAll("\\{" + "set" + "\\}", localVarApiClient.escapeString(set.toString()));
+        final String localVarPath = "/keys/{set}"
+            .replaceAll("\\{" + "set" + "\\}", this.localVarApiClient.escapeString(set));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -567,17 +639,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createJsonWebKeySetValidateBeforeCall(String set, JsonWebKeySetGeneratorRequest jsonWebKeySetGeneratorRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createJsonWebKeySetValidateBeforeCall(final String set, final JsonWebKeySetGeneratorRequest jsonWebKeySetGeneratorRequest, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'set' is set
         if (set == null) {
@@ -585,121 +657,139 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = createJsonWebKeySetCall(set, jsonWebKeySetGeneratorRequest, _callback);
+        final okhttp3.Call localVarCall = this.createJsonWebKeySetCall(set, jsonWebKeySetGeneratorRequest, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Generate a New JSON Web Key
-     * This endpoint is capable of generating JSON Web Key Sets for you. There a different strategies available, such as symmetric cryptographic keys (HS256, HS512) and asymetric cryptographic keys (RS256, ECDSA). If the specified JSON Web Key Set does not exist, it will be created.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param set The set (required)
-     * @param jsonWebKeySetGeneratorRequest  (optional)
+     * Generate a New JSON Web Key This endpoint is capable of generating JSON Web Key Sets for you. There a different
+     * strategies available, such as symmetric cryptographic keys (HS256, HS512) and asymetric cryptographic keys
+     * (RS256, ECDSA). If the specified JSON Web Key Set does not exist, it will be created.  A JSON Web Key (JWK) is a
+     * JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data
+     * structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this
+     * functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens),
+     * and allows storing user-defined keys as well.
+     *
+     * @param set                           The set (required)
+     * @param jsonWebKeySetGeneratorRequest (optional)
      * @return JSONWebKeySet
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public JSONWebKeySet createJsonWebKeySet(String set, JsonWebKeySetGeneratorRequest jsonWebKeySetGeneratorRequest) throws ApiException {
-        ApiResponse<JSONWebKeySet> localVarResp = createJsonWebKeySetWithHttpInfo(set, jsonWebKeySetGeneratorRequest);
+    public JSONWebKeySet createJsonWebKeySet(final String set, final JsonWebKeySetGeneratorRequest jsonWebKeySetGeneratorRequest) throws ApiException {
+        final ApiResponse<JSONWebKeySet> localVarResp = this.createJsonWebKeySetWithHttpInfo(set, jsonWebKeySetGeneratorRequest);
         return localVarResp.getData();
     }
 
     /**
-     * Generate a New JSON Web Key
-     * This endpoint is capable of generating JSON Web Key Sets for you. There a different strategies available, such as symmetric cryptographic keys (HS256, HS512) and asymetric cryptographic keys (RS256, ECDSA). If the specified JSON Web Key Set does not exist, it will be created.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param set The set (required)
-     * @param jsonWebKeySetGeneratorRequest  (optional)
+     * Generate a New JSON Web Key This endpoint is capable of generating JSON Web Key Sets for you. There a different
+     * strategies available, such as symmetric cryptographic keys (HS256, HS512) and asymetric cryptographic keys
+     * (RS256, ECDSA). If the specified JSON Web Key Set does not exist, it will be created.  A JSON Web Key (JWK) is a
+     * JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data
+     * structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this
+     * functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens),
+     * and allows storing user-defined keys as well.
+     *
+     * @param set                           The set (required)
+     * @param jsonWebKeySetGeneratorRequest (optional)
      * @return ApiResponse&lt;JSONWebKeySet&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<JSONWebKeySet> createJsonWebKeySetWithHttpInfo(String set, JsonWebKeySetGeneratorRequest jsonWebKeySetGeneratorRequest) throws ApiException {
-        okhttp3.Call localVarCall = createJsonWebKeySetValidateBeforeCall(set, jsonWebKeySetGeneratorRequest, null);
-        Type localVarReturnType = new TypeToken<JSONWebKeySet>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<JSONWebKeySet> createJsonWebKeySetWithHttpInfo(final String set, final JsonWebKeySetGeneratorRequest jsonWebKeySetGeneratorRequest) throws ApiException {
+        final okhttp3.Call localVarCall = this.createJsonWebKeySetValidateBeforeCall(set, jsonWebKeySetGeneratorRequest, null);
+        final Type localVarReturnType = new TypeToken<JSONWebKeySet>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Generate a New JSON Web Key (asynchronously)
-     * This endpoint is capable of generating JSON Web Key Sets for you. There a different strategies available, such as symmetric cryptographic keys (HS256, HS512) and asymetric cryptographic keys (RS256, ECDSA). If the specified JSON Web Key Set does not exist, it will be created.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param set The set (required)
-     * @param jsonWebKeySetGeneratorRequest  (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * Generate a New JSON Web Key (asynchronously) This endpoint is capable of generating JSON Web Key Sets for you.
+     * There a different strategies available, such as symmetric cryptographic keys (HS256, HS512) and asymetric
+     * cryptographic keys (RS256, ECDSA). If the specified JSON Web Key Set does not exist, it will be created.  A JSON
+     * Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK
+     * Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id.
+     * ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID
+     * Connect ID tokens), and allows storing user-defined keys as well.
+     *
+     * @param set                           The set (required)
+     * @param jsonWebKeySetGeneratorRequest (optional)
+     * @param _callback                     The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call createJsonWebKeySetAsync(String set, JsonWebKeySetGeneratorRequest jsonWebKeySetGeneratorRequest, final ApiCallback<JSONWebKeySet> _callback) throws ApiException {
+    public okhttp3.Call createJsonWebKeySetAsync(final String set, final JsonWebKeySetGeneratorRequest jsonWebKeySetGeneratorRequest, final ApiCallback<JSONWebKeySet> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createJsonWebKeySetValidateBeforeCall(set, jsonWebKeySetGeneratorRequest, _callback);
-        Type localVarReturnType = new TypeToken<JSONWebKeySet>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.createJsonWebKeySetValidateBeforeCall(set, jsonWebKeySetGeneratorRequest, _callback);
+        final Type localVarReturnType = new TypeToken<JSONWebKeySet>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for createOAuth2Client
-     * @param oauth2Client  (required)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param oauth2Client (required)
+     * @param _callback    Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call createOAuth2ClientCall(OAuth2Client oauth2Client, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createOAuth2ClientCall(final OAuth2Client oauth2Client, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = oauth2Client;
+        final Object localVarPostBody = oauth2Client;
 
         // create path and map variables
-        String localVarPath = "/clients";
+        final String localVarPath = "/clients";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -707,17 +797,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createOAuth2ClientValidateBeforeCall(OAuth2Client oauth2Client, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createOAuth2ClientValidateBeforeCall(final OAuth2Client oauth2Client, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'oauth2Client' is set
         if (oauth2Client == null) {
@@ -725,117 +815,130 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = createOAuth2ClientCall(oauth2Client, _callback);
+        final okhttp3.Call localVarCall = this.createOAuth2ClientCall(oauth2Client, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Create an OAuth 2.0 Client
-     * Create a new OAuth 2.0 client If you pass &#x60;client_secret&#x60; the secret will be used, otherwise a random secret will be generated. The secret will be returned in the response and you will not be able to retrieve it later on. Write the secret down and keep it somwhere safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
-     * @param oauth2Client  (required)
+     * Create an OAuth 2.0 Client Create a new OAuth 2.0 client If you pass &#x60;client_secret&#x60; the secret will be
+     * used, otherwise a random secret will be generated. The secret will be returned in the response and you will not
+     * be able to retrieve it later on. Write the secret down and keep it somwhere safe.  OAuth 2.0 clients are used to
+     * perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want
+     * to consume your OAuth 2.0 or OpenID Connect capabilities.
+     *
+     * @param oauth2Client (required)
      * @return OAuth2Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public OAuth2Client createOAuth2Client(OAuth2Client oauth2Client) throws ApiException {
-        ApiResponse<OAuth2Client> localVarResp = createOAuth2ClientWithHttpInfo(oauth2Client);
+    public OAuth2Client createOAuth2Client(final OAuth2Client oauth2Client) throws ApiException {
+        final ApiResponse<OAuth2Client> localVarResp = this.createOAuth2ClientWithHttpInfo(oauth2Client);
         return localVarResp.getData();
     }
 
     /**
-     * Create an OAuth 2.0 Client
-     * Create a new OAuth 2.0 client If you pass &#x60;client_secret&#x60; the secret will be used, otherwise a random secret will be generated. The secret will be returned in the response and you will not be able to retrieve it later on. Write the secret down and keep it somwhere safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
-     * @param oauth2Client  (required)
+     * Create an OAuth 2.0 Client Create a new OAuth 2.0 client If you pass &#x60;client_secret&#x60; the secret will be
+     * used, otherwise a random secret will be generated. The secret will be returned in the response and you will not
+     * be able to retrieve it later on. Write the secret down and keep it somwhere safe.  OAuth 2.0 clients are used to
+     * perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want
+     * to consume your OAuth 2.0 or OpenID Connect capabilities.
+     *
+     * @param oauth2Client (required)
      * @return ApiResponse&lt;OAuth2Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<OAuth2Client> createOAuth2ClientWithHttpInfo(OAuth2Client oauth2Client) throws ApiException {
-        okhttp3.Call localVarCall = createOAuth2ClientValidateBeforeCall(oauth2Client, null);
-        Type localVarReturnType = new TypeToken<OAuth2Client>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<OAuth2Client> createOAuth2ClientWithHttpInfo(final OAuth2Client oauth2Client) throws ApiException {
+        final okhttp3.Call localVarCall = this.createOAuth2ClientValidateBeforeCall(oauth2Client, null);
+        final Type localVarReturnType = new TypeToken<OAuth2Client>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Create an OAuth 2.0 Client (asynchronously)
-     * Create a new OAuth 2.0 client If you pass &#x60;client_secret&#x60; the secret will be used, otherwise a random secret will be generated. The secret will be returned in the response and you will not be able to retrieve it later on. Write the secret down and keep it somwhere safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
-     * @param oauth2Client  (required)
-     * @param _callback The callback to be executed when the API call finishes
+     * Create an OAuth 2.0 Client (asynchronously) Create a new OAuth 2.0 client If you pass &#x60;client_secret&#x60;
+     * the secret will be used, otherwise a random secret will be generated. The secret will be returned in the response
+     * and you will not be able to retrieve it later on. Write the secret down and keep it somwhere safe.  OAuth 2.0
+     * clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for
+     * applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
+     *
+     * @param oauth2Client (required)
+     * @param _callback    The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call createOAuth2ClientAsync(OAuth2Client oauth2Client, final ApiCallback<OAuth2Client> _callback) throws ApiException {
+    public okhttp3.Call createOAuth2ClientAsync(final OAuth2Client oauth2Client, final ApiCallback<OAuth2Client> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createOAuth2ClientValidateBeforeCall(oauth2Client, _callback);
-        Type localVarReturnType = new TypeToken<OAuth2Client>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.createOAuth2ClientValidateBeforeCall(oauth2Client, _callback);
+        final Type localVarReturnType = new TypeToken<OAuth2Client>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for deleteJsonWebKey
-     * @param kid The kid of the desired key (required)
-     * @param set The set (required)
+     *
+     * @param kid       The kid of the desired key (required)
+     * @param set       The set (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call deleteJsonWebKeyCall(String kid, String set, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteJsonWebKeyCall(final String kid, final String set, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/keys/{set}/{kid}"
-            .replaceAll("\\{" + "kid" + "\\}", localVarApiClient.escapeString(kid.toString()))
-            .replaceAll("\\{" + "set" + "\\}", localVarApiClient.escapeString(set.toString()));
+        final String localVarPath = "/keys/{set}/{kid}"
+            .replaceAll("\\{" + "kid" + "\\}", this.localVarApiClient.escapeString(kid))
+            .replaceAll("\\{" + "set" + "\\}", this.localVarApiClient.escapeString(set));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -843,17 +946,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteJsonWebKeyValidateBeforeCall(String kid, String set, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteJsonWebKeyValidateBeforeCall(final String kid, final String set, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'kid' is set
         if (kid == null) {
@@ -866,120 +969,134 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = deleteJsonWebKeyCall(kid, set, _callback);
+        final okhttp3.Call localVarCall = this.deleteJsonWebKeyCall(kid, set, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Delete a JSON Web Key
-     * Use this endpoint to delete a single JSON Web Key.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     * Delete a JSON Web Key Use this endpoint to delete a single JSON Web Key.  A JSON Web Key (JWK) is a JavaScript
+     * Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure
+     * that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this
+     * functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens),
+     * and allows storing user-defined keys as well.
+     *
      * @param kid The kid of the desired key (required)
      * @param set The set (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public void deleteJsonWebKey(String kid, String set) throws ApiException {
-        deleteJsonWebKeyWithHttpInfo(kid, set);
+    public void deleteJsonWebKey(final String kid, final String set) throws ApiException {
+        this.deleteJsonWebKeyWithHttpInfo(kid, set);
     }
 
     /**
-     * Delete a JSON Web Key
-     * Use this endpoint to delete a single JSON Web Key.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     * Delete a JSON Web Key Use this endpoint to delete a single JSON Web Key.  A JSON Web Key (JWK) is a JavaScript
+     * Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure
+     * that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this
+     * functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens),
+     * and allows storing user-defined keys as well.
+     *
      * @param kid The kid of the desired key (required)
      * @param set The set (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<Void> deleteJsonWebKeyWithHttpInfo(String kid, String set) throws ApiException {
-        okhttp3.Call localVarCall = deleteJsonWebKeyValidateBeforeCall(kid, set, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<Void> deleteJsonWebKeyWithHttpInfo(final String kid, final String set) throws ApiException {
+        final okhttp3.Call localVarCall = this.deleteJsonWebKeyValidateBeforeCall(kid, set, null);
+        return this.localVarApiClient.execute(localVarCall);
     }
 
     /**
-     * Delete a JSON Web Key (asynchronously)
-     * Use this endpoint to delete a single JSON Web Key.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param kid The kid of the desired key (required)
-     * @param set The set (required)
+     * Delete a JSON Web Key (asynchronously) Use this endpoint to delete a single JSON Web Key.  A JSON Web Key (JWK)
+     * is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON
+     * data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses
+     * this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID
+     * tokens), and allows storing user-defined keys as well.
+     *
+     * @param kid       The kid of the desired key (required)
+     * @param set       The set (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call deleteJsonWebKeyAsync(String kid, String set, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteJsonWebKeyAsync(final String kid, final String set, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = deleteJsonWebKeyValidateBeforeCall(kid, set, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        final okhttp3.Call localVarCall = this.deleteJsonWebKeyValidateBeforeCall(kid, set, _callback);
+        this.localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for deleteJsonWebKeySet
-     * @param set The set (required)
+     *
+     * @param set       The set (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call deleteJsonWebKeySetCall(String set, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteJsonWebKeySetCall(final String set, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/keys/{set}"
-            .replaceAll("\\{" + "set" + "\\}", localVarApiClient.escapeString(set.toString()));
+        final String localVarPath = "/keys/{set}"
+            .replaceAll("\\{" + "set" + "\\}", this.localVarApiClient.escapeString(set));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -987,17 +1104,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteJsonWebKeySetValidateBeforeCall(String set, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteJsonWebKeySetValidateBeforeCall(final String set, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'set' is set
         if (set == null) {
@@ -1005,115 +1122,129 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = deleteJsonWebKeySetCall(set, _callback);
+        final okhttp3.Call localVarCall = this.deleteJsonWebKeySetCall(set, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Delete a JSON Web Key Set
-     * Use this endpoint to delete a complete JSON Web Key Set and all the keys in that set.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     * Delete a JSON Web Key Set Use this endpoint to delete a complete JSON Web Key Set and all the keys in that set.
+     * A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A
+     * JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key
+     * id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as
+     * OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     *
      * @param set The set (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public void deleteJsonWebKeySet(String set) throws ApiException {
-        deleteJsonWebKeySetWithHttpInfo(set);
+    public void deleteJsonWebKeySet(final String set) throws ApiException {
+        this.deleteJsonWebKeySetWithHttpInfo(set);
     }
 
     /**
-     * Delete a JSON Web Key Set
-     * Use this endpoint to delete a complete JSON Web Key Set and all the keys in that set.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     * Delete a JSON Web Key Set Use this endpoint to delete a complete JSON Web Key Set and all the keys in that set.
+     * A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A
+     * JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key
+     * id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as
+     * OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     *
      * @param set The set (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<Void> deleteJsonWebKeySetWithHttpInfo(String set) throws ApiException {
-        okhttp3.Call localVarCall = deleteJsonWebKeySetValidateBeforeCall(set, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<Void> deleteJsonWebKeySetWithHttpInfo(final String set) throws ApiException {
+        final okhttp3.Call localVarCall = this.deleteJsonWebKeySetValidateBeforeCall(set, null);
+        return this.localVarApiClient.execute(localVarCall);
     }
 
     /**
-     * Delete a JSON Web Key Set (asynchronously)
-     * Use this endpoint to delete a complete JSON Web Key Set and all the keys in that set.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param set The set (required)
+     * Delete a JSON Web Key Set (asynchronously) Use this endpoint to delete a complete JSON Web Key Set and all the
+     * keys in that set.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a
+     * cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified
+     * by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web
+     * Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     *
+     * @param set       The set (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call deleteJsonWebKeySetAsync(String set, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteJsonWebKeySetAsync(final String set, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = deleteJsonWebKeySetValidateBeforeCall(set, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        final okhttp3.Call localVarCall = this.deleteJsonWebKeySetValidateBeforeCall(set, _callback);
+        this.localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for deleteOAuth2Client
-     * @param id The id of the OAuth 2.0 Client. (required)
+     *
+     * @param id        The id of the OAuth 2.0 Client. (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call deleteOAuth2ClientCall(String id, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteOAuth2ClientCall(final String id, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/clients/{id}"
-            .replaceAll("\\{" + "id" + "\\}", localVarApiClient.escapeString(id.toString()));
+        final String localVarPath = "/clients/{id}"
+            .replaceAll("\\{" + "id" + "\\}", this.localVarApiClient.escapeString(id));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1121,17 +1252,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteOAuth2ClientValidateBeforeCall(String id, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteOAuth2ClientValidateBeforeCall(final String id, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -1139,113 +1270,124 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = deleteOAuth2ClientCall(id, _callback);
+        final okhttp3.Call localVarCall = this.deleteOAuth2ClientCall(id, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Deletes an OAuth 2.0 Client
-     * Delete an existing OAuth 2.0 Client by its ID.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.  Make sure that this endpoint is well protected and only callable by first-party components.
+     * Deletes an OAuth 2.0 Client Delete an existing OAuth 2.0 Client by its ID.  OAuth 2.0 clients are used to perform
+     * OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to
+     * consume your OAuth 2.0 or OpenID Connect capabilities.  Make sure that this endpoint is well protected and only
+     * callable by first-party components.
+     *
      * @param id The id of the OAuth 2.0 Client. (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public void deleteOAuth2Client(String id) throws ApiException {
-        deleteOAuth2ClientWithHttpInfo(id);
+    public void deleteOAuth2Client(final String id) throws ApiException {
+        this.deleteOAuth2ClientWithHttpInfo(id);
     }
 
     /**
-     * Deletes an OAuth 2.0 Client
-     * Delete an existing OAuth 2.0 Client by its ID.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.  Make sure that this endpoint is well protected and only callable by first-party components.
+     * Deletes an OAuth 2.0 Client Delete an existing OAuth 2.0 Client by its ID.  OAuth 2.0 clients are used to perform
+     * OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to
+     * consume your OAuth 2.0 or OpenID Connect capabilities.  Make sure that this endpoint is well protected and only
+     * callable by first-party components.
+     *
      * @param id The id of the OAuth 2.0 Client. (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<Void> deleteOAuth2ClientWithHttpInfo(String id) throws ApiException {
-        okhttp3.Call localVarCall = deleteOAuth2ClientValidateBeforeCall(id, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<Void> deleteOAuth2ClientWithHttpInfo(final String id) throws ApiException {
+        final okhttp3.Call localVarCall = this.deleteOAuth2ClientValidateBeforeCall(id, null);
+        return this.localVarApiClient.execute(localVarCall);
     }
 
     /**
-     * Deletes an OAuth 2.0 Client (asynchronously)
-     * Delete an existing OAuth 2.0 Client by its ID.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.  Make sure that this endpoint is well protected and only callable by first-party components.
-     * @param id The id of the OAuth 2.0 Client. (required)
+     * Deletes an OAuth 2.0 Client (asynchronously) Delete an existing OAuth 2.0 Client by its ID.  OAuth 2.0 clients
+     * are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications
+     * which want to consume your OAuth 2.0 or OpenID Connect capabilities.  Make sure that this endpoint is well
+     * protected and only callable by first-party components.
+     *
+     * @param id        The id of the OAuth 2.0 Client. (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call deleteOAuth2ClientAsync(String id, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteOAuth2ClientAsync(final String id, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = deleteOAuth2ClientValidateBeforeCall(id, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        final okhttp3.Call localVarCall = this.deleteOAuth2ClientValidateBeforeCall(id, _callback);
+        this.localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for deleteOAuth2Token
+     *
      * @param clientId  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call deleteOAuth2TokenCall(String clientId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteOAuth2TokenCall(final String clientId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/oauth2/tokens";
+        final String localVarPath = "/oauth2/tokens";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (clientId != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("client_id", clientId));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("client_id", clientId));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1253,17 +1395,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteOAuth2TokenValidateBeforeCall(String clientId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteOAuth2TokenValidateBeforeCall(final String clientId, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'clientId' is set
         if (clientId == null) {
@@ -1271,113 +1413,118 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = deleteOAuth2TokenCall(clientId, _callback);
+        final okhttp3.Call localVarCall = this.deleteOAuth2TokenCall(clientId, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Delete OAuth2 Access Tokens from a Client
-     * This endpoint deletes OAuth2 access tokens issued for a client from the database
-     * @param clientId  (required)
+     * Delete OAuth2 Access Tokens from a Client This endpoint deletes OAuth2 access tokens issued for a client from the
+     * database
+     *
+     * @param clientId (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public void deleteOAuth2Token(String clientId) throws ApiException {
-        deleteOAuth2TokenWithHttpInfo(clientId);
+    public void deleteOAuth2Token(final String clientId) throws ApiException {
+        this.deleteOAuth2TokenWithHttpInfo(clientId);
     }
 
     /**
-     * Delete OAuth2 Access Tokens from a Client
-     * This endpoint deletes OAuth2 access tokens issued for a client from the database
-     * @param clientId  (required)
+     * Delete OAuth2 Access Tokens from a Client This endpoint deletes OAuth2 access tokens issued for a client from the
+     * database
+     *
+     * @param clientId (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<Void> deleteOAuth2TokenWithHttpInfo(String clientId) throws ApiException {
-        okhttp3.Call localVarCall = deleteOAuth2TokenValidateBeforeCall(clientId, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<Void> deleteOAuth2TokenWithHttpInfo(final String clientId) throws ApiException {
+        final okhttp3.Call localVarCall = this.deleteOAuth2TokenValidateBeforeCall(clientId, null);
+        return this.localVarApiClient.execute(localVarCall);
     }
 
     /**
-     * Delete OAuth2 Access Tokens from a Client (asynchronously)
-     * This endpoint deletes OAuth2 access tokens issued for a client from the database
+     * Delete OAuth2 Access Tokens from a Client (asynchronously) This endpoint deletes OAuth2 access tokens issued for
+     * a client from the database
+     *
      * @param clientId  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call deleteOAuth2TokenAsync(String clientId, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteOAuth2TokenAsync(final String clientId, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = deleteOAuth2TokenValidateBeforeCall(clientId, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        final okhttp3.Call localVarCall = this.deleteOAuth2TokenValidateBeforeCall(clientId, _callback);
+        this.localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for deleteTrustedJwtGrantIssuer
-     * @param id The id of the desired grant (required)
+     *
+     * @param id        The id of the desired grant (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call deleteTrustedJwtGrantIssuerCall(String id, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteTrustedJwtGrantIssuerCall(final String id, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/trust/grants/jwt-bearer/issuers/{id}"
-            .replaceAll("\\{" + "id" + "\\}", localVarApiClient.escapeString(id.toString()));
+        final String localVarPath = "/trust/grants/jwt-bearer/issuers/{id}"
+            .replaceAll("\\{" + "id" + "\\}", this.localVarApiClient.escapeString(id));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1385,17 +1532,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteTrustedJwtGrantIssuerValidateBeforeCall(String id, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteTrustedJwtGrantIssuerValidateBeforeCall(final String id, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -1403,112 +1550,123 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = deleteTrustedJwtGrantIssuerCall(id, _callback);
+        final okhttp3.Call localVarCall = this.deleteTrustedJwtGrantIssuerCall(id, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Delete a Trusted OAuth2 JWT Bearer Grant Type Issuer
-     * Use this endpoint to delete trusted JWT Bearer Grant Type Issuer. The ID is the one returned when you created the trust relationship.  Once deleted, the associated issuer will no longer be able to perform the JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grant.
+     * Delete a Trusted OAuth2 JWT Bearer Grant Type Issuer Use this endpoint to delete trusted JWT Bearer Grant Type
+     * Issuer. The ID is the one returned when you created the trust relationship.  Once deleted, the associated issuer
+     * will no longer be able to perform the JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and
+     * Authorization Grant.
+     *
      * @param id The id of the desired grant (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public void deleteTrustedJwtGrantIssuer(String id) throws ApiException {
-        deleteTrustedJwtGrantIssuerWithHttpInfo(id);
+    public void deleteTrustedJwtGrantIssuer(final String id) throws ApiException {
+        this.deleteTrustedJwtGrantIssuerWithHttpInfo(id);
     }
 
     /**
-     * Delete a Trusted OAuth2 JWT Bearer Grant Type Issuer
-     * Use this endpoint to delete trusted JWT Bearer Grant Type Issuer. The ID is the one returned when you created the trust relationship.  Once deleted, the associated issuer will no longer be able to perform the JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grant.
+     * Delete a Trusted OAuth2 JWT Bearer Grant Type Issuer Use this endpoint to delete trusted JWT Bearer Grant Type
+     * Issuer. The ID is the one returned when you created the trust relationship.  Once deleted, the associated issuer
+     * will no longer be able to perform the JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and
+     * Authorization Grant.
+     *
      * @param id The id of the desired grant (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<Void> deleteTrustedJwtGrantIssuerWithHttpInfo(String id) throws ApiException {
-        okhttp3.Call localVarCall = deleteTrustedJwtGrantIssuerValidateBeforeCall(id, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<Void> deleteTrustedJwtGrantIssuerWithHttpInfo(final String id) throws ApiException {
+        final okhttp3.Call localVarCall = this.deleteTrustedJwtGrantIssuerValidateBeforeCall(id, null);
+        return this.localVarApiClient.execute(localVarCall);
     }
 
     /**
-     * Delete a Trusted OAuth2 JWT Bearer Grant Type Issuer (asynchronously)
-     * Use this endpoint to delete trusted JWT Bearer Grant Type Issuer. The ID is the one returned when you created the trust relationship.  Once deleted, the associated issuer will no longer be able to perform the JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grant.
-     * @param id The id of the desired grant (required)
+     * Delete a Trusted OAuth2 JWT Bearer Grant Type Issuer (asynchronously) Use this endpoint to delete trusted JWT
+     * Bearer Grant Type Issuer. The ID is the one returned when you created the trust relationship.  Once deleted, the
+     * associated issuer will no longer be able to perform the JSON Web Token (JWT) Profile for OAuth 2.0 Client
+     * Authentication and Authorization Grant.
+     *
+     * @param id        The id of the desired grant (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call deleteTrustedJwtGrantIssuerAsync(String id, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteTrustedJwtGrantIssuerAsync(final String id, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = deleteTrustedJwtGrantIssuerValidateBeforeCall(id, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        final okhttp3.Call localVarCall = this.deleteTrustedJwtGrantIssuerValidateBeforeCall(id, _callback);
+        this.localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for flushInactiveOAuth2Tokens
-     * @param flushInactiveOAuth2TokensRequest  (optional)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param flushInactiveOAuth2TokensRequest (optional)
+     * @param _callback                        Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call flushInactiveOAuth2TokensCall(FlushInactiveOAuth2TokensRequest flushInactiveOAuth2TokensRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call flushInactiveOAuth2TokensCall(final FlushInactiveOAuth2TokensRequest flushInactiveOAuth2TokensRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = flushInactiveOAuth2TokensRequest;
+        final Object localVarPostBody = flushInactiveOAuth2TokensRequest;
 
         // create path and map variables
-        String localVarPath = "/oauth2/flush";
+        final String localVarPath = "/oauth2/flush";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1516,130 +1674,138 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call flushInactiveOAuth2TokensValidateBeforeCall(FlushInactiveOAuth2TokensRequest flushInactiveOAuth2TokensRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call flushInactiveOAuth2TokensValidateBeforeCall(final FlushInactiveOAuth2TokensRequest flushInactiveOAuth2TokensRequest, final ApiCallback _callback) throws ApiException {
 
 
-        okhttp3.Call localVarCall = flushInactiveOAuth2TokensCall(flushInactiveOAuth2TokensRequest, _callback);
+        final okhttp3.Call localVarCall = this.flushInactiveOAuth2TokensCall(flushInactiveOAuth2TokensRequest, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Flush Expired OAuth2 Access Tokens
-     * This endpoint flushes expired OAuth2 access tokens from the database. You can set a time after which no tokens will be not be touched, in case you want to keep recent tokens for auditing. Refresh tokens can not be flushed as they are deleted automatically when performing the refresh flow.
-     * @param flushInactiveOAuth2TokensRequest  (optional)
+     * Flush Expired OAuth2 Access Tokens This endpoint flushes expired OAuth2 access tokens from the database. You can
+     * set a time after which no tokens will be not be touched, in case you want to keep recent tokens for auditing.
+     * Refresh tokens can not be flushed as they are deleted automatically when performing the refresh flow.
+     *
+     * @param flushInactiveOAuth2TokensRequest (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public void flushInactiveOAuth2Tokens(FlushInactiveOAuth2TokensRequest flushInactiveOAuth2TokensRequest) throws ApiException {
-        flushInactiveOAuth2TokensWithHttpInfo(flushInactiveOAuth2TokensRequest);
+    public void flushInactiveOAuth2Tokens(final FlushInactiveOAuth2TokensRequest flushInactiveOAuth2TokensRequest) throws ApiException {
+        this.flushInactiveOAuth2TokensWithHttpInfo(flushInactiveOAuth2TokensRequest);
     }
 
     /**
-     * Flush Expired OAuth2 Access Tokens
-     * This endpoint flushes expired OAuth2 access tokens from the database. You can set a time after which no tokens will be not be touched, in case you want to keep recent tokens for auditing. Refresh tokens can not be flushed as they are deleted automatically when performing the refresh flow.
-     * @param flushInactiveOAuth2TokensRequest  (optional)
+     * Flush Expired OAuth2 Access Tokens This endpoint flushes expired OAuth2 access tokens from the database. You can
+     * set a time after which no tokens will be not be touched, in case you want to keep recent tokens for auditing.
+     * Refresh tokens can not be flushed as they are deleted automatically when performing the refresh flow.
+     *
+     * @param flushInactiveOAuth2TokensRequest (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<Void> flushInactiveOAuth2TokensWithHttpInfo(FlushInactiveOAuth2TokensRequest flushInactiveOAuth2TokensRequest) throws ApiException {
-        okhttp3.Call localVarCall = flushInactiveOAuth2TokensValidateBeforeCall(flushInactiveOAuth2TokensRequest, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<Void> flushInactiveOAuth2TokensWithHttpInfo(final FlushInactiveOAuth2TokensRequest flushInactiveOAuth2TokensRequest) throws ApiException {
+        final okhttp3.Call localVarCall = this.flushInactiveOAuth2TokensValidateBeforeCall(flushInactiveOAuth2TokensRequest, null);
+        return this.localVarApiClient.execute(localVarCall);
     }
 
     /**
-     * Flush Expired OAuth2 Access Tokens (asynchronously)
-     * This endpoint flushes expired OAuth2 access tokens from the database. You can set a time after which no tokens will be not be touched, in case you want to keep recent tokens for auditing. Refresh tokens can not be flushed as they are deleted automatically when performing the refresh flow.
-     * @param flushInactiveOAuth2TokensRequest  (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * Flush Expired OAuth2 Access Tokens (asynchronously) This endpoint flushes expired OAuth2 access tokens from the
+     * database. You can set a time after which no tokens will be not be touched, in case you want to keep recent tokens
+     * for auditing. Refresh tokens can not be flushed as they are deleted automatically when performing the refresh
+     * flow.
+     *
+     * @param flushInactiveOAuth2TokensRequest (optional)
+     * @param _callback                        The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call flushInactiveOAuth2TokensAsync(FlushInactiveOAuth2TokensRequest flushInactiveOAuth2TokensRequest, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call flushInactiveOAuth2TokensAsync(final FlushInactiveOAuth2TokensRequest flushInactiveOAuth2TokensRequest, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = flushInactiveOAuth2TokensValidateBeforeCall(flushInactiveOAuth2TokensRequest, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        final okhttp3.Call localVarCall = this.flushInactiveOAuth2TokensValidateBeforeCall(flushInactiveOAuth2TokensRequest, _callback);
+        this.localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for getConsentRequest
-     * @param consentChallenge  (required)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param consentChallenge (required)
+     * @param _callback        Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> consentRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> consentRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getConsentRequestCall(String consentChallenge, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getConsentRequestCall(final String consentChallenge, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/requests/consent";
+        final String localVarPath = "/oauth2/auth/requests/consent";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (consentChallenge != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("consent_challenge", consentChallenge));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("consent_challenge", consentChallenge));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1647,17 +1813,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getConsentRequestValidateBeforeCall(String consentChallenge, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getConsentRequestValidateBeforeCall(final String consentChallenge, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'consentChallenge' is set
         if (consentChallenge == null) {
@@ -1665,122 +1831,146 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = getConsentRequestCall(consentChallenge, _callback);
+        final okhttp3.Call localVarCall = this.getConsentRequestCall(consentChallenge, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Get Consent Request Information
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.
-     * @param consentChallenge  (required)
+     * Get Consent Request Information When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY
+     * Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject
+     * authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to
+     * access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web
+     * app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the
+     * client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private
+     * files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s
+     * user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the
+     * OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.
+     *
+     * @param consentChallenge (required)
      * @return ConsentRequest
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> consentRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> consentRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ConsentRequest getConsentRequest(String consentChallenge) throws ApiException {
-        ApiResponse<ConsentRequest> localVarResp = getConsentRequestWithHttpInfo(consentChallenge);
+    public ConsentRequest getConsentRequest(final String consentChallenge) throws ApiException {
+        final ApiResponse<ConsentRequest> localVarResp = this.getConsentRequestWithHttpInfo(consentChallenge);
         return localVarResp.getData();
     }
 
     /**
-     * Get Consent Request Information
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.
-     * @param consentChallenge  (required)
+     * Get Consent Request Information When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY
+     * Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject
+     * authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to
+     * access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web
+     * app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the
+     * client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private
+     * files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s
+     * user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the
+     * OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.
+     *
+     * @param consentChallenge (required)
      * @return ApiResponse&lt;ConsentRequest&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> consentRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> consentRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<ConsentRequest> getConsentRequestWithHttpInfo(String consentChallenge) throws ApiException {
-        okhttp3.Call localVarCall = getConsentRequestValidateBeforeCall(consentChallenge, null);
-        Type localVarReturnType = new TypeToken<ConsentRequest>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<ConsentRequest> getConsentRequestWithHttpInfo(final String consentChallenge) throws ApiException {
+        final okhttp3.Call localVarCall = this.getConsentRequestValidateBeforeCall(consentChallenge, null);
+        final Type localVarReturnType = new TypeToken<ConsentRequest>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Get Consent Request Information (asynchronously)
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.
-     * @param consentChallenge  (required)
-     * @param _callback The callback to be executed when the API call finishes
+     * Get Consent Request Information (asynchronously) When an authorization code, hybrid, or implicit OAuth 2.0 Flow
+     * is initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it.
+     * If the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be
+     * allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and
+     * is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny
+     * the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your
+     * private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the
+     * subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch
+     * information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.
+     *
+     * @param consentChallenge (required)
+     * @param _callback        The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> consentRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> consentRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getConsentRequestAsync(String consentChallenge, final ApiCallback<ConsentRequest> _callback) throws ApiException {
+    public okhttp3.Call getConsentRequestAsync(final String consentChallenge, final ApiCallback<ConsentRequest> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getConsentRequestValidateBeforeCall(consentChallenge, _callback);
-        Type localVarReturnType = new TypeToken<ConsentRequest>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.getConsentRequestValidateBeforeCall(consentChallenge, _callback);
+        final Type localVarReturnType = new TypeToken<ConsentRequest>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for getJsonWebKey
-     * @param kid The kid of the desired key (required)
-     * @param set The set (required)
+     *
+     * @param kid       The kid of the desired key (required)
+     * @param set       The set (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getJsonWebKeyCall(String kid, String set, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getJsonWebKeyCall(final String kid, final String set, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/keys/{set}/{kid}"
-            .replaceAll("\\{" + "kid" + "\\}", localVarApiClient.escapeString(kid.toString()))
-            .replaceAll("\\{" + "set" + "\\}", localVarApiClient.escapeString(set.toString()));
+        final String localVarPath = "/keys/{set}/{kid}"
+            .replaceAll("\\{" + "kid" + "\\}", this.localVarApiClient.escapeString(kid))
+            .replaceAll("\\{" + "set" + "\\}", this.localVarApiClient.escapeString(set));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1788,17 +1978,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getJsonWebKeyValidateBeforeCall(String kid, String set, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getJsonWebKeyValidateBeforeCall(final String kid, final String set, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'kid' is set
         if (kid == null) {
@@ -1811,121 +2001,124 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = getJsonWebKeyCall(kid, set, _callback);
+        final okhttp3.Call localVarCall = this.getJsonWebKeyCall(kid, set, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Fetch a JSON Web Key
-     * This endpoint returns a singular JSON Web Key, identified by the set and the specific key ID (kid).
+     * Fetch a JSON Web Key This endpoint returns a singular JSON Web Key, identified by the set and the specific key ID
+     * (kid).
+     *
      * @param kid The kid of the desired key (required)
      * @param set The set (required)
      * @return JSONWebKeySet
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public JSONWebKeySet getJsonWebKey(String kid, String set) throws ApiException {
-        ApiResponse<JSONWebKeySet> localVarResp = getJsonWebKeyWithHttpInfo(kid, set);
+    public JSONWebKeySet getJsonWebKey(final String kid, final String set) throws ApiException {
+        final ApiResponse<JSONWebKeySet> localVarResp = this.getJsonWebKeyWithHttpInfo(kid, set);
         return localVarResp.getData();
     }
 
     /**
-     * Fetch a JSON Web Key
-     * This endpoint returns a singular JSON Web Key, identified by the set and the specific key ID (kid).
+     * Fetch a JSON Web Key This endpoint returns a singular JSON Web Key, identified by the set and the specific key ID
+     * (kid).
+     *
      * @param kid The kid of the desired key (required)
      * @param set The set (required)
      * @return ApiResponse&lt;JSONWebKeySet&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<JSONWebKeySet> getJsonWebKeyWithHttpInfo(String kid, String set) throws ApiException {
-        okhttp3.Call localVarCall = getJsonWebKeyValidateBeforeCall(kid, set, null);
-        Type localVarReturnType = new TypeToken<JSONWebKeySet>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<JSONWebKeySet> getJsonWebKeyWithHttpInfo(final String kid, final String set) throws ApiException {
+        final okhttp3.Call localVarCall = this.getJsonWebKeyValidateBeforeCall(kid, set, null);
+        final Type localVarReturnType = new TypeToken<JSONWebKeySet>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Fetch a JSON Web Key (asynchronously)
-     * This endpoint returns a singular JSON Web Key, identified by the set and the specific key ID (kid).
-     * @param kid The kid of the desired key (required)
-     * @param set The set (required)
+     * Fetch a JSON Web Key (asynchronously) This endpoint returns a singular JSON Web Key, identified by the set and
+     * the specific key ID (kid).
+     *
+     * @param kid       The kid of the desired key (required)
+     * @param set       The set (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getJsonWebKeyAsync(String kid, String set, final ApiCallback<JSONWebKeySet> _callback) throws ApiException {
+    public okhttp3.Call getJsonWebKeyAsync(final String kid, final String set, final ApiCallback<JSONWebKeySet> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getJsonWebKeyValidateBeforeCall(kid, set, _callback);
-        Type localVarReturnType = new TypeToken<JSONWebKeySet>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.getJsonWebKeyValidateBeforeCall(kid, set, _callback);
+        final Type localVarReturnType = new TypeToken<JSONWebKeySet>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for getJsonWebKeySet
-     * @param set The set (required)
+     *
+     * @param set       The set (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getJsonWebKeySetCall(String set, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getJsonWebKeySetCall(final String set, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/keys/{set}"
-            .replaceAll("\\{" + "set" + "\\}", localVarApiClient.escapeString(set.toString()));
+        final String localVarPath = "/keys/{set}"
+            .replaceAll("\\{" + "set" + "\\}", this.localVarApiClient.escapeString(set));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1933,17 +2126,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getJsonWebKeySetValidateBeforeCall(String set, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getJsonWebKeySetValidateBeforeCall(final String set, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'set' is set
         if (set == null) {
@@ -1951,125 +2144,137 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = getJsonWebKeySetCall(set, _callback);
+        final okhttp3.Call localVarCall = this.getJsonWebKeySetCall(set, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Retrieve a JSON Web Key Set
-     * This endpoint can be used to retrieve JWK Sets stored in ORY Hydra.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     * Retrieve a JSON Web Key Set This endpoint can be used to retrieve JWK Sets stored in ORY Hydra.  A JSON Web Key
+     * (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a
+     * JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra
+     * uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID
+     * tokens), and allows storing user-defined keys as well.
+     *
      * @param set The set (required)
      * @return JSONWebKeySet
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public JSONWebKeySet getJsonWebKeySet(String set) throws ApiException {
-        ApiResponse<JSONWebKeySet> localVarResp = getJsonWebKeySetWithHttpInfo(set);
+    public JSONWebKeySet getJsonWebKeySet(final String set) throws ApiException {
+        final ApiResponse<JSONWebKeySet> localVarResp = this.getJsonWebKeySetWithHttpInfo(set);
         return localVarResp.getData();
     }
 
     /**
-     * Retrieve a JSON Web Key Set
-     * This endpoint can be used to retrieve JWK Sets stored in ORY Hydra.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     * Retrieve a JSON Web Key Set This endpoint can be used to retrieve JWK Sets stored in ORY Hydra.  A JSON Web Key
+     * (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a
+     * JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra
+     * uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID
+     * tokens), and allows storing user-defined keys as well.
+     *
      * @param set The set (required)
      * @return ApiResponse&lt;JSONWebKeySet&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<JSONWebKeySet> getJsonWebKeySetWithHttpInfo(String set) throws ApiException {
-        okhttp3.Call localVarCall = getJsonWebKeySetValidateBeforeCall(set, null);
-        Type localVarReturnType = new TypeToken<JSONWebKeySet>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<JSONWebKeySet> getJsonWebKeySetWithHttpInfo(final String set) throws ApiException {
+        final okhttp3.Call localVarCall = this.getJsonWebKeySetValidateBeforeCall(set, null);
+        final Type localVarReturnType = new TypeToken<JSONWebKeySet>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Retrieve a JSON Web Key Set (asynchronously)
-     * This endpoint can be used to retrieve JWK Sets stored in ORY Hydra.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param set The set (required)
+     * Retrieve a JSON Web Key Set (asynchronously) This endpoint can be used to retrieve JWK Sets stored in ORY Hydra.
+     * A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A
+     * JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key
+     * id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as
+     * OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     *
+     * @param set       The set (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getJsonWebKeySetAsync(String set, final ApiCallback<JSONWebKeySet> _callback) throws ApiException {
+    public okhttp3.Call getJsonWebKeySetAsync(final String set, final ApiCallback<JSONWebKeySet> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getJsonWebKeySetValidateBeforeCall(set, _callback);
-        Type localVarReturnType = new TypeToken<JSONWebKeySet>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.getJsonWebKeySetValidateBeforeCall(set, _callback);
+        final Type localVarReturnType = new TypeToken<JSONWebKeySet>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for getLoginRequest
-     * @param loginChallenge  (required)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param loginChallenge (required)
+     * @param _callback      Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> loginRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> loginRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getLoginRequestCall(String loginChallenge, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getLoginRequestCall(final String loginChallenge, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/requests/login";
+        final String localVarPath = "/oauth2/auth/requests/login";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (loginChallenge != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("login_challenge", loginChallenge));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("login_challenge", loginChallenge));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -2077,17 +2282,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getLoginRequestValidateBeforeCall(String loginChallenge, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getLoginRequestValidateBeforeCall(final String loginChallenge, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'loginChallenge' is set
         if (loginChallenge == null) {
@@ -2095,127 +2300,145 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = getLoginRequestCall(loginChallenge, _callback);
+        final okhttp3.Call localVarCall = this.getLoginRequestCall(loginChallenge, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Get a Login Request
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information on the OAuth2 request and then accept or reject the requested authentication process.
-     * @param loginChallenge  (required)
+     * Get a Login Request When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks
+     * the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell
+     * ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate
+     * (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is
+     * \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the
+     * subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information
+     * on the OAuth2 request and then accept or reject the requested authentication process.
+     *
+     * @param loginChallenge (required)
      * @return LoginRequest
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> loginRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> loginRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public LoginRequest getLoginRequest(String loginChallenge) throws ApiException {
-        ApiResponse<LoginRequest> localVarResp = getLoginRequestWithHttpInfo(loginChallenge);
+    public LoginRequest getLoginRequest(final String loginChallenge) throws ApiException {
+        final ApiResponse<LoginRequest> localVarResp = this.getLoginRequestWithHttpInfo(loginChallenge);
         return localVarResp.getData();
     }
 
     /**
-     * Get a Login Request
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information on the OAuth2 request and then accept or reject the requested authentication process.
-     * @param loginChallenge  (required)
+     * Get a Login Request When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks
+     * the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell
+     * ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate
+     * (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is
+     * \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the
+     * subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information
+     * on the OAuth2 request and then accept or reject the requested authentication process.
+     *
+     * @param loginChallenge (required)
      * @return ApiResponse&lt;LoginRequest&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> loginRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> loginRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<LoginRequest> getLoginRequestWithHttpInfo(String loginChallenge) throws ApiException {
-        okhttp3.Call localVarCall = getLoginRequestValidateBeforeCall(loginChallenge, null);
-        Type localVarReturnType = new TypeToken<LoginRequest>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<LoginRequest> getLoginRequestWithHttpInfo(final String loginChallenge) throws ApiException {
+        final okhttp3.Call localVarCall = this.getLoginRequestValidateBeforeCall(loginChallenge, null);
+        final Type localVarReturnType = new TypeToken<LoginRequest>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Get a Login Request (asynchronously)
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information on the OAuth2 request and then accept or reject the requested authentication process.
-     * @param loginChallenge  (required)
-     * @param _callback The callback to be executed when the API call finishes
+     * Get a Login Request (asynchronously) When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated,
+     * ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject
+     * and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to
+     * authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is
+     * \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the
+     * subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information
+     * on the OAuth2 request and then accept or reject the requested authentication process.
+     *
+     * @param loginChallenge (required)
+     * @param _callback      The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> loginRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> loginRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getLoginRequestAsync(String loginChallenge, final ApiCallback<LoginRequest> _callback) throws ApiException {
+    public okhttp3.Call getLoginRequestAsync(final String loginChallenge, final ApiCallback<LoginRequest> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getLoginRequestValidateBeforeCall(loginChallenge, _callback);
-        Type localVarReturnType = new TypeToken<LoginRequest>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.getLoginRequestValidateBeforeCall(loginChallenge, _callback);
+        final Type localVarReturnType = new TypeToken<LoginRequest>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for getLogoutRequest
-     * @param logoutChallenge  (required)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param logoutChallenge (required)
+     * @param _callback       Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> logoutRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> logoutRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getLogoutRequestCall(String logoutChallenge, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getLogoutRequestCall(final String logoutChallenge, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/requests/logout";
+        final String localVarPath = "/oauth2/auth/requests/logout";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (logoutChallenge != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("logout_challenge", logoutChallenge));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("logout_challenge", logoutChallenge));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -2223,17 +2446,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getLogoutRequestValidateBeforeCall(String logoutChallenge, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getLogoutRequestValidateBeforeCall(final String logoutChallenge, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'logoutChallenge' is set
         if (logoutChallenge == null) {
@@ -2241,119 +2464,119 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = getLogoutRequestCall(logoutChallenge, _callback);
+        final okhttp3.Call localVarCall = this.getLogoutRequestCall(logoutChallenge, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Get a Logout Request
-     * Use this endpoint to fetch a logout request.
-     * @param logoutChallenge  (required)
+     * Get a Logout Request Use this endpoint to fetch a logout request.
+     *
+     * @param logoutChallenge (required)
      * @return LogoutRequest
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> logoutRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> logoutRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public LogoutRequest getLogoutRequest(String logoutChallenge) throws ApiException {
-        ApiResponse<LogoutRequest> localVarResp = getLogoutRequestWithHttpInfo(logoutChallenge);
+    public LogoutRequest getLogoutRequest(final String logoutChallenge) throws ApiException {
+        final ApiResponse<LogoutRequest> localVarResp = this.getLogoutRequestWithHttpInfo(logoutChallenge);
         return localVarResp.getData();
     }
 
     /**
-     * Get a Logout Request
-     * Use this endpoint to fetch a logout request.
-     * @param logoutChallenge  (required)
+     * Get a Logout Request Use this endpoint to fetch a logout request.
+     *
+     * @param logoutChallenge (required)
      * @return ApiResponse&lt;LogoutRequest&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> logoutRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> logoutRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<LogoutRequest> getLogoutRequestWithHttpInfo(String logoutChallenge) throws ApiException {
-        okhttp3.Call localVarCall = getLogoutRequestValidateBeforeCall(logoutChallenge, null);
-        Type localVarReturnType = new TypeToken<LogoutRequest>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<LogoutRequest> getLogoutRequestWithHttpInfo(final String logoutChallenge) throws ApiException {
+        final okhttp3.Call localVarCall = this.getLogoutRequestValidateBeforeCall(logoutChallenge, null);
+        final Type localVarReturnType = new TypeToken<LogoutRequest>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Get a Logout Request (asynchronously)
-     * Use this endpoint to fetch a logout request.
-     * @param logoutChallenge  (required)
-     * @param _callback The callback to be executed when the API call finishes
+     * Get a Logout Request (asynchronously) Use this endpoint to fetch a logout request.
+     *
+     * @param logoutChallenge (required)
+     * @param _callback       The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> logoutRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> logoutRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 410 </td><td> requestWasHandledResponse </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getLogoutRequestAsync(String logoutChallenge, final ApiCallback<LogoutRequest> _callback) throws ApiException {
+    public okhttp3.Call getLogoutRequestAsync(final String logoutChallenge, final ApiCallback<LogoutRequest> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getLogoutRequestValidateBeforeCall(logoutChallenge, _callback);
-        Type localVarReturnType = new TypeToken<LogoutRequest>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.getLogoutRequestValidateBeforeCall(logoutChallenge, _callback);
+        final Type localVarReturnType = new TypeToken<LogoutRequest>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for getOAuth2Client
-     * @param id The id of the OAuth 2.0 Client. (required)
+     *
+     * @param id        The id of the OAuth 2.0 Client. (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getOAuth2ClientCall(String id, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getOAuth2ClientCall(final String id, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/clients/{id}"
-            .replaceAll("\\{" + "id" + "\\}", localVarApiClient.escapeString(id.toString()));
+        final String localVarPath = "/clients/{id}"
+            .replaceAll("\\{" + "id" + "\\}", this.localVarApiClient.escapeString(id));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -2361,17 +2584,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getOAuth2ClientValidateBeforeCall(String id, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getOAuth2ClientValidateBeforeCall(final String id, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -2379,114 +2602,120 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = getOAuth2ClientCall(id, _callback);
+        final okhttp3.Call localVarCall = this.getOAuth2ClientCall(id, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Get an OAuth 2.0 Client
-     * Get an OAuth 2.0 client by its ID. This endpoint never returns the client secret.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
+     * Get an OAuth 2.0 Client Get an OAuth 2.0 client by its ID. This endpoint never returns the client secret.  OAuth
+     * 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for
+     * applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
+     *
      * @param id The id of the OAuth 2.0 Client. (required)
      * @return OAuth2Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public OAuth2Client getOAuth2Client(String id) throws ApiException {
-        ApiResponse<OAuth2Client> localVarResp = getOAuth2ClientWithHttpInfo(id);
+    public OAuth2Client getOAuth2Client(final String id) throws ApiException {
+        final ApiResponse<OAuth2Client> localVarResp = this.getOAuth2ClientWithHttpInfo(id);
         return localVarResp.getData();
     }
 
     /**
-     * Get an OAuth 2.0 Client
-     * Get an OAuth 2.0 client by its ID. This endpoint never returns the client secret.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
+     * Get an OAuth 2.0 Client Get an OAuth 2.0 client by its ID. This endpoint never returns the client secret.  OAuth
+     * 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for
+     * applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
+     *
      * @param id The id of the OAuth 2.0 Client. (required)
      * @return ApiResponse&lt;OAuth2Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<OAuth2Client> getOAuth2ClientWithHttpInfo(String id) throws ApiException {
-        okhttp3.Call localVarCall = getOAuth2ClientValidateBeforeCall(id, null);
-        Type localVarReturnType = new TypeToken<OAuth2Client>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<OAuth2Client> getOAuth2ClientWithHttpInfo(final String id) throws ApiException {
+        final okhttp3.Call localVarCall = this.getOAuth2ClientValidateBeforeCall(id, null);
+        final Type localVarReturnType = new TypeToken<OAuth2Client>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Get an OAuth 2.0 Client (asynchronously)
-     * Get an OAuth 2.0 client by its ID. This endpoint never returns the client secret.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
-     * @param id The id of the OAuth 2.0 Client. (required)
+     * Get an OAuth 2.0 Client (asynchronously) Get an OAuth 2.0 client by its ID. This endpoint never returns the
+     * client secret.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0
+     * clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
+     *
+     * @param id        The id of the OAuth 2.0 Client. (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getOAuth2ClientAsync(String id, final ApiCallback<OAuth2Client> _callback) throws ApiException {
+    public okhttp3.Call getOAuth2ClientAsync(final String id, final ApiCallback<OAuth2Client> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getOAuth2ClientValidateBeforeCall(id, _callback);
-        Type localVarReturnType = new TypeToken<OAuth2Client>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.getOAuth2ClientValidateBeforeCall(id, _callback);
+        final Type localVarReturnType = new TypeToken<OAuth2Client>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for getTrustedJwtGrantIssuer
-     * @param id The id of the desired grant (required)
+     *
+     * @param id        The id of the desired grant (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getTrustedJwtGrantIssuerCall(String id, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getTrustedJwtGrantIssuerCall(final String id, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/trust/grants/jwt-bearer/issuers/{id}"
-            .replaceAll("\\{" + "id" + "\\}", localVarApiClient.escapeString(id.toString()));
+        final String localVarPath = "/trust/grants/jwt-bearer/issuers/{id}"
+            .replaceAll("\\{" + "id" + "\\}", this.localVarApiClient.escapeString(id));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -2494,17 +2723,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getTrustedJwtGrantIssuerValidateBeforeCall(String id, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getTrustedJwtGrantIssuerValidateBeforeCall(final String id, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -2512,112 +2741,118 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = getTrustedJwtGrantIssuerCall(id, _callback);
+        final okhttp3.Call localVarCall = this.getTrustedJwtGrantIssuerCall(id, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Get a Trusted OAuth2 JWT Bearer Grant Type Issuer
-     * Use this endpoint to get a trusted JWT Bearer Grant Type Issuer. The ID is the one returned when you created the trust relationship.
+     * Get a Trusted OAuth2 JWT Bearer Grant Type Issuer Use this endpoint to get a trusted JWT Bearer Grant Type
+     * Issuer. The ID is the one returned when you created the trust relationship.
+     *
      * @param id The id of the desired grant (required)
      * @return TrustedJwtGrantIssuer
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public TrustedJwtGrantIssuer getTrustedJwtGrantIssuer(String id) throws ApiException {
-        ApiResponse<TrustedJwtGrantIssuer> localVarResp = getTrustedJwtGrantIssuerWithHttpInfo(id);
+    public TrustedJwtGrantIssuer getTrustedJwtGrantIssuer(final String id) throws ApiException {
+        final ApiResponse<TrustedJwtGrantIssuer> localVarResp = this.getTrustedJwtGrantIssuerWithHttpInfo(id);
         return localVarResp.getData();
     }
 
     /**
-     * Get a Trusted OAuth2 JWT Bearer Grant Type Issuer
-     * Use this endpoint to get a trusted JWT Bearer Grant Type Issuer. The ID is the one returned when you created the trust relationship.
+     * Get a Trusted OAuth2 JWT Bearer Grant Type Issuer Use this endpoint to get a trusted JWT Bearer Grant Type
+     * Issuer. The ID is the one returned when you created the trust relationship.
+     *
      * @param id The id of the desired grant (required)
      * @return ApiResponse&lt;TrustedJwtGrantIssuer&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<TrustedJwtGrantIssuer> getTrustedJwtGrantIssuerWithHttpInfo(String id) throws ApiException {
-        okhttp3.Call localVarCall = getTrustedJwtGrantIssuerValidateBeforeCall(id, null);
-        Type localVarReturnType = new TypeToken<TrustedJwtGrantIssuer>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<TrustedJwtGrantIssuer> getTrustedJwtGrantIssuerWithHttpInfo(final String id) throws ApiException {
+        final okhttp3.Call localVarCall = this.getTrustedJwtGrantIssuerValidateBeforeCall(id, null);
+        final Type localVarReturnType = new TypeToken<TrustedJwtGrantIssuer>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Get a Trusted OAuth2 JWT Bearer Grant Type Issuer (asynchronously)
-     * Use this endpoint to get a trusted JWT Bearer Grant Type Issuer. The ID is the one returned when you created the trust relationship.
-     * @param id The id of the desired grant (required)
+     * Get a Trusted OAuth2 JWT Bearer Grant Type Issuer (asynchronously) Use this endpoint to get a trusted JWT Bearer
+     * Grant Type Issuer. The ID is the one returned when you created the trust relationship.
+     *
+     * @param id        The id of the desired grant (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call getTrustedJwtGrantIssuerAsync(String id, final ApiCallback<TrustedJwtGrantIssuer> _callback) throws ApiException {
+    public okhttp3.Call getTrustedJwtGrantIssuerAsync(final String id, final ApiCallback<TrustedJwtGrantIssuer> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getTrustedJwtGrantIssuerValidateBeforeCall(id, _callback);
-        Type localVarReturnType = new TypeToken<TrustedJwtGrantIssuer>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.getTrustedJwtGrantIssuerValidateBeforeCall(id, _callback);
+        final Type localVarReturnType = new TypeToken<TrustedJwtGrantIssuer>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for introspectOAuth2Token
-     * @param token The string value of the token. For access tokens, this is the \\\&quot;access_token\\\&quot; value returned from the token endpoint defined in OAuth 2.0. For refresh tokens, this is the \\\&quot;refresh_token\\\&quot; value returned. (required)
-     * @param scope An optional, space separated list of required scopes. If the access token was not granted one of the scopes, the result of active will be false. (optional)
+     *
+     * @param token     The string value of the token. For access tokens, this is the \\\&quot;access_token\\\&quot;
+     *                  value returned from the token endpoint defined in OAuth 2.0. For refresh tokens, this is the
+     *                  \\\&quot;refresh_token\\\&quot; value returned. (required)
+     * @param scope     An optional, space separated list of required scopes. If the access token was not granted one of
+     *                  the scopes, the result of active will be false. (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2TokenIntrospection </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2TokenIntrospection </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call introspectOAuth2TokenCall(String token, String scope, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call introspectOAuth2TokenCall(final String token, final String scope, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/oauth2/introspect";
+        final String localVarPath = "/oauth2/introspect";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (scope != null) {
             localVarFormParams.put("scope", scope);
@@ -2630,7 +2865,7 @@ public class AdminApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -2638,17 +2873,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/x-www-form-urlencoded"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call introspectOAuth2TokenValidateBeforeCall(String token, String scope, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call introspectOAuth2TokenValidateBeforeCall(final String token, final String scope, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'token' is set
         if (token == null) {
@@ -2656,137 +2891,158 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = introspectOAuth2TokenCall(token, scope, _callback);
+        final okhttp3.Call localVarCall = this.introspectOAuth2TokenCall(token, scope, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Introspect OAuth2 Tokens
-     * The introspection endpoint allows to check if a token (both refresh and access) is active or not. An active token is neither expired nor revoked. If a token is active, additional information on the token will be included. You can set additional data for a token by setting &#x60;accessTokenExtra&#x60; during the consent flow.  For more information [read this blog post](https://www.oauth.com/oauth2-servers/token-introspection-endpoint/).
-     * @param token The string value of the token. For access tokens, this is the \\\&quot;access_token\\\&quot; value returned from the token endpoint defined in OAuth 2.0. For refresh tokens, this is the \\\&quot;refresh_token\\\&quot; value returned. (required)
-     * @param scope An optional, space separated list of required scopes. If the access token was not granted one of the scopes, the result of active will be false. (optional)
+     * Introspect OAuth2 Tokens The introspection endpoint allows to check if a token (both refresh and access) is
+     * active or not. An active token is neither expired nor revoked. If a token is active, additional information on
+     * the token will be included. You can set additional data for a token by setting &#x60;accessTokenExtra&#x60;
+     * during the consent flow.  For more information [read this blog
+     * post](https://www.oauth.com/oauth2-servers/token-introspection-endpoint/).
+     *
+     * @param token The string value of the token. For access tokens, this is the \\\&quot;access_token\\\&quot; value
+     *              returned from the token endpoint defined in OAuth 2.0. For refresh tokens, this is the
+     *              \\\&quot;refresh_token\\\&quot; value returned. (required)
+     * @param scope An optional, space separated list of required scopes. If the access token was not granted one of the
+     *              scopes, the result of active will be false. (optional)
      * @return OAuth2TokenIntrospection
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2TokenIntrospection </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2TokenIntrospection </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public OAuth2TokenIntrospection introspectOAuth2Token(String token, String scope) throws ApiException {
-        ApiResponse<OAuth2TokenIntrospection> localVarResp = introspectOAuth2TokenWithHttpInfo(token, scope);
+    public OAuth2TokenIntrospection introspectOAuth2Token(final String token, final String scope) throws ApiException {
+        final ApiResponse<OAuth2TokenIntrospection> localVarResp = this.introspectOAuth2TokenWithHttpInfo(token, scope);
         return localVarResp.getData();
     }
 
     /**
-     * Introspect OAuth2 Tokens
-     * The introspection endpoint allows to check if a token (both refresh and access) is active or not. An active token is neither expired nor revoked. If a token is active, additional information on the token will be included. You can set additional data for a token by setting &#x60;accessTokenExtra&#x60; during the consent flow.  For more information [read this blog post](https://www.oauth.com/oauth2-servers/token-introspection-endpoint/).
-     * @param token The string value of the token. For access tokens, this is the \\\&quot;access_token\\\&quot; value returned from the token endpoint defined in OAuth 2.0. For refresh tokens, this is the \\\&quot;refresh_token\\\&quot; value returned. (required)
-     * @param scope An optional, space separated list of required scopes. If the access token was not granted one of the scopes, the result of active will be false. (optional)
+     * Introspect OAuth2 Tokens The introspection endpoint allows to check if a token (both refresh and access) is
+     * active or not. An active token is neither expired nor revoked. If a token is active, additional information on
+     * the token will be included. You can set additional data for a token by setting &#x60;accessTokenExtra&#x60;
+     * during the consent flow.  For more information [read this blog
+     * post](https://www.oauth.com/oauth2-servers/token-introspection-endpoint/).
+     *
+     * @param token The string value of the token. For access tokens, this is the \\\&quot;access_token\\\&quot; value
+     *              returned from the token endpoint defined in OAuth 2.0. For refresh tokens, this is the
+     *              \\\&quot;refresh_token\\\&quot; value returned. (required)
+     * @param scope An optional, space separated list of required scopes. If the access token was not granted one of the
+     *              scopes, the result of active will be false. (optional)
      * @return ApiResponse&lt;OAuth2TokenIntrospection&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2TokenIntrospection </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2TokenIntrospection </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<OAuth2TokenIntrospection> introspectOAuth2TokenWithHttpInfo(String token, String scope) throws ApiException {
-        okhttp3.Call localVarCall = introspectOAuth2TokenValidateBeforeCall(token, scope, null);
-        Type localVarReturnType = new TypeToken<OAuth2TokenIntrospection>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<OAuth2TokenIntrospection> introspectOAuth2TokenWithHttpInfo(final String token, final String scope) throws ApiException {
+        final okhttp3.Call localVarCall = this.introspectOAuth2TokenValidateBeforeCall(token, scope, null);
+        final Type localVarReturnType = new TypeToken<OAuth2TokenIntrospection>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Introspect OAuth2 Tokens (asynchronously)
-     * The introspection endpoint allows to check if a token (both refresh and access) is active or not. An active token is neither expired nor revoked. If a token is active, additional information on the token will be included. You can set additional data for a token by setting &#x60;accessTokenExtra&#x60; during the consent flow.  For more information [read this blog post](https://www.oauth.com/oauth2-servers/token-introspection-endpoint/).
-     * @param token The string value of the token. For access tokens, this is the \\\&quot;access_token\\\&quot; value returned from the token endpoint defined in OAuth 2.0. For refresh tokens, this is the \\\&quot;refresh_token\\\&quot; value returned. (required)
-     * @param scope An optional, space separated list of required scopes. If the access token was not granted one of the scopes, the result of active will be false. (optional)
+     * Introspect OAuth2 Tokens (asynchronously) The introspection endpoint allows to check if a token (both refresh and
+     * access) is active or not. An active token is neither expired nor revoked. If a token is active, additional
+     * information on the token will be included. You can set additional data for a token by setting
+     * &#x60;accessTokenExtra&#x60; during the consent flow.  For more information [read this blog
+     * post](https://www.oauth.com/oauth2-servers/token-introspection-endpoint/).
+     *
+     * @param token     The string value of the token. For access tokens, this is the \\\&quot;access_token\\\&quot;
+     *                  value returned from the token endpoint defined in OAuth 2.0. For refresh tokens, this is the
+     *                  \\\&quot;refresh_token\\\&quot; value returned. (required)
+     * @param scope     An optional, space separated list of required scopes. If the access token was not granted one of
+     *                  the scopes, the result of active will be false. (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2TokenIntrospection </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2TokenIntrospection </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call introspectOAuth2TokenAsync(String token, String scope, final ApiCallback<OAuth2TokenIntrospection> _callback) throws ApiException {
+    public okhttp3.Call introspectOAuth2TokenAsync(final String token, final String scope, final ApiCallback<OAuth2TokenIntrospection> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = introspectOAuth2TokenValidateBeforeCall(token, scope, _callback);
-        Type localVarReturnType = new TypeToken<OAuth2TokenIntrospection>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.introspectOAuth2TokenValidateBeforeCall(token, scope, _callback);
+        final Type localVarReturnType = new TypeToken<OAuth2TokenIntrospection>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for listOAuth2Clients
-     * @param limit The maximum amount of clients to returned, upper bound is 500 clients. (optional)
-     * @param offset The offset from where to start looking. (optional)
+     *
+     * @param limit      The maximum amount of clients to returned, upper bound is 500 clients. (optional)
+     * @param offset     The offset from where to start looking. (optional)
      * @param clientName The name of the clients to filter by. (optional)
-     * @param owner The owner of the clients to filter by. (optional)
-     * @param _callback Callback for upload/download progress
+     * @param owner      The owner of the clients to filter by. (optional)
+     * @param _callback  Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> A list of clients. </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> A list of clients. </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call listOAuth2ClientsCall(Long limit, Long offset, String clientName, String owner, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listOAuth2ClientsCall(final Long limit, final Long offset, final String clientName, final String owner, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/clients";
+        final String localVarPath = "/clients";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (limit != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("limit", limit));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("limit", limit));
         }
 
         if (offset != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("offset", offset));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("offset", offset));
         }
 
         if (clientName != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("client_name", clientName));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("client_name", clientName));
         }
 
         if (owner != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("owner", owner));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("owner", owner));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -2794,149 +3050,177 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listOAuth2ClientsValidateBeforeCall(Long limit, Long offset, String clientName, String owner, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listOAuth2ClientsValidateBeforeCall(final Long limit, final Long offset, final String clientName, final String owner, final ApiCallback _callback) throws ApiException {
 
 
-        okhttp3.Call localVarCall = listOAuth2ClientsCall(limit, offset, clientName, owner, _callback);
+        final okhttp3.Call localVarCall = this.listOAuth2ClientsCall(limit, offset, clientName, owner, _callback);
         return localVarCall;
 
     }
 
     /**
-     * List OAuth 2.0 Clients
-     * This endpoint lists all clients in the database, and never returns client secrets. As a default it lists the first 100 clients. The &#x60;limit&#x60; parameter can be used to retrieve more clients, but it has an upper bound at 500 objects. Pagination should be used to retrieve more than 500 objects.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.  The \&quot;Link\&quot; header is also included in successful responses, which contains one or more links for pagination, formatted like so: &#39;&lt;https://hydra-url/admin/clients?limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;; rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;, &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will be separated by a comma.
-     * @param limit The maximum amount of clients to returned, upper bound is 500 clients. (optional)
-     * @param offset The offset from where to start looking. (optional)
+     * List OAuth 2.0 Clients This endpoint lists all clients in the database, and never returns client secrets. As a
+     * default it lists the first 100 clients. The &#x60;limit&#x60; parameter can be used to retrieve more clients, but
+     * it has an upper bound at 500 objects. Pagination should be used to retrieve more than 500 objects.  OAuth 2.0
+     * clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for
+     * applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.  The \&quot;Link\&quot; header
+     * is also included in successful responses, which contains one or more links for pagination, formatted like so:
+     * &#39;&lt;https://hydra-url/admin/clients?limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;;
+     * rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;,
+     * &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will
+     * be separated by a comma.
+     *
+     * @param limit      The maximum amount of clients to returned, upper bound is 500 clients. (optional)
+     * @param offset     The offset from where to start looking. (optional)
      * @param clientName The name of the clients to filter by. (optional)
-     * @param owner The owner of the clients to filter by. (optional)
+     * @param owner      The owner of the clients to filter by. (optional)
      * @return List&lt;OAuth2Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> A list of clients. </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> A list of clients. </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public List<OAuth2Client> listOAuth2Clients(Long limit, Long offset, String clientName, String owner) throws ApiException {
-        ApiResponse<List<OAuth2Client>> localVarResp = listOAuth2ClientsWithHttpInfo(limit, offset, clientName, owner);
+    public List<OAuth2Client> listOAuth2Clients(final Long limit, final Long offset, final String clientName, final String owner) throws ApiException {
+        final ApiResponse<List<OAuth2Client>> localVarResp = this.listOAuth2ClientsWithHttpInfo(limit, offset, clientName, owner);
         return localVarResp.getData();
     }
 
     /**
-     * List OAuth 2.0 Clients
-     * This endpoint lists all clients in the database, and never returns client secrets. As a default it lists the first 100 clients. The &#x60;limit&#x60; parameter can be used to retrieve more clients, but it has an upper bound at 500 objects. Pagination should be used to retrieve more than 500 objects.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.  The \&quot;Link\&quot; header is also included in successful responses, which contains one or more links for pagination, formatted like so: &#39;&lt;https://hydra-url/admin/clients?limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;; rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;, &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will be separated by a comma.
-     * @param limit The maximum amount of clients to returned, upper bound is 500 clients. (optional)
-     * @param offset The offset from where to start looking. (optional)
+     * List OAuth 2.0 Clients This endpoint lists all clients in the database, and never returns client secrets. As a
+     * default it lists the first 100 clients. The &#x60;limit&#x60; parameter can be used to retrieve more clients, but
+     * it has an upper bound at 500 objects. Pagination should be used to retrieve more than 500 objects.  OAuth 2.0
+     * clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for
+     * applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.  The \&quot;Link\&quot; header
+     * is also included in successful responses, which contains one or more links for pagination, formatted like so:
+     * &#39;&lt;https://hydra-url/admin/clients?limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;;
+     * rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;,
+     * &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will
+     * be separated by a comma.
+     *
+     * @param limit      The maximum amount of clients to returned, upper bound is 500 clients. (optional)
+     * @param offset     The offset from where to start looking. (optional)
      * @param clientName The name of the clients to filter by. (optional)
-     * @param owner The owner of the clients to filter by. (optional)
+     * @param owner      The owner of the clients to filter by. (optional)
      * @return ApiResponse&lt;List&lt;OAuth2Client&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> A list of clients. </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> A list of clients. </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<List<OAuth2Client>> listOAuth2ClientsWithHttpInfo(Long limit, Long offset, String clientName, String owner) throws ApiException {
-        okhttp3.Call localVarCall = listOAuth2ClientsValidateBeforeCall(limit, offset, clientName, owner, null);
-        Type localVarReturnType = new TypeToken<List<OAuth2Client>>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<List<OAuth2Client>> listOAuth2ClientsWithHttpInfo(final Long limit, final Long offset, final String clientName, final String owner) throws ApiException {
+        final okhttp3.Call localVarCall = this.listOAuth2ClientsValidateBeforeCall(limit, offset, clientName, owner, null);
+        final Type localVarReturnType = new TypeToken<List<OAuth2Client>>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * List OAuth 2.0 Clients (asynchronously)
-     * This endpoint lists all clients in the database, and never returns client secrets. As a default it lists the first 100 clients. The &#x60;limit&#x60; parameter can be used to retrieve more clients, but it has an upper bound at 500 objects. Pagination should be used to retrieve more than 500 objects.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.  The \&quot;Link\&quot; header is also included in successful responses, which contains one or more links for pagination, formatted like so: &#39;&lt;https://hydra-url/admin/clients?limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;; rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;, &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will be separated by a comma.
-     * @param limit The maximum amount of clients to returned, upper bound is 500 clients. (optional)
-     * @param offset The offset from where to start looking. (optional)
+     * List OAuth 2.0 Clients (asynchronously) This endpoint lists all clients in the database, and never returns client
+     * secrets. As a default it lists the first 100 clients. The &#x60;limit&#x60; parameter can be used to retrieve
+     * more clients, but it has an upper bound at 500 objects. Pagination should be used to retrieve more than 500
+     * objects.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients
+     * are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.  The
+     * \&quot;Link\&quot; header is also included in successful responses, which contains one or more links for
+     * pagination, formatted like so:
+     * &#39;&lt;https://hydra-url/admin/clients?limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;;
+     * rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;,
+     * &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will
+     * be separated by a comma.
+     *
+     * @param limit      The maximum amount of clients to returned, upper bound is 500 clients. (optional)
+     * @param offset     The offset from where to start looking. (optional)
      * @param clientName The name of the clients to filter by. (optional)
-     * @param owner The owner of the clients to filter by. (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * @param owner      The owner of the clients to filter by. (optional)
+     * @param _callback  The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> A list of clients. </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> A list of clients. </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call listOAuth2ClientsAsync(Long limit, Long offset, String clientName, String owner, final ApiCallback<List<OAuth2Client>> _callback) throws ApiException {
+    public okhttp3.Call listOAuth2ClientsAsync(final Long limit, final Long offset, final String clientName, final String owner, final ApiCallback<List<OAuth2Client>> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = listOAuth2ClientsValidateBeforeCall(limit, offset, clientName, owner, _callback);
-        Type localVarReturnType = new TypeToken<List<OAuth2Client>>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.listOAuth2ClientsValidateBeforeCall(limit, offset, clientName, owner, _callback);
+        final Type localVarReturnType = new TypeToken<List<OAuth2Client>>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for listSubjectConsentSessions
-     * @param subject  (required)
-     * @param limit The maximum amount of consent sessions to be returned, upper bound is 500 sessions. (optional)
-     * @param offset The offset from where to start looking. (optional)
+     *
+     * @param subject   (required)
+     * @param limit     The maximum amount of consent sessions to be returned, upper bound is 500 sessions. (optional)
+     * @param offset    The offset from where to start looking. (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> A list of used consent requests. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> A list of used consent requests. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call listSubjectConsentSessionsCall(String subject, Long limit, Long offset, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listSubjectConsentSessionsCall(final String subject, final Long limit, final Long offset, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/sessions/consent";
+        final String localVarPath = "/oauth2/auth/sessions/consent";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (subject != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("subject", subject));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("subject", subject));
         }
 
         if (limit != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("limit", limit));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("limit", limit));
         }
 
         if (offset != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("offset", offset));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("offset", offset));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -2944,17 +3228,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listSubjectConsentSessionsValidateBeforeCall(String subject, Long limit, Long offset, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listSubjectConsentSessionsValidateBeforeCall(final String subject, final Long limit, final Long offset, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'subject' is set
         if (subject == null) {
@@ -2962,135 +3246,157 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = listSubjectConsentSessionsCall(subject, limit, offset, _callback);
+        final okhttp3.Call localVarCall = this.listSubjectConsentSessionsCall(subject, limit, offset, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Lists All Consent Sessions of a Subject
-     * This endpoint lists all subject&#39;s granted consent sessions, including client and granted scope. If the subject is unknown or has not granted any consent sessions yet, the endpoint returns an empty JSON array with status code 200 OK.   The \&quot;Link\&quot; header is also included in successful responses, which contains one or more links for pagination, formatted like so: &#39;&lt;https://hydra-url/admin/oauth2/auth/sessions/consent?subject&#x3D;{user}&amp;limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;; rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;, &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will be separated by a comma.
-     * @param subject  (required)
-     * @param limit The maximum amount of consent sessions to be returned, upper bound is 500 sessions. (optional)
-     * @param offset The offset from where to start looking. (optional)
+     * Lists All Consent Sessions of a Subject This endpoint lists all subject&#39;s granted consent sessions, including
+     * client and granted scope. If the subject is unknown or has not granted any consent sessions yet, the endpoint
+     * returns an empty JSON array with status code 200 OK.   The \&quot;Link\&quot; header is also included in
+     * successful responses, which contains one or more links for pagination, formatted like so:
+     * &#39;&lt;https://hydra-url/admin/oauth2/auth/sessions/consent?subject&#x3D;{user}&amp;limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;;
+     * rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;,
+     * &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will
+     * be separated by a comma.
+     *
+     * @param subject (required)
+     * @param limit   The maximum amount of consent sessions to be returned, upper bound is 500 sessions. (optional)
+     * @param offset  The offset from where to start looking. (optional)
      * @return List&lt;PreviousConsentSession&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> A list of used consent requests. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> A list of used consent requests. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public List<PreviousConsentSession> listSubjectConsentSessions(String subject, Long limit, Long offset) throws ApiException {
-        ApiResponse<List<PreviousConsentSession>> localVarResp = listSubjectConsentSessionsWithHttpInfo(subject, limit, offset);
+    public List<PreviousConsentSession> listSubjectConsentSessions(final String subject, final Long limit, final Long offset) throws ApiException {
+        final ApiResponse<List<PreviousConsentSession>> localVarResp = this.listSubjectConsentSessionsWithHttpInfo(subject, limit, offset);
         return localVarResp.getData();
     }
 
     /**
-     * Lists All Consent Sessions of a Subject
-     * This endpoint lists all subject&#39;s granted consent sessions, including client and granted scope. If the subject is unknown or has not granted any consent sessions yet, the endpoint returns an empty JSON array with status code 200 OK.   The \&quot;Link\&quot; header is also included in successful responses, which contains one or more links for pagination, formatted like so: &#39;&lt;https://hydra-url/admin/oauth2/auth/sessions/consent?subject&#x3D;{user}&amp;limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;; rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;, &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will be separated by a comma.
-     * @param subject  (required)
-     * @param limit The maximum amount of consent sessions to be returned, upper bound is 500 sessions. (optional)
-     * @param offset The offset from where to start looking. (optional)
+     * Lists All Consent Sessions of a Subject This endpoint lists all subject&#39;s granted consent sessions, including
+     * client and granted scope. If the subject is unknown or has not granted any consent sessions yet, the endpoint
+     * returns an empty JSON array with status code 200 OK.   The \&quot;Link\&quot; header is also included in
+     * successful responses, which contains one or more links for pagination, formatted like so:
+     * &#39;&lt;https://hydra-url/admin/oauth2/auth/sessions/consent?subject&#x3D;{user}&amp;limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;;
+     * rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;,
+     * &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will
+     * be separated by a comma.
+     *
+     * @param subject (required)
+     * @param limit   The maximum amount of consent sessions to be returned, upper bound is 500 sessions. (optional)
+     * @param offset  The offset from where to start looking. (optional)
      * @return ApiResponse&lt;List&lt;PreviousConsentSession&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> A list of used consent requests. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> A list of used consent requests. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<List<PreviousConsentSession>> listSubjectConsentSessionsWithHttpInfo(String subject, Long limit, Long offset) throws ApiException {
-        okhttp3.Call localVarCall = listSubjectConsentSessionsValidateBeforeCall(subject, limit, offset, null);
-        Type localVarReturnType = new TypeToken<List<PreviousConsentSession>>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<List<PreviousConsentSession>> listSubjectConsentSessionsWithHttpInfo(final String subject, final Long limit, final Long offset) throws ApiException {
+        final okhttp3.Call localVarCall = this.listSubjectConsentSessionsValidateBeforeCall(subject, limit, offset, null);
+        final Type localVarReturnType = new TypeToken<List<PreviousConsentSession>>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Lists All Consent Sessions of a Subject (asynchronously)
-     * This endpoint lists all subject&#39;s granted consent sessions, including client and granted scope. If the subject is unknown or has not granted any consent sessions yet, the endpoint returns an empty JSON array with status code 200 OK.   The \&quot;Link\&quot; header is also included in successful responses, which contains one or more links for pagination, formatted like so: &#39;&lt;https://hydra-url/admin/oauth2/auth/sessions/consent?subject&#x3D;{user}&amp;limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;; rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;, &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will be separated by a comma.
-     * @param subject  (required)
-     * @param limit The maximum amount of consent sessions to be returned, upper bound is 500 sessions. (optional)
-     * @param offset The offset from where to start looking. (optional)
+     * Lists All Consent Sessions of a Subject (asynchronously) This endpoint lists all subject&#39;s granted consent
+     * sessions, including client and granted scope. If the subject is unknown or has not granted any consent sessions
+     * yet, the endpoint returns an empty JSON array with status code 200 OK.   The \&quot;Link\&quot; header is also
+     * included in successful responses, which contains one or more links for pagination, formatted like so:
+     * &#39;&lt;https://hydra-url/admin/oauth2/auth/sessions/consent?subject&#x3D;{user}&amp;limit&#x3D;{limit}&amp;offset&#x3D;{offset}&gt;;
+     * rel&#x3D;\&quot;{page}\&quot;&#39;, where page is one of the following applicable pages: &#39;first&#39;,
+     * &#39;next&#39;, &#39;last&#39;, and &#39;previous&#39;. Multiple links can be included in this header, and will
+     * be separated by a comma.
+     *
+     * @param subject   (required)
+     * @param limit     The maximum amount of consent sessions to be returned, upper bound is 500 sessions. (optional)
+     * @param offset    The offset from where to start looking. (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> A list of used consent requests. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> A list of used consent requests. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call listSubjectConsentSessionsAsync(String subject, Long limit, Long offset, final ApiCallback<List<PreviousConsentSession>> _callback) throws ApiException {
+    public okhttp3.Call listSubjectConsentSessionsAsync(final String subject, final Long limit, final Long offset, final ApiCallback<List<PreviousConsentSession>> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = listSubjectConsentSessionsValidateBeforeCall(subject, limit, offset, _callback);
-        Type localVarReturnType = new TypeToken<List<PreviousConsentSession>>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.listSubjectConsentSessionsValidateBeforeCall(subject, limit, offset, _callback);
+        final Type localVarReturnType = new TypeToken<List<PreviousConsentSession>>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for listTrustedJwtGrantIssuers
-     * @param issuer If optional \&quot;issuer\&quot; is supplied, only jwt-bearer grants with this issuer will be returned. (optional)
-     * @param limit The maximum amount of policies returned, upper bound is 500 policies (optional)
-     * @param offset The offset from where to start looking. (optional)
+     *
+     * @param issuer    If optional \&quot;issuer\&quot; is supplied, only jwt-bearer grants with this issuer will be
+     *                  returned. (optional)
+     * @param limit     The maximum amount of policies returned, upper bound is 500 policies (optional)
+     * @param offset    The offset from where to start looking. (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> trustedJwtGrantIssuers </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> trustedJwtGrantIssuers </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call listTrustedJwtGrantIssuersCall(String issuer, Long limit, Long offset, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listTrustedJwtGrantIssuersCall(final String issuer, final Long limit, final Long offset, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/trust/grants/jwt-bearer/issuers";
+        final String localVarPath = "/trust/grants/jwt-bearer/issuers";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (issuer != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("issuer", issuer));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("issuer", issuer));
         }
 
         if (limit != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("limit", limit));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("limit", limit));
         }
 
         if (offset != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("offset", offset));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("offset", offset));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -3098,133 +3404,139 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listTrustedJwtGrantIssuersValidateBeforeCall(String issuer, Long limit, Long offset, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listTrustedJwtGrantIssuersValidateBeforeCall(final String issuer, final Long limit, final Long offset, final ApiCallback _callback) throws ApiException {
 
 
-        okhttp3.Call localVarCall = listTrustedJwtGrantIssuersCall(issuer, limit, offset, _callback);
+        final okhttp3.Call localVarCall = this.listTrustedJwtGrantIssuersCall(issuer, limit, offset, _callback);
         return localVarCall;
 
     }
 
     /**
-     * List Trusted OAuth2 JWT Bearer Grant Type Issuers
-     * Use this endpoint to list all trusted JWT Bearer Grant Type Issuers.
-     * @param issuer If optional \&quot;issuer\&quot; is supplied, only jwt-bearer grants with this issuer will be returned. (optional)
-     * @param limit The maximum amount of policies returned, upper bound is 500 policies (optional)
+     * List Trusted OAuth2 JWT Bearer Grant Type Issuers Use this endpoint to list all trusted JWT Bearer Grant Type
+     * Issuers.
+     *
+     * @param issuer If optional \&quot;issuer\&quot; is supplied, only jwt-bearer grants with this issuer will be
+     *               returned. (optional)
+     * @param limit  The maximum amount of policies returned, upper bound is 500 policies (optional)
      * @param offset The offset from where to start looking. (optional)
      * @return List&lt;TrustedJwtGrantIssuer&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> trustedJwtGrantIssuers </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> trustedJwtGrantIssuers </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public List<TrustedJwtGrantIssuer> listTrustedJwtGrantIssuers(String issuer, Long limit, Long offset) throws ApiException {
-        ApiResponse<List<TrustedJwtGrantIssuer>> localVarResp = listTrustedJwtGrantIssuersWithHttpInfo(issuer, limit, offset);
+    public List<TrustedJwtGrantIssuer> listTrustedJwtGrantIssuers(final String issuer, final Long limit, final Long offset) throws ApiException {
+        final ApiResponse<List<TrustedJwtGrantIssuer>> localVarResp = this.listTrustedJwtGrantIssuersWithHttpInfo(issuer, limit, offset);
         return localVarResp.getData();
     }
 
     /**
-     * List Trusted OAuth2 JWT Bearer Grant Type Issuers
-     * Use this endpoint to list all trusted JWT Bearer Grant Type Issuers.
-     * @param issuer If optional \&quot;issuer\&quot; is supplied, only jwt-bearer grants with this issuer will be returned. (optional)
-     * @param limit The maximum amount of policies returned, upper bound is 500 policies (optional)
+     * List Trusted OAuth2 JWT Bearer Grant Type Issuers Use this endpoint to list all trusted JWT Bearer Grant Type
+     * Issuers.
+     *
+     * @param issuer If optional \&quot;issuer\&quot; is supplied, only jwt-bearer grants with this issuer will be
+     *               returned. (optional)
+     * @param limit  The maximum amount of policies returned, upper bound is 500 policies (optional)
      * @param offset The offset from where to start looking. (optional)
      * @return ApiResponse&lt;List&lt;TrustedJwtGrantIssuer&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> trustedJwtGrantIssuers </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> trustedJwtGrantIssuers </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<List<TrustedJwtGrantIssuer>> listTrustedJwtGrantIssuersWithHttpInfo(String issuer, Long limit, Long offset) throws ApiException {
-        okhttp3.Call localVarCall = listTrustedJwtGrantIssuersValidateBeforeCall(issuer, limit, offset, null);
-        Type localVarReturnType = new TypeToken<List<TrustedJwtGrantIssuer>>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<List<TrustedJwtGrantIssuer>> listTrustedJwtGrantIssuersWithHttpInfo(final String issuer, final Long limit, final Long offset) throws ApiException {
+        final okhttp3.Call localVarCall = this.listTrustedJwtGrantIssuersValidateBeforeCall(issuer, limit, offset, null);
+        final Type localVarReturnType = new TypeToken<List<TrustedJwtGrantIssuer>>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * List Trusted OAuth2 JWT Bearer Grant Type Issuers (asynchronously)
-     * Use this endpoint to list all trusted JWT Bearer Grant Type Issuers.
-     * @param issuer If optional \&quot;issuer\&quot; is supplied, only jwt-bearer grants with this issuer will be returned. (optional)
-     * @param limit The maximum amount of policies returned, upper bound is 500 policies (optional)
-     * @param offset The offset from where to start looking. (optional)
+     * List Trusted OAuth2 JWT Bearer Grant Type Issuers (asynchronously) Use this endpoint to list all trusted JWT
+     * Bearer Grant Type Issuers.
+     *
+     * @param issuer    If optional \&quot;issuer\&quot; is supplied, only jwt-bearer grants with this issuer will be
+     *                  returned. (optional)
+     * @param limit     The maximum amount of policies returned, upper bound is 500 policies (optional)
+     * @param offset    The offset from where to start looking. (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> trustedJwtGrantIssuers </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> trustedJwtGrantIssuers </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call listTrustedJwtGrantIssuersAsync(String issuer, Long limit, Long offset, final ApiCallback<List<TrustedJwtGrantIssuer>> _callback) throws ApiException {
+    public okhttp3.Call listTrustedJwtGrantIssuersAsync(final String issuer, final Long limit, final Long offset, final ApiCallback<List<TrustedJwtGrantIssuer>> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = listTrustedJwtGrantIssuersValidateBeforeCall(issuer, limit, offset, _callback);
-        Type localVarReturnType = new TypeToken<List<TrustedJwtGrantIssuer>>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.listTrustedJwtGrantIssuersValidateBeforeCall(issuer, limit, offset, _callback);
+        final Type localVarReturnType = new TypeToken<List<TrustedJwtGrantIssuer>>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for patchOAuth2Client
-     * @param id The id of the OAuth 2.0 Client. (required)
-     * @param patchDocument  (required)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param id            The id of the OAuth 2.0 Client. (required)
+     * @param patchDocument (required)
+     * @param _callback     Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call patchOAuth2ClientCall(String id, List<PatchDocument> patchDocument, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call patchOAuth2ClientCall(final String id, final List<PatchDocument> patchDocument, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = patchDocument;
+        final Object localVarPostBody = patchDocument;
 
         // create path and map variables
-        String localVarPath = "/clients/{id}"
-            .replaceAll("\\{" + "id" + "\\}", localVarApiClient.escapeString(id.toString()));
+        final String localVarPath = "/clients/{id}"
+            .replaceAll("\\{" + "id" + "\\}", this.localVarApiClient.escapeString(id));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -3232,17 +3544,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call patchOAuth2ClientValidateBeforeCall(String id, List<PatchDocument> patchDocument, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call patchOAuth2ClientValidateBeforeCall(final String id, final List<PatchDocument> patchDocument, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -3255,121 +3567,133 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = patchOAuth2ClientCall(id, patchDocument, _callback);
+        final okhttp3.Call localVarCall = this.patchOAuth2ClientCall(id, patchDocument, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Patch an OAuth 2.0 Client
-     * Patch an existing OAuth 2.0 Client. If you pass &#x60;client_secret&#x60; the secret will be updated and returned via the API. This is the only time you will be able to retrieve the client secret, so write it down and keep it safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
-     * @param id The id of the OAuth 2.0 Client. (required)
-     * @param patchDocument  (required)
+     * Patch an OAuth 2.0 Client Patch an existing OAuth 2.0 Client. If you pass &#x60;client_secret&#x60; the secret
+     * will be updated and returned via the API. This is the only time you will be able to retrieve the client secret,
+     * so write it down and keep it safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows.
+     * Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect
+     * capabilities.
+     *
+     * @param id            The id of the OAuth 2.0 Client. (required)
+     * @param patchDocument (required)
      * @return OAuth2Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public OAuth2Client patchOAuth2Client(String id, List<PatchDocument> patchDocument) throws ApiException {
-        ApiResponse<OAuth2Client> localVarResp = patchOAuth2ClientWithHttpInfo(id, patchDocument);
+    public OAuth2Client patchOAuth2Client(final String id, final List<PatchDocument> patchDocument) throws ApiException {
+        final ApiResponse<OAuth2Client> localVarResp = this.patchOAuth2ClientWithHttpInfo(id, patchDocument);
         return localVarResp.getData();
     }
 
     /**
-     * Patch an OAuth 2.0 Client
-     * Patch an existing OAuth 2.0 Client. If you pass &#x60;client_secret&#x60; the secret will be updated and returned via the API. This is the only time you will be able to retrieve the client secret, so write it down and keep it safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
-     * @param id The id of the OAuth 2.0 Client. (required)
-     * @param patchDocument  (required)
+     * Patch an OAuth 2.0 Client Patch an existing OAuth 2.0 Client. If you pass &#x60;client_secret&#x60; the secret
+     * will be updated and returned via the API. This is the only time you will be able to retrieve the client secret,
+     * so write it down and keep it safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows.
+     * Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect
+     * capabilities.
+     *
+     * @param id            The id of the OAuth 2.0 Client. (required)
+     * @param patchDocument (required)
      * @return ApiResponse&lt;OAuth2Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<OAuth2Client> patchOAuth2ClientWithHttpInfo(String id, List<PatchDocument> patchDocument) throws ApiException {
-        okhttp3.Call localVarCall = patchOAuth2ClientValidateBeforeCall(id, patchDocument, null);
-        Type localVarReturnType = new TypeToken<OAuth2Client>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<OAuth2Client> patchOAuth2ClientWithHttpInfo(final String id, final List<PatchDocument> patchDocument) throws ApiException {
+        final okhttp3.Call localVarCall = this.patchOAuth2ClientValidateBeforeCall(id, patchDocument, null);
+        final Type localVarReturnType = new TypeToken<OAuth2Client>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Patch an OAuth 2.0 Client (asynchronously)
-     * Patch an existing OAuth 2.0 Client. If you pass &#x60;client_secret&#x60; the secret will be updated and returned via the API. This is the only time you will be able to retrieve the client secret, so write it down and keep it safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
-     * @param id The id of the OAuth 2.0 Client. (required)
-     * @param patchDocument  (required)
-     * @param _callback The callback to be executed when the API call finishes
+     * Patch an OAuth 2.0 Client (asynchronously) Patch an existing OAuth 2.0 Client. If you pass
+     * &#x60;client_secret&#x60; the secret will be updated and returned via the API. This is the only time you will be
+     * able to retrieve the client secret, so write it down and keep it safe.  OAuth 2.0 clients are used to perform
+     * OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to
+     * consume your OAuth 2.0 or OpenID Connect capabilities.
+     *
+     * @param id            The id of the OAuth 2.0 Client. (required)
+     * @param patchDocument (required)
+     * @param _callback     The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call patchOAuth2ClientAsync(String id, List<PatchDocument> patchDocument, final ApiCallback<OAuth2Client> _callback) throws ApiException {
+    public okhttp3.Call patchOAuth2ClientAsync(final String id, final List<PatchDocument> patchDocument, final ApiCallback<OAuth2Client> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = patchOAuth2ClientValidateBeforeCall(id, patchDocument, _callback);
-        Type localVarReturnType = new TypeToken<OAuth2Client>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.patchOAuth2ClientValidateBeforeCall(id, patchDocument, _callback);
+        final Type localVarReturnType = new TypeToken<OAuth2Client>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for rejectConsentRequest
-     * @param consentChallenge  (required)
-     * @param rejectRequest  (optional)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param consentChallenge (required)
+     * @param rejectRequest    (optional)
+     * @param _callback        Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call rejectConsentRequestCall(String consentChallenge, RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call rejectConsentRequestCall(final String consentChallenge, final RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = rejectRequest;
+        final Object localVarPostBody = rejectRequest;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/requests/consent/reject";
+        final String localVarPath = "/oauth2/auth/requests/consent/reject";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (consentChallenge != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("consent_challenge", consentChallenge));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("consent_challenge", consentChallenge));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -3377,17 +3701,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call rejectConsentRequestValidateBeforeCall(String consentChallenge, RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call rejectConsentRequestValidateBeforeCall(final String consentChallenge, final RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'consentChallenge' is set
         if (consentChallenge == null) {
@@ -3395,126 +3719,159 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = rejectConsentRequestCall(consentChallenge, rejectRequest, _callback);
+        final okhttp3.Call localVarCall = this.rejectConsentRequestCall(consentChallenge, rejectRequest, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Reject a Consent Request
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This endpoint tells ORY Hydra that the subject has not authorized the OAuth 2.0 client to access resources on his/her behalf. The consent provider must include a reason why the consent was not granted.  The response contains a redirect URL which the consent provider should redirect the user-agent to.
-     * @param consentChallenge  (required)
-     * @param rejectRequest  (optional)
+     * Reject a Consent Request When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra
+     * asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject
+     * authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to
+     * access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web
+     * app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the
+     * client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private
+     * files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s
+     * user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the
+     * OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This endpoint tells ORY
+     * Hydra that the subject has not authorized the OAuth 2.0 client to access resources on his/her behalf. The consent
+     * provider must include a reason why the consent was not granted.  The response contains a redirect URL which the
+     * consent provider should redirect the user-agent to.
+     *
+     * @param consentChallenge (required)
+     * @param rejectRequest    (optional)
      * @return CompletedRequest
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public CompletedRequest rejectConsentRequest(String consentChallenge, RejectRequest rejectRequest) throws ApiException {
-        ApiResponse<CompletedRequest> localVarResp = rejectConsentRequestWithHttpInfo(consentChallenge, rejectRequest);
+    public CompletedRequest rejectConsentRequest(final String consentChallenge, final RejectRequest rejectRequest) throws ApiException {
+        final ApiResponse<CompletedRequest> localVarResp = this.rejectConsentRequestWithHttpInfo(consentChallenge, rejectRequest);
         return localVarResp.getData();
     }
 
     /**
-     * Reject a Consent Request
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This endpoint tells ORY Hydra that the subject has not authorized the OAuth 2.0 client to access resources on his/her behalf. The consent provider must include a reason why the consent was not granted.  The response contains a redirect URL which the consent provider should redirect the user-agent to.
-     * @param consentChallenge  (required)
-     * @param rejectRequest  (optional)
+     * Reject a Consent Request When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra
+     * asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject
+     * authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to
+     * access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web
+     * app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the
+     * client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private
+     * files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s
+     * user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the
+     * OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This endpoint tells ORY
+     * Hydra that the subject has not authorized the OAuth 2.0 client to access resources on his/her behalf. The consent
+     * provider must include a reason why the consent was not granted.  The response contains a redirect URL which the
+     * consent provider should redirect the user-agent to.
+     *
+     * @param consentChallenge (required)
+     * @param rejectRequest    (optional)
      * @return ApiResponse&lt;CompletedRequest&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<CompletedRequest> rejectConsentRequestWithHttpInfo(String consentChallenge, RejectRequest rejectRequest) throws ApiException {
-        okhttp3.Call localVarCall = rejectConsentRequestValidateBeforeCall(consentChallenge, rejectRequest, null);
-        Type localVarReturnType = new TypeToken<CompletedRequest>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<CompletedRequest> rejectConsentRequestWithHttpInfo(final String consentChallenge, final RejectRequest rejectRequest) throws ApiException {
+        final okhttp3.Call localVarCall = this.rejectConsentRequestValidateBeforeCall(consentChallenge, rejectRequest, null);
+        final Type localVarReturnType = new TypeToken<CompletedRequest>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Reject a Consent Request (asynchronously)
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This endpoint tells ORY Hydra that the subject has not authorized the OAuth 2.0 client to access resources on his/her behalf. The consent provider must include a reason why the consent was not granted.  The response contains a redirect URL which the consent provider should redirect the user-agent to.
-     * @param consentChallenge  (required)
-     * @param rejectRequest  (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * Reject a Consent Request (asynchronously) When an authorization code, hybrid, or implicit OAuth 2.0 Flow is
+     * initiated, ORY Hydra asks the login provider to authenticate the subject and then tell ORY Hydra now about it. If
+     * the subject authenticated, he/she must now be asked if the OAuth 2.0 Client which initiated the flow should be
+     * allowed to access the resources on the subject&#39;s behalf.  The consent provider which handles this request and
+     * is a web app implemented and hosted by you. It shows a subject interface which asks the subject to grant or deny
+     * the client access to the requested scope (\&quot;Application my-dropbox-app wants write access to all your
+     * private files\&quot;).  The consent challenge is appended to the consent provider&#39;s URL to which the
+     * subject&#39;s user-agent (browser) is redirected to. The consent provider uses that challenge to fetch
+     * information on the OAuth2 request and then tells ORY Hydra if the subject accepted or rejected the request.  This
+     * endpoint tells ORY Hydra that the subject has not authorized the OAuth 2.0 client to access resources on his/her
+     * behalf. The consent provider must include a reason why the consent was not granted.  The response contains a
+     * redirect URL which the consent provider should redirect the user-agent to.
+     *
+     * @param consentChallenge (required)
+     * @param rejectRequest    (optional)
+     * @param _callback        The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call rejectConsentRequestAsync(String consentChallenge, RejectRequest rejectRequest, final ApiCallback<CompletedRequest> _callback) throws ApiException {
+    public okhttp3.Call rejectConsentRequestAsync(final String consentChallenge, final RejectRequest rejectRequest, final ApiCallback<CompletedRequest> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = rejectConsentRequestValidateBeforeCall(consentChallenge, rejectRequest, _callback);
-        Type localVarReturnType = new TypeToken<CompletedRequest>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.rejectConsentRequestValidateBeforeCall(consentChallenge, rejectRequest, _callback);
+        final Type localVarReturnType = new TypeToken<CompletedRequest>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for rejectLoginRequest
-     * @param loginChallenge  (required)
+     *
+     * @param loginChallenge (required)
      * @param rejectRequest  (optional)
-     * @param _callback Callback for upload/download progress
+     * @param _callback      Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call rejectLoginRequestCall(String loginChallenge, RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call rejectLoginRequestCall(final String loginChallenge, final RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = rejectRequest;
+        final Object localVarPostBody = rejectRequest;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/requests/login/reject";
+        final String localVarPath = "/oauth2/auth/requests/login/reject";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (loginChallenge != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("login_challenge", loginChallenge));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("login_challenge", loginChallenge));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -3522,17 +3879,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call rejectLoginRequestValidateBeforeCall(String loginChallenge, RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call rejectLoginRequestValidateBeforeCall(final String loginChallenge, final RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'loginChallenge' is set
         if (loginChallenge == null) {
@@ -3540,130 +3897,155 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = rejectLoginRequestCall(loginChallenge, rejectRequest, _callback);
+        final okhttp3.Call localVarCall = this.rejectLoginRequestCall(loginChallenge, rejectRequest, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Reject a Login Request
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint tells ORY Hydra that the subject has not authenticated and includes a reason why the authentication was be denied.  The response contains a redirect URL which the login provider should redirect the user-agent to.
-     * @param loginChallenge  (required)
+     * Reject a Login Request When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra
+     * asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then
+     * tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to
+     * authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is
+     * \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the
+     * subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information
+     * on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint tells ORY
+     * Hydra that the subject has not authenticated and includes a reason why the authentication was be denied.  The
+     * response contains a redirect URL which the login provider should redirect the user-agent to.
+     *
+     * @param loginChallenge (required)
      * @param rejectRequest  (optional)
      * @return CompletedRequest
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public CompletedRequest rejectLoginRequest(String loginChallenge, RejectRequest rejectRequest) throws ApiException {
-        ApiResponse<CompletedRequest> localVarResp = rejectLoginRequestWithHttpInfo(loginChallenge, rejectRequest);
+    public CompletedRequest rejectLoginRequest(final String loginChallenge, final RejectRequest rejectRequest) throws ApiException {
+        final ApiResponse<CompletedRequest> localVarResp = this.rejectLoginRequestWithHttpInfo(loginChallenge, rejectRequest);
         return localVarResp.getData();
     }
 
     /**
-     * Reject a Login Request
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint tells ORY Hydra that the subject has not authenticated and includes a reason why the authentication was be denied.  The response contains a redirect URL which the login provider should redirect the user-agent to.
-     * @param loginChallenge  (required)
+     * Reject a Login Request When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra
+     * asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then
+     * tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to
+     * authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is
+     * \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the
+     * subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information
+     * on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint tells ORY
+     * Hydra that the subject has not authenticated and includes a reason why the authentication was be denied.  The
+     * response contains a redirect URL which the login provider should redirect the user-agent to.
+     *
+     * @param loginChallenge (required)
      * @param rejectRequest  (optional)
      * @return ApiResponse&lt;CompletedRequest&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<CompletedRequest> rejectLoginRequestWithHttpInfo(String loginChallenge, RejectRequest rejectRequest) throws ApiException {
-        okhttp3.Call localVarCall = rejectLoginRequestValidateBeforeCall(loginChallenge, rejectRequest, null);
-        Type localVarReturnType = new TypeToken<CompletedRequest>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<CompletedRequest> rejectLoginRequestWithHttpInfo(final String loginChallenge, final RejectRequest rejectRequest) throws ApiException {
+        final okhttp3.Call localVarCall = this.rejectLoginRequestValidateBeforeCall(loginChallenge, rejectRequest, null);
+        final Type localVarReturnType = new TypeToken<CompletedRequest>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Reject a Login Request (asynchronously)
-     * When an authorization code, hybrid, or implicit OAuth 2.0 Flow is initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch information on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint tells ORY Hydra that the subject has not authenticated and includes a reason why the authentication was be denied.  The response contains a redirect URL which the login provider should redirect the user-agent to.
-     * @param loginChallenge  (required)
+     * Reject a Login Request (asynchronously) When an authorization code, hybrid, or implicit OAuth 2.0 Flow is
+     * initiated, ORY Hydra asks the login provider (sometimes called \&quot;identity provider\&quot;) to authenticate
+     * the subject and then tell ORY Hydra now about it. The login provider is an web-app you write and host, and it
+     * must be able to authenticate (\&quot;show the subject a login screen\&quot;) a subject (in OAuth2 the proper name
+     * for subject is \&quot;resource owner\&quot;).  The authentication challenge is appended to the login provider URL
+     * to which the subject&#39;s user-agent (browser) is redirected to. The login provider uses that challenge to fetch
+     * information on the OAuth2 request and then accept or reject the requested authentication process.  This endpoint
+     * tells ORY Hydra that the subject has not authenticated and includes a reason why the authentication was be
+     * denied.  The response contains a redirect URL which the login provider should redirect the user-agent to.
+     *
+     * @param loginChallenge (required)
      * @param rejectRequest  (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * @param _callback      The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> completedRequest </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call rejectLoginRequestAsync(String loginChallenge, RejectRequest rejectRequest, final ApiCallback<CompletedRequest> _callback) throws ApiException {
+    public okhttp3.Call rejectLoginRequestAsync(final String loginChallenge, final RejectRequest rejectRequest, final ApiCallback<CompletedRequest> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = rejectLoginRequestValidateBeforeCall(loginChallenge, rejectRequest, _callback);
-        Type localVarReturnType = new TypeToken<CompletedRequest>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.rejectLoginRequestValidateBeforeCall(loginChallenge, rejectRequest, _callback);
+        final Type localVarReturnType = new TypeToken<CompletedRequest>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for rejectLogoutRequest
-     * @param logoutChallenge  (required)
-     * @param rejectRequest  (optional)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param logoutChallenge (required)
+     * @param rejectRequest   (optional)
+     * @param _callback       Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call rejectLogoutRequestCall(String logoutChallenge, RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call rejectLogoutRequestCall(final String logoutChallenge, final RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = rejectRequest;
+        final Object localVarPostBody = rejectRequest;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/requests/logout/reject";
+        final String localVarPath = "/oauth2/auth/requests/logout/reject";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (logoutChallenge != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("logout_challenge", logoutChallenge));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("logout_challenge", logoutChallenge));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -3671,17 +4053,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json", "application/x-www-form-urlencoded"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call rejectLogoutRequestValidateBeforeCall(String logoutChallenge, RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call rejectLogoutRequestValidateBeforeCall(final String logoutChallenge, final RejectRequest rejectRequest, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'logoutChallenge' is set
         if (logoutChallenge == null) {
@@ -3689,119 +4071,127 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = rejectLogoutRequestCall(logoutChallenge, rejectRequest, _callback);
+        final okhttp3.Call localVarCall = this.rejectLogoutRequestCall(logoutChallenge, rejectRequest, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Reject a Logout Request
-     * When a user or an application requests ORY Hydra to log out a user, this endpoint is used to deny that logout request. No body is required.  The response is empty as the logout provider has to chose what action to perform next.
-     * @param logoutChallenge  (required)
-     * @param rejectRequest  (optional)
+     * Reject a Logout Request When a user or an application requests ORY Hydra to log out a user, this endpoint is used
+     * to deny that logout request. No body is required.  The response is empty as the logout provider has to chose what
+     * action to perform next.
+     *
+     * @param logoutChallenge (required)
+     * @param rejectRequest   (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public void rejectLogoutRequest(String logoutChallenge, RejectRequest rejectRequest) throws ApiException {
-        rejectLogoutRequestWithHttpInfo(logoutChallenge, rejectRequest);
+    public void rejectLogoutRequest(final String logoutChallenge, final RejectRequest rejectRequest) throws ApiException {
+        this.rejectLogoutRequestWithHttpInfo(logoutChallenge, rejectRequest);
     }
 
     /**
-     * Reject a Logout Request
-     * When a user or an application requests ORY Hydra to log out a user, this endpoint is used to deny that logout request. No body is required.  The response is empty as the logout provider has to chose what action to perform next.
-     * @param logoutChallenge  (required)
-     * @param rejectRequest  (optional)
+     * Reject a Logout Request When a user or an application requests ORY Hydra to log out a user, this endpoint is used
+     * to deny that logout request. No body is required.  The response is empty as the logout provider has to chose what
+     * action to perform next.
+     *
+     * @param logoutChallenge (required)
+     * @param rejectRequest   (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<Void> rejectLogoutRequestWithHttpInfo(String logoutChallenge, RejectRequest rejectRequest) throws ApiException {
-        okhttp3.Call localVarCall = rejectLogoutRequestValidateBeforeCall(logoutChallenge, rejectRequest, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<Void> rejectLogoutRequestWithHttpInfo(final String logoutChallenge, final RejectRequest rejectRequest) throws ApiException {
+        final okhttp3.Call localVarCall = this.rejectLogoutRequestValidateBeforeCall(logoutChallenge, rejectRequest, null);
+        return this.localVarApiClient.execute(localVarCall);
     }
 
     /**
-     * Reject a Logout Request (asynchronously)
-     * When a user or an application requests ORY Hydra to log out a user, this endpoint is used to deny that logout request. No body is required.  The response is empty as the logout provider has to chose what action to perform next.
-     * @param logoutChallenge  (required)
-     * @param rejectRequest  (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * Reject a Logout Request (asynchronously) When a user or an application requests ORY Hydra to log out a user, this
+     * endpoint is used to deny that logout request. No body is required.  The response is empty as the logout provider
+     * has to chose what action to perform next.
+     *
+     * @param logoutChallenge (required)
+     * @param rejectRequest   (optional)
+     * @param _callback       The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 404 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call rejectLogoutRequestAsync(String logoutChallenge, RejectRequest rejectRequest, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call rejectLogoutRequestAsync(final String logoutChallenge, final RejectRequest rejectRequest, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = rejectLogoutRequestValidateBeforeCall(logoutChallenge, rejectRequest, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        final okhttp3.Call localVarCall = this.rejectLogoutRequestValidateBeforeCall(logoutChallenge, rejectRequest, _callback);
+        this.localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for revokeAuthenticationSession
-     * @param subject  (required)
+     *
+     * @param subject   (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call revokeAuthenticationSessionCall(String subject, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call revokeAuthenticationSessionCall(final String subject, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/sessions/login";
+        final String localVarPath = "/oauth2/auth/sessions/login";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (subject != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("subject", subject));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("subject", subject));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -3809,17 +4199,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call revokeAuthenticationSessionValidateBeforeCall(String subject, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call revokeAuthenticationSessionValidateBeforeCall(final String subject, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'subject' is set
         if (subject == null) {
@@ -3827,126 +4217,139 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = revokeAuthenticationSessionCall(subject, _callback);
+        final okhttp3.Call localVarCall = this.revokeAuthenticationSessionCall(subject, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Invalidates All Login Sessions of a Certain User Invalidates a Subject&#39;s Authentication Session
-     * This endpoint invalidates a subject&#39;s authentication session. After revoking the authentication session, the subject has to re-authenticate at ORY Hydra. This endpoint does not invalidate any tokens and does not work with OpenID Connect Front- or Back-channel logout.
-     * @param subject  (required)
+     * Invalidates All Login Sessions of a Certain User Invalidates a Subject&#39;s Authentication Session This endpoint
+     * invalidates a subject&#39;s authentication session. After revoking the authentication session, the subject has to
+     * re-authenticate at ORY Hydra. This endpoint does not invalidate any tokens and does not work with OpenID Connect
+     * Front- or Back-channel logout.
+     *
+     * @param subject (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public void revokeAuthenticationSession(String subject) throws ApiException {
-        revokeAuthenticationSessionWithHttpInfo(subject);
+    public void revokeAuthenticationSession(final String subject) throws ApiException {
+        this.revokeAuthenticationSessionWithHttpInfo(subject);
     }
 
     /**
-     * Invalidates All Login Sessions of a Certain User Invalidates a Subject&#39;s Authentication Session
-     * This endpoint invalidates a subject&#39;s authentication session. After revoking the authentication session, the subject has to re-authenticate at ORY Hydra. This endpoint does not invalidate any tokens and does not work with OpenID Connect Front- or Back-channel logout.
-     * @param subject  (required)
+     * Invalidates All Login Sessions of a Certain User Invalidates a Subject&#39;s Authentication Session This endpoint
+     * invalidates a subject&#39;s authentication session. After revoking the authentication session, the subject has to
+     * re-authenticate at ORY Hydra. This endpoint does not invalidate any tokens and does not work with OpenID Connect
+     * Front- or Back-channel logout.
+     *
+     * @param subject (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<Void> revokeAuthenticationSessionWithHttpInfo(String subject) throws ApiException {
-        okhttp3.Call localVarCall = revokeAuthenticationSessionValidateBeforeCall(subject, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<Void> revokeAuthenticationSessionWithHttpInfo(final String subject) throws ApiException {
+        final okhttp3.Call localVarCall = this.revokeAuthenticationSessionValidateBeforeCall(subject, null);
+        return this.localVarApiClient.execute(localVarCall);
     }
 
     /**
-     * Invalidates All Login Sessions of a Certain User Invalidates a Subject&#39;s Authentication Session (asynchronously)
-     * This endpoint invalidates a subject&#39;s authentication session. After revoking the authentication session, the subject has to re-authenticate at ORY Hydra. This endpoint does not invalidate any tokens and does not work with OpenID Connect Front- or Back-channel logout.
-     * @param subject  (required)
+     * Invalidates All Login Sessions of a Certain User Invalidates a Subject&#39;s Authentication Session
+     * (asynchronously) This endpoint invalidates a subject&#39;s authentication session. After revoking the
+     * authentication session, the subject has to re-authenticate at ORY Hydra. This endpoint does not invalidate any
+     * tokens and does not work with OpenID Connect Front- or Back-channel logout.
+     *
+     * @param subject   (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call revokeAuthenticationSessionAsync(String subject, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call revokeAuthenticationSessionAsync(final String subject, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = revokeAuthenticationSessionValidateBeforeCall(subject, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        final okhttp3.Call localVarCall = this.revokeAuthenticationSessionValidateBeforeCall(subject, _callback);
+        this.localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for revokeConsentSessions
-     * @param subject The subject (Subject) who&#39;s consent sessions should be deleted. (required)
-     * @param client If set, deletes only those consent sessions by the Subject that have been granted to the specified OAuth 2.0 Client ID (optional)
-     * @param all If set to &#x60;?all&#x3D;true&#x60;, deletes all consent sessions by the Subject that have been granted. (optional)
+     *
+     * @param subject   The subject (Subject) who&#39;s consent sessions should be deleted. (required)
+     * @param client    If set, deletes only those consent sessions by the Subject that have been granted to the
+     *                  specified OAuth 2.0 Client ID (optional)
+     * @param all       If set to &#x60;?all&#x3D;true&#x60;, deletes all consent sessions by the Subject that have been
+     *                  granted. (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call revokeConsentSessionsCall(String subject, String client, Boolean all, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call revokeConsentSessionsCall(final String subject, final String client, final Boolean all, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        final Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/oauth2/auth/sessions/consent";
+        final String localVarPath = "/oauth2/auth/sessions/consent";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         if (subject != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("subject", subject));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("subject", subject));
         }
 
         if (client != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("client", client));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("client", client));
         }
 
         if (all != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("all", all));
+            localVarQueryParams.addAll(this.localVarApiClient.parameterToPair("all", all));
         }
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -3954,17 +4357,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
 
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call revokeConsentSessionsValidateBeforeCall(String subject, String client, Boolean all, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call revokeConsentSessionsValidateBeforeCall(final String subject, final String client, final Boolean all, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'subject' is set
         if (subject == null) {
@@ -3972,119 +4375,130 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = revokeConsentSessionsCall(subject, client, all, _callback);
+        final okhttp3.Call localVarCall = this.revokeConsentSessionsCall(subject, client, all, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Revokes Consent Sessions of a Subject for a Specific OAuth 2.0 Client
-     * This endpoint revokes a subject&#39;s granted consent sessions for a specific OAuth 2.0 Client and invalidates all associated OAuth 2.0 Access Tokens.
+     * Revokes Consent Sessions of a Subject for a Specific OAuth 2.0 Client This endpoint revokes a subject&#39;s
+     * granted consent sessions for a specific OAuth 2.0 Client and invalidates all associated OAuth 2.0 Access Tokens.
+     *
      * @param subject The subject (Subject) who&#39;s consent sessions should be deleted. (required)
-     * @param client If set, deletes only those consent sessions by the Subject that have been granted to the specified OAuth 2.0 Client ID (optional)
-     * @param all If set to &#x60;?all&#x3D;true&#x60;, deletes all consent sessions by the Subject that have been granted. (optional)
+     * @param client  If set, deletes only those consent sessions by the Subject that have been granted to the specified
+     *                OAuth 2.0 Client ID (optional)
+     * @param all     If set to &#x60;?all&#x3D;true&#x60;, deletes all consent sessions by the Subject that have been
+     *                granted. (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public void revokeConsentSessions(String subject, String client, Boolean all) throws ApiException {
-        revokeConsentSessionsWithHttpInfo(subject, client, all);
+    public void revokeConsentSessions(final String subject, final String client, final Boolean all) throws ApiException {
+        this.revokeConsentSessionsWithHttpInfo(subject, client, all);
     }
 
     /**
-     * Revokes Consent Sessions of a Subject for a Specific OAuth 2.0 Client
-     * This endpoint revokes a subject&#39;s granted consent sessions for a specific OAuth 2.0 Client and invalidates all associated OAuth 2.0 Access Tokens.
+     * Revokes Consent Sessions of a Subject for a Specific OAuth 2.0 Client This endpoint revokes a subject&#39;s
+     * granted consent sessions for a specific OAuth 2.0 Client and invalidates all associated OAuth 2.0 Access Tokens.
+     *
      * @param subject The subject (Subject) who&#39;s consent sessions should be deleted. (required)
-     * @param client If set, deletes only those consent sessions by the Subject that have been granted to the specified OAuth 2.0 Client ID (optional)
-     * @param all If set to &#x60;?all&#x3D;true&#x60;, deletes all consent sessions by the Subject that have been granted. (optional)
+     * @param client  If set, deletes only those consent sessions by the Subject that have been granted to the specified
+     *                OAuth 2.0 Client ID (optional)
+     * @param all     If set to &#x60;?all&#x3D;true&#x60;, deletes all consent sessions by the Subject that have been
+     *                granted. (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<Void> revokeConsentSessionsWithHttpInfo(String subject, String client, Boolean all) throws ApiException {
-        okhttp3.Call localVarCall = revokeConsentSessionsValidateBeforeCall(subject, client, all, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<Void> revokeConsentSessionsWithHttpInfo(final String subject, final String client, final Boolean all) throws ApiException {
+        final okhttp3.Call localVarCall = this.revokeConsentSessionsValidateBeforeCall(subject, client, all, null);
+        return this.localVarApiClient.execute(localVarCall);
     }
 
     /**
-     * Revokes Consent Sessions of a Subject for a Specific OAuth 2.0 Client (asynchronously)
-     * This endpoint revokes a subject&#39;s granted consent sessions for a specific OAuth 2.0 Client and invalidates all associated OAuth 2.0 Access Tokens.
-     * @param subject The subject (Subject) who&#39;s consent sessions should be deleted. (required)
-     * @param client If set, deletes only those consent sessions by the Subject that have been granted to the specified OAuth 2.0 Client ID (optional)
-     * @param all If set to &#x60;?all&#x3D;true&#x60;, deletes all consent sessions by the Subject that have been granted. (optional)
+     * Revokes Consent Sessions of a Subject for a Specific OAuth 2.0 Client (asynchronously) This endpoint revokes a
+     * subject&#39;s granted consent sessions for a specific OAuth 2.0 Client and invalidates all associated OAuth 2.0
+     * Access Tokens.
+     *
+     * @param subject   The subject (Subject) who&#39;s consent sessions should be deleted. (required)
+     * @param client    If set, deletes only those consent sessions by the Subject that have been granted to the
+     *                  specified OAuth 2.0 Client ID (optional)
+     * @param all       If set to &#x60;?all&#x3D;true&#x60;, deletes all consent sessions by the Subject that have been
+     *                  granted. (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code for empty responses is typically 201. </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 204 </td><td> Empty responses are sent when, for example, resources are deleted. The HTTP status code
+     * for empty responses is typically 201. </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call revokeConsentSessionsAsync(String subject, String client, Boolean all, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call revokeConsentSessionsAsync(final String subject, final String client, final Boolean all, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = revokeConsentSessionsValidateBeforeCall(subject, client, all, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        final okhttp3.Call localVarCall = this.revokeConsentSessionsValidateBeforeCall(subject, client, all, _callback);
+        this.localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for trustJwtGrantIssuer
-     * @param trustJwtGrantIssuerBody  (optional)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param trustJwtGrantIssuerBody (optional)
+     * @param _callback               Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 409 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call trustJwtGrantIssuerCall(TrustJwtGrantIssuerBody trustJwtGrantIssuerBody, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call trustJwtGrantIssuerCall(final TrustJwtGrantIssuerBody trustJwtGrantIssuerBody, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = trustJwtGrantIssuerBody;
+        final Object localVarPostBody = trustJwtGrantIssuerBody;
 
         // create path and map variables
-        String localVarPath = "/trust/grants/jwt-bearer/issuers";
+        final String localVarPath = "/trust/grants/jwt-bearer/issuers";
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -4092,137 +4506,143 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call trustJwtGrantIssuerValidateBeforeCall(TrustJwtGrantIssuerBody trustJwtGrantIssuerBody, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call trustJwtGrantIssuerValidateBeforeCall(final TrustJwtGrantIssuerBody trustJwtGrantIssuerBody, final ApiCallback _callback) throws ApiException {
 
 
-        okhttp3.Call localVarCall = trustJwtGrantIssuerCall(trustJwtGrantIssuerBody, _callback);
+        final okhttp3.Call localVarCall = this.trustJwtGrantIssuerCall(trustJwtGrantIssuerBody, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Trust an OAuth2 JWT Bearer Grant Type Issuer
-     * Use this endpoint to establish a trust relationship for a JWT issuer to perform JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants [RFC7523](https://datatracker.ietf.org/doc/html/rfc7523).
-     * @param trustJwtGrantIssuerBody  (optional)
+     * Trust an OAuth2 JWT Bearer Grant Type Issuer Use this endpoint to establish a trust relationship for a JWT issuer
+     * to perform JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants
+     * [RFC7523](https://datatracker.ietf.org/doc/html/rfc7523).
+     *
+     * @param trustJwtGrantIssuerBody (optional)
      * @return TrustedJwtGrantIssuer
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 409 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public TrustedJwtGrantIssuer trustJwtGrantIssuer(TrustJwtGrantIssuerBody trustJwtGrantIssuerBody) throws ApiException {
-        ApiResponse<TrustedJwtGrantIssuer> localVarResp = trustJwtGrantIssuerWithHttpInfo(trustJwtGrantIssuerBody);
+    public TrustedJwtGrantIssuer trustJwtGrantIssuer(final TrustJwtGrantIssuerBody trustJwtGrantIssuerBody) throws ApiException {
+        final ApiResponse<TrustedJwtGrantIssuer> localVarResp = this.trustJwtGrantIssuerWithHttpInfo(trustJwtGrantIssuerBody);
         return localVarResp.getData();
     }
 
     /**
-     * Trust an OAuth2 JWT Bearer Grant Type Issuer
-     * Use this endpoint to establish a trust relationship for a JWT issuer to perform JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants [RFC7523](https://datatracker.ietf.org/doc/html/rfc7523).
-     * @param trustJwtGrantIssuerBody  (optional)
+     * Trust an OAuth2 JWT Bearer Grant Type Issuer Use this endpoint to establish a trust relationship for a JWT issuer
+     * to perform JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants
+     * [RFC7523](https://datatracker.ietf.org/doc/html/rfc7523).
+     *
+     * @param trustJwtGrantIssuerBody (optional)
      * @return ApiResponse&lt;TrustedJwtGrantIssuer&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 409 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<TrustedJwtGrantIssuer> trustJwtGrantIssuerWithHttpInfo(TrustJwtGrantIssuerBody trustJwtGrantIssuerBody) throws ApiException {
-        okhttp3.Call localVarCall = trustJwtGrantIssuerValidateBeforeCall(trustJwtGrantIssuerBody, null);
-        Type localVarReturnType = new TypeToken<TrustedJwtGrantIssuer>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<TrustedJwtGrantIssuer> trustJwtGrantIssuerWithHttpInfo(final TrustJwtGrantIssuerBody trustJwtGrantIssuerBody) throws ApiException {
+        final okhttp3.Call localVarCall = this.trustJwtGrantIssuerValidateBeforeCall(trustJwtGrantIssuerBody, null);
+        final Type localVarReturnType = new TypeToken<TrustedJwtGrantIssuer>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Trust an OAuth2 JWT Bearer Grant Type Issuer (asynchronously)
-     * Use this endpoint to establish a trust relationship for a JWT issuer to perform JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants [RFC7523](https://datatracker.ietf.org/doc/html/rfc7523).
-     * @param trustJwtGrantIssuerBody  (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * Trust an OAuth2 JWT Bearer Grant Type Issuer (asynchronously) Use this endpoint to establish a trust relationship
+     * for a JWT issuer to perform JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization
+     * Grants [RFC7523](https://datatracker.ietf.org/doc/html/rfc7523).
+     *
+     * @param trustJwtGrantIssuerBody (optional)
+     * @param _callback               The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 409 </td><td> genericError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 201 </td><td> trustedJwtGrantIssuer </td><td>  -  </td></tr>
+     * <tr><td> 400 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 409 </td><td> genericError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> genericError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call trustJwtGrantIssuerAsync(TrustJwtGrantIssuerBody trustJwtGrantIssuerBody, final ApiCallback<TrustedJwtGrantIssuer> _callback) throws ApiException {
+    public okhttp3.Call trustJwtGrantIssuerAsync(final TrustJwtGrantIssuerBody trustJwtGrantIssuerBody, final ApiCallback<TrustedJwtGrantIssuer> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = trustJwtGrantIssuerValidateBeforeCall(trustJwtGrantIssuerBody, _callback);
-        Type localVarReturnType = new TypeToken<TrustedJwtGrantIssuer>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.trustJwtGrantIssuerValidateBeforeCall(trustJwtGrantIssuerBody, _callback);
+        final Type localVarReturnType = new TypeToken<TrustedJwtGrantIssuer>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for updateJsonWebKey
-     * @param kid The kid of the desired key (required)
-     * @param set The set (required)
-     * @param jsONWebKey  (optional)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param kid        The kid of the desired key (required)
+     * @param set        The set (required)
+     * @param jsONWebKey (optional)
+     * @param _callback  Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKey </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKey </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call updateJsonWebKeyCall(String kid, String set, JSONWebKey jsONWebKey, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updateJsonWebKeyCall(final String kid, final String set, final JSONWebKey jsONWebKey, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = jsONWebKey;
+        final Object localVarPostBody = jsONWebKey;
 
         // create path and map variables
-        String localVarPath = "/keys/{set}/{kid}"
-            .replaceAll("\\{" + "kid" + "\\}", localVarApiClient.escapeString(kid.toString()))
-            .replaceAll("\\{" + "set" + "\\}", localVarApiClient.escapeString(set.toString()));
+        final String localVarPath = "/keys/{set}/{kid}"
+            .replaceAll("\\{" + "kid" + "\\}", this.localVarApiClient.escapeString(kid))
+            .replaceAll("\\{" + "set" + "\\}", this.localVarApiClient.escapeString(set));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -4230,17 +4650,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updateJsonWebKeyValidateBeforeCall(String kid, String set, JSONWebKey jsONWebKey, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updateJsonWebKeyValidateBeforeCall(final String kid, final String set, final JSONWebKey jsONWebKey, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'kid' is set
         if (kid == null) {
@@ -4253,128 +4673,140 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = updateJsonWebKeyCall(kid, set, jsONWebKey, _callback);
+        final okhttp3.Call localVarCall = this.updateJsonWebKeyCall(kid, set, jsONWebKey, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Update a JSON Web Key
-     * Use this method if you do not want to let Hydra generate the JWKs for you, but instead save your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param kid The kid of the desired key (required)
-     * @param set The set (required)
-     * @param jsONWebKey  (optional)
+     * Update a JSON Web Key Use this method if you do not want to let Hydra generate the JWKs for you, but instead save
+     * your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a
+     * cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified
+     * by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web
+     * Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     *
+     * @param kid        The kid of the desired key (required)
+     * @param set        The set (required)
+     * @param jsONWebKey (optional)
      * @return JSONWebKey
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKey </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKey </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public JSONWebKey updateJsonWebKey(String kid, String set, JSONWebKey jsONWebKey) throws ApiException {
-        ApiResponse<JSONWebKey> localVarResp = updateJsonWebKeyWithHttpInfo(kid, set, jsONWebKey);
+    public JSONWebKey updateJsonWebKey(final String kid, final String set, final JSONWebKey jsONWebKey) throws ApiException {
+        final ApiResponse<JSONWebKey> localVarResp = this.updateJsonWebKeyWithHttpInfo(kid, set, jsONWebKey);
         return localVarResp.getData();
     }
 
     /**
-     * Update a JSON Web Key
-     * Use this method if you do not want to let Hydra generate the JWKs for you, but instead save your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param kid The kid of the desired key (required)
-     * @param set The set (required)
-     * @param jsONWebKey  (optional)
+     * Update a JSON Web Key Use this method if you do not want to let Hydra generate the JWKs for you, but instead save
+     * your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a
+     * cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified
+     * by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web
+     * Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     *
+     * @param kid        The kid of the desired key (required)
+     * @param set        The set (required)
+     * @param jsONWebKey (optional)
      * @return ApiResponse&lt;JSONWebKey&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKey </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKey </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<JSONWebKey> updateJsonWebKeyWithHttpInfo(String kid, String set, JSONWebKey jsONWebKey) throws ApiException {
-        okhttp3.Call localVarCall = updateJsonWebKeyValidateBeforeCall(kid, set, jsONWebKey, null);
-        Type localVarReturnType = new TypeToken<JSONWebKey>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<JSONWebKey> updateJsonWebKeyWithHttpInfo(final String kid, final String set, final JSONWebKey jsONWebKey) throws ApiException {
+        final okhttp3.Call localVarCall = this.updateJsonWebKeyValidateBeforeCall(kid, set, jsONWebKey, null);
+        final Type localVarReturnType = new TypeToken<JSONWebKey>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Update a JSON Web Key (asynchronously)
-     * Use this method if you do not want to let Hydra generate the JWKs for you, but instead save your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param kid The kid of the desired key (required)
-     * @param set The set (required)
-     * @param jsONWebKey  (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * Update a JSON Web Key (asynchronously) Use this method if you do not want to let Hydra generate the JWKs for you,
+     * but instead save your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that
+     * represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key
+     * is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS
+     * and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     *
+     * @param kid        The kid of the desired key (required)
+     * @param set        The set (required)
+     * @param jsONWebKey (optional)
+     * @param _callback  The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKey </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKey </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call updateJsonWebKeyAsync(String kid, String set, JSONWebKey jsONWebKey, final ApiCallback<JSONWebKey> _callback) throws ApiException {
+    public okhttp3.Call updateJsonWebKeyAsync(final String kid, final String set, final JSONWebKey jsONWebKey, final ApiCallback<JSONWebKey> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = updateJsonWebKeyValidateBeforeCall(kid, set, jsONWebKey, _callback);
-        Type localVarReturnType = new TypeToken<JSONWebKey>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.updateJsonWebKeyValidateBeforeCall(kid, set, jsONWebKey, _callback);
+        final Type localVarReturnType = new TypeToken<JSONWebKey>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for updateJsonWebKeySet
-     * @param set The set (required)
-     * @param jsONWebKeySet  (optional)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param set           The set (required)
+     * @param jsONWebKeySet (optional)
+     * @param _callback     Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call updateJsonWebKeySetCall(String set, JSONWebKeySet jsONWebKeySet, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updateJsonWebKeySetCall(final String set, final JSONWebKeySet jsONWebKeySet, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = jsONWebKeySet;
+        final Object localVarPostBody = jsONWebKeySet;
 
         // create path and map variables
-        String localVarPath = "/keys/{set}"
-            .replaceAll("\\{" + "set" + "\\}", localVarApiClient.escapeString(set.toString()));
+        final String localVarPath = "/keys/{set}"
+            .replaceAll("\\{" + "set" + "\\}", this.localVarApiClient.escapeString(set));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -4382,17 +4814,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updateJsonWebKeySetValidateBeforeCall(String set, JSONWebKeySet jsONWebKeySet, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updateJsonWebKeySetValidateBeforeCall(final String set, final JSONWebKeySet jsONWebKeySet, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'set' is set
         if (set == null) {
@@ -4400,123 +4832,135 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = updateJsonWebKeySetCall(set, jsONWebKeySet, _callback);
+        final okhttp3.Call localVarCall = this.updateJsonWebKeySetCall(set, jsONWebKeySet, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Update a JSON Web Key Set
-     * Use this method if you do not want to let Hydra generate the JWKs for you, but instead save your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param set The set (required)
-     * @param jsONWebKeySet  (optional)
+     * Update a JSON Web Key Set Use this method if you do not want to let Hydra generate the JWKs for you, but instead
+     * save your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a
+     * cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified
+     * by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web
+     * Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     *
+     * @param set           The set (required)
+     * @param jsONWebKeySet (optional)
      * @return JSONWebKeySet
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public JSONWebKeySet updateJsonWebKeySet(String set, JSONWebKeySet jsONWebKeySet) throws ApiException {
-        ApiResponse<JSONWebKeySet> localVarResp = updateJsonWebKeySetWithHttpInfo(set, jsONWebKeySet);
+    public JSONWebKeySet updateJsonWebKeySet(final String set, final JSONWebKeySet jsONWebKeySet) throws ApiException {
+        final ApiResponse<JSONWebKeySet> localVarResp = this.updateJsonWebKeySetWithHttpInfo(set, jsONWebKeySet);
         return localVarResp.getData();
     }
 
     /**
-     * Update a JSON Web Key Set
-     * Use this method if you do not want to let Hydra generate the JWKs for you, but instead save your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param set The set (required)
-     * @param jsONWebKeySet  (optional)
+     * Update a JSON Web Key Set Use this method if you do not want to let Hydra generate the JWKs for you, but instead
+     * save your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a
+     * cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified
+     * by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web
+     * Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     *
+     * @param set           The set (required)
+     * @param jsONWebKeySet (optional)
      * @return ApiResponse&lt;JSONWebKeySet&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<JSONWebKeySet> updateJsonWebKeySetWithHttpInfo(String set, JSONWebKeySet jsONWebKeySet) throws ApiException {
-        okhttp3.Call localVarCall = updateJsonWebKeySetValidateBeforeCall(set, jsONWebKeySet, null);
-        Type localVarReturnType = new TypeToken<JSONWebKeySet>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<JSONWebKeySet> updateJsonWebKeySetWithHttpInfo(final String set, final JSONWebKeySet jsONWebKeySet) throws ApiException {
+        final okhttp3.Call localVarCall = this.updateJsonWebKeySetValidateBeforeCall(set, jsONWebKeySet, null);
+        final Type localVarReturnType = new TypeToken<JSONWebKeySet>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Update a JSON Web Key Set (asynchronously)
-     * Use this method if you do not want to let Hydra generate the JWKs for you, but instead save your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
-     * @param set The set (required)
-     * @param jsONWebKeySet  (optional)
-     * @param _callback The callback to be executed when the API call finishes
+     * Update a JSON Web Key Set (asynchronously) Use this method if you do not want to let Hydra generate the JWKs for
+     * you, but instead save your own.  A JSON Web Key (JWK) is a JavaScript Object Notation (JSON) data structure that
+     * represents a cryptographic key. A JWK Set is a JSON data structure that represents a set of JWKs. A JSON Web Key
+     * is identified by its set and key id. ORY Hydra uses this functionality to store cryptographic keys used for TLS
+     * and JSON Web Tokens (such as OpenID Connect ID tokens), and allows storing user-defined keys as well.
+     *
+     * @param set           The set (required)
+     * @param jsONWebKeySet (optional)
+     * @param _callback     The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> JSONWebKeySet </td><td>  -  </td></tr>
+     * <tr><td> 401 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 403 </td><td> jsonError </td><td>  -  </td></tr>
+     * <tr><td> 500 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call updateJsonWebKeySetAsync(String set, JSONWebKeySet jsONWebKeySet, final ApiCallback<JSONWebKeySet> _callback) throws ApiException {
+    public okhttp3.Call updateJsonWebKeySetAsync(final String set, final JSONWebKeySet jsONWebKeySet, final ApiCallback<JSONWebKeySet> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = updateJsonWebKeySetValidateBeforeCall(set, jsONWebKeySet, _callback);
-        Type localVarReturnType = new TypeToken<JSONWebKeySet>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.updateJsonWebKeySetValidateBeforeCall(set, jsONWebKeySet, _callback);
+        final Type localVarReturnType = new TypeToken<JSONWebKeySet>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
+
     /**
      * Build call for updateOAuth2Client
-     * @param id The id of the OAuth 2.0 Client. (required)
-     * @param oauth2Client  (required)
-     * @param _callback Callback for upload/download progress
+     *
+     * @param id           The id of the OAuth 2.0 Client. (required)
+     * @param oauth2Client (required)
+     * @param _callback    Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call updateOAuth2ClientCall(String id, OAuth2Client oauth2Client, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updateOAuth2ClientCall(final String id, final OAuth2Client oauth2Client, final ApiCallback _callback) throws ApiException {
         String basePath = null;
 
         // Operation Servers
-        String[] localBasePaths = new String[] {  };
+        final String[] localBasePaths = new String[]{};
 
         // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
+        if (this.localCustomBaseUrl != null) {
+            basePath = this.localCustomBaseUrl;
+        } else if (localBasePaths.length > 0) {
+            basePath = localBasePaths[this.localHostIndex];
         } else {
             basePath = null;
         }
 
-        Object localVarPostBody = oauth2Client;
+        final Object localVarPostBody = oauth2Client;
 
         // create path and map variables
-        String localVarPath = "/clients/{id}"
-            .replaceAll("\\{" + "id" + "\\}", localVarApiClient.escapeString(id.toString()));
+        final String localVarPath = "/clients/{id}"
+            .replaceAll("\\{" + "id" + "\\}", this.localVarApiClient.escapeString(id));
 
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final List<Pair> localVarQueryParams = new ArrayList<>();
+        final List<Pair> localVarCollectionQueryParams = new ArrayList<>();
+        final Map<String, String> localVarHeaderParams = new HashMap<>();
+        final Map<String, String> localVarCookieParams = new HashMap<>();
+        final Map<String, Object> localVarFormParams = new HashMap<>();
 
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = this.localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -4524,17 +4968,17 @@ public class AdminApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = this.localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        final String[] localVarAuthNames = new String[]{};
+        return this.localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updateOAuth2ClientValidateBeforeCall(String id, OAuth2Client oauth2Client, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updateOAuth2ClientValidateBeforeCall(final String id, final OAuth2Client oauth2Client, final ApiCallback _callback) throws ApiException {
 
         // verify the required parameter 'id' is set
         if (id == null) {
@@ -4547,70 +4991,81 @@ public class AdminApi {
         }
 
 
-        okhttp3.Call localVarCall = updateOAuth2ClientCall(id, oauth2Client, _callback);
+        final okhttp3.Call localVarCall = this.updateOAuth2ClientCall(id, oauth2Client, _callback);
         return localVarCall;
 
     }
 
     /**
-     * Update an OAuth 2.0 Client
-     * Update an existing OAuth 2.0 Client. If you pass &#x60;client_secret&#x60; the secret will be updated and returned via the API. This is the only time you will be able to retrieve the client secret, so write it down and keep it safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
-     * @param id The id of the OAuth 2.0 Client. (required)
-     * @param oauth2Client  (required)
+     * Update an OAuth 2.0 Client Update an existing OAuth 2.0 Client. If you pass &#x60;client_secret&#x60; the secret
+     * will be updated and returned via the API. This is the only time you will be able to retrieve the client secret,
+     * so write it down and keep it safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows.
+     * Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect
+     * capabilities.
+     *
+     * @param id           The id of the OAuth 2.0 Client. (required)
+     * @param oauth2Client (required)
      * @return OAuth2Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public OAuth2Client updateOAuth2Client(String id, OAuth2Client oauth2Client) throws ApiException {
-        ApiResponse<OAuth2Client> localVarResp = updateOAuth2ClientWithHttpInfo(id, oauth2Client);
+    public OAuth2Client updateOAuth2Client(final String id, final OAuth2Client oauth2Client) throws ApiException {
+        final ApiResponse<OAuth2Client> localVarResp = this.updateOAuth2ClientWithHttpInfo(id, oauth2Client);
         return localVarResp.getData();
     }
 
     /**
-     * Update an OAuth 2.0 Client
-     * Update an existing OAuth 2.0 Client. If you pass &#x60;client_secret&#x60; the secret will be updated and returned via the API. This is the only time you will be able to retrieve the client secret, so write it down and keep it safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
-     * @param id The id of the OAuth 2.0 Client. (required)
-     * @param oauth2Client  (required)
+     * Update an OAuth 2.0 Client Update an existing OAuth 2.0 Client. If you pass &#x60;client_secret&#x60; the secret
+     * will be updated and returned via the API. This is the only time you will be able to retrieve the client secret,
+     * so write it down and keep it safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows.
+     * Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect
+     * capabilities.
+     *
+     * @param id           The id of the OAuth 2.0 Client. (required)
+     * @param oauth2Client (required)
      * @return ApiResponse&lt;OAuth2Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public ApiResponse<OAuth2Client> updateOAuth2ClientWithHttpInfo(String id, OAuth2Client oauth2Client) throws ApiException {
-        okhttp3.Call localVarCall = updateOAuth2ClientValidateBeforeCall(id, oauth2Client, null);
-        Type localVarReturnType = new TypeToken<OAuth2Client>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    public ApiResponse<OAuth2Client> updateOAuth2ClientWithHttpInfo(final String id, final OAuth2Client oauth2Client) throws ApiException {
+        final okhttp3.Call localVarCall = this.updateOAuth2ClientValidateBeforeCall(id, oauth2Client, null);
+        final Type localVarReturnType = new TypeToken<OAuth2Client>() {
+        }.getType();
+        return this.localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Update an OAuth 2.0 Client (asynchronously)
-     * Update an existing OAuth 2.0 Client. If you pass &#x60;client_secret&#x60; the secret will be updated and returned via the API. This is the only time you will be able to retrieve the client secret, so write it down and keep it safe.  OAuth 2.0 clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.
-     * @param id The id of the OAuth 2.0 Client. (required)
-     * @param oauth2Client  (required)
-     * @param _callback The callback to be executed when the API call finishes
+     * Update an OAuth 2.0 Client (asynchronously) Update an existing OAuth 2.0 Client. If you pass
+     * &#x60;client_secret&#x60; the secret will be updated and returned via the API. This is the only time you will be
+     * able to retrieve the client secret, so write it down and keep it safe.  OAuth 2.0 clients are used to perform
+     * OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to
+     * consume your OAuth 2.0 or OpenID Connect capabilities.
+     *
+     * @param id           The id of the OAuth 2.0 Client. (required)
+     * @param oauth2Client (required)
+     * @param _callback    The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
-        <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
-     </table>
+     * @http.response.details <table summary="Response Details" border="1">
+     * <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+     * <tr><td> 200 </td><td> oAuth2Client </td><td>  -  </td></tr>
+     * <tr><td> 0 </td><td> jsonError </td><td>  -  </td></tr>
+     * </table>
      */
-    public okhttp3.Call updateOAuth2ClientAsync(String id, OAuth2Client oauth2Client, final ApiCallback<OAuth2Client> _callback) throws ApiException {
+    public okhttp3.Call updateOAuth2ClientAsync(final String id, final OAuth2Client oauth2Client, final ApiCallback<OAuth2Client> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = updateOAuth2ClientValidateBeforeCall(id, oauth2Client, _callback);
-        Type localVarReturnType = new TypeToken<OAuth2Client>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        final okhttp3.Call localVarCall = this.updateOAuth2ClientValidateBeforeCall(id, oauth2Client, _callback);
+        final Type localVarReturnType = new TypeToken<OAuth2Client>() {
+        }.getType();
+        this.localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
 }

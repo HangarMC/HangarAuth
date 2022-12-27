@@ -3,15 +3,16 @@ package io.papermc.hangarauth.exceptions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import java.util.function.Function;
-import javax.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,7 +34,7 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
     }
 
     @Override
-    protected @NotNull ResponseEntity<Object> handleExceptionInternal(final @NotNull Exception ex, final @Nullable Object body, final @NotNull HttpHeaders headers, final @NotNull HttpStatus status, final @NotNull WebRequest request) {
+    protected @NotNull ResponseEntity<Object> handleExceptionInternal(final @NotNull Exception ex, @org.springframework.lang.Nullable final Object body, final @NotNull HttpHeaders headers, final @NotNull HttpStatusCode status, final @NotNull WebRequest request) {
         if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, RequestAttributes.SCOPE_REQUEST);
         }
@@ -43,7 +44,7 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
 
     @ExceptionHandler(ResponseStatusException.class)
     public @NotNull ResponseEntity<Object> responseStatusExceptionHandler(final @NotNull ResponseStatusException ex) {
-        return this.createExceptionResponse(ex, null, e -> Objects.requireNonNullElse(e.getCause(), e).getMessage(), null, ex.getStatus());
+        return this.createExceptionResponse(ex, null, e -> Objects.requireNonNullElse(e.getCause(), e).getMessage(), null, ex.getStatusCode());
     }
 
     @ExceptionHandler(Exception.class)
@@ -60,17 +61,16 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
         return this.createExceptionResponse(ex, extra, null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(final @NotNull E ex, final @Nullable ObjectNode extra, final @Nullable HttpHeaders headers, final @NotNull HttpStatus status) {
+    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(final @NotNull E ex, final @Nullable ObjectNode extra, final @Nullable HttpHeaders headers, final @NotNull HttpStatusCode status) {
         return this.createExceptionResponse(ex, extra, Exception::getMessage, headers, status);
     }
 
-    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(final @NotNull E ex, final @Nullable ObjectNode extra, final @NotNull Function<E, @Nullable String> messageFunction, final @Nullable HttpHeaders headers, final @NotNull HttpStatus status) {
+    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(final @NotNull E ex, final @Nullable ObjectNode extra, final @NotNull Function<E, @Nullable String> messageFunction, final @Nullable HttpHeaders headers, final @NotNull HttpStatusCode status) {
         final ObjectNode response = this.mapper.createObjectNode();
         response.putObject("status")
-            .put("code", status.value())
-            .put("message", status.getReasonPhrase());
+            .put("code", status.value());
 
-        response.put("message", Objects.requireNonNullElse(messageFunction.apply(ex), status.getReasonPhrase()));
+        response.put("message", Objects.requireNonNullElse(messageFunction.apply(ex), status.value() + ""));
 
         if (extra != null && !extra.isEmpty()) {
             response.set("extra", extra);
