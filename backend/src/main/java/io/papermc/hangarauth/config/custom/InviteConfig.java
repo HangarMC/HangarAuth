@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @ConfigurationProperties("auth.invite")
 public record InviteConfig(
-        String apiKey,
-        @DefaultValue("false") boolean enabled
+    String apiKey,
+    @DefaultValue("false") boolean enabled
 ) {
 }

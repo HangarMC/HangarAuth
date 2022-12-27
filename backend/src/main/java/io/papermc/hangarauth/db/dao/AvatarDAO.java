@@ -1,14 +1,13 @@
 package io.papermc.hangarauth.db.dao;
 
 import io.papermc.hangarauth.db.model.UserAvatarTable;
+import java.util.UUID;
 import org.jdbi.v3.sqlobject.config.RegisterConstructorMapper;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.customizer.Timestamped;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.springframework.stereotype.Repository;
-
-import java.util.UUID;
 
 @Repository
 @RegisterConstructorMapper(UserAvatarTable.class)

@@ -7,30 +7,30 @@ public class AvatarTable extends Table {
     protected String hash;
     protected String fileName;
 
-    public AvatarTable(OffsetDateTime createdAt, String hash, String fileName) {
+    public AvatarTable(final OffsetDateTime createdAt, final String hash, final String fileName) {
         super(createdAt);
         this.hash = hash;
         this.fileName = fileName;
     }
 
-    public AvatarTable(String hash, String fileName) {
+    public AvatarTable(final String hash, final String fileName) {
         this.hash = hash;
         this.fileName = fileName;
     }
 
     public String getHash() {
-        return hash;
+        return this.hash;
     }
 
-    public void setHash(String hash) {
+    public void setHash(final String hash) {
         this.hash = hash;
     }
 
     public String getFileName() {
-        return fileName;
+        return this.fileName;
     }
 
-    public void setFileName(String fileName) {
+    public void setFileName(final String fileName) {
         this.fileName = fileName;
     }
 }

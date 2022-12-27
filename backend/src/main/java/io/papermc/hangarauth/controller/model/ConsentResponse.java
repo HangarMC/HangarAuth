@@ -12,7 +12,7 @@ public record ConsentResponse(
     String policyUri,
     String tosUri
 ) {
-    public ConsentResponse(String redirectTo) {
+    public ConsentResponse(final String redirectTo) {
         this(redirectTo, null, null, null, null, null, null, null);
     }
 }

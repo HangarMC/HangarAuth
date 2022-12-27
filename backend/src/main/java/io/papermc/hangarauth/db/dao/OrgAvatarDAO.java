@@ -1,13 +1,12 @@
 package io.papermc.hangarauth.db.dao;
 
+import io.papermc.hangarauth.db.model.OrgAvatarTable;
 import org.jdbi.v3.sqlobject.config.RegisterConstructorMapper;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.customizer.Timestamped;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.springframework.stereotype.Repository;
-
-import io.papermc.hangarauth.db.model.OrgAvatarTable;
 
 @Repository
 @RegisterConstructorMapper(OrgAvatarTable.class)

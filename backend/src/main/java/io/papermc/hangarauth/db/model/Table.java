@@ -6,7 +6,7 @@ public abstract class Table {
 
     private final OffsetDateTime createdAt;
 
-    protected Table(OffsetDateTime createdAt) {
+    protected Table(final OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -15,13 +15,13 @@ public abstract class Table {
     }
 
     public OffsetDateTime getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     @Override
     public String toString() {
         return "Table{" +
-            "createdAt=" + createdAt +
+            "createdAt=" + this.createdAt +
             '}';
     }
 }

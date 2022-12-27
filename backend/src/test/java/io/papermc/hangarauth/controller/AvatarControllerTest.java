@@ -1,5 +1,13 @@
 package io.papermc.hangarauth.controller;
 
+import io.papermc.hangarauth.DummyData;
+import io.papermc.hangarauth.controller.model.Traits;
+import io.papermc.hangarauth.service.AvatarService;
+import io.papermc.hangarauth.service.KratosService;
+import io.papermc.hangarauth.service.file.FileService;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,16 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.util.AssertionErrors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
-import io.papermc.hangarauth.DummyData;
-import io.papermc.hangarauth.controller.model.Traits;
-import io.papermc.hangarauth.service.AvatarService;
-import io.papermc.hangarauth.service.KratosService;
-import io.papermc.hangarauth.service.file.FileService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -60,19 +58,19 @@ class AvatarControllerTest {
         when(this.kratosService.getTraits(REDIRECTED_UUID)).thenReturn(mockedTraits);
         this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is2xxSuccessful(), result -> {
             final List<Object> actual = result.getResponse().getHeaderValues(HttpHeaders.SERVER);
-            AssertionErrors.assertTrue("Response header '" + HttpHeaders.SERVER + "'", Arrays.asList("HangarAuth", "cloudflare").equals(actual) || Arrays.asList("HangarAuth").equals(actual));
+            AssertionErrors.assertTrue("Response header '" + HttpHeaders.SERVER + "'", Arrays.asList("HangarAuth", "cloudflare").equals(actual) || List.of("HangarAuth").equals(actual));
         });
     }
 
     @Test
     void ok200WithConfiguredAvatar() throws Exception {
-        checkDummyAvatarExists();
+        this.checkDummyAvatarExists();
         this.mockMvc.perform(get("/avatar/" + DummyData.DUMMY_UUID)).andExpectAll(status().isOk(), header().doesNotExist(HttpHeaders.LOCATION), header().string(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE));
     }
 
     private void checkDummyAvatarExists() {
-        String dummyAvatar = this.avatarService.getFallbackAvatar();
-        if (!fileService.exists(dummyAvatar)) {
+        final String dummyAvatar = this.avatarService.getFallbackAvatar();
+        if (!this.fileService.exists(dummyAvatar)) {
             throw new IllegalStateException("Dummy avatar doesn't exist at " + dummyAvatar);
         }
     }

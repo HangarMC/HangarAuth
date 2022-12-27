@@ -1,16 +1,9 @@
 package io.papermc.hangarauth.service;
 
 import com.luciad.imageio.webp.WebPWriteParam;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-
+import io.papermc.hangarauth.config.CacheConfig;
+import io.papermc.hangarauth.config.custom.ImageConfig;
+import io.papermc.hangarauth.service.file.FileService;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -39,10 +32,14 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
-
-import io.papermc.hangarauth.config.CacheConfig;
-import io.papermc.hangarauth.config.custom.ImageConfig;
-import io.papermc.hangarauth.service.file.FileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ImageService {
@@ -60,21 +57,21 @@ public class ImageService {
     private final Cache hashCache;
 
     @Autowired
-    public ImageService(ImageConfig config, CacheManager cacheManager, FileService fileService) {
+    public ImageService(final ImageConfig config, final CacheManager cacheManager, final FileService fileService) {
         this.config = config;
         this.fileService = fileService;
         this.imagesFolder = fileService.resolve(fileService.getRoot(), "images");
 
-        hashCache = cacheManager.getCache(CacheConfig.HASH_CACHE);
+        this.hashCache = cacheManager.getCache(CacheConfig.HASH_CACHE);
 
-        ExecutorService service = Executors.newFixedThreadPool(config.threads());
+        final ExecutorService service = Executors.newFixedThreadPool(config.threads());
         service.submit(() -> {
             ImageToOptimize image = null;
             while (true) {
                 try {
-                    optimize(image = workerQueue.take());
+                    this.optimize(image = this.workerQueue.take());
                     Thread.sleep(config.interval());
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     LOGGER.warn("Error while optimizing image {}: {} {} ", image, ex.getClass().getName(),
                         ex.getMessage());
                     ex.printStackTrace();
@@ -83,41 +80,41 @@ public class ImageService {
         });
     }
 
-    public String getCdnPathFromFile(String origFile, HttpServletRequest request, HttpServletResponse response) {
-        return getCdnPath(fileService.getDownloadUrl(origFile),
-                (content, hash) -> workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
-                () -> getContentFromPath(origFile),
-            () -> getHash(origFile, () -> getContentFromPath(origFile)),
+    public String getCdnPathFromFile(final String origFile, final HttpServletRequest request, final HttpServletResponse response) {
+        return this.getCdnPath(this.fileService.getDownloadUrl(origFile),
+            (content, hash) -> this.workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
+            () -> this.getContentFromPath(origFile),
+            () -> this.getHash(origFile, () -> this.getContentFromPath(origFile)),
             request, response
         );
     }
 
-    public String getCdnPathFromUrl(String origUrl, HttpServletRequest request, HttpServletResponse response) {
-        return getCdnPath(origUrl,
-                (content, hash) -> workerQueue.add(new ImageToOptimize(null, origUrl, content, hash)),
-                () -> getContentFromUrl(origUrl),
-             () -> getHash(origUrl, () -> getContentFromUrl(origUrl)),
-             request, response
+    public String getCdnPathFromUrl(final String origUrl, final HttpServletRequest request, final HttpServletResponse response) {
+        return this.getCdnPath(origUrl,
+            (content, hash) -> this.workerQueue.add(new ImageToOptimize(null, origUrl, content, hash)),
+            () -> this.getContentFromUrl(origUrl),
+            () -> this.getHash(origUrl, () -> this.getContentFromUrl(origUrl)),
+            request, response
         );
     }
 
-    private String getCdnPath(String orig, BiConsumer<byte[], String> queueUp, Supplier<byte[]> contentSupplier, Supplier<String> hashSupplier, HttpServletRequest request, HttpServletResponse response) {
+    private String getCdnPath(final String orig, final BiConsumer<byte[], String> queueUp, final Supplier<byte[]> contentSupplier, final Supplier<String> hashSupplier, final HttpServletRequest request, final HttpServletResponse response) {
         if ("true".equals(request.getParameter("orig"))) {
             response.setHeader(HEADER, "disabled");
             response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
             return orig;
         }
 
-        String hash = hashSupplier.get();
+        final String hash = hashSupplier.get();
         if (hash == null) {
             response.setHeader(HEADER, "error");
             response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
             return orig;
         }
-        boolean supportsWebp = supportsWebp(request);
-        String optimizedFilePath = getOptimizedFilePath(hash, supportsWebp);
+        final boolean supportsWebp = this.supportsWebp(request);
+        final String optimizedFilePath = this.getOptimizedFilePath(hash, supportsWebp);
         if (optimizedFilePath == null) {
-            byte[] bytes = contentSupplier.get();
+            final byte[] bytes = contentSupplier.get();
             if (bytes.length == 0) {
                 response.setHeader(HEADER, "error");
             } else {
@@ -127,43 +124,43 @@ public class ImageService {
             return orig;
         } else {
             response.setHeader(HEADER, hash);
-            return fileService.getDownloadUrl(optimizedFilePath);
+            return this.fileService.getDownloadUrl(optimizedFilePath);
         }
     }
 
-    public byte[] getImageFromFile(String origFile, HttpServletRequest request, HttpServletResponse response) {
-        return getImage(
-            (content, hash) -> workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
-            () -> getContentFromPath(origFile),
-            () -> getHash(origFile, () -> getContentFromPath(origFile)),
+    public byte[] getImageFromFile(final String origFile, final HttpServletRequest request, final HttpServletResponse response) {
+        return this.getImage(
+            (content, hash) -> this.workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
+            () -> this.getContentFromPath(origFile),
+            () -> this.getHash(origFile, () -> this.getContentFromPath(origFile)),
             request, response);
     }
 
-    public byte[] getImageFromUrl(String origUrl, HttpServletRequest request, HttpServletResponse response) {
-        return getImage(
-            (content, hash) -> workerQueue.add(new ImageToOptimize(null, origUrl, content, hash)),
-            () -> getContentFromUrl(origUrl),
-            () -> getHash(origUrl, () -> getContentFromUrl(origUrl)),
+    public byte[] getImageFromUrl(final String origUrl, final HttpServletRequest request, final HttpServletResponse response) {
+        return this.getImage(
+            (content, hash) -> this.workerQueue.add(new ImageToOptimize(null, origUrl, content, hash)),
+            () -> this.getContentFromUrl(origUrl),
+            () -> this.getHash(origUrl, () -> this.getContentFromUrl(origUrl)),
             request, response);
     }
 
-    private byte[] getImage(BiConsumer<byte[], String> queueUp, Supplier<byte[]> contentSupplier, Supplier<String> hashSupplier, HttpServletRequest request, HttpServletResponse response) {
+    private byte[] getImage(final BiConsumer<byte[], String> queueUp, final Supplier<byte[]> contentSupplier, final Supplier<String> hashSupplier, final HttpServletRequest request, final HttpServletResponse response) {
         if ("true".equals(request.getParameter("orig"))) {
             response.setHeader(HEADER, "disabled");
             response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
             return contentSupplier.get();
         }
 
-        String hash = hashSupplier.get();
+        final String hash = hashSupplier.get();
         if (hash == null) {
             response.setHeader(HEADER, "error");
             response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
             return contentSupplier.get();
         }
-        boolean supportsWebp = supportsWebp(request);
-        String optimizedFilePath = getOptimizedFilePath(hash, supportsWebp);
+        final boolean supportsWebp = this.supportsWebp(request);
+        final String optimizedFilePath = this.getOptimizedFilePath(hash, supportsWebp);
         if (optimizedFilePath != null) {
-            byte[] bytes = getContentFromPath(optimizedFilePath);
+            final byte[] bytes = this.getContentFromPath(optimizedFilePath);
             response.setHeader(HEADER, hash);
             if (supportsWebp) {
                 response.setHeader(HttpHeaders.CONTENT_TYPE, WEBP.toString());
@@ -172,7 +169,7 @@ public class ImageService {
             }
             return bytes;
         } else {
-            byte[] bytes = contentSupplier.get();
+            final byte[] bytes = contentSupplier.get();
             if (bytes.length == 0) {
                 response.setHeader(HEADER, "error");
             } else {
@@ -184,9 +181,9 @@ public class ImageService {
         }
     }
 
-    private boolean supportsWebp(HttpServletRequest request) {
-        List<MediaType> acceptedMediaTypes = MediaType.parseMediaTypes(request.getHeader("Accept"));
-        for (MediaType acceptedMediaType : acceptedMediaTypes) {
+    private boolean supportsWebp(final HttpServletRequest request) {
+        final List<MediaType> acceptedMediaTypes = MediaType.parseMediaTypes(request.getHeader("Accept"));
+        for (final MediaType acceptedMediaType : acceptedMediaTypes) {
             if (acceptedMediaType.includes(WEBP)) {
                 return true;
             }
@@ -195,135 +192,135 @@ public class ImageService {
         return false;
     }
 
-    private String getOptimizedFilePath(String hash, boolean webp) {
-        String folderName = hash.substring(0, 2);
-        String folderPath = fileService.resolve(imagesFolder, folderName);
+    private String getOptimizedFilePath(final String hash, final boolean webp) {
+        final String folderName = hash.substring(0, 2);
+        final String folderPath = this.fileService.resolve(this.imagesFolder, folderName);
 
-        String imagePath;
+        final String imagePath;
         if (webp) {
-            imagePath = fileService.resolve(folderPath, hash + ".webp");
+            imagePath = this.fileService.resolve(folderPath, hash + ".webp");
         } else {
-            imagePath = fileService.resolve(folderPath,hash);
+            imagePath = this.fileService.resolve(folderPath, hash);
         }
 
-        if (fileService.exists(imagePath)) {
+        if (this.fileService.exists(imagePath)) {
             return imagePath;
         } else {
             return null;
         }
     }
 
-    private byte[] getContentFromPath(String path) {
+    private byte[] getContentFromPath(final String path) {
         try {
-            return fileService.bytes(path);
-        } catch (IOException e) {
+            return this.fileService.bytes(path);
+        } catch (final IOException e) {
             LOGGER.warn("Couldn't read file {}", path, e);
             return new byte[0];
         }
     }
 
-    private byte[] getContentFromUrl(String url) {
+    private byte[] getContentFromUrl(final String url) {
         try {
-            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            final HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
             conn.setConnectTimeout(5 * 1000);
             return conn.getInputStream().readAllBytes();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOGGER.warn("Couldn't read url {}", url, e);
             return new byte[0];
         }
     }
 
-    private String getHash(String cacheKey, Supplier<byte[]> contentSupplier) {
-        String cachedHash = hashCache.get(cacheKey, String.class);
+    private String getHash(final String cacheKey, final Supplier<byte[]> contentSupplier) {
+        final String cachedHash = this.hashCache.get(cacheKey, String.class);
         if (cachedHash != null) {
             return cachedHash;
         }
 
         try {
-            byte[] hash = MessageDigest.getInstance("MD5").digest(contentSupplier.get());
-            String hex = DatatypeConverter.printHexBinary(hash);
-            hashCache.put(cacheKey, hex);
+            final byte[] hash = MessageDigest.getInstance("MD5").digest(contentSupplier.get());
+            final String hex = DatatypeConverter.printHexBinary(hash);
+            this.hashCache.put(cacheKey, hex);
             return hex;
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             LOGGER.error("error while hashing ", e);
             return null;
         }
     }
 
-    public void evictCache(String key) {
+    public void evictCache(final String key) {
         // TODO there is a bug here, if we change the avatar, we evict the avatar, but not all project icons that might fall back to the users avatar
-        hashCache.evict(key);
+        this.hashCache.evict(key);
     }
 
-    private void optimize(ImageToOptimize image) throws IOException {
+    private void optimize(final ImageToOptimize image) throws IOException {
         // construct folder
-        String folderName = image.hash().substring(0, 2);
-        String folderPath = fileService.resolve(imagesFolder, folderName);
+        final String folderName = image.hash().substring(0, 2);
+        final String folderPath = this.fileService.resolve(this.imagesFolder, folderName);
         // optimize
-        optimizeAndWrite(image.content(), fileService.resolve(folderPath, image.hash() + ".jpg"), false);
+        this.optimizeAndWrite(image.content(), this.fileService.resolve(folderPath, image.hash() + ".jpg"), false);
         // webp
-        optimizeAndWrite(image.content(), fileService.resolve(folderPath, image.hash() + ".webp"), true);
+        this.optimizeAndWrite(image.content(), this.fileService.resolve(folderPath, image.hash() + ".webp"), true);
     }
 
-    private void optimizeAndWrite(byte[] imageBytes, String imagePath, boolean webp)
+    private void optimizeAndWrite(final byte[] imageBytes, final String imagePath, final boolean webp)
         throws IOException {
-        if (!fileService.exists(imagePath)) {
-            byte[] optimzed = optimizeBytes(imageBytes, webp);
+        if (!this.fileService.exists(imagePath)) {
+            final byte[] optimzed = this.optimizeBytes(imageBytes, webp);
             try {
-                fileService.write(new ByteArrayInputStream(optimzed), imagePath, webp ? "image/webp" : MediaType.IMAGE_JPEG_VALUE);
-            } catch (IOException e) {
+                this.fileService.write(new ByteArrayInputStream(optimzed), imagePath, webp ? "image/webp" : MediaType.IMAGE_JPEG_VALUE);
+            } catch (final IOException e) {
                 LOGGER.warn("Error while writing file {}", imagePath, e);
             }
         }
     }
 
-    private byte[] optimizeBytes(byte[] imageBytes, boolean webp) throws IOException {
-        InputStream in = new ByteArrayInputStream(imageBytes);
-        BufferedImage bufferedImage = ImageIO.read(in);
-        Iterator<ImageWriter> writers = ImageIO.getImageWritersByMIMEType(webp ? WEBP.toString() : MediaType.IMAGE_JPEG_VALUE);
+    private byte[] optimizeBytes(final byte[] imageBytes, final boolean webp) throws IOException {
+        final InputStream in = new ByteArrayInputStream(imageBytes);
+        final BufferedImage bufferedImage = ImageIO.read(in);
+        final Iterator<ImageWriter> writers = ImageIO.getImageWritersByMIMEType(webp ? WEBP.toString() : MediaType.IMAGE_JPEG_VALUE);
         if (writers.hasNext()) {
-            return optimizeImage(writers.next(), bufferedImage, webp);
+            return this.optimizeImage(writers.next(), bufferedImage, webp);
         } else {
             LOGGER.warn("No writer found! (webp {})", webp);
             return imageBytes;
         }
     }
 
-    private byte[] optimizeImage(ImageWriter writer, BufferedImage bufferedImage, boolean webp)
+    private byte[] optimizeImage(final ImageWriter writer, BufferedImage bufferedImage, final boolean webp)
         throws IOException {
-        bufferedImage = scale(bufferedImage, config.size(), config.size());
+        bufferedImage = this.scale(bufferedImage, this.config.size(), this.config.size());
 
-        ImageWriteParam params;
+        final ImageWriteParam params;
         if (webp) {
             params = new WebPWriteParam(writer.getLocale());
             params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
             params.setCompressionType(params.getCompressionTypes()[WebPWriteParam.LOSSY_COMPRESSION]);
-            params.setCompressionQuality(config.qualityWebp());
+            params.setCompressionQuality(this.config.qualityWebp());
         } else {
             params = writer.getDefaultWriteParam();
             params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-            params.setCompressionQuality(config.quality());
+            params.setCompressionQuality(this.config.quality());
         }
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ImageOutputStream ios = ImageIO.createImageOutputStream(out);
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final ImageOutputStream ios = ImageIO.createImageOutputStream(out);
         writer.setOutput(ios);
 
         try {
-            IIOImage optimizedImage = new IIOImage(bufferedImage, null, null);
+            final IIOImage optimizedImage = new IIOImage(bufferedImage, null, null);
             writer.write(null, optimizedImage, params);
-        } catch (IIOException ex) {
+        } catch (final IIOException ex) {
             if (!ex.getMessage().contains("Bogus input colorspace")) {
                 throw ex;
             }
             // draw to get rid of alpha
-            BufferedImage result = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+            final BufferedImage result = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
             result.createGraphics().drawImage(bufferedImage, 0, 0, Color.WHITE, null);
             // reset the writer
             writer.reset();
             writer.setOutput(ios);
             // then attempt optimization again
-            IIOImage optimizedImage = new IIOImage(result, null, null);
+            final IIOImage optimizedImage = new IIOImage(result, null, null);
             writer.write(null, optimizedImage, params);
         }
 
@@ -333,7 +330,7 @@ public class ImageService {
         return out.toByteArray();
     }
 
-    private BufferedImage scale(BufferedImage originalImage, int height, int width) {
+    private BufferedImage scale(final BufferedImage originalImage, final int height, final int width) {
         final AffineTransform af = new AffineTransform();
         af.scale((double) width / originalImage.getWidth(), (double) height / originalImage.getHeight());
         final AffineTransformOp operation = new AffineTransformOp(af, AffineTransformOp.TYPE_BILINEAR);

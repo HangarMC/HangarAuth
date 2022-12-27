@@ -1,11 +1,10 @@
 package io.papermc.hangarauth.db.dao;
 
+import java.util.Optional;
+import java.util.UUID;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public interface InviteDAO {

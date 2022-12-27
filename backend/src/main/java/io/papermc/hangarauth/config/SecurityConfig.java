@@ -14,7 +14,7 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // no session pls
         http.csrf().disable(); // no csrf, we are stateless
         return http.build();
@@ -22,7 +22,7 @@ public class SecurityConfig {
 
     @Bean
     public HttpFirewall getHttpFirewall() {
-        StrictHttpFirewall strictHttpFirewall = new StrictHttpFirewall();
+        final StrictHttpFirewall strictHttpFirewall = new StrictHttpFirewall();
         strictHttpFirewall.setAllowUrlEncodedSlash(true);
         strictHttpFirewall.setAllowUrlEncodedDoubleSlash(true);
         return strictHttpFirewall;
