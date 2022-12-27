@@ -1,5 +1,9 @@
 package io.papermc.hangarauth.controller;
 
+import io.papermc.hangarauth.config.custom.GeneralConfig;
+import io.papermc.hangarauth.controller.model.Traits;
+import io.papermc.hangarauth.service.KratosService;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,12 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.UUID;
-
-import io.papermc.hangarauth.config.custom.GeneralConfig;
-import io.papermc.hangarauth.controller.model.Traits;
-import io.papermc.hangarauth.service.KratosService;
 
 @RestController
 @RequestMapping("/sync")

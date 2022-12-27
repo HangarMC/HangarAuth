@@ -1,15 +1,13 @@
 package io.papermc.hangarauth.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
-import java.util.Map;
-
 import io.papermc.hangarauth.config.custom.InviteConfig;
 import io.papermc.hangarauth.controller.model.InviteHookData;
 import io.papermc.hangarauth.db.dao.InviteDAO;
+import java.util.List;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class InviteService {

@@ -1,7 +1,11 @@
 package io.papermc.hangarauth.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import io.papermc.hangarauth.config.custom.KratosConfig;
+import io.papermc.hangarauth.controller.model.Traits;
+import io.papermc.hangarauth.db.dao.KratosIdentityDAO;
+import java.util.Optional;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -11,13 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
-import java.util.UUID;
-
-import io.papermc.hangarauth.config.custom.KratosConfig;
-import io.papermc.hangarauth.controller.model.Traits;
-import io.papermc.hangarauth.db.dao.KratosIdentityDAO;
 import sh.ory.kratos.ApiClient;
 import sh.ory.kratos.ApiException;
 import sh.ory.kratos.api.V0alpha1Api;

@@ -1,18 +1,16 @@
 package io.papermc.hangarauth.service.file;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import io.awspring.cloud.s3.ObjectMetadata;
 import io.awspring.cloud.s3.S3Resource;
 import io.awspring.cloud.s3.S3Template;
 import io.papermc.hangarauth.config.custom.StorageConfig;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Service;
 
 @Service
 @ConditionalOnProperty(value = "auth.storage.type", havingValue = "object")

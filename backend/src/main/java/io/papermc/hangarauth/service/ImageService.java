@@ -1,16 +1,9 @@
 package io.papermc.hangarauth.service;
 
 import com.luciad.imageio.webp.WebPWriteParam;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-
+import io.papermc.hangarauth.config.CacheConfig;
+import io.papermc.hangarauth.config.custom.ImageConfig;
+import io.papermc.hangarauth.service.file.FileService;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -39,10 +32,14 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
-
-import io.papermc.hangarauth.config.CacheConfig;
-import io.papermc.hangarauth.config.custom.ImageConfig;
-import io.papermc.hangarauth.service.file.FileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ImageService {

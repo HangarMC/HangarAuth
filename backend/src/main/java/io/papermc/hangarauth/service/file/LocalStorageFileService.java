@@ -1,17 +1,15 @@
 package io.papermc.hangarauth.service.file;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Service;
-
+import io.papermc.hangarauth.config.custom.StorageConfig;
+import io.papermc.hangarauth.utils.FileUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import io.papermc.hangarauth.config.custom.StorageConfig;
-import io.papermc.hangarauth.utils.FileUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 
 @Service
 @ConditionalOnProperty(value = "auth.storage.type", havingValue = "local", matchIfMissing = true)

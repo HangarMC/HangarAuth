@@ -1,5 +1,11 @@
 package io.papermc.hangarauth.controller;
 
+import io.papermc.hangarauth.config.custom.GeneralConfig;
+import io.papermc.hangarauth.config.custom.ImageConfig;
+import io.papermc.hangarauth.service.ImageService;
+import io.papermc.hangarauth.service.file.FileService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,14 +17,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import io.papermc.hangarauth.config.custom.GeneralConfig;
-import io.papermc.hangarauth.config.custom.ImageConfig;
-import io.papermc.hangarauth.service.ImageService;
-import io.papermc.hangarauth.service.file.FileService;
 
 @RestController
 @RequestMapping("/image")

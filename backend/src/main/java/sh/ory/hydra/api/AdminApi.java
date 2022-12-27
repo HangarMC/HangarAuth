@@ -13,29 +13,25 @@
 
 package sh.ory.hydra.api;
 
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import sh.ory.hydra.ApiCallback;
 import sh.ory.hydra.ApiClient;
 import sh.ory.hydra.ApiException;
 import sh.ory.hydra.ApiResponse;
 import sh.ory.hydra.Configuration;
 import sh.ory.hydra.Pair;
-import sh.ory.hydra.ProgressRequestBody;
-import sh.ory.hydra.ProgressResponseBody;
-
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-
-
 import sh.ory.hydra.model.AcceptConsentRequest;
 import sh.ory.hydra.model.AcceptLoginRequest;
 import sh.ory.hydra.model.CompletedRequest;
 import sh.ory.hydra.model.ConsentRequest;
 import sh.ory.hydra.model.FlushInactiveOAuth2TokensRequest;
-import sh.ory.hydra.model.GenericError;
 import sh.ory.hydra.model.JSONWebKey;
 import sh.ory.hydra.model.JSONWebKeySet;
-import sh.ory.hydra.model.JsonError;
 import sh.ory.hydra.model.JsonWebKeySetGeneratorRequest;
 import sh.ory.hydra.model.LoginRequest;
 import sh.ory.hydra.model.LogoutRequest;
@@ -44,15 +40,8 @@ import sh.ory.hydra.model.OAuth2TokenIntrospection;
 import sh.ory.hydra.model.PatchDocument;
 import sh.ory.hydra.model.PreviousConsentSession;
 import sh.ory.hydra.model.RejectRequest;
-import sh.ory.hydra.model.RequestWasHandledResponse;
 import sh.ory.hydra.model.TrustJwtGrantIssuerBody;
 import sh.ory.hydra.model.TrustedJwtGrantIssuer;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class AdminApi {
     private ApiClient localVarApiClient;

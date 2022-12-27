@@ -2,7 +2,6 @@ package io.papermc.hangarauth.config.custom;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.context.annotation.Configuration;
 
 @ConfigurationProperties("auth.kratos")
 public record KratosConfig(

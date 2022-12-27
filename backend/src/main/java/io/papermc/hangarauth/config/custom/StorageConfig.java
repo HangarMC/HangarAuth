@@ -1,13 +1,11 @@
 package io.papermc.hangarauth.config.custom;
 
+import io.awspring.cloud.autoconfigure.core.AwsProperties;
+import java.net.URI;
+import java.net.URISyntaxException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.context.annotation.Bean;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import io.awspring.cloud.autoconfigure.core.AwsProperties;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;

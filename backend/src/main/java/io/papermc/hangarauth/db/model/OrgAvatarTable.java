@@ -1,8 +1,7 @@
 package io.papermc.hangarauth.db.model;
 
-import org.jdbi.v3.core.mapper.reflect.JdbiConstructor;
-
 import java.time.OffsetDateTime;
+import org.jdbi.v3.core.mapper.reflect.JdbiConstructor;
 
 public class OrgAvatarTable extends AvatarTable {
 

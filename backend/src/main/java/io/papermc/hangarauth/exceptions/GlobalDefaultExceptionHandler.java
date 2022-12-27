@@ -3,6 +3,9 @@ package io.papermc.hangarauth.exceptions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.Objects;
+import java.util.function.Function;
+import javax.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +21,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.util.WebUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
-import java.util.function.Function;
 
 @ControllerAdvice
 public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandler {

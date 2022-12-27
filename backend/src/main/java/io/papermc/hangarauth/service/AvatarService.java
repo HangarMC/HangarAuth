@@ -1,5 +1,21 @@
 package io.papermc.hangarauth.service;
 
+import io.papermc.hangarauth.db.dao.AvatarDAO;
+import io.papermc.hangarauth.db.dao.OrgAvatarDAO;
+import io.papermc.hangarauth.db.model.AvatarTable;
+import io.papermc.hangarauth.db.model.OrgAvatarTable;
+import io.papermc.hangarauth.db.model.UserAvatarTable;
+import io.papermc.hangarauth.service.file.FileService;
+import io.papermc.hangarauth.utils.Crypto;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import javax.imageio.ImageIO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
@@ -11,24 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.UUID;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import javax.imageio.ImageIO;
-
-import io.papermc.hangarauth.db.dao.AvatarDAO;
-import io.papermc.hangarauth.db.dao.OrgAvatarDAO;
-import io.papermc.hangarauth.db.model.AvatarTable;
-import io.papermc.hangarauth.db.model.OrgAvatarTable;
-import io.papermc.hangarauth.db.model.UserAvatarTable;
-import io.papermc.hangarauth.service.file.FileService;
-import io.papermc.hangarauth.utils.Crypto;
 
 @Service
 public class AvatarService {

@@ -1,5 +1,13 @@
 package io.papermc.hangarauth.controller;
 
+import io.papermc.hangarauth.DummyData;
+import io.papermc.hangarauth.controller.model.Traits;
+import io.papermc.hangarauth.service.AvatarService;
+import io.papermc.hangarauth.service.KratosService;
+import io.papermc.hangarauth.service.file.FileService;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,16 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.util.AssertionErrors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
-import io.papermc.hangarauth.DummyData;
-import io.papermc.hangarauth.controller.model.Traits;
-import io.papermc.hangarauth.service.AvatarService;
-import io.papermc.hangarauth.service.KratosService;
-import io.papermc.hangarauth.service.file.FileService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;

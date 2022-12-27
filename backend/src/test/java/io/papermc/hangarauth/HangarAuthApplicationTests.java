@@ -1,10 +1,9 @@
 package io.papermc.hangarauth;
 
+import io.papermc.hangarauth.controller.AvatarController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import io.papermc.hangarauth.controller.AvatarController;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

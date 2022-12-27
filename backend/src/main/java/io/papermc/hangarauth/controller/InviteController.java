@@ -1,5 +1,9 @@
 package io.papermc.hangarauth.controller;
 
+import io.papermc.hangarauth.config.custom.InviteConfig;
+import io.papermc.hangarauth.controller.model.InviteHookData;
+import io.papermc.hangarauth.service.InviteService;
+import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,12 +14,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Map;
-
-import io.papermc.hangarauth.config.custom.InviteConfig;
-import io.papermc.hangarauth.controller.model.InviteHookData;
-import io.papermc.hangarauth.service.InviteService;
 
 @RestController
 @RequestMapping("/invite")
