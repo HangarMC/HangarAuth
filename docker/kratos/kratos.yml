@@ -70,6 +70,7 @@ selfservice:
                 method: POST
                 url: "http://host.docker.internal:8080/sync"
                 body: file:///etc/config/kratos/hooks/settings/after/profile.jsonnet
+                can_interrupt: true
                 auth:
                   type: api_key
                   config:
