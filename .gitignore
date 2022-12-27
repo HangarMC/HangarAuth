@@ -81,4 +81,5 @@ bower_components
 !/.idea/vcs.xml
 !/.idea/scopes/
 !/.idea/encodings.xml
+!.idea/IntelliLang.xml
 
