@@ -45,11 +45,11 @@ public class InviteService {
 
     private Map<String, Object> errorPayload(final String message) {
         return Map.of("messages", List.of(Map.of(
-                "instance_ptr", "#/method",
-                "messages", List.of(
-                        Map.of("id", 123,
-                                "text", message,
-                                "type", "error")
-                ))));
+            "instance_ptr", "#/method",
+            "messages", List.of(
+                Map.of("id", 123,
+                    "text", message,
+                    "type", "error")
+            ))));
     }
 }

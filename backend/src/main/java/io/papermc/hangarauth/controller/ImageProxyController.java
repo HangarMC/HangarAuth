@@ -20,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/image")
-public class ImageProxyController extends FileController  {
+public class ImageProxyController extends FileController {
 
     private final ImageConfig imageConfig;
     private final RestTemplate restTemplate;

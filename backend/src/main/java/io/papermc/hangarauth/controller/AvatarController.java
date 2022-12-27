@@ -109,7 +109,7 @@ public class AvatarController extends FileController {
     }
 
     private ResponseEntity<?> getUserAvatarFallback(final String name, final HttpServletRequest request, final HttpServletResponse response) {
-        //TODO nice avatars
+        // TODO nice avatars
         /*String userNameMd5 = DigestUtils.md5DigestAsHex(name.getBytes(StandardCharsets.UTF_8));
         long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);
         int[] num = COLORS.get((int) (userNameHash % COLORS.size()));

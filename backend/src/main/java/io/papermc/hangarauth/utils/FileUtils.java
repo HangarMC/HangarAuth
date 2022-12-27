@@ -13,7 +13,8 @@ public class FileUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
-    private FileUtils() { }
+    private FileUtils() {
+    }
 
     public static boolean delete(final Path path) {
         if (path == null) return false;

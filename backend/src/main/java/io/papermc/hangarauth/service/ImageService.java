@@ -82,8 +82,8 @@ public class ImageService {
 
     public String getCdnPathFromFile(final String origFile, final HttpServletRequest request, final HttpServletResponse response) {
         return this.getCdnPath(this.fileService.getDownloadUrl(origFile),
-                (content, hash) -> this.workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
-                () -> this.getContentFromPath(origFile),
+            (content, hash) -> this.workerQueue.add(new ImageToOptimize(origFile, null, content, hash)),
+            () -> this.getContentFromPath(origFile),
             () -> this.getHash(origFile, () -> this.getContentFromPath(origFile)),
             request, response
         );
@@ -91,10 +91,10 @@ public class ImageService {
 
     public String getCdnPathFromUrl(final String origUrl, final HttpServletRequest request, final HttpServletResponse response) {
         return this.getCdnPath(origUrl,
-                (content, hash) -> this.workerQueue.add(new ImageToOptimize(null, origUrl, content, hash)),
-                () -> this.getContentFromUrl(origUrl),
-             () -> this.getHash(origUrl, () -> this.getContentFromUrl(origUrl)),
-             request, response
+            (content, hash) -> this.workerQueue.add(new ImageToOptimize(null, origUrl, content, hash)),
+            () -> this.getContentFromUrl(origUrl),
+            () -> this.getHash(origUrl, () -> this.getContentFromUrl(origUrl)),
+            request, response
         );
     }
 
@@ -200,7 +200,7 @@ public class ImageService {
         if (webp) {
             imagePath = this.fileService.resolve(folderPath, hash + ".webp");
         } else {
-            imagePath = this.fileService.resolve(folderPath,hash);
+            imagePath = this.fileService.resolve(folderPath, hash);
         }
 
         if (this.fileService.exists(imagePath)) {

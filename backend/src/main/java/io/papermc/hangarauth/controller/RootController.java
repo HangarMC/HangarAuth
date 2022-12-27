@@ -35,14 +35,14 @@ public class RootController {
     @GetMapping("/version-info")
     public Map<String, String> info() {
         return Map.of(
-                "version", this.get("build.version", -1),
-                "committer", this.get("commit.user.name", "dummy"),
-                "time", this.get("commit.time", -1),
-                "commit", this.gitProperties.map(GitProperties::getCommitId).orElse("0"),
-                "commitShort", this.gitProperties.map(GitProperties::getShortCommitId).orElse("0"),
-                "message", this.get("commit.message.short", "dummy"),
-                "tag", this.gitProperties.map(gp -> gp.get("tags")).or(() -> this.gitProperties.map(gp -> gp.get("closest.tag.name"))).orElse("dummy"),
-                "behind", this.get("closest.tag.commit.count", 0)
+            "version", this.get("build.version", -1),
+            "committer", this.get("commit.user.name", "dummy"),
+            "time", this.get("commit.time", -1),
+            "commit", this.gitProperties.map(GitProperties::getCommitId).orElse("0"),
+            "commitShort", this.gitProperties.map(GitProperties::getShortCommitId).orElse("0"),
+            "message", this.get("commit.message.short", "dummy"),
+            "tag", this.gitProperties.map(gp -> gp.get("tags")).or(() -> this.gitProperties.map(gp -> gp.get("closest.tag.name"))).orElse("dummy"),
+            "behind", this.get("closest.tag.commit.count", 0)
         );
     }
 

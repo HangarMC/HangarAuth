@@ -29,9 +29,9 @@ public class OrgAvatarTable extends AvatarTable {
     @Override
     public String toString() {
         return "OrgAvatarTable{" +
-               "orgName=" + this.orgName +
-               ", hash='" + this.hash + '\'' +
-               ", fileName='" + this.fileName + '\'' +
-               "} " + super.toString();
+            "orgName=" + this.orgName +
+            ", hash='" + this.hash + '\'' +
+            ", fileName='" + this.fileName + '\'' +
+            "} " + super.toString();
     }
 }
