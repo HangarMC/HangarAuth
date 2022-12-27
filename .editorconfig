@@ -1,4 +1,3 @@
-# editorconfig.org
 root = true
 
 [*]
@@ -8,23 +7,31 @@ end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
-ij_java_block_comment_at_first_column = false
-ij_java_line_comment_at_first_column = false
-ij_typescript_use_double_quotes = false
-ij_javascript_line_comment_at_first_column = false
-ij_typescript_line_comment_at_first_column = false
-ij_html_line_comment_at_first_column = false
-ij_html_block_comment_at_first_column = false
+max_line_length = 160
+
 ij_any_block_comment_at_first_column = false
 ij_any_line_comment_at_first_column = false
+ij_any_line_comment_add_space_on_reformat = true
+ij_any_block_comment_add_space = true
+ij_visual_guides = 160
 
-[*.yml]
-indent_size = 2
+[*.java]
+ij_java_insert_inner_class_imports = false
+ij_java_use_fq_class_names = false
+ij_java_use_single_class_imports = true
+ij_java_class_count_to_use_import_on_demand = 99999
+ij_java_names_count_to_use_import_on_demand = 99999
+ij_java_keep_simple_lambdas_in_one_line = true
+ij_java_keep_simple_classes_in_one_line = true
+ij_java_imports_layout = *,|,$*
+ij_java_layout_static_imports_separately = true
+ij_java_generate_final_locals = true
+ij_java_generate_final_parameters = true
+ij_java_continuation_indent_size = 4
+ij_java_record_components_wrap = on_every_item
 
-[*.yaml]
-indent_size = 2
 
-[*.json]
+[{*.yml, *.yaml, *.json}]
 indent_size = 2
 
 [*.md]
