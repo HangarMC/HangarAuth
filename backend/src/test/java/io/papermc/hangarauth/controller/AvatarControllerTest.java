@@ -58,19 +58,19 @@ class AvatarControllerTest {
         when(this.kratosService.getTraits(REDIRECTED_UUID)).thenReturn(mockedTraits);
         this.mockMvc.perform(get("/avatar/" + REDIRECTED_UUID)).andExpectAll(status().is2xxSuccessful(), result -> {
             final List<Object> actual = result.getResponse().getHeaderValues(HttpHeaders.SERVER);
-            AssertionErrors.assertTrue("Response header '" + HttpHeaders.SERVER + "'", Arrays.asList("HangarAuth", "cloudflare").equals(actual) || Arrays.asList("HangarAuth").equals(actual));
+            AssertionErrors.assertTrue("Response header '" + HttpHeaders.SERVER + "'", Arrays.asList("HangarAuth", "cloudflare").equals(actual) || List.of("HangarAuth").equals(actual));
         });
     }
 
     @Test
     void ok200WithConfiguredAvatar() throws Exception {
-        checkDummyAvatarExists();
+        this.checkDummyAvatarExists();
         this.mockMvc.perform(get("/avatar/" + DummyData.DUMMY_UUID)).andExpectAll(status().isOk(), header().doesNotExist(HttpHeaders.LOCATION), header().string(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE));
     }
 
     private void checkDummyAvatarExists() {
-        String dummyAvatar = this.avatarService.getFallbackAvatar();
-        if (!fileService.exists(dummyAvatar)) {
+        final String dummyAvatar = this.avatarService.getFallbackAvatar();
+        if (!this.fileService.exists(dummyAvatar)) {
             throw new IllegalStateException("Dummy avatar doesn't exist at " + dummyAvatar);
         }
     }

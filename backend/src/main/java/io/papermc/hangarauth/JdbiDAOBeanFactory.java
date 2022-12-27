@@ -10,7 +10,7 @@ public class JdbiDAOBeanFactory implements FactoryBean<Object>, InitializingBean
     private final Class<?> jdbiDaoClass;
     private volatile Object jdbiDaoBean;
 
-    public JdbiDAOBeanFactory(Jdbi jdbi, Class<?> jdbiDaoClass) {
+    public JdbiDAOBeanFactory(final Jdbi jdbi, final Class<?> jdbiDaoClass) {
         this.jdbi = jdbi;
         this.jdbiDaoClass = jdbiDaoClass;
     }

@@ -26,9 +26,9 @@ public class JdbiConfig {
     }
 
     @Bean
-    public Jdbi jdbi(DataSource dataSource, List<JdbiPlugin> jdbiPlugins, List<RowMapper<?>> rowMappers, ApplicationContext context) {
-        TransactionAwareDataSourceProxy proxy = new TransactionAwareDataSourceProxy(dataSource);
-        Jdbi jdbi = Jdbi.create(proxy);
+    public Jdbi jdbi(final DataSource dataSource, final List<JdbiPlugin> jdbiPlugins, final List<RowMapper<?>> rowMappers, final ApplicationContext context) {
+        final TransactionAwareDataSourceProxy proxy = new TransactionAwareDataSourceProxy(dataSource);
+        final Jdbi jdbi = Jdbi.create(proxy);
         jdbiPlugins.forEach(jdbi::installPlugin);
         rowMappers.forEach(jdbi::registerRowMapper);
         return jdbi;

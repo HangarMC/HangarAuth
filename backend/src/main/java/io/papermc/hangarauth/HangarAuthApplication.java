@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @ConfigurationPropertiesScan("io.papermc.hangarauth.config.custom")
 public class HangarAuthApplication {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(HangarAuthApplication.class, args);
     }
 

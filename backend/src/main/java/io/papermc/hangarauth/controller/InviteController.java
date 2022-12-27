@@ -23,18 +23,18 @@ public class InviteController {
     private final InviteConfig config;
 
     @Autowired
-    public InviteController(InviteService service, InviteConfig config) {
+    public InviteController(final InviteService service, final InviteConfig config) {
         this.service = service;
         this.config = config;
     }
 
     @PostMapping("/use")
-    public ResponseEntity<Object> useInvite(@NotNull @RequestBody InviteHookData body, @RequestHeader("X-Kratos-Hook-Api-Key") String apiKey) {
-        if (!apiKey.equals(config.apiKey())) {
+    public ResponseEntity<Object> useInvite(@RequestBody final @NotNull InviteHookData body, @RequestHeader("X-Kratos-Hook-Api-Key") final String apiKey) {
+        if (!apiKey.equals(this.config.apiKey())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        Map<String, Object> result = service.handleInvite(body);
+        final Map<String, Object> result = this.service.handleInvite(body);
         if (result.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {

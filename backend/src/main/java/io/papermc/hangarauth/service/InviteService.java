@@ -16,34 +16,34 @@ public class InviteService {
     private final InviteConfig config;
 
     @Autowired
-    public InviteService(InviteDAO dao, InviteConfig config) {
+    public InviteService(final InviteDAO dao, final InviteConfig config) {
         this.dao = dao;
         this.config = config;
     }
 
-    public Map<String, Object> handleInvite(InviteHookData data) {
+    public Map<String, Object> handleInvite(final InviteHookData data) {
         try {
             // get invite from url
-            String invite = UriComponentsBuilder.fromUriString(data.url()).build().getQueryParams().getFirst("invite");
+            final String invite = UriComponentsBuilder.fromUriString(data.url()).build().getQueryParams().getFirst("invite");
             // check that invite is valid
             if (invite == null) {
-                if (config.enabled()) {
-                    return errorPayload("Signup is invite only right now, sorry!");
+                if (this.config.enabled()) {
+                    return this.errorPayload("Signup is invite only right now, sorry!");
                 }
                 return Map.of();
             }
-            if (dao.getInvite(invite).isEmpty()) {
-                return errorPayload("Unknown invite " + invite + ". Please contact whoever send you this link.");
+            if (this.dao.getInvite(invite).isEmpty()) {
+                return this.errorPayload("Unknown invite " + invite + ". Please contact whoever send you this link.");
             }
             // save invite user combo into db
-            dao.insertInviteUse(invite, data.id());
+            this.dao.insertInviteUse(invite, data.id());
             return Map.of();
-        } catch (Exception ex) {
-            return errorPayload("Error while checking invite. Please contact an admin (" + ex.getMessage() + ")");
+        } catch (final Exception ex) {
+            return this.errorPayload("Error while checking invite. Please contact an admin (" + ex.getMessage() + ")");
         }
     }
 
-    private Map<String, Object> errorPayload(String message) {
+    private Map<String, Object> errorPayload(final String message) {
         return Map.of("messages", List.of(Map.of(
                 "instance_ptr", "#/method",
                 "messages", List.of(

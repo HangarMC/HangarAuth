@@ -39,7 +39,7 @@ public record StorageConfig(
 
         @Bean
         public AwsProperties awsProperties() throws URISyntaxException {
-            AwsProperties awsProperties = new AwsProperties();
+            final AwsProperties awsProperties = new AwsProperties();
             awsProperties.setEndpoint(new URI(this.storageConfig.objectStorageEndpoint()));
             return awsProperties;
         }

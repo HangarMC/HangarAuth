@@ -26,7 +26,7 @@ public class ImageProxyController extends FileController  {
     private final RestTemplate restTemplate;
     private final GeneralConfig generalConfig;
 
-    public ImageProxyController(ImageService imageService, FileService fileService, ImageConfig imageConfig, RestTemplate restTemplate, GeneralConfig generalConfig) {
+    public ImageProxyController(final ImageService imageService, final FileService fileService, final ImageConfig imageConfig, final RestTemplate restTemplate, final GeneralConfig generalConfig) {
         super(imageService, fileService);
         this.imageConfig = imageConfig;
         this.restTemplate = restTemplate;
@@ -34,40 +34,40 @@ public class ImageProxyController extends FileController  {
     }
 
     @GetMapping("/**")
-    public ResponseEntity<?> proxy(HttpServletRequest request, HttpServletResponse response) {
-        String url = cleanUrl(request.getRequestURI());
+    public ResponseEntity<?> proxy(final HttpServletRequest request, final HttpServletResponse response) {
+        final String url = this.cleanUrl(request.getRequestURI());
 
-        UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
-        if (!imageConfig.whitelist().contains(components.getHost())) {
-            return restTemplate.getForEntity(url, byte[].class);
+        final UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
+        if (!this.imageConfig.whitelist().contains(components.getHost())) {
+            return this.restTemplate.getForEntity(url, byte[].class);
         }
 
-        return downloadOrRedirect(url, request, response, true);
+        return this.downloadOrRedirect(url, request, response, true);
     }
 
     @DeleteMapping("/**")
-    public ResponseEntity<?> evict(@RequestParam String apiKey, HttpServletRequest request) {
-        if (!generalConfig.apiKey().equals(apiKey)) {
+    public ResponseEntity<?> evict(@RequestParam final String apiKey, final HttpServletRequest request) {
+        if (!this.generalConfig.apiKey().equals(apiKey)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
-        String url = cleanUrl(request.getRequestURI());
+        final String url = this.cleanUrl(request.getRequestURI());
 
-        UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
-        if (!imageConfig.whitelist().contains(components.getHost())) {
+        final UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
+        if (!this.imageConfig.whitelist().contains(components.getHost())) {
             return ResponseEntity.badRequest().build();
         }
 
-        imageService.evictCache(url);
+        this.imageService.evictCache(url);
         return ResponseEntity.ok().build();
     }
 
-    private String cleanUrl(String url) {
+    private String cleanUrl(final String url) {
         return url
             .replace("/image/", "")
             .replace("https:/", "https://")
             .replace("http:/", "http://")
-            .replace(generalConfig.hangarFrontendHost(), generalConfig.hangarBackendHost())
+            .replace(this.generalConfig.hangarFrontendHost(), this.generalConfig.hangarBackendHost())
             .replace(":///", "://");
     }
 }

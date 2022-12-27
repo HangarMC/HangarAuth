@@ -47,33 +47,33 @@ public class KratosService {
         return this.kratosIdentityDAO.getUserId(identifier);
     }
 
-    public @NotNull Identity getUserIdentity(@NotNull final UUID userId) {
+    public @NotNull Identity getUserIdentity(final @NotNull UUID userId) {
         try {
-            Identity identity = adminClient.adminGetIdentity(userId.toString());
+            final Identity identity = this.adminClient.adminGetIdentity(userId.toString());
             if (identity == null) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "how is the identity null here?");
             }
             return identity;
-        } catch (ApiException e) {
+        } catch (final ApiException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
-    public @NotNull Traits getTraits(@NotNull final UUID userId) {
+    public @NotNull Traits getTraits(final @NotNull UUID userId) {
         final Identity identity = this.getUserIdentity(userId);
         return this.mapper.convertValue(identity.getTraits(), Traits.class);
     }
 
-    public @NotNull SelfServiceSettingsFlow getSettingsFlow(@NotNull final String flowId, @NotNull final String cookies) {
+    public @NotNull SelfServiceSettingsFlow getSettingsFlow(final @NotNull String flowId, final @NotNull String cookies) {
         try {
-            return publicClient.getSelfServiceSettingsFlow(flowId, null, cookies);
-        } catch (ApiException e) {
-            log.error("Error while getting settings flow (" + publicClient.getApiClient().getBasePath() + ")", e);
+            return this.publicClient.getSelfServiceSettingsFlow(flowId, null, cookies);
+        } catch (final ApiException e) {
+            log.error("Error while getting settings flow (" + this.publicClient.getApiClient().getBasePath() + ")", e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
-    public void checkCsrfToken(@NotNull final String flowId, @NotNull final String cookies, final String csrfToken) {
+    public void checkCsrfToken(final @NotNull String flowId, final @NotNull String cookies, final String csrfToken) {
         if (csrfToken == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "no csrf token");
         }
@@ -85,27 +85,27 @@ public class KratosService {
         }
     }
 
-    public void setTraits(UUID userId, Traits newTraits) {
+    public void setTraits(final UUID userId, final Traits newTraits) {
         try {
-            adminClient.adminUpdateIdentity(userId.toString(), new AdminUpdateIdentityBody().traits(newTraits));
-        } catch (ApiException e) {
-            log.error("Error while setting traits (" + adminClient.getApiClient().getBasePath() + ")", e);
+            this.adminClient.adminUpdateIdentity(userId.toString(), new AdminUpdateIdentityBody().traits(newTraits));
+        } catch (final ApiException e) {
+            log.error("Error while setting traits (" + this.adminClient.getApiClient().getBasePath() + ")", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
-    public void updateTraits(UUID userId, Traits updatedTraits) {
-        Traits traits = getTraits(userId);
+    public void updateTraits(final UUID userId, final Traits updatedTraits) {
+        final Traits traits = this.getTraits(userId);
         // copy old
-        String username = traits.username();
-        String email = traits.email();
-        String github = traits.github();
-        String discord = traits.discord();
+        final String username = traits.username();
+        final String email = traits.email();
+        final String github = traits.github();
+        final String discord = traits.discord();
         // copy over new if set
-        String language = StringUtils.hasText(updatedTraits.language()) ? updatedTraits.language() : traits.language();
-        String theme = StringUtils.hasText(updatedTraits.theme()) ? updatedTraits.theme() : traits.theme();
+        final String language = StringUtils.hasText(updatedTraits.language()) ? updatedTraits.language() : traits.language();
+        final String theme = StringUtils.hasText(updatedTraits.theme()) ? updatedTraits.theme() : traits.theme();
         // save new
-        Traits newTraits = new Traits(email, github, discord, language, username, theme);
-        setTraits(userId, newTraits);
+        final Traits newTraits = new Traits(email, github, discord, language, username, theme);
+        this.setTraits(userId, newTraits);
     }
 }

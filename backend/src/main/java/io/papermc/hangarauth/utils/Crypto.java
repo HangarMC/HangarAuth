@@ -11,11 +11,11 @@ public final class Crypto {
     private Crypto() {
     }
 
-    public static @NotNull String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
+    public static @NotNull String bytesToHex(final byte[] bytes) {
+        final char[] hexChars = new char[bytes.length * 2];
         int j = 0;
         while (j < bytes.length) {
-            int v = bytes[j] & 0xFF;
+            final int v = bytes[j] & 0xFF;
             hexChars[j * 2] = HEX_ARRAY[v >>> 4];
             hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
 
@@ -24,10 +24,10 @@ public final class Crypto {
         return new String(hexChars);
     }
 
-    public static @NotNull String md5ToHex(byte[] bytes) {
+    public static @NotNull String md5ToHex(final byte[] bytes) {
         try {
             return bytesToHex(MessageDigest.getInstance("MD5").digest(bytes));
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }

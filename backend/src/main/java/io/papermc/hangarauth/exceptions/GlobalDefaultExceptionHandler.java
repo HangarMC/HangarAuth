@@ -28,12 +28,12 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
     private final ObjectMapper mapper;
 
     @Autowired
-    public GlobalDefaultExceptionHandler(ObjectMapper mapper) {
+    public GlobalDefaultExceptionHandler(final ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
     @Override
-    protected @NotNull ResponseEntity<Object> handleExceptionInternal(@NotNull Exception ex, @Nullable Object body, @NotNull HttpHeaders headers, @NotNull HttpStatus status, @NotNull WebRequest request) {
+    protected @NotNull ResponseEntity<Object> handleExceptionInternal(final @NotNull Exception ex, final @Nullable Object body, final @NotNull HttpHeaders headers, final @NotNull HttpStatus status, final @NotNull WebRequest request) {
         if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
             request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, RequestAttributes.SCOPE_REQUEST);
         }
@@ -42,29 +42,29 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public @NotNull ResponseEntity<Object> responseStatusExceptionHandler(@NotNull ResponseStatusException ex) {
+    public @NotNull ResponseEntity<Object> responseStatusExceptionHandler(final @NotNull ResponseStatusException ex) {
         return this.createExceptionResponse(ex, null, e -> Objects.requireNonNullElse(e.getCause(), e).getMessage(), null, ex.getStatus());
     }
 
     @ExceptionHandler(Exception.class)
-    public @NotNull ResponseEntity<Object> defaultErrorHandler(@NotNull HttpServletRequest req, @NotNull Exception ex) throws Exception {
+    public @NotNull ResponseEntity<Object> defaultErrorHandler(final @NotNull HttpServletRequest req, final @NotNull Exception ex) throws Exception {
         if (AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class) != null) {
             throw ex;
         }
         final ObjectNode extra = this.mapper.createObjectNode();
         ex.printStackTrace();
-        ArrayNode stackTrace = extra.putArray("stacktrace");
-        for (StackTraceElement element : ex.getStackTrace()) {
+        final ArrayNode stackTrace = extra.putArray("stacktrace");
+        for (final StackTraceElement element : ex.getStackTrace()) {
             stackTrace.add(element.toString());
         }
         return this.createExceptionResponse(ex, extra, null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(@NotNull E ex, @Nullable ObjectNode extra, @Nullable HttpHeaders headers, @NotNull HttpStatus status) {
+    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(final @NotNull E ex, final @Nullable ObjectNode extra, final @Nullable HttpHeaders headers, final @NotNull HttpStatus status) {
         return this.createExceptionResponse(ex, extra, Exception::getMessage, headers, status);
     }
 
-    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(@NotNull E ex, @Nullable ObjectNode extra, @NotNull Function<E, @Nullable String> messageFunction, @Nullable HttpHeaders headers, @NotNull HttpStatus status) {
+    private <E extends Exception> ResponseEntity<Object> createExceptionResponse(final @NotNull E ex, final @Nullable ObjectNode extra, final @NotNull Function<E, @Nullable String> messageFunction, final @Nullable HttpHeaders headers, final @NotNull HttpStatus status) {
         final ObjectNode response = this.mapper.createObjectNode();
         response.putObject("status")
             .put("code", status.value())

@@ -24,17 +24,17 @@ public class SyncController {
     private final KratosService kratosService;
 
     @Autowired
-    public SyncController(GeneralConfig generalConfig, KratosService kratosService) {
+    public SyncController(final GeneralConfig generalConfig, final KratosService kratosService) {
         this.generalConfig = generalConfig;
         this.kratosService = kratosService;
     }
 
     @PostMapping(value = "/user/{user}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void syncUserTraits(@NotNull @PathVariable String user, @RequestParam String apiKey, @RequestBody Traits updatedTraits) {
-        if (!generalConfig.apiKey().equals(apiKey)) {
+    public void syncUserTraits(@PathVariable final @NotNull String user, @RequestParam final String apiKey, @RequestBody final Traits updatedTraits) {
+        if (!this.generalConfig.apiKey().equals(apiKey)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        UUID userId = UUID.fromString(user);
+        final UUID userId = UUID.fromString(user);
         this.kratosService.updateTraits(userId, updatedTraits);
     }
 }

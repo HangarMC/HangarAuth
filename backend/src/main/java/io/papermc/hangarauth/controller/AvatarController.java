@@ -36,7 +36,7 @@ public class AvatarController extends FileController {
     private final GeneralConfig generalConfig;
 
     @Autowired
-    public AvatarController(KratosService kratosService, AvatarService avatarService, GeneralConfig generalConfig, ImageService imageService, FileService fileService) {
+    public AvatarController(final KratosService kratosService, final AvatarService avatarService, final GeneralConfig generalConfig, final ImageService imageService, final FileService fileService) {
         super(imageService, fileService);
         this.kratosService = kratosService;
         this.avatarService = avatarService;
@@ -44,27 +44,27 @@ public class AvatarController extends FileController {
     }
 
     @GetMapping(value = "/{user}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<?> getUsersAvatar(@NotNull @PathVariable String user, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> getUsersAvatar(@PathVariable final @NotNull String user, final HttpServletRequest request, final HttpServletResponse response) {
         return this.getUsersAvatar0(user, request, response);
     }
 
     @GetMapping(value = "/user/{user}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<?> getUsersAvatar2(@NotNull @PathVariable String user, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> getUsersAvatar2(@PathVariable final @NotNull String user, final HttpServletRequest request, final HttpServletResponse response) {
         return this.getUsersAvatar0(user, request, response);
     }
 
-    private ResponseEntity<?> getUsersAvatar0(String user, HttpServletRequest request, HttpServletResponse response) {
+    private ResponseEntity<?> getUsersAvatar0(final String user, final HttpServletRequest request, final HttpServletResponse response) {
         UUID userId;
         AvatarTable avatarTable = null;
         try {
             userId = UUID.fromString(user);
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             userId = this.kratosService.getUserId(user);
             if (userId == null) {
                 avatarTable = this.avatarService.getOrgAvatarTable(user);
                 if (avatarTable == null) {
                     // could still be an org, lets just always use the letter
-                    return getUserAvatarFallback(user, request, response);
+                    return this.getUserAvatarFallback(user, request, response);
                 }
             }
         }
@@ -73,49 +73,49 @@ public class AvatarController extends FileController {
             avatarTable = this.avatarService.getUsersAvatarTable(userId);
         }
         if (avatarTable == null) {
-            return getUserAvatarFallback(userId, request, response);
+            return this.getUserAvatarFallback(userId, request, response);
         }
-        String userAvatarPath = this.avatarService.getAvatarFor(userId == null ? user : userId.toString(), avatarTable.getFileName());
-        if (!fileService.exists(userAvatarPath)) {
+        final String userAvatarPath = this.avatarService.getAvatarFor(userId == null ? user : userId.toString(), avatarTable.getFileName());
+        if (!this.fileService.exists(userAvatarPath)) {
             if (userId == null) {
                 this.avatarService.deleteAvatarTable(user);
-                return getUserAvatarFallback(user, request, response);
+                return this.getUserAvatarFallback(user, request, response);
             } else {
                 this.avatarService.deleteAvatarTable(userId);
-                return getUserAvatarFallback(userId, request, response);
+                return this.getUserAvatarFallback(userId, request, response);
             }
         }
 
-        return downloadOrRedirect(userAvatarPath, request, response, false);
+        return this.downloadOrRedirect(userAvatarPath, request, response, false);
     }
 
     @PostMapping(value = "/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void setUsersAvatar(@NotNull @PathVariable UUID userId, @RequestParam String flowId, @RequestHeader("cookie") String cookies, @RequestParam("csrf_token") String csrfToken, @RequestParam MultipartFile avatar) throws IOException {
+    public void setUsersAvatar(@PathVariable final @NotNull UUID userId, @RequestParam final String flowId, @RequestHeader("cookie") final String cookies, @RequestParam("csrf_token") final String csrfToken, @RequestParam final MultipartFile avatar) throws IOException {
         this.kratosService.checkCsrfToken(flowId, cookies, csrfToken);
         this.avatarService.saveAvatar(userId, avatar);
     }
 
     @PostMapping(value = "/org/{orgName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void setOrgAvatar(@NotNull @PathVariable String orgName, @RequestParam String apiKey, @RequestParam MultipartFile avatar) throws IOException {
-        if (!generalConfig.apiKey().equals(apiKey)) {
+    public void setOrgAvatar(@PathVariable final @NotNull String orgName, @RequestParam final String apiKey, @RequestParam final MultipartFile avatar) throws IOException {
+        if (!this.generalConfig.apiKey().equals(apiKey)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         this.avatarService.saveOrgAvatar(orgName, avatar);
     }
 
-    private ResponseEntity<?> getUserAvatarFallback(@NotNull UUID userId, HttpServletRequest request, HttpServletResponse response) {
-        Traits traits = this.kratosService.getTraits(userId);
-        return getUserAvatarFallback(traits == null ? null : traits.username(), request, response);
+    private ResponseEntity<?> getUserAvatarFallback(final @NotNull UUID userId, final HttpServletRequest request, final HttpServletResponse response) {
+        final Traits traits = this.kratosService.getTraits(userId);
+        return this.getUserAvatarFallback(traits == null ? null : traits.username(), request, response);
     }
 
-    private ResponseEntity<?> getUserAvatarFallback(String name, HttpServletRequest request, HttpServletResponse response) {
+    private ResponseEntity<?> getUserAvatarFallback(final String name, final HttpServletRequest request, final HttpServletResponse response) {
         //TODO nice avatars
         /*String userNameMd5 = DigestUtils.md5DigestAsHex(name.getBytes(StandardCharsets.UTF_8));
         long userNameHash = Long.parseLong(userNameMd5.substring(0, 15).toUpperCase(Locale.ENGLISH), 16);
         int[] num = COLORS.get((int) (userNameHash % COLORS.size()));
         int colorRgb = ((num[0] & 0xFF) << 16) | ((num[1] & 0xFF) << 8) | ((num[2] & 0xFF));
         String url = String.format("https://papermc.io/forums/letter_avatar_proxy/v2/letter/%c/%s/240.png", name.charAt(0), StringUtils.leftPad(Integer.toHexString(colorRgb), 6, '0'));*/
-        return downloadOrRedirect(this.avatarService.getFallbackAvatar(), request, response, false);
+        return this.downloadOrRedirect(this.avatarService.getFallbackAvatar(), request, response, false);
     }
 
     static final List<int[]> COLORS = List.of(

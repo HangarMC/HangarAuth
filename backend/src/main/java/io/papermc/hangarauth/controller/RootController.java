@@ -17,7 +17,7 @@ public class RootController {
     private final Optional<GitProperties> gitProperties;
 
     @Autowired
-    public RootController(Optional<GitProperties> gitProperties) {
+    public RootController(final Optional<GitProperties> gitProperties) {
         this.gitProperties = gitProperties;
     }
 
