@@ -24,7 +24,6 @@
             :include-groups="['default', 'profile']"
             fields-as-excludes
             :fields="['traits.theme', 'traits.language']"
-            :disabled-fields="['traits.username']"
           />
           <Form :title="t('settings.password')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'password']" />
           <Form :title="t('settings.2fa-backup')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'lookup_secret']" />
