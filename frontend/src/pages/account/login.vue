@@ -16,6 +16,7 @@
 import { UiContainer } from "@ory/kratos-client/api";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
+import { UiNode } from "@ory/kratos-client";
 import Card from "~/lib/components/design/Card.vue";
 import Button from "~/lib/components/design/Button.vue";
 import Form from "~/components/form/Form.vue";
@@ -37,12 +38,13 @@ const { data } = useAsyncData<null | { ui: UiContainer }>(
 );
 
 const tabs = computed<FormTab[]>(() => {
-  return [
-    { value: "password", header: "Password", groups: ["default", "password"] },
-    { value: "key", header: "Security key", groups: ["default", "webauthn"] },
-    { value: "totp", header: "Authenticator", groups: ["totp"] },
-    { value: "backup", header: "Backup", groups: ["lookup_secret"] },
-  ];
+  const tabs = [];
+  tabs.push({ value: "password", header: "Password", groups: ["default", "password"] });
+  if (data.value?.ui.nodes.includes((n: UiNode) => n.group === "webauthn")) {
+    tabs.push({ value: "key", header: "Security key", groups: ["default", "webauthn"] });
+  }
+  tabs.push({ value: "totp", header: "Authenticator", groups: ["totp"] }, { value: "backup", header: "Backup", groups: ["lookup_secret"] });
+  return tabs;
 });
 
 const is2fa = computed(() => data.value?.ui.messages?.[0]?.id === 1010004);

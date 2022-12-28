@@ -54,14 +54,24 @@ const filteredNodes = computed<UiNode[]>(() => {
   if (props.includeGroups.length === 0 && props.fields.length === 0) {
     return props.ui.nodes;
   }
-  return props.ui.nodes.filter(
-    (n) =>
-      (props.includeGroups.length === 0 || props.includeGroups.includes(n.group)) &&
-      (props.fields.length === 0 || props.fieldsAsExcludes
-        ? !props.fields.includes((n.attributes as any).name)
-        : props.fields.includes((n.attributes as any).name))
-  );
+  return props.ui.nodes.filter((n) => {
+    // group not enabled? bye
+    if (!props.includeGroups.includes(n.group)) return false;
+    // see if we need to invert the result
+    const modeOut = props.fields.length === 0 || props.fieldsAsExcludes;
+    // check if field should be included
+    const include = props.fields.includes((n.attributes as any).name) || props.fields.includes(n.group + ".*");
+    return modeOut ? !include : include;
+  });
 });
+
+// for debugging
+const otherNodesWithGroup = computed<UiNode[]>(() =>
+  props.ui.nodes.filter((el) => !filteredNodes.value.includes(el) && props.includeGroups.includes(el.group))
+);
+const otherNodesWithoutGroup = computed<UiNode[]>(() =>
+  props.ui.nodes.filter((el) => !filteredNodes.value.includes(el) && !props.includeGroups.includes(el.group))
+);
 
 const empty = computed(() => {
   if (filteredNodes.value.length === 0) {
@@ -74,6 +84,7 @@ const empty = computed(() => {
 });
 
 const form = ref();
+
 function submit() {
   const submitter = document.querySelector("button[type=submit]");
   if (form.value.requestSubmit && submitter) {

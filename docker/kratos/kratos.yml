@@ -25,7 +25,7 @@ selfservice:
     password:
       enabled: true
     oidc:
-      enabled: true
+      enabled: false
       config:
         providers:
           - id: github
@@ -49,7 +49,7 @@ selfservice:
     webauthn:
       enabled: true
       config:
-        passwordless: true
+        passwordless: false
         rp:
           id: localhost
           origin: http://localhost:3001

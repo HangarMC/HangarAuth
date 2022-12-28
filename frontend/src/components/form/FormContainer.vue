@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap basis-full form-container">
-    <Tabs v-if="formTabs.length" v-model="selectedTabValue" :tabs="filteredTabs" :vertical="false">
+    <Tabs v-if="filteredTabs.length > 1" v-model="selectedTabValue" :tabs="filteredTabs" :vertical="false">
       <template #catchall>
         <div class="flex flex-wrap gap-2">
           <div v-for="(node, idx) in filteredNodes" :key="idx + selectedTabValue" class="basis-full">
@@ -14,6 +14,16 @@
         </div>
       </template>
     </Tabs>
+    <div v-else class="flex flex-wrap gap-2">
+      <div v-for="(node, idx) in filteredNodes" :key="idx + selectedTabValue" class="basis-full">
+        <component
+          :is="'form-' + node.type + ('type' in node.attributes && !node.attributes.type?.includes('/') ? '-' + node.attributes.type : '')"
+          :node="node"
+          :disable-autocomplete="disableAutocomplete"
+          :disabled-field="'name' in node.attributes ? disabledFields.includes(node.attributes.name) : false"
+        />
+      </div>
+    </div>
     <div v-for="(node, idx) in noTab" :key="idx" class="basis-full mb-2">
       <component
         :is="'form-' + node.type + ('type' in node.attributes && !node.attributes.type?.includes('/') ? '-' + node.attributes.type : '')"
