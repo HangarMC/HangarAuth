@@ -5,8 +5,8 @@
     <Form v-else-if="is2fa" title="Second Factor" :ui="data.ui" />
     <Form v-else :title="t('login.title')" :ui="data.ui" :tabs="tabs">
       <template #additional-buttons>
-        <Button button-type="secondary" size="medium" @click.prevent="$kratos.register()">Register</Button>
-        <Button button-type="secondary" size="medium" @click.prevent="$kratos.reset()">Forgot</Button>
+        <Button button-type="secondary" size="medium" @click.prevent="kratos.register()">Register</Button>
+        <Button button-type="secondary" size="medium" @click.prevent="kratos.reset()">Forgot</Button>
       </template>
     </Form>
   </Card>

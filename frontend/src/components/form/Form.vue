@@ -72,6 +72,10 @@ const otherNodesWithGroup = computed<UiNode[]>(() =>
 const otherNodesWithoutGroup = computed<UiNode[]>(() =>
   props.ui.nodes.filter((el) => !filteredNodes.value.includes(el) && !props.includeGroups.includes(el.group))
 );
+if (process.client && window?.location?.hash?.includes("debug")) {
+  console.log("otherNodesWithGroup", otherNodesWithGroup);
+  console.log("otherNodesWithoutGroup", otherNodesWithoutGroup);
+}
 
 const empty = computed(() => {
   if (filteredNodes.value.length === 0) {

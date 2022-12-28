@@ -23,9 +23,9 @@
 
 <script lang="ts" setup>
 import Card from "~/lib/components/design/Card.vue";
-import { useHead, useNuxtApp, useRoute, useState } from "#imports";
+import { useHead, useRoute, useState } from "#imports";
+import { useKratos } from "~/plugins/kratos";
 
-const { $kratos } = useNuxtApp();
 const route = useRoute();
 
 const errorDetails = useState<object>("errorDetails");
@@ -34,7 +34,7 @@ const errorDescription = useState<string>("errorDescription");
 
 const errorId = route.query.id;
 if (errorId) {
-  errorDetails.value = await $kratos.getErrorDetails(errorId as string);
+  errorDetails.value = useKratos().getErrorDetails(errorId as string);
 } else if (route.query.error) {
   errorName.value = route.query.error as string;
   errorDescription.value = route.query.error_description as string;

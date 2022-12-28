@@ -68,8 +68,7 @@ export default defineNuxtConfig({
     writeEarlyHints: false,
   },
   typescript: {
-    // typeCheck: "build", // TODO enable typechecking on build
-    // typeCheck: true, // uncomment to run it at dev
+    typeCheck: true,
   },
   nitro: {
     compressPublicAssets: true,

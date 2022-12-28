@@ -1,12 +1,12 @@
 <template>
   <div>
     <Alert v-if="!verified" type="info" class="mb-2 cursor-pointer">
-      <a class="block" @click="$kratos.verify()">
+      <a class="block" @click="kratos.verify()">
         Your account is not verified yet, check your email!<br />
         Haven't received an email? Click here to resend!
       </a>
     </Alert>
-    <Alert v-if="verified && !aal2" type="info" class="mb-2"> You haven't set up 2FA yet! </Alert>
+    <Alert v-if="verified && !aal2" type="info" class="mb-2"> You haven't set up 2FA yet!</Alert>
     <Alert v-if="newAccount" type="info" class="mb-2">
       <a :href="runtimeConfig.public.hangarHost + '/login?returnUrl=/'">Account created! Click here to go to Hangar!</a>
     </Alert>
@@ -53,7 +53,7 @@ import { useAuthStore } from "~/store/useAuthStore";
 import AvatarChangeModal from "~/lib/components/modals/AvatarChangeModal.vue";
 import Alert from "~/lib/components/design/Alert.vue";
 import { useSettingsStore } from "~/store/useSettingsStore";
-import { computed, useAsyncData, useHead, useRuntimeConfig, watch, definePageMeta } from "#imports";
+import { computed, definePageMeta, useAsyncData, useHead, useRuntimeConfig, watch } from "#imports";
 import { useKratos } from "~/plugins/kratos";
 
 definePageMeta({

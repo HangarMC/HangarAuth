@@ -1,6 +1,6 @@
 import * as https from "https";
-import { UiContainer, FrontendApiFactory, Session } from "@ory/kratos-client";
-import { AuthenticatorAssuranceLevel, SessionAuthenticationMethod, FrontendApiFp, FlowError, LogoutFlow } from "@ory/kratos-client/api";
+import { FrontendApiFactory, Session, UiContainer } from "@ory/kratos-client";
+import { AuthenticatorAssuranceLevel, FlowError, FrontendApiFp, LogoutFlow, SessionAuthenticationMethod } from "@ory/kratos-client/api";
 import axios, { AxiosError, AxiosInstance, AxiosPromise, AxiosResponse } from "axios";
 import { type H3Event, sendRedirect } from "h3";
 import { NuxtApp } from "nuxt/app";
@@ -225,12 +225,6 @@ export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
     },
   };
 });
-
-declare module "#app" {
-  interface NuxtApp {
-    $kratos: Kratos;
-  }
-}
 
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {

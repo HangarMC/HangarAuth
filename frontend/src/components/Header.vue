@@ -15,6 +15,7 @@ import Button from "~/lib/components/design/Button.vue";
 import { useAuthStore } from "~/store/useAuthStore";
 import { useSettingsStore } from "~/store/useSettingsStore";
 import { computed, useRuntimeConfig } from "#imports";
+import { useKratos } from "~/plugins/kratos";
 
 const { t } = useI18n();
 const authStore = useAuthStore();
@@ -26,6 +27,8 @@ type NavLink = {
   label: string;
   icon: Component;
 };
+
+const kratos = useKratos();
 
 // if we are logged in, we can trigger a login
 const hangarLink = computed(() =>
@@ -97,7 +100,7 @@ const navBarMenuLinksMoreFromPaper: ComputedRef<NavLink[]> = computed(() => [
           <icon-mdi-weather-night v-if="settings.darkMode" class="text-[1.2em]"></icon-mdi-weather-night>
           <icon-mdi-white-balance-sunny v-else class="text-[1.2em]"></icon-mdi-white-balance-sunny>
         </button>
-        <Button v-if="authStore.user" button-type="primary" size="small" @click="$kratos.logout()">{{ t("general.logout") }}</Button>
+        <Button v-if="authStore.user" button-type="primary" size="small" @click="kratos.logout()">{{ t("general.logout") }}</Button>
       </div>
     </nav>
   </header>

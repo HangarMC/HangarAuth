@@ -38,12 +38,11 @@
 <script lang="ts" setup>
 import { UiNode } from "@ory/kratos-client";
 import { computed, ref } from "vue";
-import Tabs, { Tab } from "~/lib/components/design/Tabs.vue";
+import Tabs from "~/lib/components/design/Tabs.vue";
+import { Tab } from "~/lib/types/components/design/Tabs";
 
 export interface FormTab extends Tab {
-  value: string;
   groups: string[];
-  header: string;
 }
 
 const props = defineProps<{
