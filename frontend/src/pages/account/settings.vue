@@ -30,7 +30,7 @@
           <Form :title="t('settings.webauthn')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'webauthn']" />
         </div>
         <div class="basis-full md:basis-4/12">
-          <Card class="mt-2">
+          <Card class="mt-2 background-card">
             <h3 class="text-lg mb-2" v-text="t('settings.avatar.title')" />
             <img :src="`/avatar/${store.user?.id}`" width="200" class="mb-2" alt="Avatar" />
             <AvatarChangeModal :csrf-token="csrfToken" :avatar="`/avatar/${store.user?.id}`" :action="`/avatar/${store.user?.id}?flowId=${data.flowId}`" />

@@ -1,4 +1,4 @@
-version: v0.10.0
+version: v0.11.0
 
 dsn: "postgres://hangar:hangar@postgres:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
 
