@@ -68,7 +68,7 @@ export default defineNuxtConfig({
     writeEarlyHints: false,
   },
   typescript: {
-    typeCheck: false, // re-enable when there's a way to disable vue-tsc printing "0 errors found" on any change
+    typeCheck: "build", // set to true to enable on hot reload when there's a way to disable vue-tsc printing "0 errors found" on any change
   },
   nitro: {
     compressPublicAssets: true,
