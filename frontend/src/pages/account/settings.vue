@@ -15,7 +15,6 @@
       <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('settings.title')" />
       <div class="flex gap-2 flex-wrap md:flex-nowrap">
         <div class="basis-full md:basis-8/12 flex-shrink">
-          <!-- todo: username changing isn't implemented, so block here -->
           <!-- todo: language and theme need a nice selector, so hide them for now -->
           <Form
             :title="t('settings.userinfo')"
@@ -32,8 +31,8 @@
         <div class="basis-full md:basis-4/12">
           <Card class="mt-2 background-card">
             <h3 class="text-lg mb-2" v-text="t('settings.avatar.title')" />
-            <img :src="`/avatar/${store.user?.id}`" width="200" class="mb-2" alt="Avatar" />
-            <AvatarChangeModal :csrf-token="csrfToken" :avatar="`/avatar/${store.user?.id}`" :action="`/avatar/${store.user?.id}?flowId=${data.flowId}`" />
+            <img :src="store.user?.avatarUrl" width="200" class="mb-2" alt="Avatar" />
+            <AvatarChangeModal :csrf-token="csrfToken" :avatar="store.user?.avatarUrl || ''" :action="`/avatar/user/${store.user?.id}/${data.flowId}`" />
           </Card>
           <Form :title="t('settings.2fa')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'totp']" />
         </div>

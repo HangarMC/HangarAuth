@@ -40,7 +40,7 @@ public class AvatarService {
         if (this.fileService instanceof S3FileService s3) {
             this.defaultAvatarUrl = s3.getDownloadUrl(this.defaultAvatarPath);
         } else {
-            this.defaultAvatarUrl = this.generalConfig.publicHost() + "/avatar-new/default/default.webp";
+            this.defaultAvatarUrl = this.generalConfig.publicHost() + "/avatar/default/default.webp";
         }
     }
 
@@ -103,7 +103,7 @@ public class AvatarService {
         if (this.fileService instanceof S3FileService s3) {
             return s3.getDownloadUrl(this.getPath(type, subject)) + "?v=" + version;
         } else {
-            return this.generalConfig.publicHost() + "/avatar-new/" + type + "/" + subject + ".webp?v=" + version;
+            return this.generalConfig.publicHost() + "/avatar/" + type + "/" + subject + ".webp?v=" + version;
         }
     }
 

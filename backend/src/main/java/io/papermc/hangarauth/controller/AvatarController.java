@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/avatar-new")
+@RequestMapping("/avatar")
 public class AvatarController {
 
     public static final MediaType WEBP = new MediaType("image", "webp");

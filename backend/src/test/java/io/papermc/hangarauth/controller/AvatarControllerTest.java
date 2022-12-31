@@ -31,15 +31,15 @@ class AvatarControllerTest {
     @Test
     void getUnknownUserUrl_expectDefaultAvatarUrl() throws Exception {
         when(this.kratosService.getTraits(any(UUID.class))).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
-        this.mockMvc.perform(get("/avatar-new/user/" + UUID.randomUUID()))
+        this.mockMvc.perform(get("/avatar/user/" + UUID.randomUUID()))
             .andExpect(status().isOk())
-            .andExpect(content().string("http://localhost:3001/avatar-new/default.webp"));
+            .andExpect(content().string("http://localhost:3001/avatar/default.webp"));
     }
 
     @Test
     void getUnknownUserUrl_expectDefaultAvatar() throws Exception {
         when(this.kratosService.getTraits(any(UUID.class))).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
-        this.mockMvc.perform(get("/avatar-new/user/" + UUID.randomUUID() + ".webp"))
+        this.mockMvc.perform(get("/avatar/user/" + UUID.randomUUID() + ".webp"))
             .andExpect(status().isOk())
             .andExpect(content().bytes(AvatarService.class.getClassLoader().getResourceAsStream("avatar/default.webp").readAllBytes()));
     }
