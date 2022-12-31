@@ -2,6 +2,7 @@ package io.papermc.hangarauth.service.file;
 
 import io.papermc.hangarauth.config.custom.StorageConfig;
 import io.papermc.hangarauth.utils.FileUtils;
+import java.nio.file.StandardCopyOption;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -52,7 +53,7 @@ public class LocalStorageFileService implements FileService {
         if (Files.notExists(p)) {
             Files.createDirectories(p.getParent());
         }
-        Files.copy(inputStream, p);
+        Files.copy(inputStream, p, StandardCopyOption.REPLACE_EXISTING);
     }
 
     @Override
