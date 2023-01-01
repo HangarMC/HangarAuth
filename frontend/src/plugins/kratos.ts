@@ -4,10 +4,10 @@ import { AuthenticatorAssuranceLevel, FlowError, FrontendApiFp, LogoutFlow, Sess
 import axios, { AxiosError, AxiosInstance, AxiosPromise, AxiosResponse } from "axios";
 import { type H3Event, sendRedirect } from "h3";
 import { NuxtApp } from "nuxt/app";
-import { defineNuxtPlugin, useNuxtApp, useRoute, useRuntimeConfig } from "#imports";
+import { defineNuxtPlugin, useInternalApi, useNuxtApp, useRoute, useRuntimeConfig } from "#imports";
 import { useFlow } from "~/composables/useFlow";
 import { useAuthStore } from "~/store/useAuthStore";
-import { kratosLog } from "~/lib/composables/useLog";
+import { fetchLog, kratosLog } from "~/lib/composables/useLog";
 
 export interface AALInfo {
   aal: AuthenticatorAssuranceLevel;
@@ -22,11 +22,13 @@ export class Kratos {
   kratosUrl: string;
   kratosPublicUrl: string;
   event: H3Event | null;
+  backendHost: string;
 
-  constructor(kratosUrl: string, kratosPublicUrl: string, event: H3Event | null) {
+  constructor(kratosUrl: string, kratosPublicUrl: string, event: H3Event | null, backendHost: string) {
     this.kratosUrl = kratosUrl;
     this.kratosPublicUrl = kratosPublicUrl;
     this.event = event;
+    this.backendHost = backendHost;
   }
 
   private createClient(url: string): ReturnType<typeof FrontendApiFp> {
@@ -177,8 +179,14 @@ export class Kratos {
       })) as unknown as AxiosResponse<Session>;
 
       kratosLog("load user result", session.data);
+      let avatarUrl = "";
       if (session.data && session.data.active) {
-        authStore.user = session.data.identity;
+        try {
+          avatarUrl = await useInternalApi<string>(this.backendHost + "/avatar/user/" + session.data.identity.id);
+        } catch (e) {
+          fetchLog("Error loading avatar url ", e);
+        }
+        authStore.user = { ...session.data.identity, avatarUrl };
         authStore.aal = {
           aal: session.data.authenticator_assurance_level!,
           methods: session.data.authentication_methods!,
@@ -220,7 +228,8 @@ export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
       kratos: new Kratos(
         process.server ? config.kratos : config.public.kratosPublic,
         config.public.kratosPublic,
-        process.server ? nuxtApp.ssrContext?.event || null : null
+        process.server ? nuxtApp.ssrContext?.event || null : null,
+        config.backendHost || ""
       ),
     },
   };

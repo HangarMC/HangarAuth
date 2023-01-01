@@ -52,7 +52,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint frontend
-        run: pnpm prep && pnpm lint
+        run: pnpm prep && pnpm lint:eslint
 
       - name: Build frontend
         run: pnpm build

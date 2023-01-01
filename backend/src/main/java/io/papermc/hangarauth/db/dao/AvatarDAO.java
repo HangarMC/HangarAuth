@@ -1,7 +1,6 @@
 package io.papermc.hangarauth.db.dao;
 
-import io.papermc.hangarauth.db.model.UserAvatarTable;
-import java.util.UUID;
+import io.papermc.hangarauth.db.model.AvatarTable;
 import org.jdbi.v3.sqlobject.config.RegisterConstructorMapper;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.customizer.Timestamped;
@@ -10,20 +9,20 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@RegisterConstructorMapper(UserAvatarTable.class)
+@RegisterConstructorMapper(AvatarTable.class)
 public interface AvatarDAO {
 
     @Timestamped
-    @SqlUpdate("INSERT INTO identity_avatars (identity_id, created_at, hash, file_name) VALUES (:identityId, :now, :hash, :fileName)")
-    void createUserAvatar(@BindBean UserAvatarTable userAvatarTable);
+    @SqlUpdate("INSERT INTO avatars (type, subject, created_at, optimized_hash, unoptimized_hash, version) VALUES (:type, :subject, :now, :optimizedHash, :unoptimizedHash, :version)")
+    void createAvatar(@BindBean AvatarTable table);
 
-    @SqlQuery("SELECT * FROM identity_avatars WHERE identity_id = :userId")
-    UserAvatarTable getUserAvatar(UUID userId);
+    @SqlQuery("SELECT * FROM avatars WHERE type = :type AND subject = :subject")
+    AvatarTable getAvatar(String type, String subject);
 
     @Timestamped
-    @SqlUpdate("UPDATE identity_avatars SET hash = :hash, created_at = :now, file_name = :fileName WHERE identity_id = :identityId")
-    void updateUserAvatar(@BindBean UserAvatarTable userAvatarTable);
+    @SqlUpdate("UPDATE avatars SET optimized_hash = :optimizedHash, unoptimized_hash = :unoptimizedHash, created_at = :now, version = :version WHERE type = :type AND subject = :subject")
+    void updateAvatar(@BindBean AvatarTable table);
 
-    @SqlUpdate("DELETE FROM identity_avatars WHERE identity_id = :userId")
-    void deleteUserAvatar(UUID userId);
+    @SqlUpdate("DELETE FROM avatars WHERE type = :type AND subject = :subject")
+    void deleteAvatar(String type, String subject);
 }
