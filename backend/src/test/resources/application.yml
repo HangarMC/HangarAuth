@@ -14,18 +14,17 @@ spring:
 auth:
   kratos:
     admin-url: "empty" # so tests that try to use it will fail
-  data-dir: target/test-classes/work
   image:
     interval: 100
     threads: 4
     quality: 0.4
     quality-webp: 0.35
     size: 256
-    work-folder: target/test-classes/work/images
   storage:
     type: "local"
     access-key: "dum"
     secret-key: "dum"
     bucket: "test"
+    work-dir: target/test-classes/work/images
     object-storage-endpoint: "http://127.0.0.1:9000"
     cdn-endpoint: "http://127.0.0.1:9000"
