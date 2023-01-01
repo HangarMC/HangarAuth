@@ -44,14 +44,18 @@ public class AvatarService {
         }
     }
 
-    public String getAvatarUrl(final String type, final String subject) {
+    public String getAvatarUrl(final String type, final String subject, final String defaultType, final String defaultSubject) {
         if (type.equals("default") && subject.equals("default")) {
             return this.defaultAvatarUrl;
         }
         this.checkAndMigrate(type, subject);
         final AvatarTable table = this.avatarDAO.getAvatar(type, subject);
         if (table == null) {
-            return this.defaultAvatarUrl;
+            if (defaultType != null && defaultSubject != null) {
+                return this.getAvatarUrl(defaultType, defaultSubject, null, null);
+            } else {
+                return this.defaultAvatarUrl;
+            }
         } else {
             return this.getCdnPath(type, subject, table.getVersion());
         }

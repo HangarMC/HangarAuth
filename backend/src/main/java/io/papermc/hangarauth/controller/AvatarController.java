@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.CacheControl;
@@ -46,8 +47,18 @@ public class AvatarController {
 
     @GetMapping(value = "/{type}/{subject}", produces = MediaType.TEXT_PLAIN_VALUE)
     public String getAvatarUrl(@PathVariable final @NotNull String type, @PathVariable final @NotNull String subject) {
+        return this.getAvatarUrl(type, subject, null, null);
+    }
+
+    @GetMapping(value = "/{type}/{subject}/{defaultType}/{defaultSubject}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getAvatarUrl(@PathVariable final @NotNull String type, @PathVariable final @NotNull String subject, @PathVariable final @Nullable String defaultType, @PathVariable final @Nullable String defaultSubject) {
         this.checkSupported(type);
-        return this.avatarService.getAvatarUrl(type, subject);
+        if (defaultType != null) {
+            this.checkSupported(defaultType);
+        }
+        String avatarUrl = this.avatarService.getAvatarUrl(type, subject, defaultType, defaultSubject);
+        System.out.println("avatarUrl " + type + " " + subject + " (" + defaultType + " " + defaultSubject + ") " + avatarUrl);
+        return avatarUrl;
     }
 
     // only really called if storage = local
