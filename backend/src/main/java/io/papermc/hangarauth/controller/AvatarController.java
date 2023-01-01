@@ -31,7 +31,7 @@ public class AvatarController {
 
     public static final MediaType WEBP = new MediaType("image", "webp");
 
-    private static final Set<String> supportedTypes = Set.of("default", "org", "user", "project");
+    private static final Set<String> supportedTypes = Set.of("default", "user", "project");
 
     private final GeneralConfig generalConfig;
     private final KratosService kratosService;
