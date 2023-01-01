@@ -33,7 +33,7 @@ class AvatarControllerTest {
         when(this.kratosService.getTraits(any(UUID.class))).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
         this.mockMvc.perform(get("/avatar/user/" + UUID.randomUUID()))
             .andExpect(status().isOk())
-            .andExpect(content().string("http://localhost:3001/avatar/default.webp"));
+            .andExpect(content().string("http://localhost:3001/avatar/default/default.webp"));
     }
 
     @Test
