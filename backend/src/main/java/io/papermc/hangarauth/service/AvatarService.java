@@ -105,7 +105,7 @@ public class AvatarService {
     }
 
     private String getPath(final String type, final String subject) {
-        return this.fileService.resolve(this.fileService.getRoot(), "/avatars/" + type + "/" + subject + ".webp");
+        return this.fileService.resolve(this.fileService.getRoot(), "avatars/" + type + "/" + subject + ".webp");
     }
 
     private String getCdnPath(final String type, final String subject, final int version) {
