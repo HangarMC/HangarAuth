@@ -9,12 +9,16 @@ import io.papermc.hangarauth.service.file.S3FileService;
 import io.papermc.hangarauth.utils.Crypto;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AvatarService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
     private final GeneralConfig generalConfig;
     private final FileService fileService;
@@ -29,12 +33,14 @@ public class AvatarService {
         this.avatarDAO = avatarDAO;
 
         // setup default
-        this.defaultAvatarPath = this.fileService.resolve(this.fileService.getRoot(), "/avatars/default.webp");
+        this.defaultAvatarPath = this.fileService.resolve(this.fileService.getRoot(), "avatars/default.webp");
+        logger.info("Storing avatars to {}", this.defaultAvatarPath);
         if (!this.fileService.exists(this.defaultAvatarPath)) {
+            logger.info("Default avatar didn't exist, saving...");
             try {
                 this.fileService.write(AvatarService.class.getClassLoader().getResourceAsStream("avatar/default.webp"), this.defaultAvatarPath, AvatarController.WEBP.toString());
             } catch (final IOException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Error saving default avatar", e);
             }
         }
         if (this.fileService instanceof S3FileService s3) {
@@ -42,6 +48,7 @@ public class AvatarService {
         } else {
             this.defaultAvatarUrl = this.generalConfig.publicHost() + "/avatar/default/default.webp";
         }
+        logger.info("Default avatar url is {}", this.defaultAvatarUrl);
     }
 
     public String getAvatarUrl(final String type, final String subject, final String defaultType, final String defaultSubject) {

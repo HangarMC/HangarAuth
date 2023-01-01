@@ -56,9 +56,7 @@ public class AvatarController {
         if (defaultType != null) {
             this.checkSupported(defaultType);
         }
-        String avatarUrl = this.avatarService.getAvatarUrl(type, subject, defaultType, defaultSubject);
-        System.out.println("avatarUrl " + type + " " + subject + " (" + defaultType + " " + defaultSubject + ") " + avatarUrl);
-        return avatarUrl;
+        return this.avatarService.getAvatarUrl(type, subject, defaultType, defaultSubject);
     }
 
     // only really called if storage = local
