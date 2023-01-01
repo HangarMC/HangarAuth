@@ -48,7 +48,6 @@ public class AvatarService {
         if (type.equals("default") && subject.equals("default")) {
             return this.defaultAvatarUrl;
         }
-        this.checkAndMigrate(type, subject);
         final AvatarTable table = this.avatarDAO.getAvatar(type, subject);
         if (table == null) {
             if (defaultType != null && defaultSubject != null) {
@@ -65,7 +64,6 @@ public class AvatarService {
         if (type.equals("default") && subject.equals("default")) {
             return this.fileService.bytes(this.defaultAvatarPath);
         }
-        this.checkAndMigrate(type, subject);
         final AvatarTable table = this.avatarDAO.getAvatar(type, subject);
         if (table == null) {
             return this.fileService.bytes(this.defaultAvatarPath);
@@ -115,10 +113,5 @@ public class AvatarService {
         // TODO convert to webp
         // TODO optimize
         return avatar;
-    }
-
-    private void checkAndMigrate(final String type, final String subject) {
-        // todo check old table
-        // todo migrate to new table and upload (just call setAvatar)
     }
 }
