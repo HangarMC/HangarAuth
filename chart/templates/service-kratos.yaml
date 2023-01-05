@@ -18,3 +18,8 @@ spec:
   selector:
     {{- include "hangarauth.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: "kratos"
+  topologyKeys:
+    - "kubernetes.io/hostname"
+    - "topology.kubernetes.io/zone"
+    - "topology.kubernetes.io/region"
+    - "*"
