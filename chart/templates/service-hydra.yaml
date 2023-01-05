@@ -4,6 +4,8 @@ metadata:
   name: {{ include "hangarauth.fullname" . }}-hydra
   labels:
     {{- include "hangarauth.labels" . | nindent 4 }}
+  annotations:
+    service.kubernetes.io/topology-aware-hints: "auto"
 spec:
   type: {{ .Values.hydra.service.type }}
   ports:
@@ -18,8 +20,3 @@ spec:
   selector:
     {{- include "hangarauth.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: "hydra"
-  topologyKeys:
-    - "kubernetes.io/hostname"
-    - "topology.kubernetes.io/zone"
-    - "topology.kubernetes.io/region"
-    - "*"

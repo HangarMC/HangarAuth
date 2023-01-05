@@ -4,6 +4,8 @@ metadata:
   name: {{ include "hangarauth.fullname" . }}-backend
   labels:
     {{- include "hangarauth.labels" . | nindent 4 }}
+  annotations:
+    service.kubernetes.io/topology-aware-hints: "auto"
 spec:
   type: {{ .Values.backend.service.type }}
   ports:
@@ -14,8 +16,3 @@ spec:
   selector:
     {{- include "hangarauth.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: "backend"
-  topologyKeys:
-    - "kubernetes.io/hostname"
-    - "topology.kubernetes.io/zone"
-    - "topology.kubernetes.io/region"
-    - "*"
