@@ -11,8 +11,8 @@
       <a :href="runtimeConfig.public.hangarHost + '/login?returnUrl=/'">Account created! Click here to go to Hangar!</a>
     </Alert>
     <Card v-if="data && data.ui">
-      <UserMessages :ui="data.ui" />
-      <h1 class="py-2 text-xl mb-4 text-center rounded bg-gray" v-text="t('settings.title')" />
+      <UserMessages :ui="data.ui" class="mb-2" />
+      <h1 class="py-2 text-xl mb-4 text-center rounded" v-text="t('settings.title')" />
       <div class="flex gap-2 flex-wrap md:flex-nowrap">
         <div class="basis-full md:basis-8/12 flex-shrink">
           <!-- todo: language and theme need a nice selector, so hide them for now -->
@@ -29,7 +29,7 @@
           <Form :title="t('settings.webauthn')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'webauthn']" />
         </div>
         <div class="basis-full md:basis-4/12">
-          <Card class="mt-2 background-card">
+          <Card class="mt-2" alternate-background>
             <h3 class="text-lg mb-2" v-text="t('settings.avatar.title')" />
             <img :src="store.user?.avatarUrl" width="200" class="mb-2" alt="Avatar" />
             <AvatarChangeModal :csrf-token="csrfToken" :avatar="store.user?.avatarUrl || ''" :action="`/avatar/user/${store.user?.id}/${data.flowId}`" />

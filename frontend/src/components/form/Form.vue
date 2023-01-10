@@ -7,7 +7,7 @@
     :action="noForm ? null : ui.action"
     @keydown.enter="submit"
   >
-    <Card class="mt-2 background-card">
+    <Card class="mt-2" alternate-background>
       <h1 class="text-xl mb-2">{{ title }}</h1>
       <div class="flex flex-wrap gap-2">
         <FormContainer :nodes="filteredNodes" :disable-autocomplete="disableAutocomplete" :disabled-fields="disabledFields" :form-tabs="tabs" />
