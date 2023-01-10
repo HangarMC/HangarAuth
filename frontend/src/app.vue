@@ -6,6 +6,8 @@
 
 <script lang="ts" setup>
 import "./lib/styles/main.css";
+// eslint-disable-next-line import/no-unresolved
+import "uno.css";
 import { useSettingsStore } from "~/store/useSettingsStore";
 import { useAuthStore } from "~/store/useAuthStore";
 import { settingsLog } from "~/lib/composables/useLog";

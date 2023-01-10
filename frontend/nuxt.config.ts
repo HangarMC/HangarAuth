@@ -5,6 +5,7 @@ import Icons from "unplugin-icons/vite";
 import Components from "unplugin-vue-components/vite";
 import { ProxyOptions } from "@nuxt-alt/proxy";
 import prettier from "./src/lib/plugins/prettier";
+import unocss from "./src/lib/config/unocss.config";
 
 const hangarHost = process.env.HANGAR_HOST || "http://localhost:3333";
 const publicHost = process.env.PUBLIC_HOST || "http://localhost:3001";
@@ -29,7 +30,8 @@ export default defineNuxtConfig({
       signupDisabled: Boolean(signupDisabled),
     },
   },
-  modules: ["nuxt-windicss", "@pinia/nuxt", "@nuxt-alt/proxy"],
+  unocss,
+  modules: ["@unocss/nuxt", "@pinia/nuxt", "@nuxt-alt/proxy"],
   vite: {
     plugins: [
       // https://github.com/antfu/unplugin-vue-components
