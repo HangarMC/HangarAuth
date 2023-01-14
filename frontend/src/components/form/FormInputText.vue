@@ -4,7 +4,7 @@
     v-model="value"
     :disabled="disabledField || node.attributes.disabled"
     :name="node.attributes.name"
-    :label="node.meta.label ? node.meta.label.text : undefined"
+    :label="label"
     :messages="messages"
     :error-messages="errorMessages"
     :rules="rules"
@@ -30,6 +30,14 @@ const autocomplete = computed(() => {
       return "username";
     case "traits.language":
       return "language";
+  }
+  return undefined;
+});
+
+const label = computed(() => {
+  if (node.meta.label) {
+    // nobody understands what 'ID' means, lets override
+    return node.meta.label.id === 1070004 ? "Username or email address" : node.meta.label.text;
   }
   return undefined;
 });
