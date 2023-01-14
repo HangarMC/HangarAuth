@@ -16,14 +16,8 @@ auth:
   hydra:
     admin-url: "http://localhost:4445"
   image:
-    interval: 100
-    threads: 4
-    quality: 0.4
-    quality-webp: 0.35
+    quality: 0.35
     size: 256
-    whitelist:
-      - hangar.benndorf.dev
-      - localhost
   storage:
     type: "local"
     work-dir: backend/work

@@ -7,13 +7,14 @@ import io.papermc.hangarauth.db.model.AvatarTable;
 import io.papermc.hangarauth.service.file.FileService;
 import io.papermc.hangarauth.service.file.S3FileService;
 import io.papermc.hangarauth.utils.Crypto;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 @Service
 public class AvatarService {
@@ -22,14 +23,16 @@ public class AvatarService {
 
     private final GeneralConfig generalConfig;
     private final FileService fileService;
+    private final ImageService imageService;
     private final AvatarDAO avatarDAO;
 
     private final String defaultAvatarUrl;
     private final String defaultAvatarPath;
 
-    public AvatarService(final GeneralConfig generalConfig, final FileService fileService, final AvatarDAO avatarDAO) {
+    public AvatarService(final GeneralConfig generalConfig, final FileService fileService, final ImageService imageService, final AvatarDAO avatarDAO) {
         this.generalConfig = generalConfig;
         this.fileService = fileService;
+        this.imageService = imageService;
         this.avatarDAO = avatarDAO;
 
         // setup default
@@ -85,7 +88,7 @@ public class AvatarService {
         if (table != null && table.getUnoptimizedHash().equals(unoptimizedHash)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't upload the same avatar again!");
         }
-        avatar = this.convertAndOptimize(avatar);
+        avatar = this.imageService.convertAndOptimize(avatar);
         final String optimizedHash = Crypto.md5ToHex(avatar);
         if (table == null) {
             table = new AvatarTable(type, subject, optimizedHash, unoptimizedHash, 1);
@@ -114,11 +117,5 @@ public class AvatarService {
         } else {
             return this.generalConfig.publicHost() + "/avatar/" + type + "/" + subject + ".webp?v=" + version;
         }
-    }
-
-    private byte[] convertAndOptimize(final byte[] avatar) {
-        // TODO convert to webp
-        // TODO optimize
-        return avatar;
     }
 }
