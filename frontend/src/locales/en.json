@@ -21,8 +21,10 @@
     }
   },
   "footer": {
-    "org": "GitHub Organization",
-    "privacypolicy": "Privacy Policy"
+    "org": "GitHub",
+    "privacypolicy": "Privacy Policy",
+    "terms": "Terms and Conditions",
+    "status": "Status"
   },
   "index": {
     "title": "Paper Authentication Portal",
