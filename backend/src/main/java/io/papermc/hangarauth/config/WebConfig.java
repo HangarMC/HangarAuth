@@ -52,6 +52,19 @@ public class WebConfig implements WebMvcConfigurer {
         return converter;
     }
 
+    private List<MediaType> getSupportedMediaTypes() {
+        return List.of(
+            MediaType.IMAGE_JPEG,
+            MediaType.IMAGE_PNG,
+            MediaType.APPLICATION_OCTET_STREAM,
+            MediaType.IMAGE_GIF,
+            new MediaType("image", "svg+xml"),
+            new MediaType("image", "webp"),
+            new MediaType("image", "apng"),
+            new MediaType("image", "avif")
+        );
+    }
+
     @Bean
     public Filter identifyFilter() {
         return new OncePerRequestFilter() {
@@ -69,16 +82,6 @@ public class WebConfig implements WebMvcConfigurer {
         bean.addUrlPatterns("/image/*");
         bean.setName("etagFilter");
         return bean;
-    }
-
-    private List<MediaType> getSupportedMediaTypes() {
-        return List.of(
-            MediaType.IMAGE_JPEG,
-            MediaType.IMAGE_PNG,
-            MediaType.APPLICATION_OCTET_STREAM,
-            new MediaType("image", "svg+xml"),
-            new MediaType("image", "webp")
-        );
     }
 
     @Override
