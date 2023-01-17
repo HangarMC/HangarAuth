@@ -208,7 +208,7 @@ hydra:
   image:
     repository: oryd/hydra
     pullPolicy: Always
-    tag: "v1.11.10"
+    tag: "v2.0.3"
 
   imagePullSecrets: []
   nameOverride: ""
