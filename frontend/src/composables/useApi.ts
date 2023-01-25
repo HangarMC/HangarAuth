@@ -1,7 +1,11 @@
-import { AxiosRequestConfig } from "axios";
 import { fetchLog } from "~/lib/composables/useLog";
 
-export function useInternalApi<T = void>(url: string, method: AxiosRequestConfig["method"] = "get", data?: object, _args: object = {}): Promise<T> {
+export function useInternalApi<T = void>(
+  url: string,
+  method: "get" | "post" | "put" | "delete" | "GET" | "POST" | "PUT" | "DELETE" = "get",
+  data?: object,
+  _args: object = {}
+): Promise<T> {
   fetchLog("useInternalApi", url, data);
   return $fetch(url, {
     method,
