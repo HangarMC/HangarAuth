@@ -1,8 +1,9 @@
+import { defineEventHandler } from "h3";
+
+const STATICS_CACHE = 31536000; // 1 year
+
 export default defineEventHandler((event) => {
-  const statics = 31536000; // 1 year
-  const other = 60 * 60; // 1 hour
   const url = event.node.req.url;
-  if (url?.startsWith("/api")) return;
-  const maxage = url?.match(/(.+)\.(jpg|jpeg|webp|gif|css|png|js|ico|svg|mjs)/) ? statics : other;
-  event.node.res.setHeader("Cache-Control", `max-age=${maxage} s-maxage=${maxage}`);
+  if (url?.startsWith("/api") || !url?.match(/(.+)\.(jpg|jpeg|webp|gif|css|png|js|ico|svg|mjs)/)) return;
+  event.node.res.setHeader("Cache-Control", `max-age=${STATICS_CACHE} s-maxage=${STATICS_CACHE}`);
 });
