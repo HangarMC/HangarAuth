@@ -42,7 +42,7 @@
     "filesize": "10.0.6",
     "lodash-es": "^4.17.21",
     "nprogress": "0.2.0",
-    "ohmyfetch": "^0.4.21",
+    "ofetch": "^1.0.0",
     "pinia": "2.0.30",
     "universal-cookie": "4.0.4",
     "vue": "3.2.47",

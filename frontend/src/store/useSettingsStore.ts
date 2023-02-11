@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref, unref, type Ref } from "vue";
-import { $fetch } from "ohmyfetch";
+import { $fetch } from "ofetch";
 import { settingsLog } from "~/lib/composables/useLog";
 import { useAuthStore } from "~/store/useAuthStore";
 import { useSettingsHelper } from "~/lib/composables/useSettingsHelper";
