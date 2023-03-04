@@ -34,7 +34,7 @@ const errorDescription = useState<string>("errorDescription");
 
 const errorId = route.query.id;
 if (errorId) {
-  errorDetails.value = useKratos().getErrorDetails(errorId as string);
+  errorDetails.value = await useKratos().getErrorDetails(errorId as string);
 } else if (route.query.error) {
   errorName.value = route.query.error as string;
   errorDescription.value = route.query.error_description as string;
