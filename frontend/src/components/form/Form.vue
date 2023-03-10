@@ -9,10 +9,11 @@
   >
     <Card class="mt-2" alternate-background>
       <h1 class="text-xl mb-2">{{ title }}</h1>
-      <div class="flex flex-wrap gap-2">
+      <div :class="{ 'flex flex-wrap gap-2': true, blurred: blurred }">
         <FormContainer :nodes="filteredNodes" :disable-autocomplete="disableAutocomplete" :disabled-fields="disabledFields" :form-tabs="tabs" />
         <slot name="additional-buttons" />
       </div>
+      <Button v-if="blur" @click.prevent="blurred = !blurred">Toggle blur</Button>
     </Card>
   </component>
 </template>
@@ -23,6 +24,7 @@ import { computed, ref } from "vue";
 import { UiContainer } from "@ory/kratos-client/api";
 import Card from "~/lib/components/design/Card.vue";
 import FormContainer, { FormTab } from "~/components/form/FormContainer.vue";
+import Button from "~/lib/components/design/Button.vue";
 
 const props = withDefaults(
   defineProps<{
@@ -35,6 +37,7 @@ const props = withDefaults(
     disableAutocomplete?: boolean;
     noForm?: boolean;
     tabs?: FormTab[];
+    blur?: boolean;
   }>(),
   {
     includeGroups: () => [],
@@ -44,6 +47,7 @@ const props = withDefaults(
     disableAutocomplete: false,
     noForm: false,
     tabs: () => [],
+    blur: false,
   }
 );
 
@@ -88,6 +92,7 @@ const empty = computed(() => {
 });
 
 const form = ref();
+const blurred = ref(props.blur);
 
 function submit() {
   const submitter = document.querySelector("button[type=submit]");
@@ -97,4 +102,8 @@ function submit() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.blurred {
+  filter: blur(7px);
+}
+</style>
