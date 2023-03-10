@@ -34,7 +34,7 @@
             <img :src="store.user?.avatarUrl" width="200" class="mb-2" alt="Avatar" />
             <AvatarChangeModal :csrf-token="csrfToken" :avatar="store.user?.avatarUrl || ''" :action="`/avatar/user/${store.user?.id}/${data.flowId}`" />
           </Card>
-          <Form :title="t('settings.2fa')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'totp']" blur />
+          <Form :title="t('settings.2fa')" disable-autocomplete :ui="data.ui" :include-groups="['default', 'totp']" />
         </div>
       </div>
     </Card>
