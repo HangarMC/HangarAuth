@@ -118,5 +118,10 @@
     "pattern": "{property} is invalid",
     "url": "Invalid URL format",
     "email": "Invalid email"
+  },
+  "organization": {
+    "settings": {
+      "changeAvatar": "Change avatar"
+    }
   }
 }
