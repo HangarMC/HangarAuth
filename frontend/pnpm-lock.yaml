@@ -10,7 +10,7 @@ specifiers:
   '@intlify/unplugin-vue-i18n': ^0.9.2
   '@nuxt-alt/proxy': 2.2.0
   '@nuxtjs/eslint-config-typescript': 12.0.0
-  '@ory/hydra-client': 1.11.8
+  '@ory/hydra-client': 2.0.2
   '@ory/kratos-client': 0.11.1
   '@pinia/nuxt': 0.4.7
   '@types/accept-language-parser': 1.5.3
@@ -68,7 +68,7 @@ specifiers:
 dependencies:
   '@headlessui/vue': 1.7.12_vue@3.2.47
   '@intlify/unplugin-vue-i18n': 0.9.2_vue-i18n@9.2.2
-  '@ory/hydra-client': 1.11.8_debug@4.3.4
+  '@ory/hydra-client': 2.0.2_debug@4.3.4
   '@ory/kratos-client': 0.11.1_debug@4.3.4
   '@pinia/nuxt': 0.4.7_p4srtwdgezcoeovfcc2yxzvaue
   '@vuelidate/core': 2.0.0_vue@3.2.47
@@ -1360,8 +1360,8 @@ packages:
       - supports-color
     dev: true
 
-  /@ory/hydra-client/1.11.8_debug@4.3.4:
-    resolution: {integrity: sha512-fVTPjB/JWUrsI1uGnXf0eiYDClnH9fepGmJ+z1eg6b0EH5AQoaNc7nBU9QpEj/8pQjYy0p5hWEvOXGHWo9fJtw==}
+  /@ory/hydra-client/2.0.2_debug@4.3.4:
+    resolution: {integrity: sha512-1er8AHxZgOUGhipaTYeiZJVrPfCdiyycDGA2i93xdz4M/22FekC3E6www0+GKjbA1ifST3J1aIhssqel0ksFPA==}
     dependencies:
       axios: 0.27.2_debug@4.3.4
     transitivePeerDependencies:
