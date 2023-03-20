@@ -47,8 +47,8 @@ specifiers:
   nuxt: ^3.3.1
   ofetch: ^1.0.1
   pinia: 2.0.33
-  pnpm: 7.29.3
-  prettier: 2.8.4
+  pnpm: 7.30.0
+  prettier: 2.8.5
   qs: 6.11.1
   regenerator-runtime: 0.13.11
   sass: 1.59.3
@@ -115,8 +115,8 @@ devDependencies:
   husky: 8.0.3
   lint-staged: 13.2.0
   nuxt: 3.3.1_gnt44uno7thbhjmpeeacleji24
-  pnpm: 7.29.3
-  prettier: 2.8.4
+  pnpm: 7.30.0
+  prettier: 2.8.5
   qs: 6.11.1
   regenerator-runtime: 0.13.11
   sass: 1.59.3
@@ -5935,8 +5935,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /pnpm/7.29.3:
-    resolution: {integrity: sha512-w4tVG3ZV1txgM2bp9/XMmqSYYO3qdhyMVdU8S0zegVvfB6SxNL+nxRq5t7hhw+yc+GrKegyZuIp9aWPhy6NNMA==}
+  /pnpm/7.30.0:
+    resolution: {integrity: sha512-6SUdrWSZ4qvQ4uBVg7smnabVKOFrT7DgSz2NfViG54nRii4ODB395qmHprBiv5WBdlC/jZYBn99fSfmzIMI3WQ==}
     engines: {node: '>=14.6'}
     hasBin: true
     dev: true
@@ -6278,8 +6278,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier/2.8.4:
-    resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
+  /prettier/2.8.5:
+    resolution: {integrity: sha512-3gzuxrHbKUePRBB4ZeU08VNkUcqEHaUaouNt0m7LGP4Hti/NuB07C7PPTM/LkWqXoJYJn2McEo5+kxPNrtQkLQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
