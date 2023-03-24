@@ -1,4 +1,4 @@
-version: v0.11.0
+version: v0.11.1
 
 dsn: "postgres://hangar:hangar@postgres:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4"
 
@@ -61,7 +61,7 @@ selfservice:
 
     settings:
       ui_url: http://localhost:3001/account/settings
-      privileged_session_max_age: 15m
+      privileged_session_max_age: 10m
       after:
         profile:
           hooks:
@@ -81,10 +81,12 @@ selfservice:
     recovery:
       enabled: true
       ui_url: http://localhost:3001/account/reset
+      notify_unknown_recipients: false
 
     verification:
       enabled: true
       ui_url: http://localhost:3001/account/verify
+      notify_unknown_recipients: false
       after:
         default_browser_return_url: http://localhost:3001/
 
@@ -116,6 +118,7 @@ selfservice:
                     in: header
                     name: X-Kratos-Hook-Api-Key
                     value: hookapikey-changeme
+            - hook: show_verification_ui
         oidc:
           hooks:
             - hook: session
