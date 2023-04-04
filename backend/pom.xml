@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.4</version>
+        <version>3.0.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.papermc.hangar-auth</groupId>
@@ -22,10 +22,10 @@
         <jdbi3-bom.version>3.37.1</jdbi3-bom.version>
         <annotations.version>24.0.1</annotations.version>
         <h2.version>2.1.214</h2.version>
-        <pg.version>1.17.6</pg.version>
+        <pg.version>1.18.0</pg.version>
         <webp.version>0.1.6</webp.version>
-        <springdoc.version>1.6.15</springdoc.version>
-        <spring-cloud-aws.version>3.0.0-RC1</spring-cloud-aws.version>
+        <springdoc.version>1.7.0</springdoc.version>
+        <spring-cloud-aws.version>3.0.0-RC2</spring-cloud-aws.version>
 
         <native-maven-plugin.version>0.9.20</native-maven-plugin.version>
     </properties>
